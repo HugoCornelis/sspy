@@ -7,4 +7,3 @@ class Analyzer:
         pass
 
 
-    
