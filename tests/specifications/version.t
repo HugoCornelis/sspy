@@ -25,6 +25,7 @@ read => "sspy-alpha",
 				description => "check version information in python",
 			       },
 			      ],
+       disabled => "Tests are not working yet.",
        description => "run-time versioning",
        name => 'version.t',
       };
