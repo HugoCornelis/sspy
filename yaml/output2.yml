@@ -1,0 +1,72 @@
+--- !!perl/hash:SSP
+analyzers: {}
+application_classes:
+  analyzers:
+    default:
+      - method: analyze
+    priority: 95
+  finishers:
+    default:
+      - method: finish
+    priority: 140
+  initializers:
+    default:
+      - method: compile
+      - method: instantiate_inputs
+      - method: instantiate_outputs
+      - method: connect
+      - method: initiate
+      - method: optimize
+    priority: 80
+  modifiers:
+    default: []
+    priority: 50
+  results:
+    default: []
+    priority: 170
+  services:
+    default:
+      - method: instantiate_services
+    priority: 20
+  simulation:
+    default: []
+    priority: 110
+apply:
+  simulation:
+    - arguments:
+        - 100
+        - verbose: 1
+      method: steps
+models:
+  - modelname: /singlep
+    runtime_parameters: []
+    solverclass: heccer
+name: singlep
+optimize: 'by default turned on, ignored when running in verbose mode'
+outputclasses:
+  double_2_ascii:
+    module_name: Experiment
+    options:
+      filename: /tmp/output
+      output_mode: steps
+    package: Experiment::Output
+outputs:
+  - component_name: /singlep/segments/soma
+    field: Vm
+    outputclass: double_2_ascii
+services:
+  model_container:
+    initializers:
+      - arguments:
+          -
+            - tests/perl/output2
+            - -P
+            - tests/cells/singlep.ndf
+        method: read
+    module_name: Neurospaces
+solverclasses:
+  heccer:
+    constructor_settings:
+      dStep: 1e-05
+    module_name: Heccer
+    service_name: model_container

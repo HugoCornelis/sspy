@@ -1,0 +1,72 @@
+--- !!perl/hash:SSP
+analyzers: {}
+application_classes:
+  analyzers:
+    default:
+      - method: analyze
+    priority: 95
+  finishers:
+    default:
+      - method: finish
+    priority: 140
+  initializers:
+    default:
+      - method: compile
+      - method: instantiate_inputs
+      - method: instantiate_outputs
+      - method: connect
+      - method: initiate
+      - method: optimize
+    priority: 80
+  modifiers:
+    default: []
+    priority: 50
+  results:
+    default: []
+    priority: 170
+  services:
+    default:
+      - method: instantiate_services
+    priority: 20
+  simulation:
+    default: []
+    priority: 110
+apply:
+  simulation:
+    - arguments:
+        - 1000
+        - verbose: 2
+      method: steps
+models:
+  - modelname: /pool1_contributors2
+    solverclass: heccer
+name: pool1_contributors2
+optimize: 'by default turned on, ignored when running in verbose mode'
+outputclasses:
+  double_2_ascii:
+    module_name: Experiment
+    package: Experiment::Output
+outputs:
+  - component_name: '/pool1_contributors2/segments/main[0]'
+    field: Vm
+    outputclass: double_2_ascii
+services:
+  model_container:
+    initializers:
+      - arguments:
+          -
+            - tests/perl/pool1-contributors2
+            - -P
+            - tests/cells/pool1_contributors2.ndf
+        method: read
+    module_name: Neurospaces
+solverclasses:
+  heccer:
+    constructor_settings:
+      configuration:
+        reporting:
+          granularity: 100
+          tested_things: 6225920
+      dStep: 1e-06
+    module_name: Heccer
+    service_name: model_container

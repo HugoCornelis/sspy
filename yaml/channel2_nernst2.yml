@@ -1,0 +1,40 @@
+--- !!perl/hash:SSP
+apply:
+  simulation:
+    - arguments:
+        - 1000000
+        - 1
+      method: steps
+models:
+  - modelname: /channel2_nernst2
+    solverclass: heccer
+name: channel2_nernst2
+outputclasses:
+  double_2_ascii:
+    constructor: Experiment::Output
+    module_name: Experiment
+outputs:
+  - component_name: '/channel2_nernst2/segments/main[0]'
+    field: Vm
+    outputclass: double_2_ascii
+services:
+  model_container:
+    initializers:
+      - arguments:
+          - 3
+          -
+            - ./tests/perl/channel2-nernst2
+            - -P
+            - tests/cells/channel2_nernst2.ndf
+        method: read
+    module_name: Neurospaces
+solverclasses:
+  heccer:
+    constructor_settings:
+      configuration:
+        reporting:
+          granularity: 100000
+          tested_things: 6225920
+      dStep: 1e-11
+    module_name: Heccer
+    service_name: model_container

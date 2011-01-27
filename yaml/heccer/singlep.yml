@@ -1,0 +1,69 @@
+--- !!perl/hash:SSP
+analyzers: {}
+application_classes:
+  analyzers:
+    default:
+      - method: analyze
+    priority: 95
+  finishers:
+    default:
+      - method: finish
+    priority: 140
+  initializers:
+    default:
+      - method: compile
+      - method: instantiate_inputs
+      - method: instantiate_outputs
+      - method: connect
+      - method: initiate
+      - method: optimize
+    priority: 80
+  modifiers:
+    default: []
+    priority: 50
+  results:
+    default: []
+    priority: 170
+  services:
+    default:
+      - method: instantiate_services
+    priority: 20
+  simulation:
+    default: []
+    priority: 110
+apply:
+  simulation:
+    - arguments:
+        - 10
+        - verbose: 2
+      method: steps
+    - arguments:
+        - 0.1
+      method: advance
+models:
+  - modelname: /singlep
+    solverclass: heccer
+name: singlep
+optimize: 'by default turned on, ignored when running in verbose mode'
+services:
+  heccer_intermediary:
+    initializers:
+      - arguments:
+          - comp2mech:
+              - 0
+              - -1
+            compartments:
+              - dCm: 4.57537e-11
+                dEm: -0.08
+                dInitVm: -0.068
+                dInject: 0
+                dRa: 360502
+                dRm: 358441000
+            iCompartments: 1
+        method: load
+    module_name: Heccer
+    package: Heccer::Intermediary::Compiler
+solverclasses:
+  heccer:
+    module_name: Heccer
+    service_name: heccer_intermediary

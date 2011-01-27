@@ -1,0 +1,112 @@
+--- !!perl/hash:SSP
+analyzers: {}
+application_classes:
+  analyzers:
+    default:
+      - method: analyze
+    priority: 95
+  finishers:
+    default:
+      - method: finish
+    priority: 140
+  initializers:
+    default:
+      - method: compile
+      - method: instantiate_inputs
+      - method: instantiate_outputs
+      - method: connect
+      - method: initiate
+      - method: optimize
+    priority: 80
+  modifiers:
+    default: []
+    priority: 50
+  results:
+    default: []
+    priority: 170
+  services:
+    default:
+      - method: instantiate_services
+    priority: 20
+  simulation:
+    default: []
+    priority: 110
+apply:
+  simulation:
+    - arguments:
+        - 10
+        - verbose: 2
+      method: steps
+models:
+  - modelname: /addressing_aggregator1
+    runtime_parameters:
+      - component_name: /addressing_aggregator1/segments/c1/cat/cat_gate_activation
+        field: state_init
+        value: 0.0394781556092807
+      - component_name: /addressing_aggregator1/segments/c1/cat/cat_gate_inactivation
+        field: state_init
+        value: 0.0821137998918865
+      - component_name: /addressing_aggregator1/segments/c1/kdr/kdr_steadystate
+        field: state_init
+        value: 0.003599440607
+      - component_name: /addressing_aggregator1/segments/c1/kdr/kdr_tau
+        field: state_init
+        value: 0.9999799396
+      - component_name: /addressing_aggregator1/segments/c1/nap/nap
+        field: state_init
+        value: 0.7612305421
+      - component_name: /addressing_aggregator1/segments/c1/naf/naf_gate_activation
+        field: state_init
+        value: 0.00784064493714152
+      - component_name: /addressing_aggregator1/segments/c1/naf/naf_gate_inactivation
+        field: state_init
+        value: 0.26397776926502
+      - component_name: /addressing_aggregator1/segments/c1/cat
+        field: MODEL_SOURCE_TYPE
+        value: 0
+      - component_name: /addressing_aggregator1/segments/c1/kdr
+        field: MODEL_SOURCE_TYPE
+        value: 1
+      - component_name: /addressing_aggregator1/segments/c1/nap
+        field: MODEL_SOURCE_TYPE
+        value: 2
+      - component_name: /addressing_aggregator1/segments/c1/naf
+        field: MODEL_SOURCE_TYPE
+        value: 2
+    solverclass: heccer
+name: addressing_aggregator1
+optimize: 'by default turned on, ignored when running in verbose mode'
+outputclasses:
+  double_2_ascii:
+    module_name: Experiment
+    package: Experiment::Output
+outputs:
+  - component_name: /addressing_aggregator1
+    field: 'aggregator[0]'
+    outputclass: double_2_ascii
+  - component_name: /addressing_aggregator1
+    field: 'aggregator[1]'
+    outputclass: double_2_ascii
+  - component_name: /addressing_aggregator1
+    field: 'aggregator[2]'
+    outputclass: double_2_ascii
+services:
+  model_container:
+    initializers:
+      - arguments:
+          -
+            - tests/perl/addressing-aggregator1
+            - -P
+            - tests/cells/addressing_aggregator1.ndf
+        method: read
+    module_name: Neurospaces
+solverclasses:
+  heccer:
+    constructor_settings:
+      configuration:
+        reporting:
+          tested_things: 39780352
+      options:
+        iOptions: 96
+    module_name: Heccer
+    service_name: model_container

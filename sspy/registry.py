@@ -1,5 +1,8 @@
 """!
+@file registry.py
 
+This module contains classes used to dynamically create
+solvers and objects from plugin specifications. 
 """
 import errors
 import os

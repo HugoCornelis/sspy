@@ -1,0 +1,77 @@
+--- !!perl/hash:SSP
+analyzers: {}
+application_classes:
+  analyzers:
+    default:
+      - method: analyze
+    priority: 95
+  finishers:
+    default:
+      - method: finish
+    priority: 140
+  initializers:
+    default:
+      - method: compile
+      - method: instantiate_inputs
+      - method: instantiate_outputs
+      - method: connect
+      - method: initiate
+      - method: optimize
+    priority: 80
+  modifiers:
+    default: []
+    priority: 50
+  results:
+    default: []
+    priority: 170
+  services:
+    default:
+      - method: instantiate_services
+    priority: 20
+  simulation:
+    default: []
+    priority: 110
+apply:
+  simulation:
+    - arguments:
+        - 10000
+        - verbose: 2
+      method: steps
+models:
+  - modelname: /springmass3
+    runtime_parameters: []
+    solverclass: heccer
+name: springmass3
+optimize: 'by default turned on, ignored when running in verbose mode'
+outputclasses:
+  double_2_ascii:
+    module_name: Experiment
+    options:
+      filename: /tmp/output
+    package: Experiment::Output
+outputs:
+  - component_name: /springmass3/segments/c1
+    field: Vm
+    outputclass: double_2_ascii
+services:
+  model_container:
+    initializers:
+      - arguments:
+          -
+            - tests/perl/springmass3
+            - -P
+            - tests/cells/springmass3.ndf
+        method: read
+    module_name: Neurospaces
+solverclasses:
+  heccer:
+    constructor_settings:
+      configuration:
+        reporting:
+          granularity: 100000
+          tested_things: 6225920
+      dStep: 1e-05
+      options:
+        iOptions: 4
+    module_name: Heccer
+    service_name: model_container

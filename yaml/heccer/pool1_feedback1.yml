@@ -1,0 +1,82 @@
+--- !!perl/hash:SSP
+analyzers: {}
+application_classes:
+  analyzers:
+    default:
+      - method: analyze
+    priority: 95
+  finishers:
+    default:
+      - method: finish
+    priority: 140
+  initializers:
+    default:
+      - method: compile
+      - method: instantiate_inputs
+      - method: instantiate_outputs
+      - method: connect
+      - method: initiate
+      - method: optimize
+    priority: 80
+  modifiers:
+    default: []
+    priority: 50
+  results:
+    default: []
+    priority: 170
+  services:
+    default:
+      - method: instantiate_services
+    priority: 20
+  simulation:
+    default: []
+    priority: 110
+apply:
+  simulation:
+    - arguments:
+        - 1000
+        - verbose: 2
+      method: steps
+    - arguments:
+        - 0.1
+      method: advance
+models:
+  - modelname: /pool1_feedback1
+    solverclass: heccer
+name: pool1_feedback1
+optimize: 'by default turned on, ignored when running in verbose mode'
+services:
+  heccer_intermediary:
+    initializers:
+      - arguments:
+          - comp2mech:
+              - 3
+              - -1
+            compartments:
+              - dCm: 5.755329373e-12
+                dEm: -0.08
+                dInitVm: -0.068
+                dInject: 0
+                dRa: 772813.4375
+                dRm: 8548598272
+            iCompartments: 1
+            math_components:
+              - !!perl/hash:Heccer::ChannelActivationConcentration
+                channel_activation_concentration: !!perl/hash:SwiggableHeccer::ChannelActConc {}
+              - !!perl/hash:Heccer::ExponentialDecay
+                exponential_decay: !!perl/hash:SwiggableHeccer::ExponentialDecay {}
+              - !!perl/hash:Heccer::ChannelActivationInactivation
+                channel_activation_inactivation: !!perl/hash:SwiggableHeccer::ChannelActInact {}
+        method: load
+    module_name: Heccer
+    package: Heccer::Intermediary::Compiler
+solverclasses:
+  heccer:
+    constructor_settings:
+      configuration:
+        reporting:
+          granularity: 100
+          tested_things: 6225920
+      dStep: 1e-06
+    module_name: Heccer
+    service_name: heccer_intermediary

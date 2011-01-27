@@ -1,0 +1,66 @@
+--- !!perl/hash:SSP
+apply:
+  results:
+    - arguments:
+        - commands:
+            - perl -e 'my $result = [ `cat /tmp/output`, ]; foreach (1..25) { print $result->[$_ * 1000 - 1] }'
+      method: shell
+  simulation:
+    - arguments:
+        - 200
+      method: steps
+inputclasses:
+  pulsegen:
+    module_name: Experiment
+    options:
+      level1: 50.0
+      width1: 3.0
+      delay1: 5.0
+      level2: -20.0
+      width2: 5.0
+      delay2: 8.0
+      baselevel: 10.0
+      triggermode: 2
+    package: Experiment::PulseGen
+inputs:
+  - component_name: /Purkinje/segments/soma
+    field: Vm
+    inputclass: pulsegen
+models:
+  - modelname: /Purkinje
+    solverclass: heccer
+name: purkinje cell perfect clamp
+outputclasses:
+  double_2_ascii:
+    module_name: Experiment
+    options:
+      filename: /tmp/output
+    package: Experiment::Output
+outputs:
+  - component_name: /Purkinje/segments/soma
+    field: Vm
+    outputclass: double_2_ascii
+services:
+  model_container:
+    initializers:
+      - arguments:
+          - filename: cells/purkinje/edsjb1994.ndf
+            no-use-library: 1
+          -
+            - ssp configuration for edsjb1994 using pulsegen
+            - -R
+            - -A
+        method: load
+    module_name: Neurospaces
+solverclasses:
+  heccer:
+    constructor_settings:
+      configuration:
+        reporting:
+          granularity: 1
+          tested_things: 6225920
+      dStep: 0.5
+      options:
+        iOptions: 4
+    module_name: Heccer
+    service_name: model_container

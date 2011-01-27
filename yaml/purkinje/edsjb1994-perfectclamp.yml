@@ -1,0 +1,78 @@
+--- !!perl/hash:SSP
+apply:
+  results:
+    - arguments:
+        - commands:
+            - perl -e 'my $result = [ `cat /tmp/output`, ]; foreach (1..25) { print $result->[$_ * 1000 - 1] }'
+      method: shell
+  simulation:
+    - arguments:
+        - 25000
+      method: steps
+inputclasses:
+  perfectclamp:
+    module_name: Experiment
+    options:
+      command: -0.06
+      name: purkinje cell perfect clamp
+    package: Experiment::PerfectClamp
+inputs:
+  - component_name: /Purkinje/segments/soma
+    field: Vm
+    inputclass: perfectclamp
+models:
+  - modelname: /Purkinje
+    solverclass: heccer
+name: purkinje cell perfect clamp
+outputclasses:
+  double_2_ascii:
+    module_name: Experiment
+    options:
+      filename: /tmp/output
+    package: Experiment::Output
+outputs:
+  - component_name: /Purkinje/segments/soma
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /Purkinje/segments/b0s01[0]
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /Purkinje/segments/b0s03[56]
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /Purkinje/segments/b1s06[137]
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /Purkinje/segments/b1s12[26]
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /Purkinje/segments/b2s30[3]
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /Purkinje/segments/b3s44[49]
+    field: Vm
+    outputclass: double_2_ascii
+services:
+  model_container:
+    initializers:
+      - arguments:
+          - filename: cells/purkinje/edsjb1994.ndf
+            no-use-library: 1
+          -
+            - ssp configuration for edsjb1994
+            - -R
+            - -A
+        method: load
+    module_name: Neurospaces
+solverclasses:
+  heccer:
+    constructor_settings:
+      configuration:
+        reporting:
+          granularity: 1000
+          tested_things: 6225920
+      dStep: 2e-05
+      options:
+        iOptions: 4
+    module_name: Heccer
+    service_name: model_container

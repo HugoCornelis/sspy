@@ -1,0 +1,162 @@
+--- !!perl/hash:SSP
+analyzers: {}
+application_classes:
+  analyzers:
+    default:
+      - method: analyze
+    priority: 95
+  finishers:
+    default:
+      - method: finish
+    priority: 140
+  initializers:
+    default:
+      - method: compile
+      - method: instantiate_inputs
+      - method: instantiate_outputs
+      - method: connect
+      - method: initiate
+      - method: optimize
+    priority: 80
+  modifiers:
+    default: []
+    priority: 50
+  results:
+    default: []
+    priority: 170
+  services:
+    default:
+      - method: instantiate_services
+    priority: 20
+  simulation:
+    default: []
+    priority: 110
+apply:
+  simulation:
+    - arguments:
+        - 2500
+        - verbose: 2
+      method: steps
+models:
+  - modelname: /purk_test
+    runtime_parameters:
+      - component_name: /purk_test/segments/soma
+        field: INJECT
+        value: 2e-09
+    solverclass: heccer
+name: purk_test
+optimize: 'by default turned on, ignored when running in verbose mode'
+outputclasses:
+  double_2_ascii:
+    module_name: Experiment
+    options:
+      filename: /tmp/output
+    package: Experiment::Output
+outputs:
+  - component_name: /purk_test/segments/soma
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /purk_test/segments/soma/ca_pool
+    field: Ca
+    outputclass: double_2_ascii
+  - component_name: /purk_test/segments/soma/km
+    field: state_n
+    outputclass: double_2_ascii
+  - component_name: /purk_test/segments/soma/kdr
+    field: state_m
+    outputclass: double_2_ascii
+  - component_name: /purk_test/segments/soma/kdr
+    field: state_h
+    outputclass: double_2_ascii
+  - component_name: /purk_test/segments/soma/ka
+    field: state_m
+    outputclass: double_2_ascii
+  - component_name: /purk_test/segments/soma/ka
+    field: state_h
+    outputclass: double_2_ascii
+  - component_name: /purk_test/segments/soma/kh
+    field: state_m
+    outputclass: double_2_ascii
+  - component_name: /purk_test/segments/soma/kh
+    field: state_h
+    outputclass: double_2_ascii
+  - component_name: /purk_test/segments/soma/nap
+    field: state_n
+    outputclass: double_2_ascii
+  - component_name: /purk_test/segments/soma/naf
+    field: state_m
+    outputclass: double_2_ascii
+  - component_name: /purk_test/segments/soma/naf
+    field: state_h
+    outputclass: double_2_ascii
+  - component_name: /purk_test/segments/soma/cat/cat_gate_activation
+    field: state_m
+    outputclass: double_2_ascii
+  - component_name: /purk_test/segments/soma/cat/cat_gate_inactivation
+    field: state_h
+    outputclass: double_2_ascii
+  - component_name: '/purk_test/segments/main[0]'
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: '/purk_test/segments/main[0]/ca_pool'
+    field: Ca
+    outputclass: double_2_ascii
+  - component_name: '/purk_test/segments/main[0]/cat/cat_gate_activation'
+    field: state_m
+    outputclass: double_2_ascii
+  - component_name: '/purk_test/segments/main[0]/cat/cat_gate_inactivation'
+    field: state_h
+    outputclass: double_2_ascii
+  - component_name: '/purk_test/segments/main[0]/cap/cap_gate_activation'
+    field: state_m
+    outputclass: double_2_ascii
+  - component_name: '/purk_test/segments/main[0]/cap/cap_gate_inactivation'
+    field: state_h
+    outputclass: double_2_ascii
+  - component_name: '/purk_test/segments/main[0]/km'
+    field: state_n
+    outputclass: double_2_ascii
+  - component_name: '/purk_test/segments/main[0]/kdr'
+    field: state_m
+    outputclass: double_2_ascii
+  - component_name: '/purk_test/segments/main[0]/kdr'
+    field: state_h
+    outputclass: double_2_ascii
+  - component_name: '/purk_test/segments/main[0]/ka'
+    field: state_m
+    outputclass: double_2_ascii
+  - component_name: '/purk_test/segments/main[0]/ka'
+    field: state_h
+    outputclass: double_2_ascii
+  - component_name: '/purk_test/segments/main[0]/kc'
+    field: state_m
+    outputclass: double_2_ascii
+  - component_name: '/purk_test/segments/main[0]/kc'
+    field: state_h
+    outputclass: double_2_ascii
+  - component_name: '/purk_test/segments/main[0]/k2'
+    field: state_m
+    outputclass: double_2_ascii
+  - component_name: '/purk_test/segments/main[0]/k2'
+    field: state_h
+    outputclass: double_2_ascii
+services:
+  model_container:
+    initializers:
+      - arguments:
+          -
+            - tests/perl/purk_test
+            - -P
+            - tests/cells/purk_test.ndf
+        method: read
+    module_name: Neurospaces
+solverclasses:
+  heccer:
+    constructor_settings:
+      configuration:
+        reporting:
+          granularity: 1000
+          tested_things: 6225920
+      dStep: 2e-05
+    module_name: Heccer
+    service_name: model_container
