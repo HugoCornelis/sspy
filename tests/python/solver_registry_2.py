@@ -13,15 +13,8 @@ from sspy.registry import SolverRegistry
 
 sr = SolverRegistry()
 
-print "List of plugins:"
-print sr.GetPluginFiles()
+my_solver = sr.CreateSolver("my solver", "heccer")
 
-print "\nList of loaded solver plugins:"
-
-sps = sr.GetPlugins()
-
-for s in sps:
-
-    print "  Plugin name: %s" % s
+pdb.set_trace()
 
 print "Done"
