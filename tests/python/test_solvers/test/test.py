@@ -4,8 +4,6 @@
 
 class Solver:
 
-
-
 #---------------------------------------------------------------------------
 
     def __init__(self, name):
@@ -18,14 +16,11 @@ class Solver:
 
         self._scheduler = None
 
-        #self.New(modelname, filename)
-        pass
-
-
+        self._value = -1.0
 
 #---------------------------------------------------------------------------
 
-    def New(self, modelname, filename):
+    def New(self, modelname="test 1", filename="file: test 1"):
 
         print "Modelname %s, Filename %s" % (modelname, filename)
         
@@ -34,91 +29,95 @@ class Solver:
 
     def Advance(self):
 
-        pass
+        print "Test 1 Advance"
 
 #---------------------------------------------------------------------------
 
     def Compile(self):
 
-        pass
+        print "Test 1 Compile"
 
 #---------------------------------------------------------------------------
 
     def Connect(self):
 
-        pass
+        print "Test 1 Connect"
 
 #---------------------------------------------------------------------------
 
-    def Deserialize(self, filename):
+    def Deserialize(self, filename="file: test 1"):
 
-        pass
+        print "Test 1 Deserialize"
 
 #---------------------------------------------------------------------------
 
-    def DeserializeState(self, filename):
+    def DeserializeState(self, filename="file: test 1"):
 
-        pass
+        print "Test 1 Deserilize State"
 
 #---------------------------------------------------------------------------
 
     def Finish(self):
 
-        pass
+        print "Test 1 Finish"
 
 #---------------------------------------------------------------------------
 
     def Name(self):
 
+        print "Test 1 Name: %s" % self._name
+
         return self._name
 
 #---------------------------------------------------------------------------
 
-    def SetSolverField(self, field, value):
+    def SetSolverField(self, field="Vm", value=1.0):
 
-        pass
-
-#---------------------------------------------------------------------------
-
-    def GetSolverField(self, field):
-
-        pass
+        print "Test 1 SetSolverField, Field: %s, Value: %f" % (field, value)
 
 #---------------------------------------------------------------------------
 
+    def GetSolverField(self, field="Vm"):
 
-    def Serialize(self, filename):
-
-        pass
+        print "Test 1 GetSolverField, Field: %s, Value: %f" % (field, self._value)
 
 #---------------------------------------------------------------------------
 
-    def SerializeState(self, filename):
 
-        pass
+    def Serialize(self, filename="file: test 1"):
+
+        print "Test 1 Serialize, Filename: %s" % filename
+
+#---------------------------------------------------------------------------
+
+    def SerializeState(self, filename="file: test 1"):
+
+        print "Test 1 SeriaizeState, Filename: %s" % filename
 
 #---------------------------------------------------------------------------
         
-    def Output(self, serial, field):
+    def Output(self, serial=1, field="Vm"):
 
-        print "Serial and field is %s:%s" % (serial, field)
+        print "Test 1 Serial and field is %d:%s" % (serial, field)
 
 #---------------------------------------------------------------------------
 
-    def Run(self, time):
+    def Run(self, time=100):
 
-        print "Simulation time is %s" % time
+        print "Test 1 Simulation time is %s" % time
 
 #---------------------------------------------------------------------------
 
     def Step(self):
 
-        pass
+        print "Test 1 Step"
 
 #---------------------------------------------------------------------------
 
-    def Steps(self, steps):
+    def Steps(self, steps=100):
 
-        pass
+        print "Test 1 Steps %d" % steps
+
+
 
   
