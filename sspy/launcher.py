@@ -52,7 +52,7 @@ def main():
                            "emit-schedules", "emit-output",
                            "perfectclamp", "pulsegen-width1"]
 
-        opts, args = getopt.getopt(sys.argv[1:], ":v", command_options)
+        opts, args = getopt.getopt(sys.argv[1:], ":hv", command_options)
         
     except getopt.GetoptError, err:
         #print help information and exit:
@@ -68,6 +68,11 @@ def main():
 
             print "version 0.1"
 
+
+        elif opt in ('-h', '--help'):
+
+            usage()
+            
         else:
             
             assert False, "unhandled option %s" % opt
