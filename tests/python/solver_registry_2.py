@@ -35,9 +35,9 @@ sr = SolverRegistry("tests/python/test_solvers/")
 
 sps = sr.GetPlugins()
 
-for s in sps:
+# for s in sps:
 
-    print "  Plugin name: %s" % s
+#     print "  Plugin name: %s" % s
 
 my_solver_1 = sr.CreateSolver("my solver 1", "test")
 my_solver_2 = sr.CreateSolver("my solver 2", "test 2")

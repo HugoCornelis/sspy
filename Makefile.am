@@ -22,6 +22,7 @@ clean: clean-local
 
 clean-local:
 	$(RM) -rf $(top_builddir)/docs/html
+	$(RM) -f $(top_builddir)/tests/python/*.pyc
 
 doxygen: doxygen.cfg
 	$(DOXYGEN) doxygen.cfg

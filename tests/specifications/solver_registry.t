@@ -15,9 +15,7 @@ my $test
 						  {
 						   description => "Can we create seperate dynamically allocated solver objects ?",
 
-						   read => "  Plugin name: test
-  Plugin name: test 2
-Printing output of solver 1
+						   read => "Printing output of solver 1
 Modelname test 1, Filename file: test 1
 Test 1 Advance
 Test 1 Compile
