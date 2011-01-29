@@ -274,7 +274,7 @@ class SolverPlugin:
             
                 self._plugin_data = yaml.load(open(norm_file_path,'rb'))
             
-            except yaml.YAMLError as exc:    
+            except yaml.YAMLError, exc:    
 
                 raise errors.SolverError("Failed to load simulation plugin %s: %s" % (p, exc))
 
