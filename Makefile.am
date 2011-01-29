@@ -32,5 +32,17 @@ epydoc: epydoc.cfg
 build-osx:
 	$(PYTHON) dist/osx/setup.py py2app
 
+
+
+# Create a deb package
+pkg-deb: dist
+	echo "No deb built for this package"
+
+# create an rpm package
+pkg-rpm: dist
+	echo "No rpm built for this package"
+
+
+
 test:
 	neurospaces_harness
