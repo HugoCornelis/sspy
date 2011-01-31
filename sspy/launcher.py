@@ -14,7 +14,8 @@ try:
 except ImportError:
     sys.exit("Need PyYaml http://pyyaml.org/\n")
 
-
+from __cbi__ import GetVersion
+from __cbi__ import GetRevisionInfo
 
 def usage():
 
@@ -46,6 +47,10 @@ def main():
     except:
         pass
 
+    if len(sys.argv) < 2:
+
+        usage()
+
     try:
 
         command_options = ["version", "help", "background", "builtins", "optimize",
@@ -66,7 +71,7 @@ def main():
 
         if opt in ('-v', '--version'):
 
-            print "version 0.1"
+            print "version %s (%s)" % (GetVersion(), GetRevisionInfo())
 
 
         elif opt in ('-h', '--help'):
