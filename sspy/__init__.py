@@ -20,6 +20,7 @@ except ImportError:
 from registry import SolverRegistry
 
 
+#*********************************** Begin SSPy ****************************
 class SSPy:
 
 
@@ -97,6 +98,13 @@ class SSPy:
             print "Dumping schedule data for %s\n" % self._schedule_file
             
         print data
+
+
+#---------------------------------------------------------------------------
+
+    def SetVerbose(self, verbose):
+
+        self.verbose = verbose
 
 #---------------------------------------------------------------------------
 
@@ -275,10 +283,15 @@ class SSPy:
 
         return GetVersion()
 
+
+#---------------------------------------------------------------------------
     
-    def _ParseSchedule(self, schedule_data):
+    def ParseSchedule(self, schedule_data):
         """
         @brief Parses the schedule 
         """
         
         
+        pass
+
+#*********************************** End SSPy *******************************

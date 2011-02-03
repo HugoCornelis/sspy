@@ -40,11 +40,10 @@ def usage():
     print " --pulsegen-width1\tset the pulse width for the pulsegen protocol."
     sys.exit(2)
 
+#---------------------------------------------------------------------------
+
 
 from sspy import SSPy
-
-
-#---------------------------------------------------------------------------
 
 def main():
 
@@ -63,9 +62,9 @@ def main():
 
         command_options = ["version", "help", "background", "builtins", "optimize",
                            "emit-schedules", "emit-output",
-                           "perfectclamp", "pulsegen-width1"]
+                           "perfectclamp", "pulsegen-width1", "verbose"]
 
-        opts, args = getopt.getopt(sys.argv[1:], ":hv", command_options)
+        opts, args = getopt.getopt(sys.argv[1:], ":hvV", command_options)
         
     except getopt.GetoptError, err:
         #print help information and exit:
@@ -74,12 +73,19 @@ def main():
 
         
     stdout = False
+    verbose = False
 
     for opt, arg in opts:
 
-        if opt in ('-v', '--version'):
+        if opt in ('-V', '--version'):
 
             print "version %s (%s)" % (GetVersion(), GetRevisionInfo())
+
+            sys.exit(0)
+
+        elif opt in ('-v', '--vebose'):
+
+            verbose = True
 
 
         elif opt in ('-h', '--help'):
@@ -90,6 +96,8 @@ def main():
             
             assert False, "unhandled option %s" % opt
 
+
+    scheduler = SSPy(verbose=verbose)
 
     print "Start sspy here"
 
