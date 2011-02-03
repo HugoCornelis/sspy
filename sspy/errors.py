@@ -20,6 +20,22 @@ class ScheduleeCreateError(Exception):
 
 
 
+
+
+class ScheduleError(Exception):
+    """
+
+    """
+    def __init__(self,msg):
+        self.msg = msg
+    
+    def __str__(self):
+
+        error_msg = "Specification Error: %s" % (self.msg)
+        
+        return error_msg
+
+
 class SolverError(Exception):
     """
 

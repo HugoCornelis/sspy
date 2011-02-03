@@ -17,6 +17,9 @@ except ImportError:
 from __cbi__ import GetVersion
 from __cbi__ import GetRevisionInfo
 
+
+#---------------------------------------------------------------------------
+
 def usage():
 
     print "usage: %s [OPTIONS]" % (sys.argv[0])
@@ -37,6 +40,11 @@ def usage():
     print " --pulsegen-width1\tset the pulse width for the pulsegen protocol."
     sys.exit(2)
 
+
+from sspy import SSPy
+
+
+#---------------------------------------------------------------------------
 
 def main():
 
