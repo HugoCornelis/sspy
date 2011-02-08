@@ -76,6 +76,8 @@ class SSPy:
             raise errors.ScheduleError("Schedule file '%s' doesn't exist" % filename)
 
         self._schedule_file = norm_file_path
+
+        self.ParseSchedule(self._schedule_data)
         
 #---------------------------------------------------------------------------
 
@@ -324,13 +326,17 @@ class SSPy:
 
             if self.verbose:
 
-                print "Schdule name is '%s'" % self.name
+                print "Schdule name is '%s'\n" % self.name
 
         # Loads the appropriate services for loading a model
         #   Such as the model_container
         if self._schedule_data.has_key('services'):
 
             services = self._schedule_data['services']
+
+            if self.verbose:
+
+                print "Found services:\n\t%s\n" % str(services)
 
         # This Loads the default options for registered solvers
         # along with the service that it requires. In the case
@@ -340,7 +346,10 @@ class SSPy:
 
             solvers = self._schedule_data['solverclasses']
 
+            if self.verbose:
 
+                print "Found Solver Classes:\n\t%s\n" % str(solvers)
+            
             
 
         # This retrieves the model identifier from the model that
@@ -353,17 +362,42 @@ class SSPy:
             models = self._schedule_data['models']
 
 
+            if self.verbose:
+
+                print "Found Models:\n\t%s\n" % str(models)
+            
+
+
         # 
         if self._schedule_data.has_key('application_classes'):
 
             application_classes = self._schedule_data['application_classes']
 
 
+            if self.verbose:
+
+                print "Found Application Classes:\n\t%s\n" % str(application_classes)
+
+       # Set of options for configuring analyzers
+        if self._schedule_data.has_key('analyzers'):
+            
+            analyzers = self._schedule_data['analyzers']
+            
+            if self.verbose:
+
+                print "Found analyzers to apply:\n\t%s\n" % str(analyzers)
+            
+
         # Set of options that define how to run this schedule.
         if self._schedule_data.has_key('apply'):
             
             apply_parameters = self._schedule_data['apply']
             
+            if self.verbose:
+
+                print "Found Simulation Parameters to apply:\n\t%s\n" % str(apply_parameters)
+            
+
 
 
         # Here we parse for external simulation objects that generate input into
@@ -372,11 +406,22 @@ class SSPy:
 
             inputclasses = self._schedule_data['inputclasses']
 
+
+            if self.verbose:
+
+                print "Found Input Classes:\n\t%s" % str(inputclasses)
+            
+
             # Key contains the attributes for the inputclass objects that
             # were loaded.
             if self._schedule_data.has_key('inputs'):
 
                 inputs = self._schedule_data['inputs']
+
+                if self.verbose:
+
+                    print "\tFound Inputs: %s\n" % str(inputs)
+            
 
                 
         # Specifies the output objects to use.
@@ -384,11 +429,18 @@ class SSPy:
 
             outputclasses = self._schedule_data['solverclasses']
 
+            if self.verbose:
+
+                print "Found Output Classes:\n\t%s" % str(outputclasses)
+
             # Attributes for the outputclass objects that were loaded.
             if self._schedule_data.has_key('outputs'):
                 
                 outputs = self._schedule_data['outputs']
 
-        
+                if self.verbose:
+
+                    print "\tFound Outputs: %s\n" % str(outputs)
+             
         
 #*********************************** End SSPy *******************************
