@@ -26,9 +26,11 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, verbose=False):
+    def __init__(self, name="Untitled", verbose=False):
 
         self.verbose = verbose
+
+        self.name = name
         
         self._models = []
 
@@ -288,10 +290,105 @@ class SSPy:
     
     def ParseSchedule(self, schedule_data):
         """
-        @brief Parses the schedule 
-        """
-        
-        
-        pass
+        @brief Parses the schedule
 
+        Method parses the schedule data read in and creates
+        a simulation based on the specification read in. The parse
+        order follows the user workflow.
+
+        
+        Parse out the following top level keys to pass to helper methods:
+            analyzers
+            application_classes
+            apply
+            inputs
+            input_classes
+            models
+            name
+            optimize
+            outputclasses
+            outputs
+            services
+            solverclasses 
+        """
+
+        if self.verbose:
+
+            print "Parsing schedule data"
+        
+
+        # Finds internal identifier for the schedule.
+        if self._schedule_data.has_key('name'):
+
+            self.name = self._schedule_data['name']
+
+            if self.verbose:
+
+                print "Schdule name is '%s'" % self.name
+
+        # Loads the appropriate services for loading a model
+        #   Such as the model_container
+        if self._schedule_data.has_key('services'):
+
+            services = self._schedule_data['services']
+
+        # This Loads the default options for registered solvers
+        # along with the service that it requires. In the case
+        # of Heccer, the default required service is the model
+        # container.
+        if self._schedule_data.has_key('solverclasses'):
+
+            solvers = self._schedule_data['solverclasses']
+
+
+            
+
+        # This retrieves the model identifier from the model that
+        # was loaded via services and the type of solver to use.
+        # for instance if the root identifier of the loaded model is
+        # called "/soma" then this is the modelname and the solver is set
+        # to look for this symbol.
+        if self._schedule_data.has_key('models'):
+
+            models = self._schedule_data['models']
+
+
+        # 
+        if self._schedule_data.has_key('application_classes'):
+
+            application_classes = self._schedule_data['application_classes']
+
+
+        # Set of options that define how to run this schedule.
+        if self._schedule_data.has_key('apply'):
+            
+            apply_parameters = self._schedule_data['apply']
+            
+
+
+        # Here we parse for external simulation objects that generate input into
+        # the model. 
+        if self._schedule_data.has_key('inputclasses'):
+
+            inputclasses = self._schedule_data['inputclasses']
+
+            # Key contains the attributes for the inputclass objects that
+            # were loaded.
+            if self._schedule_data.has_key('inputs'):
+
+                inputs = self._schedule_data['inputs']
+
+                
+        # Specifies the output objects to use.
+        if self._schedule_data.has_key('outputclasses'):
+
+            outputclasses = self._schedule_data['solverclasses']
+
+            # Attributes for the outputclass objects that were loaded.
+            if self._schedule_data.has_key('outputs'):
+                
+                outputs = self._schedule_data['outputs']
+
+        
+        
 #*********************************** End SSPy *******************************
