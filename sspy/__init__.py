@@ -18,6 +18,7 @@ except ImportError:
 
 
 from registry import SolverRegistry
+from registry import ServiceRegistry
 
 
 #*********************************** Begin SSPy ****************************
@@ -32,6 +33,8 @@ class SSPy:
         self.verbose = verbose
 
         self.name = name
+
+        self._loaded_services = []
         
         self._models = []
 
@@ -46,6 +49,7 @@ class SSPy:
         # other classes
         self._solver_registry = SolverRegistry(solver_directory)
 
+        self._service_registry = ServiceRegistry(service_directory)
 
 #---------------------------------------------------------------------------
 
@@ -116,6 +120,18 @@ class SSPy:
 
         # error checking?
         self._schedulees.append(schedulee)
+
+#---------------------------------------------------------------------------
+
+    def GetLoadedServices(self):
+
+        return self._loaded_services
+
+#---------------------------------------------------------------------------
+
+    def GetSchedulees(self):
+
+        return self._schedulees
 
 #---------------------------------------------------------------------------
 
@@ -351,6 +367,8 @@ class SSPy:
 
                 print "Found services:\n\t%s\n" % str(services)
 
+            self._ParseServices(services)
+
         # This Loads the default options for registered solvers
         # along with the service that it requires. In the case
         # of Heccer, the default required service is the model
@@ -501,10 +519,37 @@ class SSPy:
 
     def _ParseServices(self, service_data):
         """!
+        @brief Loads services from schedule data
 
+        Processes a dictionary that was parsed from a schedule
+        in YAML
         """
-        pass
 
+        try:
+
+            items = service_data.items()
+
+        except AttributeError, e:
+
+            raise errors.ScheduleError("Error parsing services, %s" % e)
+
+
+        for service_type, data in service_data.iteritems():
+
+            service_name = ""
+            
+            if data.has_key('name'):
+
+                service_name = data['name']
+
+            else:
+                
+                service_name = "%s (%s)" % (self.name, service_type)
+
+            service = self._service_registry.CreateService(service_name, service_type, service_data)
+
+            self._loaded_services.append(service)
+            
 #---------------------------------------------------------------------------
 
     def _PaseModels(self, model_data):

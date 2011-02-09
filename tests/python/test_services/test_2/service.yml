@@ -1,0 +1,8 @@
+---
+name: test 2
+label: Test Service
+version: 0.1
+description: This is a Test service
+file: test.py
+source: test.py
+module: test
