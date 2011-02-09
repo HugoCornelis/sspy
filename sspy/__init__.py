@@ -26,7 +26,8 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, name="Untitled", verbose=False, solver_directory=None):
+    def __init__(self, name="Untitled", verbose=False, solver_directory=None,
+                 service_directory=None):
 
         self.verbose = verbose
 
@@ -460,7 +461,7 @@ class SSPy:
 
 
     def _ParseSolvers(self, solver_data):
-        """
+        """!
         @brief Loads solvers from schedule data
 
         Processes a dictionary that was parsed from a schedule
@@ -490,11 +491,24 @@ class SSPy:
 
             solver = self._solver_registry.CreateSolver(solver_name, solver_type, solver_data)
 
-            if data.has_key('constructor_settings'):
+#             if data.has_key('constructor_settings'):
 
-                solver.SetConfiguration(data['constructor_settings'])
+#                 solver.SetConfiguration(data['constructor_settings'])
             
             self.AddSchedulee(solver)
-        
+
+#---------------------------------------------------------------------------
+
+    def _ParseServices(self, service_data):
+        """!
+
+        """
+        pass
+
+#---------------------------------------------------------------------------
+
+    def _PaseModels(self, model_data):
+
+        pass
 
 #*********************************** End SSPy *******************************

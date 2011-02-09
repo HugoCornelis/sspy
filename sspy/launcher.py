@@ -60,7 +60,8 @@ def main():
 
     try:
 
-        command_options = ["version", "help", "background", "builtins", "optimize",
+        command_options = ["steps", "time", "time-step",
+                           "version", "help", "background", "builtins", "optimize",
                            "emit-schedules", "emit-output",
                            "perfectclamp", "pulsegen-width1", "verbose"]
 

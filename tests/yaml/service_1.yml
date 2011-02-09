@@ -1,0 +1,20 @@
+--- 
+services:
+  test:
+    initializers:
+      - arguments:
+          -
+            - tests/perl/purk_test
+            - -P
+            - tests/cells/purk_test.ndf
+        method: read
+    module_name: Neurospaces
+  test 2:
+    initializers:
+      - arguments:
+          -
+            - tests/perl/purk_test
+            - -P
+            - tests/cells/purk_test.ndf
+        method: read
+    module_name: Neurospaces

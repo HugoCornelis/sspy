@@ -13,11 +13,11 @@ from sspy import SSPy
 
 
 scheduler = SSPy(verbose=True,
-                 solver_directory="tests/python/test_solvers/")
+                 service_directory="tests/python/test_services/")
 
 try:
     
-    scheduler.Load("./tests/yaml/solver_1.yml")
+    scheduler.Load("./tests/yaml/service_1.yml")
 
 except Exception, e:
 
