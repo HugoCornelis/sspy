@@ -1,0 +1,14 @@
+--- 
+name: solver test
+solverclasses:
+  test:
+    constructor_settings:
+      configuration:
+        reporting:
+          granularity: 100000
+          tested_things: 6225920
+      dStep: 1e-05
+      options:
+        iOptions: 4
+    module_name: Heccer
+    service_name: model_container

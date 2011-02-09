@@ -6,7 +6,7 @@ class Solver:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, name):
+    def __init__(self, name=None, constructor_settings=None):
         """
 
         Should be able to pass the scheudler and use it as
@@ -18,6 +18,12 @@ class Solver:
 
         self._value = -1.0
 
+#---------------------------------------------------------------------------
+
+    def SetConfiguration(self, config):
+
+        pass
+    
 #---------------------------------------------------------------------------
 
     def New(self, modelname="test 2", filename="file: test 2"):

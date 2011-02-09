@@ -8,7 +8,7 @@ class Solver:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, name):
+    def __init__(self, name=None, constructor_settings=None):
         """
 
         Should be able to pass the scheudler and use it as
@@ -16,12 +16,15 @@ class Solver:
         """
         self._name = name
 
-        self._scheduler = None
+#        self._scheduler = None
 
         #self.New(modelname, filename)
         pass
 
 
+    def SetConfiguration(self, config):
+
+        pass
 
 #---------------------------------------------------------------------------
 

@@ -26,7 +26,7 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, name="Untitled", verbose=False):
+    def __init__(self, name="Untitled", verbose=False, solver_directory=None):
 
         self.verbose = verbose
 
@@ -34,6 +34,7 @@ class SSPy:
         
         self._models = []
 
+        # arrays of schedulees to process when run.
         self._schedulees = []
 
         # Internal schedule data to manage.
@@ -42,7 +43,7 @@ class SSPy:
 
         # Registry objects for dynamically creating solvers and
         # other classes
-        self._solver_registry = SolverRegistry()
+        self._solver_registry = SolverRegistry(solver_directory)
 
 
 #---------------------------------------------------------------------------
@@ -103,6 +104,17 @@ class SSPy:
             
         print data
 
+#---------------------------------------------------------------------------
+
+    def AddSchedulee(self, schedulee):
+        """
+        @brief Adds jobs to be scheduled.
+
+        Adds input, output and solver objects to be scheduled.
+        """
+
+        # error checking?
+        self._schedulees.append(schedulee)
 
 #---------------------------------------------------------------------------
 
@@ -349,7 +361,9 @@ class SSPy:
             if self.verbose:
 
                 print "Found Solver Classes:\n\t%s\n" % str(solvers)
-            
+
+
+            self._ParseSolvers(solvers)
             
 
         # This retrieves the model identifier from the model that
@@ -441,6 +455,46 @@ class SSPy:
                 if self.verbose:
 
                     print "\tFound Outputs: %s\n" % str(outputs)
-             
+
+#---------------------------------------------------------------------------
+
+
+    def _ParseSolvers(self, solver_data):
+        """
+        @brief Loads solvers from schedule data
+
+        Processes a dictionary that was parsed from a schedule
+        in YAML
+        """
+
+        try:
+
+            items = solver_data.items()
+
+        except AttributeError, e:
+
+            raise errors.ScheduleError("Error parsing solvers, %s" % e)
+
+
+        for solver_type, data in solver_data.iteritems():
+
+            solver_name = ""
+            
+            if data.has_key('name'):
+
+                solver_name = data['name']
+
+            else:
+                
+                solver_name = "%s (%s)" % (self.name, solver_type)
+
+            solver = self._solver_registry.CreateSolver(solver_name, solver_type, solver_data)
+
+            if data.has_key('constructor_settings'):
+
+                solver.SetConfiguration(data['constructor_settings'])
+            
+            self.AddSchedulee(solver)
         
+
 #*********************************** End SSPy *******************************

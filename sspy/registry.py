@@ -22,29 +22,29 @@ class SolverRegistry:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, solver_dir=None):
+    def __init__(self, solver_directory=None):
 
-        self._solver_dir = ""
+        self._solver_directory = ""
 
-        if solver_dir is None:
+        if solver_directory is None:
             
             curr_dir = os.path.dirname(os.path.abspath(__file__))
 
-            self._solver_dir = os.path.join(curr_dir, "solvers")
+            self._solver_directory = os.path.join(curr_dir, "solvers")
 
-            if not os.path.isdir(self._solver_dir):
+            if not os.path.isdir(self._solver_directory):
         
                 raise errors.SolverError("'solvers' directory not found")
             
         else:
 
-            if os.path.isdir(solver_dir):
+            if os.path.isdir(solver_directory):
 
-                self._solver_dir = solver_dir
+                self._solver_directory = solver_directory
 
             else:
 
-                raise errors.SolverError("'%s' directory not found" % solver_dir)
+                raise errors.SolverError("'%s' directory not found" % solver_directory)
             
         
         self._solver_plugins = []
@@ -73,7 +73,13 @@ class SolverRegistry:
         
         # First we check to see if we have the proper data to
         # allocate from a file.
-        plugin_file = plugin_type.GetFile()
+        try:
+            
+            plugin_file = plugin_type.GetFile()
+
+        except AttributeError:
+
+            raise errors.ScheduleError("Invalid solver type '%s' for solver '%s'" % (type,name))
         
         if plugin_file != "":
             
@@ -184,7 +190,7 @@ class SolverRegistry:
 
         plugins = []
 
-        for path, directories, files in os.walk( self._solver_dir ):
+        for path, directories, files in os.walk( self._solver_directory ):
             if self._IsSolver( path ):
                 path.replace( '/','.' )
 
@@ -206,7 +212,7 @@ class SolverRegistry:
 
         solvers = []
 
-        for path, directories, files in os.walk( self._solver_dir ):
+        for path, directories, files in os.walk( self._solver_directory ):
             if self._IsSolver( path ):
                 path.replace( '/','.' )
                 
@@ -216,7 +222,7 @@ class SolverRegistry:
 
 #---------------------------------------------------------------------------
 
-    def _InstantiateFromFile(self,filepath,name="Untitled"):
+    def _InstantiateFromFile(self,filepath,name="Untitled", constructor_settings=None):
         """
 
         """
@@ -239,7 +245,7 @@ class SolverRegistry:
 
             try:
 
-                class_inst = py_mod.Solver(name=name) 
+                class_inst = py_mod.Solver(name=name, constructor_settings=None) 
 
             except TypeError:
 
