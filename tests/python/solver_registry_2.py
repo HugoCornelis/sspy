@@ -30,7 +30,7 @@ def print_solver(s):
     s.Step()
     s.Steps()
 
-sr = SolverRegistry("tests/python/test_solvers/")
+sr = SolverRegistry("tests/python/test_solvers/","solver.yml")
 
 
 sps = sr.GetPlugins()

@@ -7,6 +7,30 @@ use strict;
 my $test
     = {
        command_definitions => [
+
+			       {
+				arguments => [
+					     ],
+				command => 'tests/python/solver_registry_1.py',
+				command_tests => [
+						  {
+						   description => "Can load some solver plugins from a plugin directory ?",
+
+						   read => "List of plugins:
+['tests/python/test_solvers/test/solver.yml', 'tests/python/test_solvers/test_2/solver.yml']
+
+List of loaded solver plugins:
+  Plugin name: test
+  Plugin name: test 2
+Done
+",
+
+						  },
+						 ],
+				description => "",
+			       },
+
+
 			       {
 				arguments => [
 					     ],

@@ -18,7 +18,7 @@ def print_service(s):
     print "Arguments are %s" % str(s.GetArguments())
     
 
-sr = ServiceRegistry("tests/python/test_services/")
+sr = ServiceRegistry("tests/python/test_services/", "service.yml")
 
 
 sps = sr.GetPlugins()

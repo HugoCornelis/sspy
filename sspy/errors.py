@@ -5,6 +5,63 @@ to handle errors.
 """
 from exceptions import Exception
 
+
+class PluginDirectoryError(Exception):
+    """
+
+    """
+    def __init__(self,msg):
+        self.msg = msg
+    
+    def __str__(self):
+
+        error_msg = "Plugin Error: %s" % (self.msg)
+
+        if not self.value is None and self.value != "":
+
+            error_msg = error_msg + ", " + self.value
+        
+        return error_msg
+
+
+class PluginFileError(Exception):
+    """
+
+    """
+    def __init__(self,msg):
+        self.msg = msg
+    
+    def __str__(self):
+
+        error_msg = "Plugin Error: %s" % (self.msg)
+
+        if not self.value is None and self.value != "":
+
+            error_msg = error_msg + ", " + self.value
+        
+        return error_msg
+
+
+class PluginError(Exception):
+    """
+
+    """
+    def __init__(self,msg):
+        self.msg = msg
+    
+    def __str__(self):
+
+        error_msg = "Plugin Error: %s" % (self.msg)
+
+        if not self.value is None and self.value != "":
+
+            error_msg = error_msg + ", " + self.value
+        
+        return error_msg
+
+
+    
+
 class ScheduleeCreateError(Exception):
     """
 
@@ -53,7 +110,8 @@ class SolverError(Exception):
         
         return error_msg
 
-    
+
+
 
 class ServiceError(Exception):
     """
