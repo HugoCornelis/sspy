@@ -9,8 +9,8 @@ present are:
 
     SolverRegistry: A registry used to create solver objects.
     ServiceRegistry: Registry used to create modeling service objects.
-    InputRegistry: Registry used to create an input object.
     OutputRegistry: Registry used to create output objects.
+    InputRegistry: Registry used to create an input object.
     
 """
 import errors
@@ -365,11 +365,11 @@ class SolverRegistry(Registry):
     @class SolverRegistry A registry for the solver objects
     """
     
-    def __init__(self, solver_directory, solver_file):
+    def __init__(self, solver_directory):
 
         Registry.__init__(self,
                           plugin_directory=solver_directory,
-                          plugin_file=solver_file)
+                          plugin_file="solver.yml")
 
         
 #---------------------------------------------------------------------------
@@ -451,11 +451,11 @@ class SolverRegistry(Registry):
 #************************* Begin ServiceRegistry ****************************
 class ServiceRegistry(Registry):
 
-    def __init__(self, service_directory, service_file):
+    def __init__(self, service_directory):
 
         Registry.__init__(self,
                           plugin_directory=service_directory,
-                          plugin_file=service_file)
+                          plugin_file="service.yml")
 
 
 
@@ -531,6 +531,195 @@ class ServiceRegistry(Registry):
         return class_inst
 
 #---------------------------------------------------------------------------
-
-
 #************************* End ServiceRegistry ****************************
+
+
+
+
+
+
+#************************* Begin OutputRegistry ****************************
+class OutputRegistry(Registry):
+    """
+
+    """
+    
+    def __init__(self, output_directory):
+
+        Registry.__init__(self,
+                          plugin_directory=output_directory,
+                          plugin_file="output.yml")
+
+
+
+
+#---------------------------------------------------------------------------
+
+    def CreateOutput(self, name, type=None, index=-1):
+
+        plugin_type = None
+
+        if type is not None:
+
+            plugin_type = self.GetPluginData(type)
+
+        elif index != -1:
+
+            # bounds check?
+            plugin_type = self._output_plugins[index]
+            
+        
+        # First we check to see if we have the proper data to
+        # allocate from a file.
+        try:
+            
+            plugin_file = plugin_type.GetFile()
+
+        except AttributeError:
+
+            raise errors.ScheduleError("Cannot create Output, invalid output type '%s' for output '%s'" % (type,name))
+        
+        if plugin_file != "":
+            
+            output = self._InstantiateFromFile(plugin_file,name)
+
+        # verify sim legit?
+
+        return output    
+
+
+#---------------------------------------------------------------------------
+
+
+    def _InstantiateFromFile(self, filepath, name="Untitled", constructor_settings=None):
+        """
+
+        """
+        class_inst = None
+        expected_class = 'Output'
+
+        if not os.path.exists(filepath):
+
+            raise errors.OutputError("no such plugin to load class from: %s" % filepath)
+        
+            return None
+
+        mod_name,file_ext = os.path.splitext(os.path.split(filepath)[-1])
+        if file_ext.lower() == '.py':
+            py_mod = imp.load_source(mod_name, filepath)
+
+        elif file_ext.lower() == '.pyc':
+            py_mod = imp.load_compiled(mod_name, filepath)
+#        pdb.set_trace()
+        if expected_class in dir(py_mod):
+
+            try:
+
+                class_inst = py_mod.Output(name=name, initializers=None) 
+
+            except TypeError:
+
+                raise errors.OutputError("'Output' class is not found for plugin %s" % name)
+
+        return class_inst
+
+#---------------------------------------------------------------------------
+
+
+#************************* End OutputRegistry ****************************
+
+
+
+
+
+
+
+#************************* Begin InputRegistry ****************************
+class InputRegistry(Registry):
+    """
+
+    """
+    
+    def __init__(self, input_directory):
+
+        Registry.__init__(self,
+                          plugin_directory=input_directory,
+                          plugin_file="input.yml")
+
+
+
+
+#---------------------------------------------------------------------------
+
+    def CreateInput(self, name, type=None, index=-1):
+
+        plugin_type = None
+
+        if type is not None:
+
+            plugin_type = self.GetPluginData(type)
+
+        elif index != -1:
+
+            # bounds check?
+            plugin_type = self._input_plugins[index]
+            
+        
+        # First we check to see if we have the proper data to
+        # allocate from a file.
+        try:
+            
+            plugin_file = plugin_type.GetFile()
+
+        except AttributeError:
+
+            raise errors.ScheduleError("Cannot create Input, invalid input type '%s' for input '%s'" % (type,name))
+        
+        if plugin_file != "":
+            
+            input_object = self._InstantiateFromFile(plugin_file,name)
+
+        # verify sim legit?
+
+        return input_object    
+
+
+#---------------------------------------------------------------------------
+
+
+    def _InstantiateFromFile(self, filepath, name="Untitled", constructor_settings=None):
+        """
+
+        """
+        class_inst = None
+        expected_class = 'Input'
+
+        if not os.path.exists(filepath):
+
+            raise errors.InputError("no such plugin to load class from: %s" % filepath)
+        
+            return None
+
+        mod_name,file_ext = os.path.splitext(os.path.split(filepath)[-1])
+        if file_ext.lower() == '.py':
+            py_mod = imp.load_source(mod_name, filepath)
+
+        elif file_ext.lower() == '.pyc':
+            py_mod = imp.load_compiled(mod_name, filepath)
+#        pdb.set_trace()
+        if expected_class in dir(py_mod):
+
+            try:
+
+                class_inst = py_mod.Input(name=name, initializers=None) 
+
+            except TypeError:
+
+                raise errors.InputError("'Input' class is not found for plugin %s" % name)
+
+        return class_inst
+
+#---------------------------------------------------------------------------
+
+
+#************************* End InputRegistry ****************************

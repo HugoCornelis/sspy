@@ -11,7 +11,7 @@ add_sspy_path()
 
 from sspy.registry import SolverRegistry
 
-sr = SolverRegistry("tests/python/test_solvers/","solver.yml")
+sr = SolverRegistry("tests/python/test_solvers/")
 
 print "List of plugins:"
 print sr.GetPluginFiles()

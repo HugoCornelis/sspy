@@ -11,7 +11,7 @@ add_sspy_path()
 
 from sspy.registry import ServiceRegistry
 
-sr = ServiceRegistry("tests/python/test_services/", "service.yml")
+sr = ServiceRegistry("tests/python/test_services/")
 
 print "List of plugins:"
 print sr.GetPluginFiles()

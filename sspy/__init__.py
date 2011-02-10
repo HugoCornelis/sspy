@@ -47,9 +47,9 @@ class SSPy:
 
         # Registry objects for dynamically creating solvers and
         # other classes
-        self._solver_registry = SolverRegistry(solver_directory)
+        self._solver_registry = SolverRegistry(solver_directory, "solver.yml")
 
-        self._service_registry = ServiceRegistry(service_directory)
+        self._service_registry = ServiceRegistry(service_directory, "service.yml")
 
 #---------------------------------------------------------------------------
 
@@ -552,8 +552,37 @@ class SSPy:
             
 #---------------------------------------------------------------------------
 
-    def _PaseModels(self, model_data):
+    def _ParseOutputs(self, output_data, output_parameters):
+        """
 
-        pass
+        """
 
+
+        try:
+
+            items = output_data.items()
+
+            items = output_parameters.items()
+            
+        except AttributeError, e:
+
+            raise errors.ScheduleError("Error parsing services, %s" % e)
+
+        
+#---------------------------------------------------------------------------        
+
+    def _ParseInputs(self, input_data, input_parameters):
+        """
+
+        """
+
+
+        try:
+
+            items = service_data.items()
+
+        except AttributeError, e:
+
+            raise errors.ScheduleError("Error parsing services, %s" % e)
+        
 #*********************************** End SSPy *******************************
