@@ -27,8 +27,9 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, name="Untitled", verbose=False, solver_directory=None,
-                 service_directory=None):
+    def __init__(self, name="Untitled", verbose=False,
+                 solver_directory="solvers", service_directory="services",
+                 input_directory=None, output_directory=None):
 
         self.verbose = verbose
 
@@ -47,9 +48,9 @@ class SSPy:
 
         # Registry objects for dynamically creating solvers and
         # other classes
-        self._solver_registry = SolverRegistry(solver_directory, "solver.yml")
+        self._solver_registry = SolverRegistry(solver_directory)
 
-        self._service_registry = ServiceRegistry(service_directory, "service.yml")
+        self._service_registry = ServiceRegistry(service_directory)
 
 #---------------------------------------------------------------------------
 

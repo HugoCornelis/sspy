@@ -13,7 +13,8 @@ from sspy import SSPy
 
 
 scheduler = SSPy(verbose=True,
-                 solver_directory="tests/python/test_solvers/")
+                 solver_directory="tests/python/test_solvers/",
+                 service_directory="tests/python/test_services/")
 
 try:
     
