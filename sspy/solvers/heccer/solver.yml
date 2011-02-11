@@ -1,8 +1,0 @@
----
-name: heccer
-label: Heccer Solver
-version: 0.1
-description: This is the SSPy object for driving the Heccer solver
-file: heccer.py
-source: heccer.py
-module: heccer
