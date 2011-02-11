@@ -508,7 +508,12 @@ class SSPy:
                 
                 solver_name = "%s (%s)" % (self.name, solver_type)
 
-                
+
+            if self.verbose:
+
+                print "Loading Solver '%s' of type '%s'" % (solver_name, solver_type)
+
+#            pdb.set_trace()
             solver = self._solver_registry.CreateSolver(solver_name, solver_type, solver_data)
 
             self.AddSchedulee(solver)
@@ -546,13 +551,17 @@ class SSPy:
 
             service = self._service_registry.CreateService(service_name, service_type, service_data)
 
+            if self.verbose:
+
+                print "Loading service '%s' of type '%s'" % (service_name, service_type)
+            
             self._loaded_services.append(service)
             
 #---------------------------------------------------------------------------
 
     def _ParseOutputs(self, output_data, output_parameters):
         """
-
+        @brief Loads outputs from python dictionaries.
         """
 
 
