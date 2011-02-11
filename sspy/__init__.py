@@ -28,8 +28,8 @@ class SSPy:
 #---------------------------------------------------------------------------
 
     def __init__(self, name="Untitled", verbose=False,
-                 solver_directory="solvers", service_directory="services",
-                 input_directory=None, output_directory=None):
+                 solver_directory="plugins/solvers", service_directory="plugins/services",
+                 input_directory="plugins/inputs", output_directory="plugins/outputs"):
 
         self.verbose = verbose
 
@@ -508,12 +508,9 @@ class SSPy:
                 
                 solver_name = "%s (%s)" % (self.name, solver_type)
 
+                
             solver = self._solver_registry.CreateSolver(solver_name, solver_type, solver_data)
 
-#             if data.has_key('constructor_settings'):
-
-#                 solver.SetConfiguration(data['constructor_settings'])
-            
             self.AddSchedulee(solver)
 
 #---------------------------------------------------------------------------
