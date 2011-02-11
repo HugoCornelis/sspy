@@ -20,6 +20,8 @@ print "\nList of loaded service plugins:"
 
 sps = sr.GetPlugins()
 
+sps.sort()
+
 for s in sps:
 
     print "  Plugin name: %s" % s
