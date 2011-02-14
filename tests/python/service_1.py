@@ -26,6 +26,8 @@ except Exception, e:
 
 services = scheduler.GetLoadedServices()
 
+services.sort()
+
 for s in services:
 
     print "This service name is '%s'" % s.GetName()
