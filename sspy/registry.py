@@ -140,9 +140,9 @@ class Registry:
 
     def GetPluginIndex(self,name):
 
-        for index,sp in enumerate(self._simulator_plugins):
+        for index,pi in enumerate(self._loaded_plugins):
 
-            if sp.GetName() == name:
+            if pi.GetName() == name:
 
                 return index
 
