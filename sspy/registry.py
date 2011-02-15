@@ -29,7 +29,6 @@ class Registry:
 
     
     """
-
 #---------------------------------------------------------------------------
 
     def __init__(self, plugin_directory=None, plugin_file=None):
@@ -65,7 +64,7 @@ class Registry:
             self._plugin_file = plugin_file
 
         
-        self._solver_plugins = []
+        self._loaded_plugins = []
 
         plugins = self.GetPluginFiles()
 
@@ -102,19 +101,19 @@ class Registry:
 
         else:
             
-            self._solver_plugins.append(plugin_entry)
+            self._loaded_plugins.append(plugin_entry)
 
             return True
 
 
 #---------------------------------------------------------------------------
 
-    def Exists(self, solver_plugin):
+    def Exists(self, plugin):
         """
-        @brief 
+        @brief Determines if a plugin is present.
         """
 
-        pi = self.GetPluginData(solver_plugin.GetName())
+        pi = self.GetPluginData(plugin.GetName())
 
         if pi is None:
 
@@ -129,7 +128,7 @@ class Registry:
 
     def GetPluginData(self,name):
 
-        for pi in self._solver_plugins:
+        for pi in self._loaded_plugins:
 
             if pi.GetName() == name:
 
@@ -158,7 +157,7 @@ class Registry:
         @brief Returns the list of solvers
         """
     
-        return self._solver_plugins
+        return self._loaded_plugins
 
 #---------------------------------------------------------------------------
 
@@ -386,7 +385,7 @@ class SolverRegistry(Registry):
         elif index != -1:
 
             # bounds check?
-            plugin = self._solver_plugins[index]
+            plugin = self._loaded_plugins[index]
             
         
         # First we check to see if we have the proper data to
