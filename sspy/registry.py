@@ -114,9 +114,9 @@ class Registry:
         @brief 
         """
 
-        sp = self.GetPluginData(solver_plugin.GetName())
+        pi = self.GetPluginData(solver_plugin.GetName())
 
-        if sp is None:
+        if pi is None:
 
             return False
         
@@ -129,11 +129,11 @@ class Registry:
 
     def GetPluginData(self,name):
 
-        for sp in self._solver_plugins:
+        for pi in self._solver_plugins:
 
-            if sp.GetName() == name:
+            if pi.GetName() == name:
 
-                return sp
+                return pi
 
         return None
     
@@ -375,25 +375,25 @@ class SolverRegistry(Registry):
         
 #---------------------------------------------------------------------------
 
-    def CreateSolver(self, name, type=None, index=-1):
+    def CreateSolver(self, name, type=None, initializers=None, index=-1):
 
-        plugin_type = None
+        plugin = None
 
         if type is not None:
 
-            plugin_type = self.GetPluginData(type)
+            plugin = self.GetPluginData(type)
 
         elif index != -1:
 
             # bounds check?
-            plugin_type = self._solver_plugins[index]
+            plugin = self._solver_plugins[index]
             
         
         # First we check to see if we have the proper data to
         # allocate from a file.
         try:
             
-            plugin_file = plugin_type.GetFile()
+            plugin_file = plugin.GetFile()
 
         except AttributeError:
 
@@ -401,15 +401,13 @@ class SolverRegistry(Registry):
         
         if plugin_file != "":
             
-            solver = self._InstantiateFromFile(plugin_file,name)
-
-        # verify sim legit?
+            solver = self._InstantiateFromFile(plugin_file, name, initializers)
 
         return solver
     
 #---------------------------------------------------------------------------
 
-    def _InstantiateFromFile(self, filepath, name="Untitled", constructor_settings=None):
+    def _InstantiateFromFile(self, filepath, name="Untitled", initializers=None):
         """
         @brief Creates a solver object from a plugin
         """
@@ -417,9 +415,8 @@ class SolverRegistry(Registry):
         expected_class = 'Solver'
 
         if not os.path.exists(filepath):
-            # Exception?
-            print "Error: no such plugin to load class from: %s" % filepath
-            return None
+
+            raise errors.ScheduleError("Error: no such plugin to load class from: %s" % filepath)
 
         mod_name,file_ext = os.path.splitext(os.path.split(filepath)[-1])
         if file_ext.lower() == '.py':
@@ -432,7 +429,8 @@ class SolverRegistry(Registry):
 
             try:
 
-                class_inst = py_mod.Solver(name=name, constructor_settings=None) 
+                class_inst = py_mod.Solver(name=name,
+                                           constructor_settings=initializers) 
 
             except TypeError:
 

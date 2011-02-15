@@ -23,11 +23,6 @@ from registry import ServiceRegistry
 
 
 
-
-
-
-
-
 #*********************************** Begin SSPy ****************************
 class SSPy:
 
@@ -486,6 +481,8 @@ class SSPy:
 
                     print "\tFound Outputs: %s\n" % str(outputs)
 
+            self._ParseOutputs(outputclasses, outputs)
+
 #---------------------------------------------------------------------------
 
 
@@ -523,8 +520,13 @@ class SSPy:
 
                 print "Loading Solver '%s' of type '%s'" % (solver_name, solver_type)
 
-#            pdb.set_trace()
-            solver = self._solver_registry.CreateSolver(solver_name, solver_type, solver_data)
+            initializers = None
+            
+            if solver_data.has_key(solver_type):
+
+                initializers = solver_data[solver_type]
+                
+            solver = self._solver_registry.CreateSolver(solver_name, solver_type, initializers)
 
             self.AddSchedulee(solver)
 
@@ -569,7 +571,7 @@ class SSPy:
             
 #---------------------------------------------------------------------------
 
-    def _ParseOutputs(self, output_data, output_parameters):
+    def _ParseOutputs(self, output_data, output_parameters=None):
         """
         @brief Loads outputs from python dictionaries.
         """
@@ -585,7 +587,31 @@ class SSPy:
 
             raise errors.ScheduleError("Error parsing services, %s" % e)
 
-        
+
+        for output_type, data in output_data.iteritems():
+
+            output_name = ""
+            
+            if output_data.has_key('name'):
+
+                output_name = data['name']
+
+            else:
+                
+                output_name = "%s (%s)" % (self.name, output_type)
+
+
+            if self.verbose:
+
+                print "Loading Output '%s' of type '%s'" % (output_name, output_type)
+
+#            pdb.set_trace()
+            output = self._solver_registry.CreateOutput(output_name, output_type, output_parameters)
+
+            self.AddSchedulee(output)
+
+
+
 #---------------------------------------------------------------------------        
 
     def _ParseInputs(self, input_data, input_parameters):

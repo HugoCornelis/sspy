@@ -1,0 +1,29 @@
+---
+outputclasses:
+  double_2_ascii:
+    module_name: Experiment
+    options:
+      filename: /tmp/output
+    package: Experiment::Output
+outputs:
+  - component_name: /Purkinje/segments/soma
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /Purkinje/segments/b0s01[0]
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /Purkinje/segments/b0s03[56]
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /Purkinje/segments/b1s06[137]
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /Purkinje/segments/b1s12[26]
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /Purkinje/segments/b2s30[3]
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /Purkinje/segments/b3s44[49]
+    field: Vm
+    outputclass: double_2_ascii

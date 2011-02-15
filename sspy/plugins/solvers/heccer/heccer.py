@@ -23,7 +23,7 @@ class Solver:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, name="Untitled Heccer", constructor_settings=None):
+    def __init__(self, name="Untitled solver", constructor_settings=None):
         """
 
         Should be able to pass the scheudler and use it as
