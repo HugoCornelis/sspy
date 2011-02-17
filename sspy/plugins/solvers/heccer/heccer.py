@@ -23,7 +23,8 @@ class Solver:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, name="Untitled solver", constructor_settings=None):
+    def __init__(self, verbose=False, name="Untitled solver",
+                 constructor_settings=None):
         """
 
         Should be able to pass the scheudler and use it as
@@ -44,6 +45,26 @@ class Solver:
         if constructor_settings.has_key('module_name'):
 
             self._module_name = constructor_settings['module_name']
+
+        if constructor_settings.has_key('configuration'):
+
+            configuration = constructor_settings['configuration']
+
+            # set configuration
+
+        time_step = 0
+        
+        if constructor_settings.has_key('dStep'):
+
+            time_step = constructor_settings['dStep']
+
+        elif constructor_settings.has_key('step'):
+
+            time_step = constructor_settings['step']
+            
+
+        self._heccer.SetTimeStep(time_step)
+
 
         
 

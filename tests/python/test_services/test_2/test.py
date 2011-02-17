@@ -7,7 +7,7 @@ class Service:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, name=None, initializers=None):
+    def __init__(self, name=None, initializers=None, verbose=False):
         """
 
         """

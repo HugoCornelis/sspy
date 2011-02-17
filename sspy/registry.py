@@ -31,12 +31,14 @@ class Registry:
     """
 #---------------------------------------------------------------------------
 
-    def __init__(self, plugin_directory=None, plugin_file=None):
+    def __init__(self, plugin_directory=None, plugin_file=None, verbose=False):
 
         self._plugin_directory = ""
 
         self._plugin_file = ""
 
+        self.verbose = verbose
+        
         if plugin_directory is None:
 #             curr_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -365,12 +367,14 @@ class SolverRegistry(Registry):
     @class SolverRegistry A registry for the solver objects
     """
     
-    def __init__(self, solver_directory):
+    def __init__(self, solver_directory, verbose=False):
 
         Registry.__init__(self,
                           plugin_directory=solver_directory,
-                          plugin_file="solver.yml")
+                          plugin_file="solver.yml",
+                          verbose=verbose)
 
+        self.verbose = verbose
         
 #---------------------------------------------------------------------------
 
@@ -429,7 +433,8 @@ class SolverRegistry(Registry):
             try:
 
                 class_inst = py_mod.Solver(name=name,
-                                           constructor_settings=initializers) 
+                                           constructor_settings=initializers,
+                                           verbose=self.verbose) 
 
             except TypeError:
 
@@ -449,11 +454,12 @@ class SolverRegistry(Registry):
 #************************* Begin ServiceRegistry ****************************
 class ServiceRegistry(Registry):
 
-    def __init__(self, service_directory):
+    def __init__(self, service_directory, verbose=False):
 
         Registry.__init__(self,
                           plugin_directory=service_directory,
-                          plugin_file="service.yml")
+                          plugin_file="service.yml",
+                          verbose=verbose)
 
 
 

@@ -1,34 +1,41 @@
+"""
+This is the solver plugin for Heccer to interact with
+the interface of SSPy.
+"""
+import os
+import pdb
+import sys
+
+# this should go away later when I update the
+# 
+sys.path.append("/usr/local/glue/swig/python")
+
+try:
+
+    from g3.heccer import Heccer
+    from g3.heccer import Compartment
+    from g3.heccer import Intermediary
+    
+except ImportError, e:
+
+    sys.exit("Error importing the Heccer Python module: %s\n" % e)
 
 
-
-#*************************** Begin  Service ********************************
 
 class Service:
 
 #---------------------------------------------------------------------------
+    def __init__(self, verbose=False, name="Untitled Heccer Intermediary", initializers=None):
 
-    def __init__(self, name=None, initializers=None, verbose=False):
-        """
-
-        """
-        
         self._name = name
 
-        self._module_name = ""
+        self.verbose = verbose
 
-        self._arguments = None
+        self._intermediary = None
 
-        if initializers is not None:
-
-            if initializers.has_key('module_name'):
-
-                self._module_name = initializers['module_name']
-
-            if initializers.has_key('arguments'):
-
-                self._arguments = initializers['arguments']
 
 #---------------------------------------------------------------------------
+
 
     def GetCore(self):
 
@@ -52,4 +59,3 @@ class Service:
 
         return self._arguments
 
-#******************************* End Service ********************************
