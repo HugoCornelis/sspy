@@ -520,13 +520,7 @@ class SSPy:
 
                 print "Loading Solver '%s' of type '%s'" % (solver_name, solver_type)
 
-            initializers = None
-            
-            if solver_data.has_key(solver_type):
-
-                initializers = solver_data[solver_type]
-                
-            solver = self._solver_registry.CreateSolver(solver_name, solver_type, initializers)
+            solver = self._solver_registry.CreateSolver(solver_name, solver_type, data)
 
             self.AddSchedulee(solver)
 
