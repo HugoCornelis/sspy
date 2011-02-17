@@ -53,9 +53,9 @@ class SSPy:
 
         # Registry objects for dynamically creating solvers and
         # other classes
-        self._solver_registry = SolverRegistry(solver_directory)
+        self._solver_registry = SolverRegistry(solver_directory, verbose=self.verbose)
         
-        self._service_registry = ServiceRegistry(service_directory)
+        self._service_registry = ServiceRegistry(service_directory, verbose=self.verbose)
 
 #---------------------------------------------------------------------------
 
