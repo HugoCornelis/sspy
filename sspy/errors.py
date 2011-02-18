@@ -163,10 +163,6 @@ class ServiceError(Exception):
 
         error_msg = "Service Error: %s" % (self.msg)
 
-        if not self.value is None and self.value != "":
-
-            error_msg = error_msg + ", " + self.value
-        
         return error_msg
 
     

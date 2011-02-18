@@ -530,9 +530,9 @@ class ServiceRegistry(Registry):
                                             initializers=initializers,
                                             verbose=self.verbose) 
 
-            except TypeError:
+            except TypeError, e:
 
-                raise errors.ServiceError("'Service' class is not found for plugin %s" % name)
+                raise errors.ServiceError("Error creating 'Service' class for '%s': %s" % (name, e))
 
         return class_inst
 

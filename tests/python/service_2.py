@@ -20,7 +20,7 @@ try:
 
 except Exception, e:
 
-    print e
+    print "Error while loading schedule file: %s" % e
 
 
 services = scheduler.GetLoadedServices()

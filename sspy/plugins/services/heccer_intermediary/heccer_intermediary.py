@@ -25,7 +25,7 @@ except ImportError, e:
 class Service:
 
 #---------------------------------------------------------------------------
-    def __init__(self, verbose=False, name="Untitled Heccer Intermediary", initializers=None):
+    def __init__(self, name="Untitled Heccer Intermediary", initializers=None, verbose=False):
 
         self._name = name
 
@@ -35,14 +35,19 @@ class Service:
 
         self._method = ""
 
-
+        argument_set = []
+        
         if initializers is not None:
 
-            if initializers.has_hey('arguments'):
+            try:
 
-                self._ParseArguments( initializers['arguments'])
+                argument_set = initializers[0]['arguments']
 
+            except (IndexError, AttributeError, KeyError), e:
 
+                raise Exception("Invalid Service arguments, cannot create Heccer Intermediary: %s" % e)
+
+            self._ParseArguments(argument_set)
 
 #---------------------------------------------------------------------------
 
@@ -71,29 +76,6 @@ class Service:
 
         return self._arguments
 
-
-    def _ParseInitializers(self, initializers):
-        """
-        @brief Parses the initializers
-
-        Note that is only takes the first set to create a single intermediary.
-        """
-        try:
-            
-            items = initializers.items()
-
-        except AttributeError, e:
-
-            return None
-
-        i = initializers[0]
-            
-        if i.has_key('arguments'):
-
-            args = i['arguments']
-                
-            self._ParseArguments(args)
-
 #---------------------------------------------------------------------------            
 
     def _ParseArguments(self, arguments):
@@ -102,11 +84,11 @@ class Service:
         """
         try:
             
-            items = arguments.items()
+            a = arguments[0]
 
-        except AttributeError, e:
+        except IndexError, e:
 
-            return None
+            raise Exception("Invalid arguments, cannot create Heccer Intermediary: %s", e)
         
         method = ""
         
@@ -115,8 +97,6 @@ class Service:
         num_compartments = -1
 
         compartments = []
-
-        a = arguments[0]
 
         if a.has_key('method'):
 
@@ -139,48 +119,46 @@ class Service:
         # Sets the arguments so we can retrieve them
         self._arguments = a
 
-        self._intermediary = Intermediary(comp2mech, compartments)
+        self._intermediary = Intermediary(compartments, comp2mech)
 
+        
 #---------------------------------------------------------------------------
 
     def _CreateCompartmentArray(self, compartments):
 
-        comps = []
+        compartment_list = []
 
         try:
             
-            items = compartments.items()
+            for c in compartments:
 
-        
-        except AttributeError, e:
+                comp = Compartment()
 
-            return None
+                if c.has_key('dCm'):
 
-        for c in compartments:
+                    comp.dCm = c['dCm']
 
-            comp = self._CreateCompartmentArray()
+                if c.has_key('dEm'):
 
-            if c.has_key('dCm'):
-
-                comp.dCm = c['dCm']
-
-            if c.has_key('dEm'):
-
-                comp.dEm = c['dEm']
+                    comp.dEm = c['dEm']
                 
-            if c.has_key('dInitVm'):
+                if c.has_key('dInitVm'):
 
-                comp.dInitVm = c['dInitVm']
+                    comp.dInitVm = c['dInitVm']
                 
-            if c.has_key('dRa'):
+                if c.has_key('dRa'):
 
-                comp.dRa = c['dRa']
+                    comp.dRa = c['dRa']
 
-            if c.has_key('dRm'):
+                if c.has_key('dRm'):
 
-                comp.dRm = c['dRm']
+                    comp.dRm = c['dRm']
 
-            pdb.set_trace()
+                compartment_list.append(comp)
+
+        except TypeError, e:
+
+            raise Exception("Invalid arguments, cannot create Heccer Intermediary: %s", e)
             
-        return None
+        return compartment_list
 
