@@ -7,7 +7,7 @@ class Service:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, name=None, initializers=None, verbose=False):
+    def __init__(self, name=None, plugin_name=None, initializers=None, verbose=False):
         """
 
         """

@@ -6,7 +6,7 @@ class Solver:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, name=None, constructor_settings=None, verbose=False):
+    def __init__(self, name=None, plugin_name=None, constructor_settings=None, verbose=False):
         """
 
         Should be able to pass the scheudler and use it as

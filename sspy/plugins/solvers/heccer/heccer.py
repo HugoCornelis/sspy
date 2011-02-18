@@ -23,8 +23,8 @@ class Solver:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, verbose=False, name="Untitled solver",
-                 constructor_settings=None):
+    def __init__(self,  name="Untitled solver", plugin_name=None, 
+                 constructor_settings=None, verbose=False):
         """
 
         Should be able to pass the scheudler and use it as

@@ -411,6 +411,8 @@ class SolverRegistry(Registry):
             
             filepath = plugin.GetFile()
 
+            plugin_name = plugin.GetName()
+
         except AttributeError:
 
             raise errors.ScheduleError("Cannot create Solver, invalid solver type '%s' for solver '%s'" % (type,name))
@@ -426,18 +428,19 @@ class SolverRegistry(Registry):
 
         elif file_ext.lower() == '.pyc':
             py_mod = imp.load_compiled(mod_name, filepath)
-#        pdb.set_trace()
+
         if expected_class in dir(py_mod):
 
             try:
 
                 class_inst = py_mod.Solver(name=name,
+                                           plugin_name=plugin_name,
                                            constructor_settings=constructor_settings,
                                            verbose=self.verbose) 
 
-            except TypeError:
+            except Exception, e:
 
-                raise errors.SolverError("'Solver' class is not found for plugin %s" % name)
+                raise errors.SolverError("'Solver' class '%s' cannot be created: %s" % (name, e))
 
         return class_inst
 
@@ -502,6 +505,8 @@ class ServiceRegistry(Registry):
         try:
             
             filepath = plugin.GetFile()
+            
+            plugin_name = plugin.GetName()
 
         except AttributeError:
 
@@ -526,12 +531,13 @@ class ServiceRegistry(Registry):
             try:
 
                 class_inst = py_mod.Service(name=name,
+                                            plugin_name=plugin_name,
                                             initializers=initializers,
                                             verbose=self.verbose) 
 
-            except TypeError, e:
+            except Exception, e:
 
-                raise errors.ServiceError("Error creating 'Service' class for '%s': %s" % (name, e))
+                raise errors.ServiceError("'Service' class '%s' cannot be created: %s" % (name, e))
 
         return class_inst
 
