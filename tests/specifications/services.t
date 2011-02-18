@@ -41,7 +41,11 @@ This service name is 'Untitled (test)'
 
 						   description => "Can we load a service specification from a YAML file ?",
 
-						   read => "Loading service 'Untitled (heccer_intermediary)' of type 'heccer_intermediary'
+						   read => "Parsing schedule data
+Found services:
+	{'heccer_intermediary': {'module_name': 'Heccer', 'initializers': [{'arguments': [{'comp2mech': [3, -1], 'iCompartments': 1, 'compartments': [{'dInject': 0, 'dInitVm': -0.068000000000000005, 'dCm': 5.755329373e-12, 'dRm': 8548598272L, 'dEm': -0.080000000000000002, 'dRa': 772813.4375}]}], 'method': 'load'}], 'package': 'Heccer::Intermediary::Compiler'}}
+
+Loading Service 'Untitled (heccer_intermediary)' of type 'heccer_intermediary'
 Found Solver Classes:
 	{'heccer': {'constructor_settings': {'configuration': {'reporting': {'tested_things': 6225920, 'granularity': 100}}, 'dStep': '1e-06'}, 'module_name': 'Heccer', 'service_name': 'heccer_intermediary'}}
 

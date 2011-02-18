@@ -567,7 +567,7 @@ class SSPy:
 
             if self.verbose:
 
-                print "Loading service '%s' of type '%s'" % (service_name, service_type)
+                print "Loading Service '%s' of type '%s'" % (service_name, service_type)
             
             self._loaded_services.append(service)
             

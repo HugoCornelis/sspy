@@ -390,32 +390,31 @@ class SolverRegistry(Registry):
 
             # bounds check?
             plugin = self._loaded_plugins[index]
-            
-        
-        # First we check to see if we have the proper data to
-        # allocate from a file.
-        try:
-            
-            plugin_file = plugin.GetFile()
-
-        except AttributeError:
-
-            raise errors.ScheduleError("Cannot create Solver, invalid solver type '%s' for solver '%s'" % (type,name))
-        
-        if plugin_file != "":
-            
-            solver = self._InstantiateFromFile(plugin_file, name, constructor_settings)
+                
+        solver = self._InstantiateFromFile(plugin, name, constructor_settings)
 
         return solver
     
 #---------------------------------------------------------------------------
 
-    def _InstantiateFromFile(self, filepath, name="Untitled", constructor_settings=None):
+    def _InstantiateFromFile(self, plugin, name="Untitled", constructor_settings=None):
         """
         @brief Creates a solver object from a plugin
         """
         class_inst = None
         expected_class = 'Solver'
+
+        
+        # First we check to see if we have the proper data to
+        # allocate from a file.
+        try:
+            
+            filepath = plugin.GetFile()
+
+        except AttributeError:
+
+            raise errors.ScheduleError("Cannot create Solver, invalid solver type '%s' for solver '%s'" % (type,name))
+
 
         if not os.path.exists(filepath):
 
@@ -468,31 +467,19 @@ class ServiceRegistry(Registry):
 
     def CreateService(self, name, type=None, initializers=None, index=-1):
 
-        plugin_type = None
+        plugin = None
 
         if type is not None:
 
-            plugin_type = self.GetPluginData(type)
+            plugin = self.GetPluginData(type)
 
         elif index != -1:
 
             # bounds check?
-            plugin_type = self._service_plugins[index]
+            plugin = self._service_plugins[index]
             
-        
-        # First we check to see if we have the proper data to
-        # allocate from a file.
-        try:
             
-            plugin_file = plugin_type.GetFile()
-
-        except AttributeError:
-
-            raise errors.ScheduleError("Cannot create Service, invalid service type '%s' for service '%s'" % (type,name))
-        
-        if plugin_file != "":
-            
-            service = self._InstantiateFromFile(plugin_file, name, initializers)
+        service = self._InstantiateFromFile(plugin, name, initializers)
 
         # verify sim legit?
 
@@ -502,12 +489,24 @@ class ServiceRegistry(Registry):
 #---------------------------------------------------------------------------
 
 
-    def _InstantiateFromFile(self, filepath, name="Untitled", initializers=None):
+    def _InstantiateFromFile(self, plugin, name="Untitled", initializers=None):
         """
-
+        @brief Creates a service object from a plugin
         """
         class_inst = None
         expected_class = 'Service'
+
+        
+        # First we check to see if we have the proper data to
+        # allocate from a file.
+        try:
+            
+            filepath = plugin.GetFile()
+
+        except AttributeError:
+
+            raise errors.ScheduleError("Cannot create Service, invalid service type '%s' for service '%s'" % (type,name))
+        
 
         if not os.path.exists(filepath):
 

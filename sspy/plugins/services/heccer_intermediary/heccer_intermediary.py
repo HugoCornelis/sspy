@@ -51,7 +51,6 @@ class Service:
 
 #---------------------------------------------------------------------------
 
-
     def GetCore(self):
         """
         @brief Returns the constructed Heccer intermediary
@@ -69,6 +68,11 @@ class Service:
     def GetModuleName(self):
 
         return self._module_name
+
+
+    def GetType(self):
+
+        return ""
 
 #---------------------------------------------------------------------------
 

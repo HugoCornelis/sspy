@@ -20,13 +20,7 @@ class Service:
 
         if initializers is not None:
 
-            if initializers.has_key('module_name'):
-
-                self._module_name = initializers['module_name']
-
-            if initializers.has_key('arguments'):
-
-                self._arguments = initializers['arguments']
+            pass
 
 #---------------------------------------------------------------------------
 
