@@ -378,7 +378,7 @@ class SolverRegistry(Registry):
         
 #---------------------------------------------------------------------------
 
-    def CreateSolver(self, name, type=None, initializers=None, index=-1):
+    def CreateSolver(self, name, type=None, constructor_settings=None, index=-1):
 
         plugin = None
 
@@ -404,13 +404,13 @@ class SolverRegistry(Registry):
         
         if plugin_file != "":
             
-            solver = self._InstantiateFromFile(plugin_file, name, initializers)
+            solver = self._InstantiateFromFile(plugin_file, name, constructor_settings)
 
         return solver
     
 #---------------------------------------------------------------------------
 
-    def _InstantiateFromFile(self, filepath, name="Untitled", initializers=None):
+    def _InstantiateFromFile(self, filepath, name="Untitled", constructor_settings=None):
         """
         @brief Creates a solver object from a plugin
         """
@@ -433,7 +433,7 @@ class SolverRegistry(Registry):
             try:
 
                 class_inst = py_mod.Solver(name=name,
-                                           constructor_settings=initializers,
+                                           constructor_settings=constructor_settings,
                                            verbose=self.verbose) 
 
             except TypeError:
@@ -466,7 +466,7 @@ class ServiceRegistry(Registry):
 
 #---------------------------------------------------------------------------
 
-    def CreateService(self, name, type=None, index=-1):
+    def CreateService(self, name, type=None, initializers=None, index=-1):
 
         plugin_type = None
 
@@ -492,7 +492,7 @@ class ServiceRegistry(Registry):
         
         if plugin_file != "":
             
-            service = self._InstantiateFromFile(plugin_file,name)
+            service = self._InstantiateFromFile(plugin_file, name, initializers)
 
         # verify sim legit?
 
@@ -502,7 +502,7 @@ class ServiceRegistry(Registry):
 #---------------------------------------------------------------------------
 
 
-    def _InstantiateFromFile(self, filepath, name="Untitled", constructor_settings=None):
+    def _InstantiateFromFile(self, filepath, name="Untitled", initializers=None):
         """
 
         """
@@ -526,7 +526,9 @@ class ServiceRegistry(Registry):
 
             try:
 
-                class_inst = py_mod.Service(name=name, initializers=None) 
+                class_inst = py_mod.Service(name=name,
+                                            initializers=initializers,
+                                            verbose=self.verbose) 
 
             except TypeError:
 

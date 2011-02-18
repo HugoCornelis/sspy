@@ -61,12 +61,9 @@ services:
                 dRm: 8548598272
             iCompartments: 1
             math_components:
-              - !!perl/hash:Heccer::ChannelActivationConcentration
-                channel_activation_concentration: !!perl/hash:SwiggableHeccer::ChannelActConc {}
-              - !!perl/hash:Heccer::ExponentialDecay
-                exponential_decay: !!perl/hash:SwiggableHeccer::ExponentialDecay {}
-              - !!perl/hash:Heccer::ChannelActivationInactivation
-                channel_activation_inactivation: !!perl/hash:SwiggableHeccer::ChannelActInact {}
+              - ChannelActivationConcentration
+              - ExponentialDecay
+              - ChannelActivationInactivation
         method: load
     module_name: Heccer
     package: Heccer::Intermediary::Compiler

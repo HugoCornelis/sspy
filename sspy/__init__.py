@@ -555,7 +555,15 @@ class SSPy:
                 
                 service_name = "%s (%s)" % (self.name, service_type)
 
-            service = self._service_registry.CreateService(service_name, service_type, service_data)
+            service_initiaizers = None
+
+            if data.has_key('initializers'):
+
+                service_initiaizers = data['initializers']
+
+            service = self._service_registry.CreateService(service_name,
+                                                           service_type,
+                                                           service_initiaizers)
 
             if self.verbose:
 

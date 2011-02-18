@@ -1,0 +1,29 @@
+---
+services:
+  heccer_intermediary:
+    initializers:
+      - arguments:
+          - comp2mech:
+              - 3
+              - -1
+            compartments:
+              - dCm: 5.755329373e-12
+                dEm: -0.08
+                dInitVm: -0.068
+                dInject: 0
+                dRa: 772813.4375
+                dRm: 8548598272
+            iCompartments: 1
+        method: load
+    module_name: Heccer
+    package: Heccer::Intermediary::Compiler
+solverclasses:
+  heccer:
+    constructor_settings:
+      configuration:
+        reporting:
+          granularity: 100
+          tested_things: 6225920
+      dStep: 1e-06
+    module_name: Heccer
+    service_name: heccer_intermediary
