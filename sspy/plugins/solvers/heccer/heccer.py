@@ -13,7 +13,8 @@ sys.path.append("/usr/local/glue/swig/python")
 try:
 
     from g3.heccer import Heccer
-    
+    from g3.heccer import HeccerOptions
+
 except ImportError, e:
 
     sys.exit("Error importing the Heccer Python module: %s\n" % e)
@@ -32,8 +33,6 @@ class Solver:
         """
         
         self._heccer = Heccer(name=name)
-
-        
 
         self._service = None
 

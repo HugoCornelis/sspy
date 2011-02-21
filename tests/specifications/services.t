@@ -19,13 +19,10 @@ my $test
 						   description => "Can we load a service specification from a YAML file ?",
 
 						   read => "Parsing schedule data
-Found services:
-	{'test': {'module_name': 'Neurospaces', 'initializers': [{'arguments': [['tests/perl/purk_test', '-P', 'tests/cells/purk_test.ndf']], 'method': 'read'}]}, 'test 2': {'module_name': 'Neurospaces', 'initializers': [{'arguments': [['tests/perl/purk_test', '-P', 'tests/cells/purk_test.ndf']], 'method': 'read'}]}}
-
-Loading service 'Untitled (test)' of type 'test'
-Loading service 'Untitled (test 2)' of type 'test 2'
-This service name is 'Untitled (test 2)'
+Loading Service 'Untitled (test)' of type 'test'
+Loading Service 'Untitled (test 2)' of type 'test 2'
 This service name is 'Untitled (test)'
+This service name is 'Untitled (test 2)'
 ",
 
 						  },
@@ -42,13 +39,7 @@ This service name is 'Untitled (test)'
 						   description => "Can we load a service specification from a YAML file ?",
 
 						   read => "Parsing schedule data
-Found services:
-	{'heccer_intermediary': {'module_name': 'Heccer', 'initializers': [{'arguments': [{'comp2mech': [3, -1], 'iCompartments': 1, 'compartments': [{'dInject': 0, 'dInitVm': -0.068000000000000005, 'dCm': 5.755329373e-12, 'dRm': 8548598272L, 'dEm': -0.080000000000000002, 'dRa': 772813.4375}]}], 'method': 'load'}], 'package': 'Heccer::Intermediary::Compiler'}}
-
 Loading Service 'Untitled (heccer_intermediary)' of type 'heccer_intermediary'
-Found Solver Classes:
-	{'heccer': {'constructor_settings': {'configuration': {'reporting': {'tested_things': 6225920, 'granularity': 100}}, 'dStep': '1e-06'}, 'module_name': 'Heccer', 'service_name': 'heccer_intermediary'}}
-
 Loading Solver 'Untitled (heccer)' of type 'heccer'
 This service name is 'Untitled (heccer_intermediary)'
 ",

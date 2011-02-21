@@ -369,10 +369,6 @@ class SSPy:
 
             services = self._schedule_data['services']
 
-            if self.verbose:
-
-                print "Found services:\n\t%s\n" % str(services)
-
             self._ParseServices(services)
 
         # This Loads the default options for registered solvers
@@ -382,10 +378,6 @@ class SSPy:
         if self._schedule_data.has_key('solverclasses'):
 
             solvers = self._schedule_data['solverclasses']
-
-            if self.verbose:
-
-                print "Found Solver Classes:\n\t%s\n" % str(solvers)
 
 
             self._ParseSolvers(solvers)
@@ -399,11 +391,6 @@ class SSPy:
         if self._schedule_data.has_key('models'):
 
             models = self._schedule_data['models']
-
-
-            if self.verbose:
-
-                print "Found Models:\n\t%s\n" % str(models)
             
 
 
@@ -412,31 +399,20 @@ class SSPy:
 
             application_classes = self._schedule_data['application_classes']
 
-
-            if self.verbose:
-
-                print "Found Application Classes:\n\t%s\n" % str(application_classes)
+            self._ParseApplicationClasses(application_classes)
 
        # Set of options for configuring analyzers
         if self._schedule_data.has_key('analyzers'):
             
             analyzers = self._schedule_data['analyzers']
             
-            if self.verbose:
-
-                print "Found analyzers to apply:\n\t%s\n" % str(analyzers)
             
 
         # Set of options that define how to run this schedule.
         if self._schedule_data.has_key('apply'):
             
             apply_parameters = self._schedule_data['apply']
-            
-            if self.verbose:
-
-                print "Found Simulation Parameters to apply:\n\t%s\n" % str(apply_parameters)
-            
-
+   
 
 
         # Here we parse for external simulation objects that generate input into
@@ -444,11 +420,6 @@ class SSPy:
         if self._schedule_data.has_key('inputclasses'):
 
             inputclasses = self._schedule_data['inputclasses']
-
-
-            if self.verbose:
-
-                print "Found Input Classes:\n\t%s" % str(inputclasses)
             
 
             # Key contains the attributes for the inputclass objects that
@@ -457,9 +428,6 @@ class SSPy:
 
                 inputs = self._schedule_data['inputs']
 
-                if self.verbose:
-
-                    print "\tFound Inputs: %s\n" % str(inputs)
             
 
                 
@@ -468,20 +436,86 @@ class SSPy:
 
             outputclasses = self._schedule_data['solverclasses']
 
-            if self.verbose:
-
-                print "Found Output Classes:\n\t%s" % str(outputclasses)
 
             # Attributes for the outputclass objects that were loaded.
             if self._schedule_data.has_key('outputs'):
                 
                 outputs = self._schedule_data['outputs']
 
-                if self.verbose:
-
-                    print "\tFound Outputs: %s\n" % str(outputs)
 
             self._ParseOutputs(outputclasses, outputs)
+
+
+#---------------------------------------------------------------------------
+
+
+    def _ParseApplicationClasses(self, application_class_data):
+
+        if self.verbose:
+
+            print "Found application classes:"
+            
+        if application_class_data.has_key('analyzers'):
+
+            analyzers = application_class_data['analyzers']
+
+            if self.verbose:
+                
+                print "\tApplication class: analyzers"
+
+
+        if application_class_data.has_key('finishers'):
+
+            finishers = application_class_data['finishers']
+
+            if self.verbose:
+                
+                print "\tApplication class: finishers"
+
+        if application_class_data.has_key('initializers'):
+
+            initializers = application_class_data['initializers']
+
+            if self.verbose:
+                
+                print "\tApplication class: initializers"
+
+        if application_class_data.has_key('modifiers'):
+
+            modifiers = application_class_data['modifiers']
+
+
+            if self.verbose:
+                
+                print "\tApplication class: modifiers"
+
+        if application_class_data.has_key('results'):
+
+            results = application_class_data['results']
+
+            if self.verbose:
+                
+                print "\tApplication class: results"
+
+        if application_class_data.has_key('services'):
+
+            services = application_class_data['services']
+
+            if self.verbose:
+                
+                print "\tApplication class: services"
+
+        if application_class_data.has_key('simulation'):
+
+            simulation = application_class_data['simulation']
+
+            if self.verbose:
+                
+                print "\tApplication class: simulation"
+
+
+
+        
 
 #---------------------------------------------------------------------------
 
@@ -520,7 +554,13 @@ class SSPy:
 
                 print "Loading Solver '%s' of type '%s'" % (solver_name, solver_type)
 
-            solver = self._solver_registry.CreateSolver(solver_name, solver_type, data)
+            try:
+                
+                solver = self._solver_registry.CreateSolver(solver_name, solver_type, data)
+
+            except Exception, e:
+
+                print "Error, cannot create solver '%s' of type '%s'" % (solver_name, solver_type)
 
             self.AddSchedulee(solver)
 
@@ -558,7 +598,6 @@ class SSPy:
             service_initiaizers = None
 
             if data.has_key('initializers'):
-
 
                 initializers = data['initializers']
 
