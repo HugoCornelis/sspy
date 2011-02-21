@@ -468,7 +468,7 @@ class ServiceRegistry(Registry):
 
 #---------------------------------------------------------------------------
 
-    def CreateService(self, name, type=None, initializers=None, index=-1):
+    def CreateService(self, name, type=None, arguments=None, index=-1):
 
         plugin = None
 
@@ -482,7 +482,7 @@ class ServiceRegistry(Registry):
             plugin = self._service_plugins[index]
             
             
-        service = self._InstantiateFromFile(plugin, name, initializers)
+        service = self._InstantiateFromFile(plugin, name, arguments)
 
         # verify sim legit?
 
@@ -492,7 +492,7 @@ class ServiceRegistry(Registry):
 #---------------------------------------------------------------------------
 
 
-    def _InstantiateFromFile(self, plugin, name="Untitled", initializers=None):
+    def _InstantiateFromFile(self, plugin, name="Untitled", arguments=None):
         """
         @brief Creates a service object from a plugin
         """
@@ -532,7 +532,7 @@ class ServiceRegistry(Registry):
 
                 class_inst = py_mod.Service(name=name,
                                             plugin_name=plugin_name,
-                                            initializers=initializers,
+                                            arguments=arguments,
                                             verbose=self.verbose) 
 
             except Exception, e:

@@ -24,7 +24,7 @@ class Service:
 
 #---------------------------------------------------------------------------
     def __init__(self, name="Untitled Model Container", plugin_name=None
-                 initializers=None, verbose=False):
+                 arguments=None, verbose=False):
 
         pass
 

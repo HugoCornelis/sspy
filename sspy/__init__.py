@@ -559,17 +559,46 @@ class SSPy:
 
             if data.has_key('initializers'):
 
-                service_initiaizers = data['initializers']
 
-            service = self._service_registry.CreateService(service_name,
-                                                           service_type,
-                                                           service_initiaizers)
+                initializers = data['initializers']
 
-            if self.verbose:
+                for i in initializers:
 
-                print "Loading Service '%s' of type '%s'" % (service_name, service_type)
+                    if i.has_key('arguments'):
+                        
+                        arguments = i['arguments']
+
+                    else:
+
+                        print "Error processing arguments for '%s' of type '%s'" % (service_name, service_type)
+
+                    for arg in arguments:
+
+                        try:
+                        
+                            service = self._service_registry.CreateService(service_name,
+                                                                           service_type,
+                                                                           arg)
+                        
+                        except Exception, e:
+
+                            print "Error creating service. %s" % e
+
+                            continue
+
+
+                        if self.verbose:
+
+                            print "Loading Service '%s' of type '%s'" % (service_name, service_type)
             
-            self._loaded_services.append(service)
+                        self._loaded_services.append(service)
+
+            else:
+                
+                raise errors.ScheduleError("Error parsing services, no initializers key")
+                
+
+
             
 #---------------------------------------------------------------------------
 

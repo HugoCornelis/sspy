@@ -7,7 +7,7 @@ class Service:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, name=None, plugin_name=None, initializers=None, verbose=False):
+    def __init__(self, name=None, plugin_name=None, arguments=None, verbose=False):
         """
 
         """
@@ -16,17 +16,10 @@ class Service:
 
         self._module_name = ""
 
-        self._arguments = None
 
-        if initializers is not None:
+        if arguments is not None:
 
-            if initializers.has_key('module_name'):
-
-                self._module_name = initializers['module_name']
-
-            if initializers.has_key('arguments'):
-
-                self._arguments = initializers['arguments']
+            pass
 
 #---------------------------------------------------------------------------
 

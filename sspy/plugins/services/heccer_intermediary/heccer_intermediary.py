@@ -26,7 +26,7 @@ class Service:
 
 #---------------------------------------------------------------------------
     def __init__(self, name="Untitled Heccer Intermediary", plugin_name=None,
-                 initializers=None, verbose=False):
+                 arguments=None, verbose=False):
 
         self._name = name
 
@@ -36,19 +36,7 @@ class Service:
 
         self._method = ""
 
-        argument_set = []
-        
-        if initializers is not None:
-
-            try:
-
-                argument_set = initializers[0]['arguments']
-
-            except (IndexError, AttributeError, KeyError), e:
-
-                raise Exception("Invalid Service arguments, cannot create Heccer Intermediary: %s" % e)
-
-            self._ParseArguments(argument_set)
+        self._ParseArguments(arguments)
 
 #---------------------------------------------------------------------------
 
@@ -87,14 +75,6 @@ class Service:
         """
 
         """
-        try:
-            
-            a = arguments[0]
-
-        except IndexError, e:
-
-            raise Exception("Invalid arguments, cannot create Heccer Intermediary: %s", e)
-        
         method = ""
         
         comp2mech = []
@@ -103,26 +83,26 @@ class Service:
 
         compartments = []
 
-        if a.has_key('method'):
+        if arguments.has_key('method'):
 
-            method = a['method']
+            method = arguments['method']
 
-        if a.has_key('comp2mech'):
+        if arguments.has_key('comp2mech'):
 
-            comp2mech = a['comp2mech'] 
+            comp2mech = arguments['comp2mech'] 
             
-        if a.has_key('iCompartments'):
+        if arguments.has_key('iCompartments'):
 
             # Probably won't need this since I can determine
             # the number of compartments easily.
-            num_compartments = a['iCompartments']
+            num_compartments = arguments['iCompartments']
                 
-        if a.has_key('compartments'):
+        if arguments.has_key('compartments'):
 
-            compartments = self._CreateCompartmentArray(a['compartments'])
+            compartments = self._CreateCompartmentArray(arguments['compartments'])
 
         # Sets the arguments so we can retrieve them
-        self._arguments = a
+        self._arguments = arguments
 
         self._intermediary = Intermediary(compartments, comp2mech)
 
