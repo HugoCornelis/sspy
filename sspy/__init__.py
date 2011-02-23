@@ -172,7 +172,11 @@ class SSPy:
 #---------------------------------------------------------------------------
 
     def Connect(self):
+        """
+        @brief Connects services to solvers
 
+        
+        """
         pass
 
 
@@ -289,7 +293,14 @@ class SSPy:
 
 #---------------------------------------------------------------------------
     def Salvage(self):
+        """
+        @brief Method ensures that all needed keys are present
+        @deprecated
 
+        Most likely not needed since data from the specification is loaded
+        into internal variables for processing and data manipulation instead
+        of working off of the dictionary that is loaded straight from the file. 
+        """
         pass
 
 #---------------------------------------------------------------------------
@@ -357,7 +368,7 @@ class SSPy:
         # Finds internal identifier for the schedule.
         if self._schedule_data.has_key('name'):
 
-            self.name = self._schedule_data['name']
+            self.name = schedule_data['name']
 
             if self.verbose:
 
@@ -367,7 +378,7 @@ class SSPy:
         #   Such as the model_container
         if self._schedule_data.has_key('services'):
 
-            services = self._schedule_data['services']
+            services = schedule_data['services']
 
             self._ParseServices(services)
 
@@ -377,7 +388,7 @@ class SSPy:
         # container.
         if self._schedule_data.has_key('solverclasses'):
 
-            solvers = self._schedule_data['solverclasses']
+            solvers = schedule_data['solverclasses']
 
 
             self._ParseSolvers(solvers)
@@ -390,57 +401,56 @@ class SSPy:
         # to look for this symbol.
         if self._schedule_data.has_key('models'):
 
-            models = self._schedule_data['models']
+            models = schedule_data['models']
             
 
 
         # 
         if self._schedule_data.has_key('application_classes'):
 
-            application_classes = self._schedule_data['application_classes']
+            application_classes = schedule_data['application_classes']
 
             self._ParseApplicationClasses(application_classes)
 
        # Set of options for configuring analyzers
         if self._schedule_data.has_key('analyzers'):
             
-            analyzers = self._schedule_data['analyzers']
+            analyzers = schedule_data['analyzers']
             
             
 
         # Set of options that define how to run this schedule.
         if self._schedule_data.has_key('apply'):
             
-            apply_parameters = self._schedule_data['apply']
-   
+            apply_parameters = schedule_data['apply']
+
+            self._ParseAppliedParameters(apply_parameters)
 
 
         # Here we parse for external simulation objects that generate input into
         # the model. 
         if self._schedule_data.has_key('inputclasses'):
 
-            inputclasses = self._schedule_data['inputclasses']
+            inputclasses = schedule_data['inputclasses']
             
 
             # Key contains the attributes for the inputclass objects that
             # were loaded.
             if self._schedule_data.has_key('inputs'):
 
-                inputs = self._schedule_data['inputs']
+                inputs = schedule_data['inputs']
 
-            
 
-                
         # Specifies the output objects to use.
         if self._schedule_data.has_key('outputclasses'):
 
-            outputclasses = self._schedule_data['solverclasses']
+            outputclasses = schedule_data['solverclasses']
 
 
             # Attributes for the outputclass objects that were loaded.
             if self._schedule_data.has_key('outputs'):
                 
-                outputs = self._schedule_data['outputs']
+                outputs = schedule_data['outputs']
 
 
             self._ParseOutputs(outputclasses, outputs)
@@ -484,7 +494,6 @@ class SSPy:
 
             modifiers = application_class_data['modifiers']
 
-
             if self.verbose:
                 
                 print "\tApplication class: modifiers"
@@ -513,10 +522,23 @@ class SSPy:
                 
                 print "\tApplication class: simulation"
 
+#---------------------------------------------------------------------------
+
+    def _ParseAppliedParameters(self, apply_parameters):
 
 
-        
+        if self.verbose:
 
+            print "Found applied simulation parameters:"
+
+        if apply_parameters.has_key('simulation'):
+
+            parameter_sets = apply_parameters['simulation']
+
+            if self.verbose:
+
+                print "\tSimulation set: %s" % str(parameter_sets) 
+                
 #---------------------------------------------------------------------------
 
 

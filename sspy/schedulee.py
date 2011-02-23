@@ -3,12 +3,13 @@
 
 This file contains the implementation for a basic schedulee.
 This was formerly called SimpleHeccer in a previous implementation.
-The name is kept general since it will become plugable.
+The name is kept general since it will become pluggable. This class
+mainly functions as an abstraction to handle error checking
+and strict typing. 
 """
 
 from errors import ScheduleeCreateError
 
-from heccer import Heccer
 
 class Schedulee:
 

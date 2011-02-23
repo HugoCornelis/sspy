@@ -1,0 +1,9 @@
+---
+name: pulsegen
+label: Pulsegen 
+version: 0.1
+description: This is the SSPy object for the pulsegen protocol
+file: pulsegen.py
+source: pulsegen.py
+module: pulsegen
+

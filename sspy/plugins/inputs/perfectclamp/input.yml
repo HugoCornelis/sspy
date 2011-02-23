@@ -1,0 +1,8 @@
+---
+name: perfectclamp
+label: Perfect Clamp
+version: 0.1
+description: This is the SSPy object for the perfectclamp protocol
+file: input.py
+source: input.py
+module: input

@@ -9,13 +9,21 @@ class Input:
 
 
     
-    def Add(self):
+    def Add(self, input=None, options=None):
 
         pass
 
-    def Advance(self):
+    def Advance(self, options=None):
 
         pass
+
+    def Step(self, options=None):
+        """
+        @brief An alias for the advance method.
+        @sa Advance
+        
+        """
+        self.Advance(options)
 
     def Connect(self):
 
@@ -37,4 +45,6 @@ class Input:
 
         pass
 
+    def GetCore(self):
 
+        pass
