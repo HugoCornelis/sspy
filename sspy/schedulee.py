@@ -8,22 +8,31 @@ mainly functions as an abstraction to handle error checking
 and strict typing. 
 """
 
-from errors import ScheduleeCreateError
-
+import errors
 
 class Schedulee:
+    """!
+    @brief Abstraction class for schedulee objects.
+    """
 
-    
-    def __init__(self, model, name, filename):
+#---------------------------------------------------------------------------
 
-        self._heccer = Heccer()
+    def __init__(self, schedulee, schedulee_type=None):
 
+        self._schedulees_type = schedulee_type
+
+        self._schedulee = schedulee
+
+
+#---------------------------------------------------------------------------
 
     def GetCore(self):
         """
 
         """
-        return None
+        return self._schedulee
+
+#---------------------------------------------------------------------------
 
     def New(self, model, name, filename):
         """
@@ -31,36 +40,51 @@ class Schedulee:
         """
         pass
 
+
+#---------------------------------------------------------------------------
+
     def Pause(self):
         """
 
         """
         pass
-        
+
+#---------------------------------------------------------------------------        
 
     def GetTimeStep(self):
         """
 
         """
-        return None
-        
+        try:
+            
+            return self._schedulee.GetTimeStep()
+
+        except TypeError, e:
+
+            return errors.ScheduleeError("Can't retrieve time step: %s" % e)
+
+#---------------------------------------------------------------------------
 
     def Compile(self):
 
         pass
 
+#---------------------------------------------------------------------------
+
     def Output(self, serial, field):
         """
 
         """
-        address = self._heccer.GetAddress(serial, field)
-
+        pass
         
+#---------------------------------------------------------------------------
 
     def Run(self, time):
 
         pass
 
+
+#---------------------------------------------------------------------------
     
 
     

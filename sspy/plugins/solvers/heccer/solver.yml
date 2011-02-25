@@ -6,3 +6,8 @@ description: This is the SSPy object for driving the Heccer solver
 file: heccer.py
 source: heccer.py
 module: heccer
+services:
+  - name: heccer_intermediary
+    version: 0.1
+  - name: model_container
+    version: 0.1

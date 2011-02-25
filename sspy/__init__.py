@@ -20,7 +20,7 @@ except ImportError:
 from registry import SolverRegistry
 from registry import ServiceRegistry
 
-
+from schedulee import Schedulee
 
 
 #*********************************** Begin SSPy ****************************
@@ -36,13 +36,29 @@ class SSPy:
                  output_directory= os.path.join( os.path.dirname(os.path.abspath(__file__)), 'plugins/outputs' )
                  ):
 
+        # Registry objects for dynamically creating solvers and
+        # other objects
+
+        
         self.verbose = verbose
+
+        # Create our registry services for solvers, services, inputs
+        # and outputs
+        self._solver_registry = SolverRegistry(solver_directory, verbose=self.verbose)
+        self._service_registry = ServiceRegistry(service_directory, verbose=self.verbose)
+
 
         self.name = name
 
+        self._analyzers = {}
+            
         self._loaded_services = []
+
+        self._solvers = []
         
         self._models = []
+
+        self._compiled = False
 
         # arrays of schedulees to process when run.
         self._schedulees = []
@@ -51,11 +67,6 @@ class SSPy:
         self._schedule_data = {}
         self._schedule_file = ""
 
-        # Registry objects for dynamically creating solvers and
-        # other classes
-        self._solver_registry = SolverRegistry(solver_directory, verbose=self.verbose)
-        
-        self._service_registry = ServiceRegistry(service_directory, verbose=self.verbose)
 
 #---------------------------------------------------------------------------
 
@@ -154,8 +165,25 @@ class SSPy:
 #---------------------------------------------------------------------------
 
     def Compile(self):
+        """
+        @brief Compiles all solvers 
+        """
 
-        pass
+        for solver in self._solvers:
+
+            try:
+
+                if self.verbose:
+
+                    print "Compiling Solver: %s" % solver.GetName()
+                    
+                solver.Compile()
+
+            except Exception, e:
+
+                print "\tError compiling solver: %s" % e
+
+        self._compiled = True
 
 #---------------------------------------------------------------------------
     
@@ -401,9 +429,7 @@ class SSPy:
         # to look for this symbol.
         if self._schedule_data.has_key('models'):
 
-            models = schedule_data['models']
-            
-
+            self._models = schedule_data['models']
 
         # 
         if self._schedule_data.has_key('application_classes'):
@@ -412,10 +438,11 @@ class SSPy:
 
             self._ParseApplicationClasses(application_classes)
 
+
        # Set of options for configuring analyzers
         if self._schedule_data.has_key('analyzers'):
             
-            analyzers = schedule_data['analyzers']
+            self._analyzers = schedule_data['analyzers']
             
             
 

@@ -7,6 +7,8 @@ from exceptions import Exception
 
 
 
+#---------------------------------------------------------------------------
+
 class InputError(Exception):
     """
     @brief Used to report errors with output objects
@@ -24,7 +26,7 @@ class InputError(Exception):
         
         return error_msg
 
-
+#---------------------------------------------------------------------------
 
 class OutputError(Exception):
     """
@@ -43,7 +45,7 @@ class OutputError(Exception):
         
         return error_msg
 
-
+#---------------------------------------------------------------------------
 
 class PluginDirectoryError(Exception):
     """
@@ -62,6 +64,7 @@ class PluginDirectoryError(Exception):
         
         return error_msg
 
+#---------------------------------------------------------------------------
 
 class PluginFileError(Exception):
     """
@@ -80,6 +83,7 @@ class PluginFileError(Exception):
         
         return error_msg
 
+#---------------------------------------------------------------------------
 
 class PluginError(Exception):
     """
@@ -98,8 +102,22 @@ class PluginError(Exception):
         
         return error_msg
 
+#---------------------------------------------------------------------------
 
+class ScheduleeError(Exception):
+    """
+
+    """
+    def __init__(self,msg):
+        self.msg = msg
     
+    def __str__(self):
+
+        error_msg = "Schedulee Error: %s" % (self.msg)
+        
+        return error_msg
+
+#---------------------------------------------------------------------------
 
 class ScheduleeCreateError(Exception):
     """
@@ -114,9 +132,7 @@ class ScheduleeCreateError(Exception):
         
         return error_msg
 
-
-
-
+#---------------------------------------------------------------------------
 
 class ScheduleError(Exception):
     """
@@ -131,6 +147,7 @@ class ScheduleError(Exception):
         
         return error_msg
 
+#---------------------------------------------------------------------------
 
 class SolverError(Exception):
     """
@@ -149,7 +166,7 @@ class SolverError(Exception):
         
         return error_msg
 
-
+#---------------------------------------------------------------------------
 
 
 class ServiceError(Exception):
@@ -165,4 +182,6 @@ class ServiceError(Exception):
 
         return error_msg
 
+
+#---------------------------------------------------------------------------
     
