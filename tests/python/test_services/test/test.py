@@ -7,10 +7,11 @@ class Service:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, name=None, plugin_name=None, arguments=None, verbose=False):
+    def __init__(self, name=None, plugin=None, arguments=None, verbose=False):
         """
 
         """
+        self._plugin_data = plugin
         
         self._name = name
 
@@ -34,6 +35,18 @@ class Service:
 
         return self._name
 
+#---------------------------------------------------------------------------
+
+    def GetType(self):
+
+        return self._plugin_data.GetName()
+
+#---------------------------------------------------------------------------
+
+    def GetType(self):
+
+        return self._plugin_data.GetName()
+    
 #---------------------------------------------------------------------------
 
     def GetModuleName(self):

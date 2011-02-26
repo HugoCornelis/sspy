@@ -22,5 +22,5 @@ except Exception, e:
 
     print e
 
-pdb.set_trace()
-#scheduler.Dump()
+
+scheduler.Run()

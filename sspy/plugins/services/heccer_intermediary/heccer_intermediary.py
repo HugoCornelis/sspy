@@ -25,10 +25,12 @@ except ImportError, e:
 class Service:
 
 #---------------------------------------------------------------------------
-    def __init__(self, name="Untitled Heccer Intermediary", plugin_name=None,
+    def __init__(self, name="Untitled Heccer Intermediary", plugin=None,
                  arguments=None, verbose=False):
 
         self._name = name
+
+        self._plugin_data = plugin
 
         self.verbose = verbose
 
@@ -51,6 +53,20 @@ class Service:
     def GetName(self):
 
         return self._name
+
+
+#---------------------------------------------------------------------------
+
+    def GetType(self):
+
+        return self._plugin_data.GetName()
+
+#---------------------------------------------------------------------------
+
+    def GetPluginName(self):
+
+        return self._plugin_data.GetName()
+
 
 #---------------------------------------------------------------------------
 

@@ -60,12 +60,12 @@ class SSPy:
 
         self._compiled = False
 
-        # arrays of schedulees to process when run.
-        self._schedulees = []
-
         # Internal schedule data to manage.
         self._schedule_data = {}
         self._schedule_file = ""
+
+        # arrays of schedulees to process when run.
+        self._schedulees = []
 
 
 #---------------------------------------------------------------------------
@@ -333,6 +333,12 @@ class SSPy:
 
 #---------------------------------------------------------------------------
     def Save(self):
+
+        pass
+
+#---------------------------------------------------------------------------
+
+    def RegisterSchedulee(self, schedulee):
 
         pass
 
@@ -609,7 +615,7 @@ class SSPy:
 
             except Exception, e:
 
-                print "Error, cannot create solver '%s' of type '%s'" % (solver_name, solver_type)
+                raise errors.ScheduleError("Error, cannot create solver '%s' of type '%s', %s" % (solver_name, solver_type, e))
 
             self.AddSchedulee(solver)
 

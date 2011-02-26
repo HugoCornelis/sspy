@@ -6,7 +6,7 @@ class Solver:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, name=None, plugin_name=None, constructor_settings=None, verbose=False):
+    def __init__(self, name=None, plugin=None, constructor_settings=None, verbose=False):
         """
 
         Should be able to pass the scheudler and use it as
@@ -14,9 +14,23 @@ class Solver:
         """
         self._name = name
 
+        self._plugin_data = plugin
+
         self._scheduler = None
 
         self._value = -1.0
+
+#---------------------------------------------------------------------------
+
+    def GetType(self):
+
+        return self._plugin_data.GetName()
+
+#---------------------------------------------------------------------------
+
+    def GetPluginName(self):
+
+        return self._plugin_data.GetName()
 
 #---------------------------------------------------------------------------
 

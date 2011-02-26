@@ -255,7 +255,7 @@ class SolverRegistry(Registry):
 
             # bounds check?
             plugin = self._loaded_plugins[index]
-                
+
         solver = self._InstantiateFromFile(plugin, name, constructor_settings)
 
         return solver
@@ -276,11 +276,11 @@ class SolverRegistry(Registry):
             
             filepath = plugin.GetFile()
 
-            plugin_name = plugin.GetName()
+            solver_type = plugin.GetName()
+            
+        except AttributeError, e:
 
-        except AttributeError:
-
-            raise errors.ScheduleError("Cannot create Solver, invalid solver type '%s' for solver '%s'" % (type,name))
+            raise errors.ScheduleError("Cannot create Solver, invalid plugin for solver '%s', %s" % (name,e))
 
 
         if not os.path.exists(filepath):
@@ -299,7 +299,7 @@ class SolverRegistry(Registry):
             try:
 
                 class_inst = py_mod.Solver(name=name,
-                                           plugin_name=plugin_name,
+                                           plugin=plugin,
                                            constructor_settings=constructor_settings,
                                            verbose=self.verbose) 
 
@@ -370,8 +370,6 @@ class ServiceRegistry(Registry):
         try:
             
             filepath = plugin.GetFile()
-            
-            plugin_name = plugin.GetName()
 
         except AttributeError:
 
@@ -396,7 +394,7 @@ class ServiceRegistry(Registry):
             try:
 
                 class_inst = py_mod.Service(name=name,
-                                            plugin_name=plugin_name,
+                                            plugin=plugin,
                                             arguments=arguments,
                                             verbose=self.verbose) 
 

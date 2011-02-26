@@ -24,21 +24,28 @@ class Solver:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self,  name="Untitled solver", plugin_name=None, 
+    def __init__(self,  name="Untitled solver", plugin=None, 
                  constructor_settings=None, verbose=False):
         """
 
         Should be able to pass the scheudler and use it as
         an internal member here.
         """
+
+        self._plugin_data = plugin
         
-        self._heccer = Heccer(name=name)
+        self._heccer = None
 
         self._service = None
 
+        self._compiled = False
+
+
+        time_step = 0
+        
         if constructor_settings.has_key('service_name'):
 
-            self._service = constructor_settings['service_name']
+            self._service_name = constructor_settings['service_name']
 
         # This will probably be unneeded in python
         if constructor_settings.has_key('module_name'):
@@ -47,11 +54,9 @@ class Solver:
 
         if constructor_settings.has_key('configuration'):
 
-            configuration = constructor_settings['configuration']
+            self._configuration = constructor_settings['configuration']
 
             # set configuration
-
-        time_step = 0
         
         if constructor_settings.has_key('dStep'):
 
@@ -62,7 +67,7 @@ class Solver:
             time_step = constructor_settings['step']
             
 
-        self._heccer.SetTimeStep(time_step)
+        #self._heccer.SetTimeStep(time_step)
 
 
         
@@ -73,6 +78,13 @@ class Solver:
     def GetName(self):
 
         return self._heccer.GetName()
+
+
+#---------------------------------------------------------------------------
+
+    def GetType(self):
+
+        return self._plugin_data.GetName()
 
 
 #---------------------------------------------------------------------------
@@ -102,11 +114,18 @@ class Solver:
 
 #---------------------------------------------------------------------------
 
+    def IsCompiled(self):
+
+        return self._compiled
+
+#---------------------------------------------------------------------------
+
     def Connect(self, service=None):
 
         if not service:
 
             raise errors.SolverError("No service to connect to solver '%s'" % self.GetName())
+
 
 #---------------------------------------------------------------------------
 
