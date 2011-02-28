@@ -62,7 +62,6 @@ class SSPy:
         
         self._models = []
 
-        self._compiled = False
 
         # Internal schedule data to manage.
         self._schedule_data = {}
@@ -71,6 +70,12 @@ class SSPy:
         # arrays of schedulees to process when run.
         self._schedulees = []
 
+        # status variables to check 
+        self._compiled = False
+        self._loaded = False
+        self._connected = False
+        self._runtime_parameters_applied = False
+        
 
 #---------------------------------------------------------------------------
 
@@ -172,20 +177,23 @@ class SSPy:
         """
         @brief Compiles all solvers 
         """
-
+        if self.verbose:
+            
+            print "Compiling all solvers"
+            
         for solver in self._solvers:
 
             try:
 
                 if self.verbose:
 
-                    print "Compiling Solver: %s" % solver.GetName()
+                    print "\tCompiling Solver: %s" % solver.GetName()
                     
                 solver.Compile()
 
             except Exception, e:
 
-                print "\tError compiling solver: %s" % e
+                raise errors.ScheduleException("Error compiling solver '%s': %s" % (solver.GetName(),e))
 
         self._compiled = True
 
@@ -250,8 +258,12 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def Initiate(self):
+    def Initialize(self):
+        """
+        @brief Initializes all schedulees
 
+        Sets all schedulees in queue to steps = 0, and time = 0.
+        """
 
         pass
    

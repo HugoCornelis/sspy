@@ -34,14 +34,13 @@ class Solver:
 
         self._plugin_data = plugin
         
-        self._heccer = None
+        self._heccer = Heccer(name=name)
 
-        self._service = None
+        if self._heccer is None:
 
-        self._compiled = False
+            raise Exception("Can't create Heccer solver '%s'" % name)
 
-
-        time_step = 0
+        time_step = -1
         
         if constructor_settings.has_key('service_name'):
 
@@ -62,16 +61,31 @@ class Solver:
 
             time_step = constructor_settings['dStep']
 
+
         elif constructor_settings.has_key('step'):
 
             time_step = constructor_settings['step']
             
 
+        if time_step > -1:
+        
+            self._heccer.SetTimeStep(time_step)
+
+
+#        pdb.set_trace()
+            
+
+        self._compiled = False
+
+
+
         #self._heccer.SetTimeStep(time_step)
 
-
+#---------------------------------------------------------------------------
         
+    def Initialize(self):
 
+        pass
 
 #---------------------------------------------------------------------------
 
