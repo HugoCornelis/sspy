@@ -9,6 +9,7 @@ plugins for solvers and simulation objects.
 """
 import os
 import pdb
+import pprint
 import sys
 
 try:
@@ -41,6 +42,9 @@ class SSPy:
 
         
         self.verbose = verbose
+
+        # set up the pretty printer for printing out dicts and arrays
+        self.pp = pprint.PrettyPrinter()
 
         # Create our registry services for solvers, services, inputs
         # and outputs
@@ -562,7 +566,7 @@ class SSPy:
 
         if self.verbose:
 
-            print "Found applied simulation parameters:"
+            print "\nFound applied simulation parameters:"
 
         if apply_parameters.has_key('simulation'):
 
@@ -570,7 +574,9 @@ class SSPy:
 
             if self.verbose:
 
-                print "\tSimulation set: %s" % str(parameter_sets) 
+                print "Simulation set: "
+
+                self.pp.pprint(parameter_sets)
                 
 #---------------------------------------------------------------------------
 
