@@ -10,6 +10,13 @@ and strict typing.
 
 import errors
 
+#
+# Should probably be a way to automatically update this list
+# depending on the types of plugins present but not going to think
+# of that yet
+#
+schedulee_types = ['solver', 'input', 'output']
+
 class Schedulee:
     """!
     @brief Abstraction class for schedulee objects.
@@ -17,12 +24,27 @@ class Schedulee:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, schedulee, schedulee_type=None):
+    def __init__(self, schedulee=None, schedulee_type=None):
+
+
+        if schedulee is None:
+
+            raise errors.ScheduleeError("Not defined")
+
+        if schedulee_type is None:
+
+            raise errors.ScheduleeError("Type not defined")
+
+        if schedulee_type not in schedulee_types:
+
+            raise errors.ScheduleeError("Invalid type '%s'" % schedulee_type)
+        
 
         self._schedulees_type = schedulee_type
 
         self._schedulee = schedulee
 
+        self.type = schedulee_type 
 
 #---------------------------------------------------------------------------
 
@@ -32,11 +54,16 @@ class Schedulee:
         """
         return self._schedulee
 
+
+    def GetType(self):
+
+        return self._type
+
 #---------------------------------------------------------------------------
 
     def New(self, model, name, filename):
         """
-        
+        not needed?
         """
         pass
 
@@ -45,7 +72,7 @@ class Schedulee:
 
     def Pause(self):
         """
-
+        not sure how this will work
         """
         pass
 

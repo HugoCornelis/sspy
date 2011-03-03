@@ -1,0 +1,13 @@
+
+
+Should note that due to clearly defining the objects
+from the outset for dynamically loading, some of the
+tags from an SSP compatible file will be ignored
+since they are not needed. They are:
+
+module: Tag isn't needed since each input, output, service and solver
+is explicitly coded around an object plugin. 
+
+method: Not needed since each object is coded with it's own cases for
+handling loads when given certain data.
+

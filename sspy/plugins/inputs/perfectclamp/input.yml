@@ -6,3 +6,6 @@ description: This is the SSPy object for the perfectclamp protocol
 file: input.py
 source: input.py
 module: input
+solvers:
+ - name: heccer
+ - version: 0.1

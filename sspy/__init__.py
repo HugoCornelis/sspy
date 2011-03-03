@@ -57,8 +57,9 @@ class SSPy:
         self._analyzers = {}
             
         self._loaded_services = []
-
         self._solvers = []
+        self._inputs = []
+        self._outputs = []
         
         self._models = []
 
@@ -74,6 +75,7 @@ class SSPy:
         self._compiled = False
         self._loaded = False
         self._connected = False
+        self._scheduled = False
         self._runtime_parameters_applied = False
         
 
@@ -213,7 +215,7 @@ class SSPy:
 
     def Connect(self):
         """
-        @brief Connects services to solvers
+        @brief Connects services to solvers and solvers to protocols
 
         """
         num_services = len(self._loaded_services)
@@ -251,6 +253,57 @@ class SSPy:
                     except Exception, e:
 
                         print "\tCan't connect solver '%s' to service '%s': %s" % (solver.GetName(), service.GetName(), e)
+
+
+        num_inputs = len(self._inputs)
+
+        if num_inputs > 0:
+
+            if self.verbose:
+                
+                print "Connecting %d inputs to %d solvers" % (num_inputs, num_solvers)
+        
+            # Now we connect solvers to inputs
+            for i in self._inputs:
+
+                for solver in self._solvers:
+
+                    if self.verbose:
+
+                        print "\tConnecting solver '%s' to input '%s'" % (solver.GetName(),i.GetName())
+                        
+                    try:
+
+                        i.Connect(solver)
+                        
+                    except Exception, e:
+
+                        print "\tCan't connect solver '%s' to input '%s': %s" % (solver.GetName(), i.GetName(), e)
+                    
+        num_outputs = len(self._outputs)
+
+        if num_outputs > 0:
+
+            if self.verbose:
+                
+                print "Connecting %d outputs to %d solvers" % (num_outputs, num_solvers)
+
+            # Connect solvers to outputs
+            for o in self._outputs:
+
+                for solver in self._solvers:
+
+                    if self.verbose:
+
+                        print "\tConnecting solver '%s' to output '%s'" % (solver.GetName(),o.GetName())
+   
+                    try:
+
+                        o.Connect(solver)
+                    
+                    except Exception, e:
+
+                        print "\tCan't connect solver '%s' to output '%s': %s" % (solver.GetName(), o.GetName(), e)
 
 
         self._connected = True
@@ -347,7 +400,13 @@ class SSPy:
 
 #---------------------------------------------------------------------------
     def Optimize(self):
+        """!
+        @brief optimize schedulees
+        @depricated
+        
+        Probably not needed since this won't use any C code.
 
+        """
         pass
 
 #---------------------------------------------------------------------------

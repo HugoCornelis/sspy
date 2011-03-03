@@ -6,4 +6,7 @@ description: This is the SSPy object for the pulsegen protocol
 file: pulsegen.py
 source: pulsegen.py
 module: pulsegen
+solvers:
+ - name: heccer
+ - version: 0.1
 
