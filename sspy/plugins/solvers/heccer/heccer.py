@@ -11,7 +11,8 @@ import sys
 sys.path.append("/usr/local/glue/swig/python")
 
 try:
-
+    
+    import g3.heccer as heccer
     from g3.heccer import Heccer
     from g3.heccer import HeccerOptions
 
@@ -35,11 +36,29 @@ class Solver:
 
         self._plugin_data = plugin
         
-        self._heccer = Heccer(name=name)
+        self._heccer = None
 
-        if self._heccer is None:
+        self.dump_options = (heccer.heccer_base.HECCER_DUMP_INDEXERS_SUMMARY
+		   | heccer.heccer_base.HECCER_DUMP_INDEXERS_STRUCTURE
+		   | heccer.heccer_base.HECCER_DUMP_INTERMEDIARY_COMPARTMENTS_PARAMETERS
+		   | heccer.heccer_base.HECCER_DUMP_INTERMEDIARY_COMPARTMENT_SUMMARY
+		   | heccer.heccer_base.HECCER_DUMP_INTERMEDIARY_MECHANISM_SUMMARY
+		   | heccer.heccer_base.HECCER_DUMP_INTERMEDIARY_STRUCTURE
+		   | heccer.heccer_base.HECCER_DUMP_INTERMEDIARY_SUMMARY
+		   | heccer.heccer_base.HECCER_DUMP_TABLE_GATE_SUMMARY
+		   | heccer.heccer_base.HECCER_DUMP_TABLE_GATE_TABLES
+		   | heccer.heccer_base.HECCER_DUMP_VM_COMPARTMENT_MATRIX
+		   | heccer.heccer_base.HECCER_DUMP_VM_COMPARTMENT_MATRIX_DIAGONALS
+		   | heccer.heccer_base.HECCER_DUMP_VM_COMPARTMENT_OPERATIONS
+		   | heccer.heccer_base.HECCER_DUMP_VM_MECHANISM_DATA
+		   | heccer.heccer_base.HECCER_DUMP_VM_MECHANISM_OPERATIONS
+		   | heccer.heccer_base.HECCER_DUMP_VM_CHANNEL_POOL_FLUXES
+		   | heccer.heccer_base.HECCER_DUMP_VM_SUMMARY
+		   | heccer.heccer_base.HECCER_DUMP_VM_AGGREGATORS)
 
-            raise Exception("Can't create Heccer solver '%s'" % name)
+#         if self._heccer is None:
+
+#             raise Exception("Can't create Heccer solver '%s'" % name)
 
         time_step = -1
         

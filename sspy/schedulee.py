@@ -67,7 +67,13 @@ class Schedulee:
 
     def Compile(self):
 
-        pass
+        try:
+
+            self._schedulee.Compile()
+
+        except Exception, e:
+
+            raise errors.ScheduleeError("%s" % e)
 
 #---------------------------------------------------------------------------
 
