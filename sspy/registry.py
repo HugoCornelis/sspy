@@ -373,12 +373,12 @@ class ServiceRegistry(Registry):
 
         except AttributeError:
 
-            raise errors.ScheduleError("Cannot create Service, invalid service type '%s' for service '%s'" % (type,name))
+            raise errors.ScheduleError("Cannot create Service, invalid plugin for service '%s'" % (name))
         
 
         if not os.path.exists(filepath):
 
-            raise errors.ServiceError("no such plugin to load class from: %s" % filepath)
+            raise errors.ServiceError("no plugin module to load class from: %s" % filepath)
         
             return None
 

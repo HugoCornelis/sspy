@@ -75,10 +75,6 @@ class Service:
         return self._module_name
 
 
-    def GetType(self):
-
-        return ""
-
 #---------------------------------------------------------------------------
 
     def GetArguments(self):
@@ -137,7 +133,7 @@ class Service:
 
                 if c.has_key('dCm'):
 
-                    comp.dCm = c['dCm']
+                    comp.dCm = float(c['dCm'])
 
                 if c.has_key('dEm'):
 
@@ -153,7 +149,7 @@ class Service:
 
                 if c.has_key('dRm'):
 
-                    comp.dRm = c['dRm']
+                    comp.dRm = float(c['dRm'])
 
                 compartment_list.append(comp)
 

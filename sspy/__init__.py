@@ -215,11 +215,46 @@ class SSPy:
         """
         @brief Connects services to solvers
 
-        
         """
-        pass
+        num_services = len(self._loaded_services)
+        
+        num_solvers = len(self._solvers)
+
+        if num_services == 0:
+
+            print "No services to connect"
+
+            return False
+
+        if num_solvers == 0:
+
+            print "No solvers to connect"
+
+            return False
+
+        if self.verbose:
+
+            print "Connecting %d solvers to %d services" % (num_solvers, num_services)
+        
+        for service in self._loaded_services:
+
+            for solver in self._solvers:
+
+                if self.verbose:
+
+                    print "\tConnecting solver '%s' to service '%s'" % (solver.GetName(),service.GetName())
+
+                    try:
+
+                        solver.Connect(service)
+
+                    except Exception, e:
+
+                        print "\tCan't connect solver '%s' to service '%s': %s" % (solver.GetName(), service.GetName(), e)
 
 
+        self._connected = True
+        
 #---------------------------------------------------------------------------
     def Daemonize(self):
 
@@ -332,8 +367,16 @@ class SSPy:
 
 #---------------------------------------------------------------------------
     def Run(self):
+        """!
+        @brief Runs the simulation
+        """
 
-        pass
+        if not self._connected:
+
+            self.Connect()
+
+
+        
 
 #---------------------------------------------------------------------------
     def Salvage(self):
@@ -635,7 +678,7 @@ class SSPy:
 
                 raise errors.ScheduleError("Error, cannot create solver '%s' of type '%s', %s" % (solver_name, solver_type, e))
 
-            self.AddSchedulee(solver)
+            self._solvers.append(solver)
 
 #---------------------------------------------------------------------------
 

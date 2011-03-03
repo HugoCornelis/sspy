@@ -31,6 +31,7 @@ class Solver:
         Should be able to pass the scheudler and use it as
         an internal member here.
         """
+        self._name = name
 
         self._plugin_data = plugin
         
@@ -91,7 +92,7 @@ class Solver:
 
     def GetName(self):
 
-        return self._heccer.GetName()
+        return self._name
 
 
 #---------------------------------------------------------------------------
@@ -135,11 +136,52 @@ class Solver:
 #---------------------------------------------------------------------------
 
     def Connect(self, service=None):
+        """!
+        @brief Connects a service to the this solver
+
+        Compatible services need to be coded into this method.
+
+        Much like the ns-sli, the heccer object can only really
+        be created when we know which service it will be connected
+        to.
+        """
 
         if not service:
 
-            raise errors.SolverError("No service to connect to solver '%s'" % self.GetName())
+            raise Exception("No service to connect to solver '%s'" % self.GetName())
 
+
+        service_type = service.GetType()
+
+
+        if service_type == "heccer_intermediary":
+
+            intermediary = service.GetCore()
+
+            if not intermediary:
+
+                raise Exception("Heccer Intermediary is not defined")
+
+            else:
+
+                self._heccer = Heccer(name=self._name, pinter=intermediary)
+
+        elif service_type == "model_container":
+
+            model_container = service.GetCore()
+
+            if not model_container:
+
+                raise Exception("Model Container is not defined")
+
+            else:
+
+                self._heccer = Heccer(name=self._name, model=model_container)
+
+
+        else:
+
+            raise Exception("Incompatible Service")
 
 #---------------------------------------------------------------------------
 
