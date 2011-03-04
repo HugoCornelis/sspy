@@ -139,7 +139,7 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def AddSchedulee(self, schedulee):
+    def AddSchedulee(self, s, schedulee_type):
         """
         @brief Adds jobs to be scheduled.
 
@@ -147,7 +147,20 @@ class SSPy:
         """
 
         # error checking?
+
+        try:
+            
+            schedulee = Schedulee(s, schedulee_type)
+        
+        except Exception, e:
+
+            print "Can't schedule simulation object: %s" % e
+    
+            return False
+        
         self._schedulees.append(schedulee)
+
+        return True
 
 #---------------------------------------------------------------------------
 
@@ -853,7 +866,7 @@ class SSPy:
 #            pdb.set_trace()
             output = self._solver_registry.CreateOutput(output_name, output_type, output_parameters)
 
-            self.AddSchedulee(output)
+#            self.AddSchedulee(output)
 
 
 
