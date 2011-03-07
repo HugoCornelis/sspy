@@ -154,13 +154,68 @@ class SSPy:
         
         except Exception, e:
 
-            print "Can't schedule simulation object: %s" % e
+            sys.stderr.write("Can't schedule simulation object: %s" % e)
     
             return False
         
         self._schedulees.append(schedulee)
 
         return True
+
+#---------------------------------------------------------------------------
+
+    def ScheduleAll(self):
+
+        if self.verbose:
+
+            print "Scheduling all simulation objects"
+
+
+        if len(self._inputs) > 0:
+            
+            if self.verbose:
+
+                print "\tScheduling inputs:"
+        
+            for i in self._inputs:
+
+                if self.verbose:
+
+                    print "\t\tScheduling input '%s'" % i.GetName()
+
+                self.AddSchedulee(i, 'input')
+
+
+        if len(self._solvers) > 0:
+            
+            if self.verbose:
+
+                print "\tScheduling solvers:"
+
+            for s in self._solvers:
+
+                if self.verbose:
+
+                    print "\t\tScheduling solver '%s'" % s.GetName()
+
+                self.AddSchedulee(s, 'solver')
+
+        if len(self._outputs) > 0:
+
+            if self.verbose:
+
+                print "\tScheduling outputs:"
+
+            for o in self._outputs:
+
+                if self.verbose:
+
+                    print "\t\tScheduling output '%s'" % o.GetName()
+                    
+                self.AddSchedulee(o, 'output')
+
+
+        self._scheduled = True
 
 #---------------------------------------------------------------------------
 
@@ -182,9 +237,22 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def Advance(self):
 
-        pass
+    def Step(self):
+        """
+
+        """
+        for s in self._schedulees:
+
+            s.Step()
+
+#---------------------------------------------------------------------------
+
+    def Advance(self):
+        """
+
+        """
+        self.Step()
 
 #---------------------------------------------------------------------------
 
@@ -447,6 +515,10 @@ class SSPy:
 
             self.Connect()
 
+        if not self._scheduled:
+
+            self.ScheduleAll()
+
 
         
 
@@ -567,6 +639,7 @@ class SSPy:
         if self._schedule_data.has_key('models'):
 
             self._models = schedule_data['models']
+
 
         # 
         if self._schedule_data.has_key('application_classes'):
@@ -866,8 +939,8 @@ class SSPy:
 #            pdb.set_trace()
             output = self._solver_registry.CreateOutput(output_name, output_type, output_parameters)
 
-#            self.AddSchedulee(output)
 
+        self._outputs.append(output)
 
 
 #---------------------------------------------------------------------------        
