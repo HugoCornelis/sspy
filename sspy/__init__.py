@@ -519,7 +519,11 @@ class SSPy:
 
             self.ScheduleAll()
 
+        if not self._runtime_parameters_applied:
 
+            self.ApplyRuntimeParameters()
+
+        
         
 
 #---------------------------------------------------------------------------
