@@ -63,6 +63,11 @@ class SSPy:
         
         self._models = []
 
+        # Simulation variables
+        self.steps = None
+        self.time_step = None
+        self.simulation_verbose = None
+
 
         # Internal schedule data to manage.
         self._schedule_data = {}
@@ -523,7 +528,9 @@ class SSPy:
 
             self.ApplyRuntimeParameters()
 
-        
+        for schedulee in self._schedulees:
+
+            schedulee.Step()
         
 
 #---------------------------------------------------------------------------
@@ -664,7 +671,7 @@ class SSPy:
         if self._schedule_data.has_key('apply'):
             
             apply_parameters = schedule_data['apply']
-
+            
             self._ParseAppliedParameters(apply_parameters)
 
 
@@ -766,8 +773,24 @@ class SSPy:
 #---------------------------------------------------------------------------
 
     def _ParseAppliedParameters(self, apply_parameters):
-
-
+        """
+        @brief Retrieves simulation parameters
+        
+        example snippet. First set of arguments has
+        the steps, second set has the time step size.
+        
+        simulation:  
+          - arguments:  
+            - 1000  
+            - 1  
+          description: run 1000 steps of the simulation.  
+          method: steps  
+          - arguments:  
+            - 0.1  
+          description: advance the simulation by 0.1s.  
+          method: advance
+        
+        """
         if self.verbose:
 
             print "\nFound applied simulation parameters:"
@@ -776,12 +799,46 @@ class SSPy:
 
             parameter_sets = apply_parameters['simulation']
 
+            for p in parameter_sets:
+
+                try:
+                                                
+                    if p.has_key('method'):
+
+                        method = p['method']
+
+                        if method == 'steps':
+
+                            self.steps = p['arguments'][0]
+                            
+                            self.simulation_verbose  = p['arguments'][1]['verbose']
+
+                        elif method == 'advance':
+
+                            self.time_step = p['arguments'][0]
+
+                except:
+
+                    continue
+
+
             if self.verbose:
 
-                print "Simulation set: "
+                print "Simulation Parameters: "
 
-                self.pp.pprint(parameter_sets)
-                
+                if self.steps is not None:
+
+                    print "\tSimulation will run for %d steps" % self.steps
+
+                if self.simulation_verbose is not None:
+
+                    print "\tVerbosity level is %d" % self.simulation_verbose
+
+                if self.time_step is not None:
+
+                    print "\tStep size is %f" % self.time_step
+
+        
 #---------------------------------------------------------------------------
 
 
