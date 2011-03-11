@@ -79,6 +79,7 @@ class SSPy:
 
         # status variables to check 
         self._compiled = False
+        self._initialized = False
         self._loaded = False
         self._connected = False
         self._scheduled = False
@@ -282,7 +283,7 @@ class SSPy:
 
             except Exception, e:
 
-                raise errors.ScheduleException("Error compiling solver '%s': %s" % (solver.GetName(),e))
+                raise errors.ScheduleeError("Error compiling solver '%s': %s" % (solver.GetName(),e))
 
         self._compiled = True
 
@@ -440,8 +441,27 @@ class SSPy:
         Sets all schedulees in queue to steps = 0, and time = 0.
         """
 
-        pass
-   
+        if self.verbose:
+
+            print "Initializing all schedulees"
+
+        for schedulee in self._schedulees:
+
+            try:
+
+                if self.verbose:
+
+                    print "\tInitializing Schedulee: %s" % schedulee.GetName()
+
+
+                schedulee.Initialize()
+
+            except Exception, e:
+
+                raise errors.ScheduleeError("Error initializing schedulee '%s': %s" % (schedulee.GetName(),e))
+            
+        self._initialized = True
+        
 #---------------------------------------------------------------------------
 
     def InstantiateCommunicators(self):
@@ -528,13 +548,27 @@ class SSPy:
         if not self._runtime_parameters_applied:
 
             self.ApplyRuntimeParameters()
+            
+        if not self._compiled:
 
-        # init for simulation time?
+            self.Compile()
 
+        if not self._initialized:
+
+            self.Initialize()
+
+        if self.verbose:
+
+            print "Running simulation"
+            
         self.simulation_time += self.time_step
 
         for schedulee in self._schedulees:
 
+            if self.verbose:
+
+                print "Time: %f" % self.simulation_time
+                
             schedulee.Step(self.simulation_time)
         
 

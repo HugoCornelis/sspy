@@ -57,6 +57,10 @@ class Schedulee:
         """
         return self._schedulee
 
+    def GetName(self):
+
+        return self._schedulee.GetName()
+
 
     def GetType(self):
 
@@ -120,6 +124,20 @@ class Schedulee:
         except Exception, e:
 
             raise errors.ScheduleeError("%s" % e)
+
+#---------------------------------------------------------------------------
+
+    def Initialize(self):
+
+        try:
+
+            self._schedulee.Initialize()
+
+        except Exception, e:
+
+            raise errors.ScheduleeError("%s" % e)
+
+        
 
 #---------------------------------------------------------------------------
 

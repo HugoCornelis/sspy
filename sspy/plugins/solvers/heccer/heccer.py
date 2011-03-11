@@ -105,7 +105,7 @@ class Solver:
         
     def Initialize(self):
 
-        pass
+        self._heccer.Initiate()
 
 #---------------------------------------------------------------------------
 
@@ -143,8 +143,14 @@ class Solver:
 #---------------------------------------------------------------------------
 
     def Compile(self):
+        """
+        @brief 
+        """
+        if self._compiled is False:
 
-        pass
+            self._heccer.CompileAll()
+
+            self._compiled = True
 
 #---------------------------------------------------------------------------
 
@@ -270,7 +276,7 @@ class Solver:
 
         """
         if self._heccer is not None:
-            pdb.set_trace()
+
             self._heccer.Step(time)
 
         else:
