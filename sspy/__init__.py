@@ -66,6 +66,7 @@ class SSPy:
         # Simulation variables
         self.steps = None
         self.time_step = None
+        self.simulation_time = 0.0
         self.simulation_verbose = None
 
 
@@ -528,9 +529,13 @@ class SSPy:
 
             self.ApplyRuntimeParameters()
 
+        # init for simulation time?
+
+        self.simulation_time += self.time_step
+
         for schedulee in self._schedulees:
 
-            schedulee.Step()
+            schedulee.Step(self.simulation_time)
         
 
 #---------------------------------------------------------------------------

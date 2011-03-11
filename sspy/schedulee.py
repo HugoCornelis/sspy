@@ -7,6 +7,9 @@ The name is kept general since it will become pluggable. This class
 mainly functions as an abstraction to handle error checking
 and strict typing. 
 """
+import pdb
+import sys
+
 
 import errors
 
@@ -57,7 +60,7 @@ class Schedulee:
 
     def GetType(self):
 
-        return self._type
+        return self.type
 
 #---------------------------------------------------------------------------
 
@@ -78,10 +81,20 @@ class Schedulee:
 
 #---------------------------------------------------------------------------
 
-    def Step(self):
+    def Step(self, time=None):
 
-        self._schedulee.Step()
+        if time is None:
 
+            raise errors.ScheduleeError("No time given for '%s'" % self._schedulee.GetName())
+
+        try:
+
+            self._schedulee.Step(time)
+
+        except Exception, e:
+
+            raise errors.ScheduleeError("%s" % e)
+            
 #---------------------------------------------------------------------------        
 
     def GetTimeStep(self):

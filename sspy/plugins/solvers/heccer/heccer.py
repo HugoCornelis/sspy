@@ -265,9 +265,17 @@ class Solver:
 
 #---------------------------------------------------------------------------
 
-    def Step(self):
+    def Step(self, time=None):
+        """
 
-        pass
+        """
+        if self._heccer is not None:
+            pdb.set_trace()
+            self._heccer.Step(time)
+
+        else:
+
+            raise Exception("No simulation time given")
 
 #---------------------------------------------------------------------------
 
