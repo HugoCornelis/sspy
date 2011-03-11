@@ -625,7 +625,16 @@ class SSPy:
 
             if self.verbose:
 
-                print "Schdule name is '%s'\n" % self.name
+                print "Schedule name is '%s'\n" % self.name
+
+
+        # Set of options that define how to run this schedule.
+        if self._schedule_data.has_key('apply'):
+            
+            apply_parameters = schedule_data['apply']
+            
+            self._ParseAppliedParameters(apply_parameters)
+
 
         # Loads the appropriate services for loading a model
         #   Such as the model_container
@@ -669,17 +678,8 @@ class SSPy:
         if self._schedule_data.has_key('analyzers'):
             
             self._analyzers = schedule_data['analyzers']
-            
-            
 
-        # Set of options that define how to run this schedule.
-        if self._schedule_data.has_key('apply'):
             
-            apply_parameters = schedule_data['apply']
-            
-            self._ParseAppliedParameters(apply_parameters)
-
-
         # Here we parse for external simulation objects that generate input into
         # the model. 
         if self._schedule_data.has_key('inputclasses'):
