@@ -560,16 +560,19 @@ class SSPy:
         if self.verbose:
 
             print "Running simulation"
-            
-        self.simulation_time += self.time_step
 
-        for schedulee in self._schedulees:
+        # We have steps so we run for this number of steps
+        if self.steps is not None:
 
-            if self.verbose:
+            for i in range(self.steps):
 
-                print "Time: %f" % self.simulation_time
+                self.Step()
                 
-            schedulee.Step(self.simulation_time)
+                if self.verbose:
+
+                    print "Step %d, Time: %f" % (i+1,self.simulation_time)
+
+                    
         
 
 #---------------------------------------------------------------------------
@@ -601,11 +604,29 @@ class SSPy:
         pass
 
 #---------------------------------------------------------------------------
+
     def Shell(self):
 
         pass
 
 #---------------------------------------------------------------------------
+
+    def Step(self):
+        """
+        @brief Executes a single step on all schedulees and updates the simulation time
+
+        
+        """
+        for schedulee in self._schedulees:
+
+                
+            schedulee.Step(self.simulation_time)
+
+        
+        self.simulation_time += self.time_step
+
+#---------------------------------------------------------------------------
+
     def Steps(self):
 
         pass
@@ -1036,7 +1057,7 @@ class SSPy:
 
                 print "Loading Output '%s' of type '%s'" % (output_name, output_type)
 
-#            pdb.set_trace()
+
             output = self._solver_registry.CreateOutput(output_name, output_type, output_parameters)
 
 

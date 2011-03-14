@@ -35,6 +35,8 @@ class Solver:
         self._name = name
 
         self._plugin_data = plugin
+
+        self.verbose = verbose
         
         self._heccer = None
 
@@ -90,9 +92,6 @@ class Solver:
         if time_step > -1:
         
             self._heccer.SetTimeStep(time_step)
-
-
-#        pdb.set_trace()
             
 
         self._compiled = False
@@ -189,7 +188,10 @@ class Solver:
 
             else:
 
+
                 self._heccer = Heccer(name=self._name, pinter=intermediary)
+
+                self._heccer.CompileAll()
 
         elif service_type == "model_container":
 
@@ -278,6 +280,10 @@ class Solver:
         if self._heccer is not None:
 
             self._heccer.Step(time)
+
+            if self.verbose:
+
+                self._heccer.Dump(0, self.dump_options)
 
         else:
 
