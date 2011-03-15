@@ -1,0 +1,418 @@
+Parsing schedule data
+Schedule name is 'singlep'
+
+
+Found applied simulation parameters:
+Simulation Parameters: 
+	Simulation will run for 10 steps
+	Verbosity level is 2
+Loading Service 'singlep (heccer_intermediary)' of type 'heccer_intermediary'
+Loading Solver 'singlep (heccer)' of type 'heccer'
+Found application classes:
+	Application class: analyzers
+	Application class: finishers
+	Application class: initializers
+	Application class: modifiers
+	Application class: results
+	Application class: services
+	Application class: simulation
+Connecting 1 solvers to 1 services
+	Connecting solver 'singlep (heccer)' to service 'singlep (heccer_intermediary)'
+Scheduling all simulation objects
+	Scheduling solvers:
+		Scheduling solver 'singlep (heccer)'
+Compiling all solvers
+	Compiling Solver: singlep (heccer)
+Initializing all schedulees
+	Initializing Schedulee: singlep (heccer)
+Running simulation
+singlep (heccer): 0 0.000020
+Heccer (pcName) : (singlep (heccer))
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dConcentrationGateStart) : (4e-05)
+Heccer Options (dConcentrationGateEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (0)
+Heccer (dStep) : (2e-05)
+Intermediary (iCompartments) : (1)
+Compartment (mc.iType) : (1)
+Compartment (iParent) : (-1)
+Compartment (dCm) : (4.57537e-11)
+Compartment (dEm) : (-0.08)
+Compartment (dInitVm) : (-0.068)
+Compartment (dInject) : (0)
+Compartment (dRa) : (360502)
+Compartment (dRm) : (3.58441e+08)
+MinimumDegree (iEntries) : (1)
+MinimumDegree (piChildren[0]) : (0)
+MinimumDegree (piForward[0]) : (0)
+MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00061)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.068)
+singlep (heccer): 0 0.000040
+Heccer (pcName) : (singlep (heccer))
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dConcentrationGateStart) : (4e-05)
+Heccer Options (dConcentrationGateEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (2e-05)
+Heccer (dStep) : (2e-05)
+Intermediary (iCompartments) : (1)
+Compartment (mc.iType) : (1)
+Compartment (iParent) : (-1)
+Compartment (dCm) : (4.57537e-11)
+Compartment (dEm) : (-0.08)
+Compartment (dInitVm) : (-0.068)
+Compartment (dInject) : (0)
+Compartment (dRa) : (360502)
+Compartment (dRm) : (3.58441e+08)
+MinimumDegree (iEntries) : (1)
+MinimumDegree (piChildren[0]) : (0)
+MinimumDegree (piForward[0]) : (0)
+MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00061)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0680146)
+singlep (heccer): 0 0.000060
+Heccer (pcName) : (singlep (heccer))
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dConcentrationGateStart) : (4e-05)
+Heccer Options (dConcentrationGateEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (4e-05)
+Heccer (dStep) : (2e-05)
+Intermediary (iCompartments) : (1)
+Compartment (mc.iType) : (1)
+Compartment (iParent) : (-1)
+Compartment (dCm) : (4.57537e-11)
+Compartment (dEm) : (-0.08)
+Compartment (dInitVm) : (-0.068)
+Compartment (dInject) : (0)
+Compartment (dRa) : (360502)
+Compartment (dRm) : (3.58441e+08)
+MinimumDegree (iEntries) : (1)
+MinimumDegree (piChildren[0]) : (0)
+MinimumDegree (piForward[0]) : (0)
+MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00061)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0680292)
+singlep (heccer): 0 0.000080
+Heccer (pcName) : (singlep (heccer))
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dConcentrationGateStart) : (4e-05)
+Heccer Options (dConcentrationGateEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (6e-05)
+Heccer (dStep) : (2e-05)
+Intermediary (iCompartments) : (1)
+Compartment (mc.iType) : (1)
+Compartment (iParent) : (-1)
+Compartment (dCm) : (4.57537e-11)
+Compartment (dEm) : (-0.08)
+Compartment (dInitVm) : (-0.068)
+Compartment (dInject) : (0)
+Compartment (dRa) : (360502)
+Compartment (dRm) : (3.58441e+08)
+MinimumDegree (iEntries) : (1)
+MinimumDegree (piChildren[0]) : (0)
+MinimumDegree (piForward[0]) : (0)
+MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00061)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0680438)
+singlep (heccer): 0 0.000100
+Heccer (pcName) : (singlep (heccer))
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dConcentrationGateStart) : (4e-05)
+Heccer Options (dConcentrationGateEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (8e-05)
+Heccer (dStep) : (2e-05)
+Intermediary (iCompartments) : (1)
+Compartment (mc.iType) : (1)
+Compartment (iParent) : (-1)
+Compartment (dCm) : (4.57537e-11)
+Compartment (dEm) : (-0.08)
+Compartment (dInitVm) : (-0.068)
+Compartment (dInject) : (0)
+Compartment (dRa) : (360502)
+Compartment (dRm) : (3.58441e+08)
+MinimumDegree (iEntries) : (1)
+MinimumDegree (piChildren[0]) : (0)
+MinimumDegree (piForward[0]) : (0)
+MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00061)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0680584)
+singlep (heccer): 0 0.000120
+Heccer (pcName) : (singlep (heccer))
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dConcentrationGateStart) : (4e-05)
+Heccer Options (dConcentrationGateEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (0.0001)
+Heccer (dStep) : (2e-05)
+Intermediary (iCompartments) : (1)
+Compartment (mc.iType) : (1)
+Compartment (iParent) : (-1)
+Compartment (dCm) : (4.57537e-11)
+Compartment (dEm) : (-0.08)
+Compartment (dInitVm) : (-0.068)
+Compartment (dInject) : (0)
+Compartment (dRa) : (360502)
+Compartment (dRm) : (3.58441e+08)
+MinimumDegree (iEntries) : (1)
+MinimumDegree (piChildren[0]) : (0)
+MinimumDegree (piForward[0]) : (0)
+MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00061)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0680729)
+singlep (heccer): 0 0.000140
+Heccer (pcName) : (singlep (heccer))
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dConcentrationGateStart) : (4e-05)
+Heccer Options (dConcentrationGateEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (0.00012)
+Heccer (dStep) : (2e-05)
+Intermediary (iCompartments) : (1)
+Compartment (mc.iType) : (1)
+Compartment (iParent) : (-1)
+Compartment (dCm) : (4.57537e-11)
+Compartment (dEm) : (-0.08)
+Compartment (dInitVm) : (-0.068)
+Compartment (dInject) : (0)
+Compartment (dRa) : (360502)
+Compartment (dRm) : (3.58441e+08)
+MinimumDegree (iEntries) : (1)
+MinimumDegree (piChildren[0]) : (0)
+MinimumDegree (piForward[0]) : (0)
+MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00061)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0680875)
+singlep (heccer): 0 0.000160
+Heccer (pcName) : (singlep (heccer))
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dConcentrationGateStart) : (4e-05)
+Heccer Options (dConcentrationGateEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (0.00014)
+Heccer (dStep) : (2e-05)
+Intermediary (iCompartments) : (1)
+Compartment (mc.iType) : (1)
+Compartment (iParent) : (-1)
+Compartment (dCm) : (4.57537e-11)
+Compartment (dEm) : (-0.08)
+Compartment (dInitVm) : (-0.068)
+Compartment (dInject) : (0)
+Compartment (dRa) : (360502)
+Compartment (dRm) : (3.58441e+08)
+MinimumDegree (iEntries) : (1)
+MinimumDegree (piChildren[0]) : (0)
+MinimumDegree (piForward[0]) : (0)
+MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00061)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.068102)
+singlep (heccer): 0 0.000180
+Heccer (pcName) : (singlep (heccer))
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dConcentrationGateStart) : (4e-05)
+Heccer Options (dConcentrationGateEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (0.00016)
+Heccer (dStep) : (2e-05)
+Intermediary (iCompartments) : (1)
+Compartment (mc.iType) : (1)
+Compartment (iParent) : (-1)
+Compartment (dCm) : (4.57537e-11)
+Compartment (dEm) : (-0.08)
+Compartment (dInitVm) : (-0.068)
+Compartment (dInject) : (0)
+Compartment (dRa) : (360502)
+Compartment (dRm) : (3.58441e+08)
+MinimumDegree (iEntries) : (1)
+MinimumDegree (piChildren[0]) : (0)
+MinimumDegree (piForward[0]) : (0)
+MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00061)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.0681165)
+singlep (heccer): 0 0.000200
+Heccer (pcName) : (singlep (heccer))
+Heccer (iStatus) : (20)
+Heccer (iErrorCount) : (0)
+Heccer Options (iOptions) : (0)
+Heccer Options (dIntervalStart) : (-0.1)
+Heccer Options (dIntervalEnd) : (0.05)
+Heccer Options (dConcentrationGateStart) : (4e-05)
+Heccer Options (dConcentrationGateEnd) : (0.3)
+Heccer Options (iIntervalEntries) : (3000)
+Heccer Options (iSmallTableSize) : (149)
+Heccer (dTime) : (0.00018)
+Heccer (dStep) : (2e-05)
+Intermediary (iCompartments) : (1)
+Compartment (mc.iType) : (1)
+Compartment (iParent) : (-1)
+Compartment (dCm) : (4.57537e-11)
+Compartment (dEm) : (-0.08)
+Compartment (dInitVm) : (-0.068)
+Compartment (dInject) : (0)
+Compartment (dRa) : (360502)
+Compartment (dRm) : (3.58441e+08)
+MinimumDegree (iEntries) : (1)
+MinimumDegree (piChildren[0]) : (0)
+MinimumDegree (piForward[0]) : (0)
+MinimumDegree (piBackward[0]) : (0)
+Tables (iTabulatedGateCount) : (0)
+Compartment operations
+-----
+00000 :: FINISH
+00001 :: FINISH
+Mechanism operations
+-----
+00000 :: COMPARTMENT							 -2.23189e-10 0 218562 1.00061
+00001 :: FINISH
+VM Diagonals (pdDiagonals[0]) : (1.00061)
+VM Axial Resistances (pdResults[0]) : (0)
+VM Axial Resistances (pdResults[1]) : (0)
+VM Membrane Potentials (pdVms[0]) : (-0.068131)
