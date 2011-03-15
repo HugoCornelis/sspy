@@ -27,7 +27,7 @@ class Schedulee:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, schedulee=None, schedulee_type=None):
+    def __init__(self, schedulee=None, schedulee_type=None, verbose=False):
 
 
         if schedulee is None:
@@ -41,14 +41,31 @@ class Schedulee:
         if schedulee_type not in schedulee_types:
 
             raise errors.ScheduleeError("Invalid type '%s'" % schedulee_type)
-        
+
+        try:
+            
+            self.time_step = schedulee.GetTimeStep()
+
+        except Exception, e:
+
+            raise errors.ScheduleeError("Can't obtain time step: %s\n" % e)
+
+        if self.time_step < 0.0 or self.time_step is None:
+
+            raise errors.ScheduleeError("Invalid step value: '%s'\n" % self.time_step)
+
+        self.current_time = 0.0
+
+        self.current_step = 0
 
         self._schedulees_type = schedulee_type
 
         self._schedulee = schedulee
 
-        self.type = schedulee_type 
+        self.type = schedulee_type
 
+        self.verbose = verbose
+        
 #---------------------------------------------------------------------------
 
     def GetCore(self):
@@ -57,9 +74,13 @@ class Schedulee:
         """
         return self._schedulee
 
+#---------------------------------------------------------------------------
+
     def GetName(self):
 
         return self._schedulee.GetName()
+
+#---------------------------------------------------------------------------
 
 
     def GetType(self):
@@ -85,20 +106,20 @@ class Schedulee:
 
 #---------------------------------------------------------------------------
 
-    def Step(self, time=None):
-
-        if time is None:
-
-            raise errors.ScheduleeError("No time given for '%s'" % self._schedulee.GetName())
+    def Step(self):
 
         try:
 
-            self._schedulee.Step(time)
+            self._schedulee.Step(self.current_time)
 
         except Exception, e:
 
             raise errors.ScheduleeError("%s" % e)
-            
+
+        self.current_time += self.time_step
+
+        self.current_step += 1
+        
 #---------------------------------------------------------------------------        
 
     def GetTimeStep(self):
@@ -112,6 +133,22 @@ class Schedulee:
         except TypeError, e:
 
             return errors.ScheduleeError("Can't retrieve time step: %s" % e)
+
+#---------------------------------------------------------------------------
+
+    def GetCurrentStep(self):
+        """
+        @brief Returns the current step
+        """
+        return self.current_step
+
+#---------------------------------------------------------------------------
+    
+    def GetCurrentTime(self):
+        """
+        @brief Returns the current simulation time
+        """
+        return self.current_time
 
 #---------------------------------------------------------------------------
 
@@ -137,24 +174,34 @@ class Schedulee:
 
             raise errors.ScheduleeError("%s" % e)
 
-        
+        self.current_time = 0.0
 
 #---------------------------------------------------------------------------
 
-    def Output(self, serial, field):
+    def Report(self):
         """
 
         """
-        pass
+
+        print "%s: %d %f" % (self.GetName(), self.GetTimeStep(), self.GetCurrentTime())
+        
+        try:
+            # The internals of the report are handled by passing
+            # verbose options to the simulation object through the
+            # specifcation file
+            self._schedulee.Report()
+
+        except Exception, e:
+
+            raise errors.ScheduleeError("Can't report schedulee for '%s': %s" % (self.GetName(),e))
+
+
         
 #---------------------------------------------------------------------------
 
     def Run(self, time):
 
-        pass
+         pass
 
 
-#---------------------------------------------------------------------------
-    
-
-    
+#----------------------------------------------------------------------------

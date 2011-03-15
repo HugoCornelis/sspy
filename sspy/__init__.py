@@ -66,7 +66,7 @@ class SSPy:
         # Simulation variables
         self.steps = None
         self.time_step = None
-        self.simulation_time = 0.0
+        self.simulation_time = None
         self.simulation_verbose = None
 
 
@@ -157,7 +157,7 @@ class SSPy:
 
         try:
             
-            schedulee = Schedulee(s, schedulee_type)
+            schedulee = Schedulee(s, schedulee_type, self.verbose)
         
         except Exception, e:
 
@@ -247,7 +247,7 @@ class SSPy:
 
     def Step(self):
         """
-
+        @brief Perform one step over all schedulees
         """
         for s in self._schedulees:
 
@@ -567,12 +567,10 @@ class SSPy:
             for i in range(self.steps):
 
                 self.Step()
+
                 
-                if self.verbose:
 
-                    print "Step %d, Time: %f" % (i+1,self.simulation_time)
 
-                    
         
 
 #---------------------------------------------------------------------------
@@ -620,11 +618,12 @@ class SSPy:
         for schedulee in self._schedulees:
 
                 
-            schedulee.Step(self.simulation_time)
+            schedulee.Step()
 
-        
-        self.simulation_time += self.time_step
+            if self.verbose:
 
+                schedulee.Report()
+            
 #---------------------------------------------------------------------------
 
     def Steps(self):
@@ -837,7 +836,7 @@ class SSPy:
         @brief Retrieves simulation parameters
         
         example snippet. First set of arguments has
-        the steps, second set has the time step size.
+        the steps, second set has the simulation time.
         
         simulation:  
           - arguments:  
@@ -875,7 +874,7 @@ class SSPy:
 
                         elif method == 'advance':
 
-                            self.time_step = p['arguments'][0]
+                            self.simulation_time = p['arguments'][0]
 
                 except:
 

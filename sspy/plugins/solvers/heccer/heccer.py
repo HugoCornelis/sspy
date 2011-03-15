@@ -78,11 +78,10 @@ class Solver:
             self._configuration = constructor_settings['configuration']
 
             # set configuration
-        
+            
         if constructor_settings.has_key('dStep'):
 
             time_step = constructor_settings['dStep']
-
 
         elif constructor_settings.has_key('step'):
 
@@ -95,8 +94,6 @@ class Solver:
             
 
         self._compiled = False
-
-
 
         #self._heccer.SetTimeStep(time_step)
 
@@ -112,7 +109,16 @@ class Solver:
 
         return self._name
 
+#---------------------------------------------------------------------------
 
+    def GetTimeStep(self):
+        """
+        @brief Just returns the time step used for the schedulee
+        """
+        time_step = self._heccer.GetTimeStep()
+
+        return time_step
+    
 #---------------------------------------------------------------------------
 
     def GetType(self):
@@ -190,8 +196,7 @@ class Solver:
 
 
                 self._heccer = Heccer(name=self._name, pinter=intermediary)
-
-                self._heccer.CompileAll()
+                
 
         elif service_type == "model_container":
 
@@ -281,13 +286,15 @@ class Solver:
 
             self._heccer.Step(time)
 
-            if self.verbose:
-
-                self._heccer.Dump(0, self.dump_options)
-
         else:
 
             raise Exception("No simulation time given")
+
+#---------------------------------------------------------------------------
+
+    def Report(self):
+    
+        self._heccer.Dump(0, self.dump_options)
 
 #---------------------------------------------------------------------------
 
