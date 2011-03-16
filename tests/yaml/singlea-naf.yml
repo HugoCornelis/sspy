@@ -1,0 +1,67 @@
+--- 
+analyzers: {}
+application_classes:
+  analyzers:
+    default:
+      - method: analyze
+    priority: 95
+  finishers:
+    default:
+      - method: finish
+    priority: 140
+  initializers:
+    default:
+      - method: compile
+      - method: instantiate_inputs
+      - method: instantiate_outputs
+      - method: connect
+      - method: initiate
+      - method: optimize
+    priority: 80
+  modifiers:
+    default: []
+    priority: 50
+  results:
+    default: []
+    priority: 170
+  services:
+    default:
+      - method: instantiate_services
+    priority: 20
+  simulation:
+    default: []
+    priority: 110
+apply:
+  simulation:
+    - arguments:
+        - 1000
+        - verbose: 2
+      method: steps
+    - arguments:
+        - 0.1
+      method: advance
+models:
+  - modelname: /singlea_naf
+    solverclass: heccer
+name: singlea_naf
+optimize: 'by default turned on, ignored when running in verbose mode'
+services:
+  model_container:
+    initializers:
+      - arguments:
+          -
+            - tests/python/singlea-naf
+            - -P
+            - tests/cells/singlea_naf.ndf
+        method: read
+    module_name: Neurospaces
+solverclasses:
+  heccer:
+    constructor_settings:
+      configuration:
+        reporting:
+          granularity: 100
+          tested_things: 6225920
+      dStep: 6e-06
+    module_name: Heccer
+    service_name: model_container

@@ -77,10 +77,10 @@ class SSPy:
         # arrays of schedulees to process when run.
         self._schedulees = []
 
-        # status variables to check 
+        # status variables to check
         self._compiled = False
         self._initialized = False
-        self._loaded = False
+        self._schedule_loaded = False
         self._connected = False
         self._scheduled = False
         self._runtime_parameters_applied = False
@@ -114,12 +114,24 @@ class SSPy:
 
         else:
 
+            self._schedule_loaded = False
+            
             raise errors.ScheduleError("Schedule file '%s' doesn't exist" % filename)
 
         self._schedule_file = norm_file_path
 
-        self.ParseSchedule(self._schedule_data)
-        
+        try:
+            
+            self.ParseSchedule(self._schedule_data)
+
+        except errors.ScheduleError, e:
+
+            print "%s" % e
+
+            self._schedule_loaded = False
+
+        self._schedule_loaded = True
+            
 #---------------------------------------------------------------------------
 
     def Dump(self):
@@ -536,26 +548,35 @@ class SSPy:
         """!
         @brief Runs the simulation
         """
+        if not self._schedule_loaded:
 
-        if not self._connected:
+            print "Can't run, No schedule has been loaded."
 
-            self.Connect()
-
-        if not self._scheduled:
-
-            self.ScheduleAll()
-
-        if not self._runtime_parameters_applied:
-
-            self.ApplyRuntimeParameters()
+        try:
             
-        if not self._compiled:
+            if not self._connected:
 
-            self.Compile()
+                self.Connect()
 
-        if not self._initialized:
+            if not self._scheduled:
 
-            self.Initialize()
+                self.ScheduleAll()
+
+            if not self._runtime_parameters_applied:
+
+                self.ApplyRuntimeParameters()
+            
+            if not self._compiled:
+
+                self.Compile()
+
+            if not self._initialized:
+
+                self.Initialize()
+
+        except Exception, e:
+
+            raise errors.ScheduleError("%s" % e)
 
         if self.verbose:
 

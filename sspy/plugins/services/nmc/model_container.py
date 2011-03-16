@@ -25,9 +25,10 @@ class Service:
 #---------------------------------------------------------------------------
     def __init__(self, name="Untitled Model Container", plugin=None,
                  arguments=None, verbose=False):
-        pdb.set_trace()
-        pass
 
+        self._name = name
+
+        self._plugin_data = plugin
 
 
 #---------------------------------------------------------------------------
@@ -43,11 +44,15 @@ class Service:
 
         return self._name
 
+    def GetType(self):
+
+        return self._plugin_data.GetName()
+
 #---------------------------------------------------------------------------
 
     def GetModuleName(self):
 
-        return self._module_name
+        return self._plugin_data.GetName()
 
 #---------------------------------------------------------------------------
 
