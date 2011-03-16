@@ -1033,10 +1033,10 @@ class SSPy:
             items = output_data.items()
 
             items = output_parameters.items()
-            
+
         except AttributeError, e:
 
-            raise errors.ScheduleError("Error parsing services, %s" % e)
+            raise errors.ScheduleError("Error parsing outputs, %s" % e)
 
 
         for output_type, data in output_data.iteritems():
@@ -1077,6 +1077,6 @@ class SSPy:
 
         except AttributeError, e:
 
-            raise errors.ScheduleError("Error parsing services, %s" % e)
+            raise errors.ScheduleError("Error parsing inputs, %s" % e)
         
 #*********************************** End SSPy *******************************

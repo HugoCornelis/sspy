@@ -23,9 +23,9 @@ except ImportError, e:
 class Service:
 
 #---------------------------------------------------------------------------
-    def __init__(self, name="Untitled Model Container", plugin_name=None
+    def __init__(self, name="Untitled Model Container", plugin=None,
                  arguments=None, verbose=False):
-
+        pdb.set_trace()
         pass
 
 
