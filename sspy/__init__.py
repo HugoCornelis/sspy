@@ -964,6 +964,10 @@ class SSPy:
 
                 raise errors.ScheduleError("Error, cannot create solver '%s' of type '%s', %s" % (solver_name, solver_type, e))
 
+#             if solver is None:
+
+#                 raise errors.SolverError("Solver wasn't created")
+
             self._solvers.append(solver)
 
 #---------------------------------------------------------------------------

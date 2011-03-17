@@ -30,19 +30,47 @@ class Service:
 
         self._plugin_data = plugin
 
+        self.verbose = verbose
+
+        try:
+            
+            self._model_container = ModelContainer()
+
+        except Exception, e:
+
+            raise Exception("Service Error: Can't initialize Model Container '%s', %s" % (self._name, e))
+
+        if self._model_container is None:
+
+            raise Exception("Service Error: Can't initialize Model Container '%s'" % (self._name))
+
+
+        self._arguments = arguments
+
+        self._ParseArguments()
 
 #---------------------------------------------------------------------------
 
 
     def GetCore(self):
-
-        return None
+        """
+        @brief Returns the constructed model container
+        """
+        return self._model_container
     
 #---------------------------------------------------------------------------
 
     def GetName(self):
 
         return self._name
+
+#---------------------------------------------------------------------------
+
+    def GetPluginName(self):
+
+        return self._plugin_data.GetName()
+
+#---------------------------------------------------------------------------
 
     def GetType(self):
 
@@ -60,3 +88,31 @@ class Service:
 
         return self._arguments
 
+#---------------------------------------------------------------------------
+
+    def _ParseArguments(self):
+        """
+
+        This currently parses arguments that are just an array
+        with three entries, the third being the file to load
+        like so:
+
+            ['executable file', 'flags', 'filename']
+
+        For this I'm assuming it's safe to simply load the third entry as the
+        filename.
+        """
+        
+        filename = ""
+
+        if len(self._arguments) == 3:
+            
+            filename = self._arguments[-1]
+
+
+        if self.verbose:
+
+            print "Loading model from file '%s'" % filename
+
+        
+        self._model_container.Read(filename)
