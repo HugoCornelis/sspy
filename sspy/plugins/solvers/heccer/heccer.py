@@ -40,6 +40,8 @@ class Solver:
         
         self._heccer = None
 
+        # default dump options, do they need to be here? They're commented out
+        # in ssp
         self.dump_options = (heccer.heccer_base.HECCER_DUMP_INDEXERS_SUMMARY
 		   | heccer.heccer_base.HECCER_DUMP_INDEXERS_STRUCTURE
 		   | heccer.heccer_base.HECCER_DUMP_INTERMEDIARY_COMPARTMENTS_PARAMETERS
@@ -62,7 +64,7 @@ class Solver:
 
 #             raise Exception("Can't create Heccer solver '%s'" % name)
 
-        time_step = -1
+        self.time_step = -1
         
         if constructor_settings.has_key('service_name'):
 
@@ -73,27 +75,49 @@ class Solver:
 
             self._module_name = constructor_settings['module_name']
 
-        if constructor_settings.has_key('configuration'):
-
-            self._configuration = constructor_settings['configuration']
-
-            # set configuration
-            
-        if constructor_settings.has_key('dStep'):
-
-            time_step = constructor_settings['dStep']
-
-        elif constructor_settings.has_key('step'):
-
-            time_step = constructor_settings['step']
-            
-
-        if time_step > -1:
+        self._constructor_settings = {}
         
-            self._heccer.SetTimeStep(time_step)
+        self._configuration = {}
+
+        if constructor_settings.has_key('constructor_settings'):
+
+            self._constructor_settings = constructor_settings['constructor_settings']
+                
+            if constructor_settings['constructor_settings'].has_key('configuration'):
+
+                self._configuration = constructor_settings['constructor_settings']['configuration']
+
+
+        if self._constructor_settings.has_key('dStep'):
+
+            self.time_step = self._constructor_settings['dStep']
+
+        elif self._constructor_settings.has_key('step'):
+
+            self.time_step = self._constructor_settings['step']
+            
+
+        self.granularity = 1
+        
+        # Now check for reporting options
+        if self._configuration.has_key('reporting'):
+
+            reporting = self._configuration['reporting']
+
+            if reporting.has_key('tested_things'):
+
+                self.dump_options = reporting['tested_things']
+
+            if reporting.has_key('granularity'):
+
+                self.granularity = reporting['granularity']
+        
             
 
         self._compiled = False
+
+        # this is just to keep track of granularity printing
+        self.current_step = 0
 
         #self._heccer.SetTimeStep(time_step)
 
@@ -101,6 +125,9 @@ class Solver:
         
     def Initialize(self):
 
+        self.current_step = 0
+        
+        
         self._heccer.Initiate()
 
 #---------------------------------------------------------------------------
@@ -215,6 +242,11 @@ class Solver:
 
             raise Exception("Incompatible Service")
 
+
+        if self.time_step > -1:
+
+            self._heccer.SetTimeStep(float(self.time_step))
+
 #---------------------------------------------------------------------------
 
     def Deserialize(self, filename):
@@ -286,6 +318,7 @@ class Solver:
 
             self._heccer.Step(time)
 
+            self.current_step += 1
         else:
 
             raise Exception("No simulation time given")
@@ -293,8 +326,12 @@ class Solver:
 #---------------------------------------------------------------------------
 
     def Report(self):
-    
-        self._heccer.Dump(0, self.dump_options)
+
+        granularity_result = self.current_step % self.granularity
+        
+        if granularity_result == 0:
+            
+            self._heccer.Dump(0, self.dump_options)
 
 #---------------------------------------------------------------------------
 

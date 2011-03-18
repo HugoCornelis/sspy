@@ -183,7 +183,9 @@ class Schedulee:
 
         """
 
-        print "%s: %d %f" % (self.GetName(), self.GetTimeStep(), self.GetCurrentTime())
+        if self.verbose:
+            
+            print "%s: %d %f" % (self.GetName(), self.GetTimeStep(), self.GetCurrentTime())
         
         try:
             # The internals of the report are handled by passing

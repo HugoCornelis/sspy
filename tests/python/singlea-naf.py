@@ -12,7 +12,7 @@ add_sspy_path()
 from sspy import SSPy 
 
 
-scheduler = SSPy(verbose=True)
+scheduler = SSPy()
 
 try:
     

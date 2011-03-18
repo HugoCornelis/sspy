@@ -282,7 +282,7 @@ class SSPy:
         if self.verbose:
             
             print "Compiling all solvers"
-            
+
         for solver in self._solvers:
 
             try:
@@ -346,13 +346,13 @@ class SSPy:
 
                     print "\tConnecting solver '%s' to service '%s'" % (solver.GetName(),service.GetName())
 
-                    try:
+                try:
 
-                        solver.Connect(service)
+                    solver.Connect(service)
 
-                    except Exception, e:
+                except Exception, e:
 
-                        print "\tCan't connect solver '%s' to service '%s': %s" % (solver.GetName(), service.GetName(), e)
+                    print "\tCan't connect solver '%s' to service '%s': %s" % (solver.GetName(), service.GetName(), e)
 
 
         num_inputs = len(self._inputs)
@@ -553,7 +553,7 @@ class SSPy:
             print "Can't run, No schedule has been loaded."
 
         try:
-            
+
             if not self._connected:
 
                 self.Connect()
@@ -641,7 +641,7 @@ class SSPy:
                 
             schedulee.Step()
 
-            if self.verbose:
+            if self.simulation_verbose:
 
                 schedulee.Report()
             
@@ -958,7 +958,7 @@ class SSPy:
 
             try:
                 
-                solver = self._solver_registry.CreateSolver(solver_name, solver_type, data)
+                solver = self._solver_registry.CreateSolver(solver_name, solver_type, data, self.simulation_verbose)
 
             except Exception, e:
 
