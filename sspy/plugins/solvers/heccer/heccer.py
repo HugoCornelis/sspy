@@ -95,7 +95,22 @@ class Solver:
         elif self._constructor_settings.has_key('step'):
 
             self.time_step = self._constructor_settings['step']
-            
+
+
+        self.options = 0
+        
+        if self._constructor_settings.has_key('options'):
+
+            options = self._constructor_settings['options']
+
+            if options.has_key('iOptions'):
+
+                self.options = options['iOptions']
+
+            elif options.has_key('options'):
+
+                self.options = options['options']
+                
 
         self.granularity = 1
         
@@ -113,7 +128,6 @@ class Solver:
                 self.granularity = reporting['granularity']
         
             
-
         self._compiled = False
 
         # this is just to keep track of granularity printing
@@ -242,10 +256,14 @@ class Solver:
 
             raise Exception("Incompatible Service")
 
-
+        # Set any simulator specific variables here
         if self.time_step > -1:
 
             self._heccer.SetTimeStep(float(self.time_step))
+
+        if self.options != 0:
+
+            self._heccer.SetOptions(self.options)
 
 #---------------------------------------------------------------------------
 

@@ -34,25 +34,22 @@ application_classes:
 apply:
   simulation:
     - arguments:
-        - 1000
+        - 10
         - verbose: 2
       method: steps
-    - arguments:
-        - 0.1
-      method: advance
 models:
-  - modelname: /singlea_naf
+  - modelname: /singlea_naf2_aggregator
     solverclass: heccer
-name: singlea_naf
+name: singlea_naf2_aggregator
 optimize: 'by default turned on, ignored when running in verbose mode'
 services:
   model_container:
     initializers:
       - arguments:
           -
-            - tests/python/singlea-naf
+            - tests/perl/singlea-naf2-aggregator
             - -P
-            - tests/cells/singlea_naf.ndf
+            - tests/cells/singlea_naf2_aggregator.ndf
         method: read
     module_name: Neurospaces
 solverclasses:
@@ -60,8 +57,9 @@ solverclasses:
     constructor_settings:
       configuration:
         reporting:
-          granularity: 100
-          tested_things: 6225920
+          tested_things: 39780352
       dStep: 6e-06
+      options:
+        iOptions: 96
     module_name: Heccer
     service_name: model_container
