@@ -60,7 +60,6 @@ solverclasses:
     constructor_settings:
       configuration:
         reporting:
-          granularity: 100
           tested_things: 6225920
       dStep: 6e-06
     module_name: Heccer

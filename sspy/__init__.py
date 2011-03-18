@@ -585,7 +585,7 @@ class SSPy:
         # We have steps so we run for this number of steps
         if self.steps is not None:
 
-            for i in range(self.steps):
+            for i in range(self.steps + 1):
 
                 self.Step()
 
