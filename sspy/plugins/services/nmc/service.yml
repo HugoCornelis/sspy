@@ -1,7 +1,7 @@
 ---
 name: model_container
 label: Neurospaces Model Container
-version: 0.1
+version: ssp
 description: This is the SSPy object for setting up a model container
 file: model_container.py
 source: model_container.py

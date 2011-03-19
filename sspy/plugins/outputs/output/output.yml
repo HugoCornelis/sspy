@@ -1,7 +1,7 @@
 ---
 name: double_2_ascii
 label: Output Generator
-version: 0.1
+version: ssp
 description: This is the SSPy object for the output generator
 file: output.py
 source: output.py
