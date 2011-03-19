@@ -15,14 +15,15 @@ all:
 
 
 clean: clean-local
-	$(RM) -f $(top_builddir)/sspy/*.pyc
+#	$(RM) -f $(top_builddir)/sspy/*.pyc
 #	$(RM) -rf $(top_builddir)/epydocs
 #	$(RM) -rf $(top_builddir)/docs/html
 
 
 clean-local:
 	$(RM) -rf $(top_builddir)/docs/html
-	$(RM) -f $(top_builddir)/tests/python/*.pyc
+	echo "Removing all compiled byte code files"
+	$(RM) `find . -name "*.pyc"`
 
 doxygen: doxygen.cfg
 	$(DOXYGEN) doxygen.cfg
