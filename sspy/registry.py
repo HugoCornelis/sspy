@@ -485,8 +485,9 @@ class OutputRegistry(Registry):
 
         if expected_class in dir(py_mod):
 
+            
             try:
-
+                
                 class_inst = py_mod.Output(name=name,
                                            plugin=plugin,
                                            arguments=arguments,

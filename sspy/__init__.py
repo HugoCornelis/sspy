@@ -82,7 +82,9 @@ class SSPy:
         self._compiled = False
         self._initialized = False
         self._schedule_loaded = False
-        self._connected = False
+        self._services_connected = False
+        self._inputs_connected = False
+        self._outputs_connected = False
         self._scheduled = False
         self._runtime_parameters_applied = False
         
@@ -314,7 +316,7 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def Connect(self):
+    def ConnectServices(self):
         """
         @brief Connects services to solvers and solvers to protocols
 
@@ -355,33 +357,25 @@ class SSPy:
 
                     print "\tCan't connect solver '%s' to service '%s': %s" % (solver.GetName(), service.GetName(), e)
 
+        self._services_connected = True
+ 
+#---------------------------------------------------------------------------
 
-        num_inputs = len(self._inputs)
 
-        if num_inputs > 0:
-
-            if self.verbose:
-                
-                print "Connecting %d inputs to %d solvers" % (num_inputs, num_solvers)
-        
-            # Now we connect solvers to inputs
-            for i in self._inputs:
-
-                for solver in self._solvers:
-
-                    if self.verbose:
-
-                        print "\tConnecting solver '%s' to input '%s'" % (solver.GetName(),i.GetName())
-                        
-                    try:
-
-                        i.Connect(solver)
-                        
-                    except Exception, e:
-
-                        print "\tCan't connect solver '%s' to input '%s': %s" % (solver.GetName(), i.GetName(), e)
-                    
+    def ConnectOutputs(self):
+        """!
+        @brief 
+        """
+                   
         num_outputs = len(self._outputs)
+
+        num_solvers = len(self._solvers)
+
+        if num_solvers == 0:
+
+            print "No solvers to connect"
+
+            return False
 
         if num_outputs > 0:
 
@@ -407,8 +401,52 @@ class SSPy:
                         print "\tCan't connect solver '%s' to output '%s': %s" % (solver.GetName(), o.GetName(), e)
 
 
-        self._connected = True
+        self._outputs_connected = True
+
+
+#---------------------------------------------------------------------------
+
+    def ConnectInputs(self):
+        """!
+        @brief  
+
+        """
         
+        num_inputs = len(self._inputs)
+
+        num_solvers = len(self._solvers)
+
+        if num_solvers == 0:
+
+            print "No solvers to connect"
+
+            return False
+        
+        if num_inputs > 0:
+
+            if self.verbose:
+                
+                print "Connecting %d inputs to %d solvers" % (num_inputs, num_solvers)
+        
+            # Now we connect solvers to inputs
+            for i in self._inputs:
+
+                for solver in self._solvers:
+
+                    if self.verbose:
+
+                        print "\tConnecting solver '%s' to input '%s'" % (solver.GetName(),i.GetName())
+                        
+                    try:
+
+                        i.Connect(solver)
+                        
+                    except Exception, e:
+
+                        print "\tCan't connect solver '%s' to input '%s': %s" % (solver.GetName(), i.GetName(), e)
+
+        self._inputs_connected = True
+    
 #---------------------------------------------------------------------------
     def Daemonize(self):
 
@@ -555,9 +593,9 @@ class SSPy:
 
         try:
 
-            if not self._connected:
+            if not self._services_connected:
 
-                self.Connect()
+                self.ConnectServices()
 
             if not self._scheduled:
 
@@ -570,6 +608,14 @@ class SSPy:
             if not self._compiled:
 
                 self.Compile()
+
+            if not self._outputs_connected:
+
+                self.ConnectOutputs()
+
+            if not self._inputs_connected:
+
+                self.ConnectInputs()
 
             if not self._initialized:
 
@@ -1081,8 +1127,14 @@ class SSPy:
 
                 print "Loading Output '%s' of type '%s'" % (output_name, output_type)
 
-            output = self._output_registry.CreateOutput(output_name, output_type, output_parameters)
+            output = self._output_registry.CreateOutput(output_name, output_type, output_data)
 
+        # After giving initializing data, we give the output parameters
+        #
+        if output_parameters is not None:
+            
+            output.SetOutputs(output_parameters)
+        
         self._outputs.append(output)
 
 
