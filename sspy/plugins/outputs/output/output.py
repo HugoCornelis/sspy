@@ -3,7 +3,8 @@
 
 class Output:
 
-    def __init__(self):
+    def __init__(self,  name="Untitled solver", plugin=None, 
+                 arguments=None, verbose=False):
 
         self._output_gen = None
 
@@ -32,4 +33,3 @@ class Output:
         self._output_gen.Step()
 
 
-    def 

@@ -37,12 +37,8 @@ class OutputError(Exception):
     
     def __str__(self):
 
-        error_msg = "Output object Error: %s" % (self.msg)
+        error_msg = "Output Error: %s" % (self.msg)
 
-        if not self.value is None and self.value != "":
-
-            error_msg = error_msg + ", " + self.value
-        
         return error_msg
 
 #---------------------------------------------------------------------------

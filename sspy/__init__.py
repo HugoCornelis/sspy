@@ -773,17 +773,19 @@ class SSPy:
         # Specifies the output objects to use.
         if self._schedule_data.has_key('outputclasses'):
 
-            outputclasses = schedule_data['solverclasses']
+            outputclasses = schedule_data['outputclasses']
 
-
+            
             # Attributes for the outputclass objects that were loaded.
+
+            outputs = None
+            
             if self._schedule_data.has_key('outputs'):
                 
                 outputs = schedule_data['outputs']
 
-
             self._ParseOutputs(outputclasses, outputs)
-
+                
 
 #---------------------------------------------------------------------------
 
@@ -1053,12 +1055,9 @@ class SSPy:
         @brief Loads outputs from python dictionaries.
         """
 
-
         try:
 
-            items = output_data.items()
-
-            items = output_parameters.items()
+            output_data.iteritems()
 
         except AttributeError, e:
 
@@ -1082,9 +1081,8 @@ class SSPy:
 
                 print "Loading Output '%s' of type '%s'" % (output_name, output_type)
 
-
-            output = self._solver_registry.CreateOutput(output_name, output_type, output_parameters)
-
+            output = self._output_registry.CreateOutput(output_name, output_type, output_parameters)
+            pdb.set_trace()
 
         self._outputs.append(output)
 
