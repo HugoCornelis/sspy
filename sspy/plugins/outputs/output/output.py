@@ -12,11 +12,11 @@ sys.path.append("/usr/local/glue/swig/python")
 
 try:
 
-    import g3.experiment as experiment
+    import g3.experiment.output as output
 
 except ImportError, e:
 
-    sys.exit("Error importing the Experiment Python module: %s\n" % e)
+    sys.exit("Error importing the Experiment Output Python module: %s\n" % e)
 
 
 
@@ -68,6 +68,16 @@ class Output:
     
 #---------------------------------------------------------------------------
 
+    def GetTimeStep(self):
+        """
+        """
+        time_step = 0.01
+        
+        return time_step
+
+#---------------------------------------------------------------------------
+    
+
     def GetType(self):
 
         return self._plugin_data.GetName()
@@ -103,11 +113,12 @@ class Output:
 #---------------------------------------------------------------------------
 
 
-    def Step(self):
+    def Step(self, time=None):
         """
 
         """
-        self._output_gen.Step()
+        pass
+        #self._output_gen.Step()
 
 
 #---------------------------------------------------------------------------

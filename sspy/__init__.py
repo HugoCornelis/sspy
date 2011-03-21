@@ -1082,7 +1082,6 @@ class SSPy:
                 print "Loading Output '%s' of type '%s'" % (output_name, output_type)
 
             output = self._output_registry.CreateOutput(output_name, output_type, output_parameters)
-            pdb.set_trace()
 
         self._outputs.append(output)
 
