@@ -20,6 +20,7 @@ except ImportError:
 
 from registry import SolverRegistry
 from registry import ServiceRegistry
+from registry import OutputRegistry
 
 from schedulee import Schedulee
 
@@ -50,7 +51,7 @@ class SSPy:
         # and outputs
         self._solver_registry = SolverRegistry(solver_directory, verbose=self.verbose)
         self._service_registry = ServiceRegistry(service_directory, verbose=self.verbose)
-
+        self._output_registry = OutputRegistry(output_directory, verbose=self.verbose)
 
         self.name = name
 

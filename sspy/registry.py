@@ -343,14 +343,13 @@ class ServiceRegistry(Registry):
 
         elif index != -1:
 
-            # bounds check?
-            plugin = self._service_plugins[index]
+            plugin = self._loaded_plugins[index]
             
             
         service = self._InstantiateFromFile(plugin, name, arguments)
 
         # verify sim legit?
-
+        
         return service    
 
 
@@ -418,65 +417,64 @@ class OutputRegistry(Registry):
 
     """
     
-    def __init__(self, output_directory):
+    def __init__(self, output_directory, verbose=False):
 
         Registry.__init__(self,
                           plugin_directory=output_directory,
-                          plugin_file="output.yml")
+                          plugin_file="output.yml",
+                          verbose=verbose)
 
 
 
 
 #---------------------------------------------------------------------------
 
-    def CreateOutput(self, name, type=None, index=-1):
+    def CreateOutput(self, name, type=None, arguments=None, index=-1):
 
-        plugin_type = None
+
+        plugin = None
 
         if type is not None:
 
-            plugin_type = self.GetPluginData(type)
+            plugin = self.GetPluginData(type)
 
         elif index != -1:
 
             # bounds check?
-            plugin_type = self._output_plugins[index]
+            plugin = self._service_plugins[index]
             
+            
+        my_output = self._InstantiateFromFile(plugin, name, arguments)
+
+        return my_output    
+
+
+#---------------------------------------------------------------------------
+
+    def _InstantiateFromFile(self, plugin, name="Untitled", arguments=None):
+        """
+        @brief Creates an output object from a plugin
+        """
+        class_inst = None
+        expected_class = 'Output'
+
         
         # First we check to see if we have the proper data to
         # allocate from a file.
         try:
             
-            plugin_file = plugin_type.GetFile()
+            filepath = plugin.GetFile()
 
-        except AttributeError:
-
-            raise errors.ScheduleError("Cannot create Output, invalid output type '%s' for output '%s'" % (type,name))
-        
-        if plugin_file != "":
+            output_type = plugin.GetName()
             
-            output = self._InstantiateFromFile(plugin_file,name)
+        except AttributeError, e:
 
-        # verify sim legit?
+            raise errors.ScheduleError("Cannot create Output, invalid plugin for solver '%s', %s" % (name,e))
 
-        return output    
-
-
-#---------------------------------------------------------------------------
-
-
-    def _InstantiateFromFile(self, filepath, name="Untitled", constructor_settings=None):
-        """
-
-        """
-        class_inst = None
-        expected_class = 'Output'
 
         if not os.path.exists(filepath):
 
-            raise errors.OutputError("no such plugin to load class from: %s" % filepath)
-        
-            return None
+            raise errors.ScheduleError("Error: no such plugin to load class from: %s" % filepath)
 
         mod_name,file_ext = os.path.splitext(os.path.split(filepath)[-1])
         if file_ext.lower() == '.py':
@@ -484,18 +482,22 @@ class OutputRegistry(Registry):
 
         elif file_ext.lower() == '.pyc':
             py_mod = imp.load_compiled(mod_name, filepath)
-#        pdb.set_trace()
+
         if expected_class in dir(py_mod):
 
             try:
 
-                class_inst = py_mod.Output(name=name, initializers=None) 
+                class_inst = py_mod.Output(name=name,
+                                           plugin=plugin,
+                                           arguments=arguments,
+                                           verbose=self.verbose) 
 
-            except TypeError:
+            except Exception, e:
 
-                raise errors.OutputError("'Output' class is not found for plugin %s" % name)
+                raise errors.OutputError("'Output' class '%s' cannot be created: %s" % (name, e))
 
         return class_inst
+
 
 #---------------------------------------------------------------------------
 
