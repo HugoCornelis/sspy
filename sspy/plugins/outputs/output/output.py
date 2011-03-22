@@ -208,14 +208,25 @@ class Output:
 
             raise Exception("No 'double_2_ascii' configuration block present")
 
-
+        output_mode = None
+        resolution = None
+        string_format = None
+        
         if configuration.has_key('options'):
 
             options = configuration['options']
 
             if options.has_key('output_mode'):
 
-                self.output_mode = options['output_mode']
+                output_mode = options['output_mode']
+
+            if options.has_key('resolution'):
+
+                resolution = options['resolution']
+
+            if options.has_key('format'):
+
+                string_format = options['format']
 
             if options.has_key('filename'):
 
@@ -225,8 +236,22 @@ class Output:
 
                 self.filename = None
 
+
         self._output_gen = og.Output(self.filename)
 
+        
+        if output_mode == 'steps':
             
-        
-        
+            # turn on steps mode
+            
+            self._output_gen.SetSteps(1) 
+            
+
+        if resolution is not None:
+
+            self._output_gen.SetResolution(resolution)
+
+
+        if string_format is not None:
+
+            self._output_gen.SetFormat(string_format)
