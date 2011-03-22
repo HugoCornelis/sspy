@@ -49,7 +49,6 @@ outputclasses:
     options:
       filename: /tmp/output
       output_mode: steps
-      resolution: 10
     package: Experiment::Output
 outputs:
   - component_name: /singlep/segments/soma
