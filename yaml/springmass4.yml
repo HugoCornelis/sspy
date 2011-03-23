@@ -1,4 +1,4 @@
---- !!perl/hash:SSP
+---
 analyzers: {}
 application_classes:
   analyzers:

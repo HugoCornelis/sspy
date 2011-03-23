@@ -603,10 +603,6 @@ class SSPy:
 
                 self.ConnectServices()
 
-            if not self._scheduled:
-
-                self.ScheduleAll()
-
             if not self._runtime_parameters_applied:
 
                 self.ApplyRuntimeParameters()
@@ -623,6 +619,10 @@ class SSPy:
 
                 self.ConnectInputs()
 
+            if not self._scheduled:
+
+                self.ScheduleAll()
+                
             if not self._initialized:
 
                 self.Initialize()
@@ -795,6 +795,10 @@ class SSPy:
         if self._schedule_data.has_key('models'):
 
             self._models = schedule_data['models']
+
+            if self._schedule_data.has_key('runtime_parameters'):
+
+                self._runtime_parameters = schedule_data['runtime_parameters']
 
 
         # 

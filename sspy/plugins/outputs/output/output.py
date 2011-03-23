@@ -98,9 +98,8 @@ class Output:
     def GetTimeStep(self):
         """
         """
-        time_step = 0.01
         
-        return time_step
+        return self.time_step
 
 #---------------------------------------------------------------------------
 
@@ -132,13 +131,38 @@ class Output:
 #---------------------------------------------------------------------------
 
     def Connect(self, solver):
+        """!
+        @brief Connects the output to a solver
 
+        To properly connect a solver and an output you must:
+
+            1. Retrieve the timestep from the solver and set it
+            with the SetTimeStep method to ensure the scheudlee
+            properly updates the object.
+
+            2. Connect the solver core to the output core.
+
+            3. Add the inputs via whatever method the cores use
+            to communicate.
+
+        """
         solver_type = solver.GetType()
 
         if solver_type == 'heccer':
 
             my_heccer = solver.GetCore()
 
+            # Here we need to get the timestep and set it
+            # for our object
+            time_step = my_heccer.GetTimeStep()
+
+            self.SetTimeStep(time_step)
+
+
+            #
+            # Could be possible to move this loop to it's own method
+            # for loading outputs.
+            #
             component_name = ""
             field = ""
             
@@ -149,7 +173,7 @@ class Output:
                     if o['outputclass'] != 'double_2_ascii':
                         # if this output is not meant
                         # for this object type then we
-                        # continue
+                        # continue and ignore it
                         continue
 
                 if o.has_key('component_name'):
@@ -171,12 +195,12 @@ class Output:
                     print "Output Error, no field given for output %d" % i
 
                     continue
-                #pdb.set_trace()
+
                 address = my_heccer.GetAddress(component_name, field)
 
                 if self.verbose:
 
-                    print "\tAdding output '%s' with field '%s'" % (component_name, field)
+                    print "\tAdding output %d, '%s' with field '%s'" % (i+1,component_name, field)
                     
                 self._output_gen.AddOutput(component_name, address)
 
