@@ -19,7 +19,7 @@ except ImportError, e:
     sys.exit("Error importing the Experiment Output Python module: %s\n" % e)
 
 
-_default_filename = "/tmp/OutputGenerator
+_default_filename = "/tmp/OutputGenerator"
 
 class Output:
 
