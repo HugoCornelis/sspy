@@ -455,8 +455,14 @@ class SSPy:
 #---------------------------------------------------------------------------
 
     def Finish(self):
+        """
+        @brief Performs a finish on all schedulees
+        """
+        for s in self._schedulees:
 
-        pass
+            s.Finish()
+
+        
 
 #---------------------------------------------------------------------------
 
@@ -637,8 +643,11 @@ class SSPy:
                 self.Step()
 
                 
+        if self.verbose:
 
-
+            print "Finishing simulation"
+            
+        self.Finish()
         
 
 #---------------------------------------------------------------------------

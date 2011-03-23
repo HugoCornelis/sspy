@@ -65,6 +65,20 @@ class Schedulee:
         self.type = schedulee_type
 
         self.verbose = verbose
+
+#---------------------------------------------------------------------------
+
+    def Finish(self):
+        """
+
+        """
+        try:
+
+            self._schedulee.Finish()
+
+        except Exception, e:
+
+            raise errors.ScheduleeError("%s" % e)
         
 #---------------------------------------------------------------------------
 
