@@ -1,0 +1,129 @@
+--- 
+analyzers: {}
+application_classes:
+  analyzers:
+    default: &2
+      - method: analyze
+    priority: 95
+  finishers:
+    default: &3
+      - method: finish
+    priority: 140
+  initializers:
+    default: &4
+      - method: compile
+      - method: instantiate_inputs
+      - method: instantiate_outputs
+      - method: connect
+      - method: initiate
+      - method: optimize
+    priority: 80
+  modifiers:
+    default: &5 []
+    priority: 50
+  results:
+    default: &6 []
+    priority: 170
+  services:
+    default: &7
+      - method: instantiate_services
+    priority: 20
+  simulation:
+    default: []
+    priority: 110
+apply:
+  analyzers: *2
+  finishers: *3
+  initializers: *4
+  modifiers: *5
+  results: *6
+  services: *7
+  simulation:
+    - arguments: &8
+        - 10
+        - time_step: 2e-05
+          verbose: 2
+      method: steps
+    - arguments: &9
+        - 0.1
+      method: advance
+history:
+  - arguments: []
+    method: instantiate_services
+    time_stamp: Mon Mar 28 16:23:17 2011
+  - arguments: []
+    method: compile
+    time_stamp: Mon Mar 28 16:23:17 2011
+  - arguments: []
+    method: instantiate_inputs
+    time_stamp: Mon Mar 28 16:23:17 2011
+  - arguments: []
+    method: instantiate_outputs
+    time_stamp: Mon Mar 28 16:23:17 2011
+  - arguments: []
+    method: connect
+    time_stamp: Mon Mar 28 16:23:17 2011
+  - arguments: []
+    method: initiate
+    time_stamp: Mon Mar 28 16:23:17 2011
+  - arguments: []
+    method: optimize
+    time_stamp: Mon Mar 28 16:23:17 2011
+  - arguments: []
+    method: analyze
+    time_stamp: Mon Mar 28 16:23:17 2011
+  - arguments: *8
+    method: steps
+    time_stamp: Mon Mar 28 16:23:17 2011
+  - arguments: *9
+    method: advance
+    time_stamp: Mon Mar 28 16:23:17 2011
+  - arguments: []
+    method: finish
+    time_stamp: Mon Mar 28 16:23:17 2011
+models:
+  - modelname: /fork3p
+    solverclass: heccer
+name: fork3p
+optimize: 'by default turned on, ignored when running in verbose mode'
+schedule:
+  - !!perl/hash:SSP::Engine
+    backend: !!perl/hash:Heccer
+      configuration: {}
+      heccer: !!perl/hash:SwiggableHeccer::simobj_Heccer {}
+      model_source:
+        modelname: /fork3p
+        service_backend: &10 !!perl/hash:Neurospaces
+          initializers: &11
+            - arguments:
+                -
+                  - tests/perl/fork3p
+                  - -P
+                  - tests/cells/fork3p.ndf
+              method: read
+          module_name: Neurospaces
+          neurospaces: !!perl/hash:SwiggableNeurospaces::Neurospaces {}
+        service_name: model_container
+    compilation_priority: numerical
+    modelname: /fork3p
+    module_name: Heccer
+    name: /fork3p
+    scheduler: *1
+    service: &12
+      initializers: *11
+      module_name: Neurospaces
+      ssp_service: !!perl/hash:SSP::Service
+        backend: *10
+        scheduler: *1
+    service_name: model_container
+    solverclass: heccer
+services:
+  model_container: *12
+simulation_time:
+  steps: 5010
+  time: 0.100200000000009
+solverclasses:
+  heccer:
+    compilation_priority: numerical
+    module_name: Heccer
+    service_name: model_container
