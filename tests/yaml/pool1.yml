@@ -1,0 +1,136 @@
+--- &1 !!perl/hash:SSP
+analyzers: {}
+application_classes:
+  analyzers:
+    default: &2
+      - method: analyze
+    priority: 95
+  finishers:
+    default: &3
+      - method: finish
+    priority: 140
+  initializers:
+    default: &4
+      - method: compile
+      - method: instantiate_inputs
+      - method: instantiate_outputs
+      - method: connect
+      - method: initiate
+      - method: optimize
+    priority: 80
+  modifiers:
+    default: &5 []
+    priority: 50
+  results:
+    default: &6 []
+    priority: 170
+  services:
+    default: &7
+      - method: instantiate_services
+    priority: 20
+  simulation:
+    default: []
+    priority: 110
+apply:
+  analyzers: *2
+  finishers: *3
+  initializers: *4
+  modifiers: *5
+  results: *6
+  services: *7
+  simulation:
+    - arguments: &8
+        - 1000
+        - time_step: 2e-05
+          verbose: 2
+      method: steps
+    - arguments: &9
+        - 0.1
+      method: advance
+history:
+  - arguments: []
+    method: instantiate_services
+    time_stamp: Tue Mar 29 13:45:57 2011
+  - arguments: []
+    method: compile
+    time_stamp: Tue Mar 29 13:45:57 2011
+  - arguments: []
+    method: instantiate_inputs
+    time_stamp: Tue Mar 29 13:45:57 2011
+  - arguments: []
+    method: instantiate_outputs
+    time_stamp: Tue Mar 29 13:45:57 2011
+  - arguments: []
+    method: connect
+    time_stamp: Tue Mar 29 13:45:57 2011
+  - arguments: []
+    method: initiate
+    time_stamp: Tue Mar 29 13:45:57 2011
+  - arguments: []
+    method: optimize
+    time_stamp: Tue Mar 29 13:45:57 2011
+  - arguments: []
+    method: analyze
+    time_stamp: Tue Mar 29 13:45:57 2011
+  - arguments: *8
+    method: steps
+    time_stamp: Tue Mar 29 13:45:57 2011
+  - arguments: *9
+    method: advance
+    time_stamp: Tue Mar 29 13:45:57 2011
+  - arguments: []
+    method: finish
+    time_stamp: Tue Mar 29 13:45:57 2011
+models:
+  - modelname: /pool1
+    solverclass: heccer
+name: pool1
+optimize: 'by default turned on, ignored when running in verbose mode'
+schedule:
+  - !!perl/hash:SSP::Engine
+    backend: !!perl/hash:Heccer
+      configuration: &10
+        reporting:
+          granularity: 100
+          tested_things: 6225920
+      final_report: 1
+      heccer: !!perl/hash:SwiggableHeccer::simobj_Heccer {}
+      model_source:
+        modelname: /pool1
+        service_backend: &11 !!perl/hash:Neurospaces
+          initializers: &12
+            - arguments:
+                -
+                  - tests/perl/pool1
+                  - -P
+                  - tests/cells/pool1.ndf
+              method: read
+          module_name: Neurospaces
+          neurospaces: !!perl/hash:SwiggableNeurospaces::Neurospaces {}
+        service_name: model_container
+    compilation_priority: numerical
+    constructor_settings: &13
+      configuration: *10
+    modelname: /pool1
+    module_name: Heccer
+    name: /pool1
+    scheduler: *1
+    service: &14
+      initializers: *12
+      module_name: Neurospaces
+      ssp_service: !!perl/hash:SSP::Service
+        backend: *11
+        scheduler: *1
+    service_name: model_container
+    solverclass: heccer
+services:
+  model_container: *14
+simulation_time:
+  steps: 6000
+  time: 0.120000000000015
+solverclasses:
+  heccer:
+    compilation_priority: numerical
+    constructor_settings: *13
+    module_name: Heccer
+    service_name: model_container

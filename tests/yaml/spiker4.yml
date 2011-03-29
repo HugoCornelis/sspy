@@ -1,0 +1,113 @@
+--- 
+analyzers: {}
+application_classes:
+  analyzers:
+    default:
+      - method: analyze
+    priority: 95
+  finishers:
+    default:
+      - method: finish
+    priority: 140
+  initializers:
+    default:
+      - method: compile
+      - method: instantiate_inputs
+      - method: instantiate_outputs
+      - method: connect
+      - method: initiate
+      - method: optimize
+    priority: 80
+  modifiers:
+    default: []
+    priority: 50
+  results:
+    default: []
+    priority: 170
+  services:
+    default:
+      - method: instantiate_services
+    priority: 20
+  simulation:
+    default: []
+    priority: 110
+apply:
+  results:
+    - arguments:
+        - commands:
+            - cat /tmp/output_vm_source1
+        - commands:
+            - cat /tmp/output_spike
+      method: shell
+  simulation:
+    - arguments:
+        - 10000
+        - verbose: 2
+      method: steps
+models:
+  - modelname: /spiker4/source1
+    runtime_parameters:
+      - component_name: /spiker4/source1/soma
+        field: INJECT
+        value: 2e-09
+    solverclass: heccer
+  - modelname: /spiker4/target1
+    solverclass: heccer
+  - modelname: /spiker4/target2
+    solverclass: heccer
+  - modelname: /spiker4/projection1
+    solverclass: des
+name: spiker4
+optimize: 'by default turned on, ignored when running in verbose mode'
+outputclasses:
+  double_2_ascii:
+    compilation_priority: numerical
+    module_name: Experiment
+    options:
+      filename: /tmp/output_vm_source1
+      output_mode: steps
+    package: Experiment::Output
+  event_2_ascii:
+    compilation_priority: events
+    module_name: Experiment
+    options:
+      filename: /tmp/output_spike
+    package: Experiment::Event::Output
+outputs:
+  - component_name: /spiker4/source1/soma
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /spiker4/source1/soma/spikegen
+    field: spike
+    outputclass: event_2_ascii
+services:
+  model_container:
+    initializers:
+      - arguments:
+          -
+            - tests/perl/spiker4
+            - -P
+            - tests/networks/spiker4.ndf
+        method: read
+    module_name: Neurospaces
+solverclasses:
+  des:
+    compilation_priority: events
+    constructor_settings:
+      configuration:
+        reporting:
+          granularity: 10000
+          tested_things: ~
+    module_name: Heccer
+    package: Heccer::DES
+    service_name: model_container
+  heccer:
+    compilation_priority: numerical
+    constructor_settings:
+      configuration:
+        reporting:
+          granularity: 10000
+          tested_things: 6225920
+      dStep: 1e-06
+    module_name: Heccer
+    service_name: model_container
