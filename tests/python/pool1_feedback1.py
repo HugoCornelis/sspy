@@ -5,7 +5,7 @@
 import pdb
 import os
 
-os.putenv('NEUROSPACES_NMC_MODELS', '/usr/local/neurospaces/models/library')
+os.environ['NEUROSPACES_NMC_MODELS']='/usr/local/neurospaces/models/library'
 
 from test_library import add_sspy_path
 
