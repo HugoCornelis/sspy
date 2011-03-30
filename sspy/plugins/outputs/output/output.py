@@ -7,7 +7,8 @@ import pdb
 import sys
 
 # this should go away later when I update the
-# 
+# system path
+#
 sys.path.append("/usr/local/glue/swig/python")
 
 try:
@@ -25,7 +26,7 @@ class Output:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self,  name="Untitled solver", plugin=None, 
+    def __init__(self,  name="Untitled Output", plugin=None, 
                  arguments=None, verbose=False):
 
         self._name = name
@@ -142,7 +143,7 @@ class Output:
 
             2. Connect the solver core to the output core.
 
-            3. Add the inputs via whatever method the cores use
+            3. Add the outputs via whatever method the cores use
             to communicate.
 
         """
@@ -220,6 +221,7 @@ class Output:
     def Report(self):
 
         pass
+    
 #---------------------------------------------------------------------------
 
     def _ParseArguments(self, arguments):
