@@ -311,8 +311,53 @@ class SSPy:
 #---------------------------------------------------------------------------
 
     def ApplyRuntimeParameters(self):
+        """!
+        @brief Applies model specific runtime parameters
 
-        pass
+        This was done somewhat lazy as far as checking for
+        dictionary keys goes.
+        """
+        
+        if self._models is None:
+
+            if self.verbose:
+
+                print "No model runtime parameters defined"
+
+            return
+                
+        num_models = len(self._models)
+        
+        if self.verbose:
+
+            print "Applying model runtime parameters to %d models" % num_models
+
+        for m in self._models:
+
+            try:
+                
+                modelname = m['modelname']
+
+                if self.verbose:
+
+                    print "\tSetting runtime parameters for '%s'" % modelname
+
+
+                
+                for parameter in m['runtime_parameters']:
+
+                    component_name = parameter['component_name']
+                    field = parameter['field']
+                    val = parameter['value']
+
+                    self.SetParameter(component_name, field, val)
+
+            except Exception, e:
+
+                print e
+
+                continue
+
 
 #---------------------------------------------------------------------------
 
@@ -589,6 +634,24 @@ class SSPy:
         pass
 
 #---------------------------------------------------------------------------
+
+    def SetParameter(self, path, parameter, value):
+        """!
+        @brief Sets a parameter on all loaded services. 
+        """
+
+        if self._loaded_services is not None:
+
+            for service in self._loaded_services:
+
+                service.SetParameter(path, parameter, value)
+
+        else:
+
+            print "No services have been loaded"
+
+#---------------------------------------------------------------------------
+
     def Run(self):
         """!
         @brief Runs the simulation
@@ -599,33 +662,62 @@ class SSPy:
 
         try:
 
+            if not self._runtime_parameters_applied:
+
+                self.ApplyRuntimeParameters()
+
+                if self.verbose:
+
+                    print "\n"
+                
             if not self._services_connected:
 
                 self.ConnectServices()
 
-            if not self._runtime_parameters_applied:
+                if self.verbose:
 
-                self.ApplyRuntimeParameters()
+                    print "\n"
             
             if not self._compiled:
 
                 self.Compile()
 
+                if self.verbose:
+
+                    print "\n"
+
             if not self._outputs_connected:
 
                 self.ConnectOutputs()
+
+                if self.verbose:
+
+                    print "\n"
 
             if not self._inputs_connected:
 
                 self.ConnectInputs()
 
+                if self.verbose:
+
+                    print "\n"
+
             if not self._scheduled:
 
                 self.ScheduleAll()
+
+                if self.verbose:
+
+                    print "\n"
                 
             if not self._initialized:
 
                 self.Initialize()
+
+                if self.verbose:
+
+                    print "\n"
+
 
         except Exception, e:
 
@@ -795,10 +887,6 @@ class SSPy:
         if self._schedule_data.has_key('models'):
 
             self._models = schedule_data['models']
-
-            if self._schedule_data.has_key('runtime_parameters'):
-
-                self._runtime_parameters = schedule_data['runtime_parameters']
 
 
         # 

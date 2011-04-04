@@ -1,0 +1,24 @@
+Just some notes I have taken since there are issues 
+I've come across while developing sspy:
+
+* There are several keys in the current ssp format
+that it seems can be ignored. Simply knowing what
+solver and service to load is enough to determine 
+what to load with the need of package references.
+
+* Some perl specific parts of the yaml format should
+be removed since yaml loads data structures differently 
+in python (creating objects as opposed to hashes in some cases).
+Format should be made a bit more general. 
+
+* at this point I don't see what the priority would be good for.
+Due to the structure of the components it must go in this strict
+order during loading: 
+
+services ->  apple runtime parameters -> connect solvers -> connect in/outs
+
+* The key for "models" can take more than one model with their own sets
+of runtime parameters. This may not be necessary since only one model
+is handled at a time at this point. Would require a spawning of several 
+scheduler instances for each to have their own sets of runtime parameters.
+

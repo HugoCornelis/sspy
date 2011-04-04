@@ -82,6 +82,15 @@ class Service:
         return self._arguments
 
 #---------------------------------------------------------------------------            
+    def SetParameter(self, path, field, value):
+        """!
+        @brief Set's a parameter on the service
+        """
+        print "Setting parameters is not avaialable on the Heccer Intermediary"
+
+        return
+    
+#---------------------------------------------------------------------------            
 
     def _ParseArguments(self, arguments):
         """

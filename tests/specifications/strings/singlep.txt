@@ -16,15 +16,32 @@ Found application classes:
 	Application class: results
 	Application class: services
 	Application class: simulation
+Applying model runtime parameters to 1 models
+	Setting runtime parameters for '/singlep'
+'runtime_parameters'
+
+
 Connecting 1 solvers to 1 services
 	Connecting solver 'singlep (heccer)' to service 'singlep (heccer_intermediary)'
+
+
 Compiling all solvers
 	Compiling Solver: singlep (heccer)
+
+
+
+
+
+
 Scheduling all simulation objects
 	Scheduling solvers:
 		Scheduling solver 'singlep (heccer)'
+
+
 Initializing all schedulees
 	Initializing Schedulee: singlep (heccer)
+
+
 Running simulation
 singlep (heccer): 0 0.000020
 Heccer (pcName) : (singlep (heccer))

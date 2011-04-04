@@ -155,7 +155,7 @@ solverclasses:
     constructor_settings:
       configuration:
         reporting:
-          granularity: 1000
+          granularity: 1
           tested_things: 6225920
       dStep: 2e-05
     module_name: Heccer

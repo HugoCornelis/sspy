@@ -1,4 +1,4 @@
---- !!perl/hash:SSP
+--- 
 apply:
   simulation:
     - arguments:

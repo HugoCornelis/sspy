@@ -90,8 +90,20 @@ class Service:
 
 #---------------------------------------------------------------------------
 
-    def _ParseArguments(self):
+    def SetParameter(self, path, field, value):
+        """!
+        @brief Set's a parameter on the service
         """
+        if self.verbose:
+
+            print "Model Container: setting parameter %s %s %s" % (path, field, str(value))
+        
+        self._model_container.SetParameter(path, field, value)
+        
+#---------------------------------------------------------------------------
+
+    def _ParseArguments(self):
+        """!
 
         This currently parses arguments that are just an array
         with three entries, the third being the file to load
