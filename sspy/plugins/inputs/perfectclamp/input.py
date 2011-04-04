@@ -161,6 +161,13 @@ class Input:
                 my_heccer = solver.GetCore()
                 
                 address = my_heccer.GetCompartmentAddress(component_name, field)
+
+                #exception?
+
+                if self.verbose:
+
+                    print "\tConnecting input variable '%s -> '%s' from solver '%s'" % (component_name, field, solver.GetName())
+                    
                 self._perfectclamp.AddInput(address)
                 
 

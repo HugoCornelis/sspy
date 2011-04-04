@@ -96,7 +96,7 @@ class Service:
         """
         if self.verbose:
 
-            print "Model Container: setting parameter %s %s %s" % (path, field, str(value))
+            print "\tModel Container: setting parameter %s %s %s" % (path, field, str(value))
         
         self._model_container.SetParameter(path, field, value)
         

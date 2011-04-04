@@ -661,6 +661,10 @@ class SSPy:
             print "Can't run, No schedule has been loaded."
 
         try:
+            
+            if self.verbose:
+
+                print "\n"
 
             if not self._runtime_parameters_applied:
 
