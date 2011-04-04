@@ -24,3 +24,6 @@ except Exception, e:
 
 
 
+scheduler.Run()
+
+
