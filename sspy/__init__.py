@@ -343,14 +343,15 @@ class SSPy:
                     print "\tSetting runtime parameters for '%s'" % modelname
 
 
-                
-                for parameter in m['runtime_parameters']:
+                if m.has_key('runtime_parameters'):
+                    
+                    for parameter in m['runtime_parameters']:
 
-                    component_name = parameter['component_name']
-                    field = parameter['field']
-                    val = parameter['value']
+                        component_name = parameter['component_name']
+                        field = parameter['field']
+                        val = parameter['value']
 
-                    self.SetParameter(component_name, field, val)
+                        self.SetParameter(component_name, field, val)
 
             except Exception, e:
 

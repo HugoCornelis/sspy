@@ -20,7 +20,6 @@ Found application classes:
 
 Applying model runtime parameters to 1 models
 	Setting runtime parameters for '/singlep'
-'runtime_parameters'
 
 
 Connecting 1 solvers to 1 services

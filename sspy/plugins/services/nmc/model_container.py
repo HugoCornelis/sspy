@@ -4,6 +4,7 @@ the interface of SSPy.
 """
 import os
 import pdb
+import re
 import sys
 
 # this should go away later when I update the
@@ -93,38 +94,59 @@ class Service:
     def SetParameter(self, path, field, value):
         """!
         @brief Set's a parameter on the service
-        """
-        if self.verbose:
 
-            print "\tModel Container: setting parameter %s %s %s" % (path, field, str(value))
+        Will automatically detect name space parameters.
+        """
+
+        if re.search("::",path):
+            
+            if self.verbose:
+                
+                print "\tModel Container: setting parameter concept %s %s %s" % (path, field, str(value))
         
-        self._model_container.SetParameter(path, field, value)
+                self._model_container.SetParameter(path, field, value)
+        
+        else:
+            
+            if self.verbose:
+
+                print "\tModel Container: setting parameter %s %s %s" % (path, field, str(value))
+        
+            self._model_container.SetParameterConcept(path, field, value)
         
 #---------------------------------------------------------------------------
 
     def _ParseArguments(self):
         """!
 
-        This currently parses arguments that are just an array
-        with three entries, the third being the file to load
-        like so:
-
-            ['executable file', 'flags', 'filename']
-
-        For this I'm assuming it's safe to simply load the third entry as the
-        filename.
+        Gets loadable ndf files from strings by checking for
+        the .ndf suffix. 
         """
         
-        filename = ""
-
-        if len(self._arguments) == 3:
+        filenames = []
             
-            filename = self._arguments[-1]
+        for a in self._arguments:
 
+            possible_filename = ""
+            
+            if isinstance(a, dict):
 
-        if self.verbose:
+                possible_filename = a['filename']
 
-            print "Loading model from file '%s'" % filename
+            else:
 
-        
-        self._model_container.Read(filename)
+                possible_filename = a
+                
+            if re.search(".ndf", possible_filename):
+
+                filenames.append(possible_filename)
+                
+
+        for filename in filenames:
+
+            if self.verbose:
+
+                print "Loading model from file '%s'" % filename
+
+                
+            self._model_container.Read(filename)
