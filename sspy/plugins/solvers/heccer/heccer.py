@@ -34,11 +34,15 @@ class Solver:
         """
         self._name = name
 
+        self._model_name = name
+
         self._plugin_data = plugin
 
         self.verbose = verbose
         
         self._heccer = None
+
+        self._module_name = None
 
         # default dump options, do they need to be here? They're commented out
         # in ssp
@@ -242,7 +246,7 @@ class Solver:
             else:
 
 
-                self._heccer = Heccer(name=self._name, pinter=intermediary)
+                self._heccer = Heccer(name=self._model_name, pinter=intermediary)
                 
 
         elif service_type == "model_container":
@@ -255,7 +259,7 @@ class Solver:
 
             else:
 
-                self._heccer = Heccer(name=self._name, model=model_container)
+                self._heccer = Heccer(name=self._model_name, model=model_container)
 
 
         else:
@@ -270,6 +274,20 @@ class Solver:
         if self.options != 0:
 
             self._heccer.SetOptions(self.options)
+
+
+#---------------------------------------------------------------------------
+
+    def SetModelName(self, model_name):
+        """!
+        @brief Sets the model name for the solver to connect to
+
+        Since a solver can target a particular part of the model
+        to solve we need to set this field to let it know which.
+        It is not used until heccer connection. 
+        """
+        self._model_name = model_name
+
 
 #---------------------------------------------------------------------------
 

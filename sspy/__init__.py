@@ -21,6 +21,7 @@ except ImportError:
 from registry import SolverRegistry
 from registry import ServiceRegistry
 from registry import OutputRegistry
+from registry import InputRegistry
 
 from schedulee import Schedulee
 
@@ -52,6 +53,7 @@ class SSPy:
         self._solver_registry = SolverRegistry(solver_directory, verbose=self.verbose)
         self._service_registry = ServiceRegistry(service_directory, verbose=self.verbose)
         self._output_registry = OutputRegistry(output_directory, verbose=self.verbose)
+        self._input_registry = InputRegistry(input_directory, verbose=self.verbose)
 
         self.name = name
 
@@ -342,6 +344,15 @@ class SSPy:
 
                     print "\tSetting runtime parameters for '%s'" % modelname
 
+
+                for s in self._solvers:
+
+                    if self.verbose:
+
+                        print "\t  Setting model name for solver '%s' to '%s'" % (s.GetName(), modelname)
+
+                    s.SetModelName(modelname)
+                    
 
                 if m.has_key('runtime_parameters'):
                     
@@ -856,14 +867,6 @@ class SSPy:
                 print "Schedule name is '%s'\n" % self.name
 
 
-        # Set of options that define how to run this schedule.
-        if self._schedule_data.has_key('apply'):
-            
-            apply_parameters = schedule_data['apply']
-            
-            self._ParseAppliedParameters(apply_parameters)
-
-
         # Loads the appropriate services for loading a model
         #   Such as the model_container
         if self._schedule_data.has_key('services'):
@@ -883,6 +886,15 @@ class SSPy:
 
             self._ParseSolvers(solvers)
             
+
+
+        # Set of options that define how to run this schedule.
+        if self._schedule_data.has_key('apply'):
+            
+            apply_parameters = schedule_data['apply']
+            
+            self._ParseAppliedParameters(apply_parameters)
+
 
         # This retrieves the model identifier from the model that
         # was loaded via services and the type of solver to use.
@@ -914,12 +926,15 @@ class SSPy:
 
             inputclasses = schedule_data['inputclasses']
             
-
+            inputs = None
             # Key contains the attributes for the inputclass objects that
             # were loaded.
             if self._schedule_data.has_key('inputs'):
 
                 inputs = schedule_data['inputs']
+
+
+            self._ParseInputs(inputclasses, inputs)
 
 
         # Specifies the output objects to use.
@@ -1073,6 +1088,7 @@ class SSPy:
 
                     print "\tStep size is %f" % self.time_step
 
+                print ""
         
 #---------------------------------------------------------------------------
 
@@ -1246,18 +1262,46 @@ class SSPy:
 
 #---------------------------------------------------------------------------        
 
-    def _ParseInputs(self, input_data, input_parameters):
+    def _ParseInputs(self, inp_data, inp_parameters=None):
         """
-
+        @brief Loads inputs from python dictionaries.
         """
-
 
         try:
 
-            items = service_data.items()
+            inp_data.iteritems()
 
         except AttributeError, e:
 
-            raise errors.ScheduleError("Error parsing inputs, %s" % e)
+            raise errors.ScheduleError("Error parsing inps, %s" % e)
+
+
+        for inp_type, data in inp_data.iteritems():
+
+            inp_name = ""
+            
+            if inp_data.has_key('name'):
+
+                inp_name = data['name']
+
+            else:
+                
+                inp_name = "%s (%s)" % (self.name, inp_type)
+
+
+            if self.verbose:
+
+                print "Loading Input '%s' of type '%s'" % (inp_name, inp_type)
+
+            inp = self._input_registry.CreateInput(inp_name, inp_type, inp_data)
+
+        # After giving initializing data, we give the inp parameters
+        #
+        if inp_parameters is not None:
+            
+            inp.SetInputs(inp_parameters)
+        
+        self._inputs.append(inp)
+
         
 #*********************************** End SSPy *******************************

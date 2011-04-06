@@ -1,15 +1,24 @@
 Just some notes I have taken since there are issues 
 I've come across while developing sspy:
 
+
+#---------------------------------------------------------------------------
+
 * There are several keys in the current ssp format
 that it seems can be ignored. Simply knowing what
 solver and service to load is enough to determine 
 what to load with the need of package references.
 
+
+#---------------------------------------------------------------------------
+
 * Some perl specific parts of the yaml format should
 be removed since yaml loads data structures differently 
 in python (creating objects as opposed to hashes in some cases).
 Format should be made a bit more general. 
+
+
+#---------------------------------------------------------------------------
 
 * at this point I don't see what the priority would be good for.
 Due to the structure of the components it must go in this strict
@@ -17,8 +26,84 @@ order during loading:
 
 services ->  apple runtime parameters -> connect solvers -> connect in/outs
 
+So setting a numerical value to the precedence doesn't seem to matter.
+
+
+#---------------------------------------------------------------------------
+
 * The key for "models" can take more than one model with their own sets
 of runtime parameters. This may not be necessary since only one model
 is handled at a time at this point. Would require a spawning of several 
 scheduler instances for each to have their own sets of runtime parameters.
 
+#---------------------------------------------------------------------------
+
+* The modelname variable found under the "models" key should be moved to 
+the solvers data block since it is needed to determine where the solver 
+should perform its work from.
+
+
+#---------------------------------------------------------------------------
+
+* Would most likely better if arguments for objects go with the object 
+declaration in the file such as all outputs being listed under the outputclass
+like:
+
+outputclasses:
+  double_2_ascii:
+    options:
+      filename: /tmp/output
+    outputs:
+      - component_name: /Purkinje/segments/soma
+        field: Vm
+      - component_name: /Purkinje/segments/b0s01[0]
+        field: Vm
+      - component_name: /Purkinje/segments/b0s03[56]
+        field: Vm
+      - component_name: /Purkinje/segments/b1s06[137]
+        field: Vm
+      - component_name: /Purkinje/segments/b1s12[26]
+        field: Vm
+      - component_name: /Purkinje/segments/b2s30[3]
+        field: Vm
+      - component_name: /Purkinje/segments/b3s44[49]
+        field: Vm
+
+instead of :
+
+outputclasses:
+  double_2_ascii:
+    module_name: Experiment
+    options:
+      filename: /tmp/output
+    package: Experiment::Output
+outputs:
+  - component_name: /Purkinje/segments/soma
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /Purkinje/segments/b0s01[0]
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /Purkinje/segments/b0s03[56]
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /Purkinje/segments/b1s06[137]
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /Purkinje/segments/b1s12[26]
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /Purkinje/segments/b2s30[3]
+    field: Vm
+    outputclass: double_2_ascii
+  - component_name: /Purkinje/segments/b3s44[49]
+    field: Vm
+    outputclass: double_2_ascii
+
+
+This eliminates the need for the outputclass identifier on each output
+and prevents having to loop through all outputs for each outputclass that
+is declared.
+
+
+#---------------------------------------------------------------------------

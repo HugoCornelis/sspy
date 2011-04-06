@@ -11,19 +11,15 @@ from exceptions import Exception
 
 class InputError(Exception):
     """
-    @brief Used to report errors with output objects
+    @brief Used to report errors with intput objects
     """
     def __init__(self,msg):
         self.msg = msg
     
     def __str__(self):
 
-        error_msg = "Input object Error: %s" % (self.msg)
+        error_msg = "Input Error: %s" % (self.msg)
 
-        if not self.value is None and self.value != "":
-
-            error_msg = error_msg + ", " + self.value
-        
         return error_msg
 
 #---------------------------------------------------------------------------

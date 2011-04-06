@@ -24,7 +24,10 @@ except ImportError, e:
 
 class Input:
 
-
+    """!
+    @brief class object for a perfectclamp input
+    """
+    
 #---------------------------------------------------------------------------
 
     def __init__(self, name="Untitled PerfectClamp", plugin=None,
@@ -36,7 +39,7 @@ class Input:
         self._plugin_data = plugin
 
         self.verbose = verbose
-.
+
         self.time_step = 0.0
         
         self._perfectclamp = None
@@ -93,6 +96,14 @@ class Input:
 
 #---------------------------------------------------------------------------
 
+    def SetInputs(self, inputs):
+        """!
+        @brief Sets the inputs for this object
+        """
+        self._inputs = inputs
+
+#---------------------------------------------------------------------------
+
     def Advance(self):
 
         pass
@@ -127,8 +138,8 @@ class Input:
 
         component_name = ""
         field = ""
-        
-        for i, inp enumerate(self._inputs):
+
+        for i, inp in enumerate(self._inputs):
 
             if inp.has_key('inputclass'):
 
@@ -179,13 +190,13 @@ class Input:
         """
         self._perfectclamp.Finish()
 
-
 #---------------------------------------------------------------------------
 
-    def Initiate(self):
+    def Initialize(self):
 
         pass
 
+#---------------------------------------------------------------------------
 
     def Compile(self):
         """
@@ -244,7 +255,6 @@ class Input:
 
             raise Exception("No 'perfectclamp' configuration block present")
 
-        command_voltage = None
 
         if configuration.has_key('options'):
 
@@ -258,6 +268,11 @@ class Input:
 
                 self._name = options['name']
 
+        self._perfectclamp = PerfectClamp(self._name)
+
+        if self.command_voltage is not None:
+
+            self._perfectclamp.SetCommandVoltage(self.command_voltage)
             
 #---------------------------------------------------------------------------
 
