@@ -1,13 +1,14 @@
 Parsing schedule data
 Schedule name is 'singlep'
 
+Loading Service 'singlep (heccer_intermediary)' of type 'heccer_intermediary'
+Loading Solver 'singlep (heccer)' of type 'heccer'
 
 Found applied simulation parameters:
 Simulation Parameters: 
 	Simulation will run for 10 steps
 	Verbosity level is 2
-Loading Service 'singlep (heccer_intermediary)' of type 'heccer_intermediary'
-Loading Solver 'singlep (heccer)' of type 'heccer'
+
 Found application classes:
 	Application class: analyzers
 	Application class: finishers
@@ -20,6 +21,7 @@ Found application classes:
 
 Applying model runtime parameters to 1 models
 	Setting runtime parameters for '/singlep'
+	  Setting model name for solver 'singlep (heccer)' to '/singlep'
 
 
 Connecting 1 solvers to 1 services
@@ -45,7 +47,7 @@ Initializing all schedulees
 
 Running simulation
 singlep (heccer): 0 0.000020
-Heccer (pcName) : (singlep (heccer))
+Heccer (pcName) : (/singlep)
 Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
@@ -84,7 +86,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.068)
 singlep (heccer): 0 0.000040
-Heccer (pcName) : (singlep (heccer))
+Heccer (pcName) : (/singlep)
 Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
@@ -123,7 +125,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0680146)
 singlep (heccer): 0 0.000060
-Heccer (pcName) : (singlep (heccer))
+Heccer (pcName) : (/singlep)
 Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
@@ -162,7 +164,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0680292)
 singlep (heccer): 0 0.000080
-Heccer (pcName) : (singlep (heccer))
+Heccer (pcName) : (/singlep)
 Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
@@ -201,7 +203,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0680438)
 singlep (heccer): 0 0.000100
-Heccer (pcName) : (singlep (heccer))
+Heccer (pcName) : (/singlep)
 Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
@@ -240,7 +242,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0680584)
 singlep (heccer): 0 0.000120
-Heccer (pcName) : (singlep (heccer))
+Heccer (pcName) : (/singlep)
 Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
@@ -279,7 +281,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0680729)
 singlep (heccer): 0 0.000140
-Heccer (pcName) : (singlep (heccer))
+Heccer (pcName) : (/singlep)
 Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
@@ -318,7 +320,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0680875)
 singlep (heccer): 0 0.000160
-Heccer (pcName) : (singlep (heccer))
+Heccer (pcName) : (/singlep)
 Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
@@ -357,7 +359,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.068102)
 singlep (heccer): 0 0.000180
-Heccer (pcName) : (singlep (heccer))
+Heccer (pcName) : (/singlep)
 Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
@@ -396,7 +398,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.0681165)
 singlep (heccer): 0 0.000200
-Heccer (pcName) : (singlep (heccer))
+Heccer (pcName) : (/singlep)
 Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
@@ -435,7 +437,7 @@ VM Axial Resistances (pdResults[0]) : (0)
 VM Axial Resistances (pdResults[1]) : (0)
 VM Membrane Potentials (pdVms[0]) : (-0.068131)
 singlep (heccer): 0 0.000220
-Heccer (pcName) : (singlep (heccer))
+Heccer (pcName) : (/singlep)
 Heccer (iStatus) : (20)
 Heccer (iErrorCount) : (0)
 Heccer Options (iOptions) : (0)
