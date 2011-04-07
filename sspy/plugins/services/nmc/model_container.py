@@ -124,14 +124,14 @@ class Service:
         """
         
         filenames = []
-            
+                    
         for a in self._arguments:
 
             possible_filename = ""
             
-            if isinstance(a, dict):
+            if a == 'filename':
 
-                possible_filename = a['filename']
+                possible_filename = self._arguments['filename']
 
             else:
 
@@ -150,3 +150,5 @@ class Service:
 
                 
             self._model_container.Read(filename)
+
+

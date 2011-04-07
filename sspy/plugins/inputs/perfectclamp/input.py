@@ -133,7 +133,7 @@ class Input:
 
         self.SetTimeStep(time_step)
 
-        solver_type = solver_type.GetType()
+        solver_type = solver.GetType()
 
 
         component_name = ""
