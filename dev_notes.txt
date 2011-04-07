@@ -107,3 +107,7 @@ is declared.
 
 
 #---------------------------------------------------------------------------
+
+Some tests like fork3p have keys that are not present in the existing yaml
+files like: schedule, scheduler, compilation_priority etc. Needs to have
+the keys consolidated.
