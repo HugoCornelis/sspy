@@ -40,7 +40,9 @@ scheduler instances for each to have their own sets of runtime parameters.
 
 * The modelname variable found under the "models" key should be moved to 
 the solvers data block since it is needed to determine where the solver 
-should perform its work from.
+should perform its work from. This could also make it possible for you to
+declare two or more solvers that solver different parts of the model (provided
+the service supports this)
 
 
 #---------------------------------------------------------------------------
