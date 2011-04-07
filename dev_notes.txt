@@ -24,7 +24,7 @@ Format should be made a bit more general.
 Due to the structure of the components it must go in this strict
 order during loading: 
 
-services ->  apple runtime parameters -> connect solvers -> connect in/outs
+services ->  apply runtime parameters -> connect solvers -> connect in/outs
 
 So setting a numerical value to the precedence doesn't seem to matter.
 
