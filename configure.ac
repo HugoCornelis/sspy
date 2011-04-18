@@ -3,6 +3,31 @@
 # $Format: "AC_INIT(${package}, ${label}, ${email})"$
 AC_INIT(sspy, alpha, hugo.cornelis@gmail.com)
 
+
+AC_MSG_CHECKING(whether we build universal binaries.)
+AC_ARG_WITH(universal,
+[AS_HELP_STRING([--with-universal],
+              [Build universal binaries on Mac OS X.])],
+[ case "$val" in
+  no)
+
+    AC_MSG_RESULT(no)
+    OSX_UNIVERSAL="no"
+
+    ;;
+  *)
+
+    AC_MSG_RESULT(yes)
+    OSX_UNIVERSAL="yes"
+
+    ;;
+  esac ],
+  AC_MSG_RESULT(no)
+  OSX_UNIVERSAL="no"
+)
+AC_SUBST(OSX_UNIVERSAL)
+
+
 dnl Obtain operating system information.
 AC_CANONICAL_TARGET
 
