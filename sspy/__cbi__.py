@@ -20,7 +20,7 @@ __description__ = ("The simple scheduler in python is a software package that "
                    "with a set of simulation parameters. It can be extended by using "
                    "plugins for solvers and simulation objects.")
 __url__ = "http://genesis-sim.org"
-
+__download_url__ = "http://repo-genesis3.cbi.utsa.edu"
 
 def GetRevisionInfo():
 # $Format:    "return \"${monotone_id}\""$
