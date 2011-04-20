@@ -36,33 +36,33 @@ def read(fname):
 
 #-------------------------------------------------------------------------------
 
-# def fullsplit(path, result=None):
-#     """
-#     Split a pathname into components (the opposite of os.path.join) in a
-#     platform-neutral way.
-#     """
-#     if result is None:
-#         result = []
-#     head, tail = os.path.split(path)
-#     if head == '':
-#         return [tail] + result
-#     if head == path:
-#         return result
-#     return fullsplit(head, [tail] + result)
+def fullsplit(path, result=None):
+    """
+    Split a pathname into components (the opposite of os.path.join) in a
+    platform-neutral way.
+    """
+    if result is None:
+        result = []
+    head, tail = os.path.split(path)
+    if head == '':
+        return [tail] + result
+    if head == path:
+        return result
+    return fullsplit(head, [tail] + result)
 
-# django_dir = 'sspy'
-# packages = []
-# data_files = []
-# for dirpath, dirnames, filenames in os.walk(django_dir):
-#     for i, dirname in enumerate(dirnames):
-#         if dirname.startswith('.'): del dirnames[i]
+django_dir = 'sspy'
+packages = []
+data_files = []
+for dirpath, dirnames, filenames in os.walk(django_dir):
+    for i, dirname in enumerate(dirnames):
+        if dirname.startswith('.'): del dirnames[i]
 
-#         if '__init__.py' in filenames:
-#             packages.append('.'.join(fullsplit(dirpath)))
-#         elif filenames:
-#             data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
+        if '__init__.py' in filenames:
+            packages.append('.'.join(fullsplit(dirpath)))
+        elif filenames:
+            data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
 
-
+#pdb.set_trace()
 #-------------------------------------------------------------------------------
 
 
@@ -110,10 +110,6 @@ def find_data_files(root_directory, file_types=_file_types):
 
 
 
-DATA_FILES=[('sspy/plugins',[]),
-            ('sspy/plugins/inputs',[]),
-            ('sspy/plugins/inputs/perfectclamp', ['input.py', 'input.yml']),
-            ]
 #pdb.set_trace()
 
 #myfiles = find_files('sspy')
@@ -145,10 +141,7 @@ CLASSIFIERS = [
     'Topic :: Research :: Neuroscience',
 ]
 
-DATA_FILES=[('sspy/plugins',[]),
-            ('sspy/plugins/inputs',[]),
-            ('sspy/plugins/inputs/perfectclamp', ['input.py', 'input.yml']),
-            ]
+DATA_FILES=find_files('sspy')
 
 OPTIONS={
     'sdist': {
@@ -161,8 +154,8 @@ PLATFORMS=["Unix", "Lunix", "MacOS X"]
 
 PY_MODULES=['sspy']
 
-CMDCLASS = None
 
+CMDCLASS = None
 if sys.platform == "darwin": 
     CMDCLASS = {'install_data': osx_install_data} 
 else: 
@@ -185,10 +178,11 @@ setup(
     url=URL,
     packages=['sspy'],
 #    package_data={'sspy' : DATA_FILES},
-    package_dir={'sspy' : 'sspy'},
+    package_dir={'plugins' : ''},
     classifiers=CLASSIFIERS,
     options=OPTIONS,
-    platforms=PLATFORMS,
-    py_modules=PY_MODULES,
-)
+    platforms=PLATFORMS)
+#,
+#    py_modules=PY_MODULES,
+#)
 
