@@ -29,5 +29,6 @@ tar.gz$
 ^autom4te.cache/
 ^install\.sh$
 ^build$
+^dist$
 
 
