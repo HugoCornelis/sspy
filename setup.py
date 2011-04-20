@@ -160,6 +160,7 @@ setup(
     keywords=KEYWORDS,
     url=URL,
     packages=['sspy'],
+#    package_data={'sspy' : DATA_FILES},
 #    package_dir={'sspy' : '.'},
     classifiers=CLASSIFIERS,
     options=OPTIONS,

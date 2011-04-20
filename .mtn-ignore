@@ -28,3 +28,6 @@ tar.gz$
 \.so$
 ^autom4te.cache/
 ^install\.sh$
+^build$
+
+
