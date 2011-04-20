@@ -24,6 +24,8 @@ clean-local:
 	$(RM) -rf $(top_builddir)/docs/html
 	echo "Removing all compiled byte code files"
 	$(RM) `find . -name "*.pyc"`
+	$(RM) -rf $(top_builddir)/build
+	$(RM) -rf $(top_builddir)/dist/
 
 doxygen: doxygen.cfg
 	$(DOXYGEN) doxygen.cfg

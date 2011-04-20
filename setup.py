@@ -36,32 +36,34 @@ def read(fname):
 
 #-------------------------------------------------------------------------------
 
-def fullsplit(path, result=None):
-    """
-    Split a pathname into components (the opposite of os.path.join) in a
-    platform-neutral way.
-    """
-    if result is None:
-        result = []
-    head, tail = os.path.split(path)
-    if head == '':
-        return [tail] + result
-    if head == path:
-        return result
-    return fullsplit(head, [tail] + result)
+# def fullsplit(path, result=None):
+#     """
+#     Split a pathname into components (the opposite of os.path.join) in a
+#     platform-neutral way.
+#     """
+#     if result is None:
+#         result = []
+#     head, tail = os.path.split(path)
+#     if head == '':
+#         return [tail] + result
+#     if head == path:
+#         return result
+#     return fullsplit(head, [tail] + result)
 
-django_dir = 'sspy'
-packages = []
-data_files = []
-for dirpath, dirnames, filenames in os.walk(django_dir):
-    for i, dirname in enumerate(dirnames):
-        if dirname.startswith('.'): del dirnames[i]
+# django_dir = 'sspy'
+# packages = []
+# data_files = []
+# for dirpath, dirnames, filenames in os.walk(django_dir):
+#     for i, dirname in enumerate(dirnames):
+#         if dirname.startswith('.'): del dirnames[i]
 
-        if '__init__.py' in filenames:
-            packages.append('.'.join(fullsplit(dirpath)))
-        elif filenames:
-            data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
+#         if '__init__.py' in filenames:
+#             packages.append('.'.join(fullsplit(dirpath)))
+#         elif filenames:
+#             data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
 
+
+#-------------------------------------------------------------------------------
 
 
 """
@@ -86,13 +88,33 @@ def find_files(root_directory, file_types=_file_types):
 
     return package_files
 
+#-------------------------------------------------------------------------------
 
-DATA_FILES=find_files('sspy')
-
-
-
+def find_data_files(root_directory, file_types=_file_types):
 
 
+    package_files = []
+
+    for path, directories, files in os.walk( root_directory ):
+
+        for f in files:
+
+            this_file = os.path.join(path, f)
+
+            basename, extension = os.path.splitext( this_file )
+            if extension in file_types:
+
+                package_files.append(this_file)
+
+    return package_files
+
+
+
+DATA_FILES=[('sspy/plugins',[]),
+            ('sspy/plugins/inputs',[]),
+            ('sspy/plugins/inputs/perfectclamp', ['input.py', 'input.yml']),
+            ]
+#pdb.set_trace()
 
 #myfiles = find_files('sspy')
 #-------------------------------------------------------------------------------
@@ -123,12 +145,14 @@ CLASSIFIERS = [
     'Topic :: Research :: Neuroscience',
 ]
 
-
-DATA_FILES = []
+DATA_FILES=[('sspy/plugins',[]),
+            ('sspy/plugins/inputs',[]),
+            ('sspy/plugins/inputs/perfectclamp', ['input.py', 'input.yml']),
+            ]
 
 OPTIONS={
     'sdist': {
-        'formats': ['gztar','zip', 'rpm'],
+        'formats': ['gztar','zip'],
         'force_manifest': True,
         },
     }
@@ -161,7 +185,7 @@ setup(
     url=URL,
     packages=['sspy'],
 #    package_data={'sspy' : DATA_FILES},
-#    package_dir={'sspy' : '.'},
+    package_dir={'sspy' : 'sspy'},
     classifiers=CLASSIFIERS,
     options=OPTIONS,
     platforms=PLATFORMS,
