@@ -169,7 +169,7 @@ else:
 
 
 #-------------------------------------------------------------------------------
-#pdb.set_trace()
+
 setup(
     name=NAME,
     version=VERSION,
@@ -188,7 +188,7 @@ setup(
     classifiers=CLASSIFIERS,
     options=OPTIONS,
     platforms=PLATFORMS,
-    scripts=['g3'],
+    scripts=['sspy.py'],
 #    py_modules=['sspy']
     )
 
