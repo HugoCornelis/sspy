@@ -3,6 +3,7 @@ import pdb
 import sys
 from distutils.core import setup
 from distutils.command.install_data import install_data
+#from setuptools import setup, find_packages
 import sspy.__cbi__ as cbi
 
 
@@ -88,26 +89,7 @@ def find_files(root_directory, file_types=_file_types):
             this_file = '/'.join(path_parts)
 
             basename, extension = os.path.splitext( this_file )
-            if extension in file_types:
-
-                package_files.append(this_file)
-
-    return package_files
-
-#-------------------------------------------------------------------------------
-
-def find_data_files(root_directory, file_types=_file_types):
-
-
-    package_files = []
-
-    for path, directories, files in os.walk( root_directory ):
-
-        for f in files:
-
-            this_file = os.path.join(path, f)
-
-            basename, extension = os.path.splitext( this_file )
+            
             if extension in file_types:
 
                 package_files.append(this_file)
@@ -115,10 +97,6 @@ def find_data_files(root_directory, file_types=_file_types):
     return package_files
 
 
-
-#pdb.set_trace()
-
-#myfiles = find_files('sspy')
 #-------------------------------------------------------------------------------
 NAME = cbi.GetPackageName()
 VERSION = cbi.GetVersion()
@@ -127,11 +105,12 @@ AUTHOR_EMAIL = cbi.__email__
 LICENSE = cbi.__license__
 URL = cbi.__url__
 DOWNLOAD_URL = cbi.__download_url__
-DESCRIPTION="A pluggable scheduler for GENESIS"
+DESCRIPTION="A pluggable scheduler for the GENESIS simulator"
 LONG_DESCRIPTION=cbi.__description__
 
 KEYWORDS="neuroscience neurosimulator simulator modeling GENESIS"
 
+# Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
 CLASSIFIERS = [
     'Development Status :: 0 - Alpha',
     'Environment :: Console',
@@ -169,14 +148,14 @@ else:
 
 
 #-------------------------------------------------------------------------------
-
+pdb.set_trace()
 setup(
     name=NAME,
     version=VERSION,
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
     cmdclass=CMDCLASS,
-    data_files=DATA_FILES,
+#    data_files=DATA_FILES,
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
     license=LICENSE,
@@ -189,10 +168,6 @@ setup(
     options=OPTIONS,
     platforms=PLATFORMS,
     scripts=['sspy.py'],
-#    py_modules=['sspy']
-    )
-
-#,
-#    py_modules=PY_MODULES,
-#)
+    setup_requires=['g3'],
+)
 
