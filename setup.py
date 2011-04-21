@@ -36,6 +36,8 @@ def read(fname):
 
 #-------------------------------------------------------------------------------
 
+
+# This is borrowed from django's setup tools
 def fullsplit(path, result=None):
     """
     Split a pathname into components (the opposite of os.path.join) in a
@@ -76,10 +78,14 @@ def find_files(root_directory, file_types=_file_types):
     package_files = []
 
     for path, directories, files in os.walk( root_directory ):
-
+        
         for f in files:
+            
+            path_parts = fullsplit( os.path.join(path, f) )
 
-            this_file = os.path.join(path, f)
+            path_parts.pop(0)
+
+            this_file = '/'.join(path_parts)
 
             basename, extension = os.path.splitext( this_file )
             if extension in file_types:
@@ -163,7 +169,7 @@ else:
 
 
 #-------------------------------------------------------------------------------
-
+#pdb.set_trace()
 setup(
     name=NAME,
     version=VERSION,
@@ -177,11 +183,15 @@ setup(
     keywords=KEYWORDS,
     url=URL,
     packages=['sspy'],
-#    package_data={'sspy' : DATA_FILES},
-    package_dir={'plugins' : ''},
+    package_data={'sspy' : DATA_FILES},
+#     package_dir={'' : ''},
     classifiers=CLASSIFIERS,
     options=OPTIONS,
-    platforms=PLATFORMS)
+    platforms=PLATFORMS,
+    scripts=['g3'],
+#    py_modules=['sspy']
+    )
+
 #,
 #    py_modules=PY_MODULES,
 #)
