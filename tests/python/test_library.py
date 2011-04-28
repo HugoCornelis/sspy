@@ -14,14 +14,16 @@ def add_package_path(package):
     Adds an import path to a python module in a project directory.
     """
 
-    root_path = os.path.join(os.environ['HOME'],
-                             'neurospaces_project',
-                             package,
-                             'source',
-                             'snapshots',
-                             '0')
+    path = os.path.join(os.environ['HOME'],
+                        'neurospaces_project',
+                        package,
+                        'source',
+                        'snapshots',
+                        '0',
+                        'glue',
+                        'swig',
+                        'python')
 
-    path = os.path.join(root_path, 'glue','swig', 'python')
 
     sys.path.append(path)
 
