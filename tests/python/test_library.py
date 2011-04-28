@@ -13,11 +13,15 @@ def add_package_path(package):
     """
     Adds an import path to a python module in a project directory.
     """
-    directory = "/neurospaces_project/" + package + "/source/snapshots/0"
 
-    root_path = os.environ['HOME'] + directory
+    root_path = os.path.join(os.environ['HOME'],
+                             'neurospaces_project',
+                             package,
+                             'source',
+                             'snapshots',
+                             '0')
 
-    path = root_path + "/glue/swig/python/"
+    path = os.path.join(root_path, 'glue','swig', 'python')
 
     sys.path.append(path)
 
@@ -27,9 +31,13 @@ def add_sspy_path():
     """
     Adds an import path to a python module in a project directory.
     """
-    directory = "/neurospaces_project/sspy/source/snapshots/0"
-
-    sspy_path = os.environ['HOME'] + directory
+    
+    sspy_path = os.path.join(os.environ['HOME'],
+                             'neurospaces_project',
+                             'sspy',
+                             'source',
+                             'snapshots',
+                             '0')
 
     sys.path.append(sspy_path)
 
