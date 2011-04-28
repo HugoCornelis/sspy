@@ -13,7 +13,7 @@ sys.path.append("/usr/local/glue/swig/python")
 
 try:
 
-    import g3.experiment.output as og
+    import neurospaces.experiment.output as og
 
 except ImportError, e:
 

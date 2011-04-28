@@ -13,7 +13,7 @@ sys.path.append("/usr/local/glue/swig/python")
 
 try:
 
-    from g3.experiment.perfectclamp import PerfectClamp
+    from neurospaces.experiment.perfectclamp import PerfectClamp
 
 except ImportError, e:
 

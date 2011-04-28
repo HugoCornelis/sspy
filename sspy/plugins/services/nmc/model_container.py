@@ -13,7 +13,7 @@ sys.path.append("/usr/local/glue/swig/python")
 
 try:
 
-    from g3.nmc import ModelContainer
+    from neurospaces.model_container import ModelContainer
     
 except ImportError, e:
 

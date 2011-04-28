@@ -12,9 +12,9 @@ sys.path.append("/usr/local/glue/swig/python")
 
 try:
     
-    import g3.heccer as heccer
-    from g3.heccer import Heccer
-    from g3.heccer import HeccerOptions
+    import neurospaces.heccer as heccer
+    from neurospaces.heccer import Heccer
+    from neurospaces.heccer import HeccerOptions
 
 except ImportError, e:
 
