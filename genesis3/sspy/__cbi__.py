@@ -23,23 +23,22 @@ __url__ = "http://genesis-sim.org"
 __download_url__ = "http://repo-genesis3.cbi.utsa.edu"
 
 def GetRevisionInfo():
-# $Format:    "return \"${monotone_id}\""$
-    return "63153100d5649f717b40876dc6a6de3d85b9d766"
+# $Format: "    return \"${monotone_id}\""$
+    return "b676f85605976d49c51e5db6e82c20ebc0b2a8c7"
 
 def GetPackageName():
-# $Format:    "return \"${package}\""$
+# $Format: "    return \"${package}\""$
     return "sspy"
 
-
 def GetVersion():
-# $Format:    "return \"${major}.${minor}.${micro}-${label}\""$
+# $Format: "    return \"${major}.${minor}.${micro}-${label}\""$
     return "0.0.0-alpha"
-
 
 def GetDependencies():
     """!
     @brief Provides a list of other CBI dependencies needed.
     """
-    dependencies = ['nmc','heccer']
+    dependencies = []
 
     return dependencies
+
