@@ -30,5 +30,4 @@ tar.gz$
 ^install\.sh$
 ^build$
 ^dist$
-
-
+MANIFEST$

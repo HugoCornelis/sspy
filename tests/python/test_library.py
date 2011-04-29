@@ -39,7 +39,8 @@ def add_sspy_path():
                              'sspy',
                              'source',
                              'snapshots',
-                             '0')
+                             '0',
+                             'genesis3')
 
     sys.path.append(sspy_path)
 
