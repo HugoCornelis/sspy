@@ -31,7 +31,7 @@ AC_SUBST(OSX_UNIVERSAL)
 dnl Obtain operating system information.
 AC_CANONICAL_TARGET
 
-AC_CONFIG_SRCDIR(./sspy)
+AC_CONFIG_SRCDIR(./genesis3)
 
 
 
