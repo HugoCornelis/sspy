@@ -43,7 +43,7 @@ def usage():
 #---------------------------------------------------------------------------
 
 
-from sspy import SSPy
+from genesis3.sspy import SSPy
 
 def main():
 
@@ -64,7 +64,8 @@ def main():
                            "steps", "time", "time-step",
                            "version", "help", "background", "builtins", "optimize",
                            "emit-schedules", "emit-output",
-                           "perfectclamp", "pulsegen-width1", "verbose"]
+                           "perfectclamp", "pulsegen-width1", "verbose",
+                           "shell"]
 
         opts, args = getopt.getopt(sys.argv[1:], ":hvV", command_options)
         
@@ -73,7 +74,8 @@ def main():
         print str(err) # will print something like "option -a not recognized"
         usage()
 
-        
+
+    shell = False
     stdout = False
     verbose = False
 
@@ -93,6 +95,10 @@ def main():
         elif opt in ('-h', '--help'):
 
             usage()
+
+        elif opt in ('--shell'):
+
+            shell = True
             
         else:
             
@@ -101,7 +107,15 @@ def main():
 
     scheduler = SSPy(verbose=verbose)
 
-    
+    if shell:
+
+        from genesis3.sspy.shell import GShell
+        
+        sspy_shell = GShell(scheduler=scheduler)
+
+        sspy_shell.cmdloop()
+
+        sys.exit(1)
 
     print "Start sspy here"
 

@@ -1,5 +1,5 @@
 #! /usr/bin/env python
 
-from sspy.launcher import main
+from genesis3.sspy.launcher import main
 main()
 
