@@ -1,0 +1,10 @@
+Link with easy to understand info on the cmd module for python:
+
+http://effbot.org/librarybook/cmd.htm
+
+http://www.doughellmann.com/PyMOTW/cmd/
+
+http://wiki.python.org/moin/CmdModule
+
+http://docs.python.org/library/cmd.html
+
