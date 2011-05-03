@@ -17,7 +17,7 @@ try:
 except ImportError:
     sys.exit("Need PyYaml http://pyyaml.org/\n")
 
-
+import __cbi__
 from registry import SolverRegistry
 from registry import ServiceRegistry
 from registry import OutputRegistry
@@ -98,6 +98,17 @@ class SSPy:
 
         pass
 
+#---------------------------------------------------------------------------
+
+    def GetVersion(self):
+
+        return __cbi__.GetVersion()
+
+#---------------------------------------------------------------------------
+
+    def GetRevisionInfo(self):
+
+        return __cbi__.GetRevisionInfo()
 
 #---------------------------------------------------------------------------
 
