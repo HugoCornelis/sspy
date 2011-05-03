@@ -60,7 +60,8 @@ def main():
 
     try:
 
-        command_options = ["steps", "time", "time-step",
+        command_options = ["cell", "model-name", 
+                           "steps", "time", "time-step",
                            "version", "help", "background", "builtins", "optimize",
                            "emit-schedules", "emit-output",
                            "perfectclamp", "pulsegen-width1", "verbose"]
@@ -99,6 +100,8 @@ def main():
 
 
     scheduler = SSPy(verbose=verbose)
+
+    
 
     print "Start sspy here"
 
