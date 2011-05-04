@@ -66,6 +66,9 @@ class GShell(cmd.Cmd):
 #---------------------------------------------------------------------------
 
 
+    def help_help(self):
+        print "help"
+
 #---------------------------------------------------------------------------
 # hello (template)
 
@@ -73,7 +76,6 @@ class GShell(cmd.Cmd):
         print "hello again", arg, "!"
 
     # using these as templates
-
     def help_hello(self):
         print "syntax: hello [message]",
         print "-- prints a hello message"
@@ -123,16 +125,24 @@ class GShell(cmd.Cmd):
         print "-- Adds an input"
         
 #---------------------------------------------------------------------------
-# hello (template)
+# run
 
-    def do_hello(self, arg):
-        print "hello again", arg, "!"
+    def do_run(self, arg):
 
-    # using these as templates
+        time = float(arg)
+        
+        try:
+            
+            sspy.Run(time)
 
-    def help_hello(self):
-        print "syntax: hello [message]",
-        print "-- prints a hello message"
+        except Exception,e:
+
+            print e
+            
+
+    def help_run(self):
+        print "syntax: run [modelname time]",
+        print "-- runs a simulation"
         
 #---------------------------------------------------------------------------
 #----                       End Commands                              ------
@@ -145,6 +155,7 @@ class GShell(cmd.Cmd):
 #---------------------------------------------------------------------------
 
     do_q = do_quit
+    help_q = help_quit
     
 
 #---------------------------------------------------------------------------
