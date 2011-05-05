@@ -380,6 +380,91 @@ class GShell(cmd.Cmd):
         print "-- Shows all parameters for a model element."
 
 
+#---------------------------------------------------------------------------
+# model_state_load
+    def do_model_state_load(self, arg):
+        print "Load a model state"
+
+
+    def help_model_state_load(self):
+        print "usage: model_state_load [model state file]",
+        print "-- Load a model and its state from a file."
+
+
+#---------------------------------------------------------------------------
+# model_state_save
+    def do_model_state_save(self, arg):
+        print "Save a model state"
+
+
+    def help_model_state_save(self):
+        print "usage: model_state_save [model state file]",
+        print "-- Save a model and its state to a file."
+
+
+#---------------------------------------------------------------------------
+# morphology_list_spine_heads
+    def do_morphology_list_spine_heads(self, arg):
+        print "Lists all spine heads in a morphology"
+
+
+    def help_morphology_list_spine_heads(self):
+        print "usage: morphology_list_spine_heads",
+        print "-- Lists all spine heads in a morphology."
+
+
+#---------------------------------------------------------------------------
+# morphology_summarize
+    def do_morphology_summarize(self, arg):
+        print "Summarizes info about a morphology"
+
+
+    def help_morphology_summarize(self):
+        print "usage: morphology_summarize",
+        print "-- Outputs a summary of the morphology of the model in the",
+        print "loaded service"
+
+
+#---------------------------------------------------------------------------
+# ndf_load
+    def do_ndf_load(self, arg):
+        print "Loads an ndf file into the appropriate service"
+
+
+    def help_ndf_load(self):
+        print "usage: ndf_load [filename]",
+        print "-- Loads an ndf file into a service."
+
+#---------------------------------------------------------------------------
+# ndf_save
+    def do_ndf_save(self, arg):
+        print "Saves an ndf file"
+
+
+    def help_ndf_save(self):
+        print "usage: ndf_save [filename]",
+        print "-- Save an ndf file from the model in the service."
+
+#---------------------------------------------------------------------------
+# npy_load
+    def do_npy_load(self, arg):
+        print "Loads an npy file into the appropriate service"
+
+
+    def help_npy_load(self):
+        print "usage: npy_load [filename]",
+        print "-- Loads an npy file into a service."
+
+#---------------------------------------------------------------------------
+# output_add
+    def do_output_add(self, arg):
+        print "Adds a new output"
+
+
+    def help_output_add(self):
+        print "usage: output_add [name] [parameter]",
+        print "-- Adds a new output."
+
 
 #---------------------------------------------------------------------------
 #----                    End Gshell Commands                          ------
