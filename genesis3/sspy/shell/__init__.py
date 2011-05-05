@@ -143,7 +143,81 @@ class GShell(cmd.Cmd):
     def help_run(self):
         print "usage: run [modelname] [time]",
         print "-- runs a simulation"
+
+
+
+#---------------------------------------------------------------------------
+# list_solver_plugins
+
+    def do_list_solver_plugins(self, arg):
+
+        verbose = False
         
+        if arg == 'v' or arg == 'verbose':
+
+            verbose = True
+            
+        self._scheduler.ListSolverPlugins(verbose)
+
+    # using these as templates
+    def help_list_solver_plugins(self):
+        print "usage: list_solver_plugins [v, verbose]",
+        print "-- Lists the registered solver plugins"
+
+
+#---------------------------------------------------------------------------
+# list_service_plugins
+
+    def do_list_service_plugins(self, arg):
+
+        verbose = False
+        
+        if arg == 'v' or arg == 'verbose':
+
+            verbose = True
+            
+        self._scheduler.ListServicePlugins(verbose)
+
+    def help_list_service_plugins(self):
+        print "usage: list_service_plugins [v, verbose]",
+        print "-- Lists the registered service plugins"
+
+
+#---------------------------------------------------------------------------
+# list_output_plugins
+
+    def do_list_output_plugins(self, arg):
+
+        verbose = False
+        
+        if arg == 'v' or arg == 'verbose':
+
+            verbose = True
+            
+        self._scheduler.ListOutputPlugins(verbose)
+
+    def help_list_output_plugins(self):
+        print "usage: list_output_plugins [v, verbose]",
+        print "-- Lists the registered output plugins"
+
+
+#---------------------------------------------------------------------------
+# list_input_plugins
+
+    def do_list_input_plugins(self, arg):
+
+        verbose = False
+        
+        if arg == 'v' or arg == 'verbose':
+
+            verbose = True
+            
+        self._scheduler.ListInputPlugins(verbose)
+
+    def help_list_input_plugins(self):
+        print "usage: list_input_plugins [v, verbose]",
+        print "-- Lists the registered input plugins"
+
 #---------------------------------------------------------------------------
 #----                       End Commands                              ------
 #---------------------------------------------------------------------------

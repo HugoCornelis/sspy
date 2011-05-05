@@ -112,6 +112,152 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
+
+    def GetSolverPlugins(self):
+
+        try:
+            
+            return self._solver_registry.GetPlugins()
+
+        except Exception:
+
+            return None
+        
+#---------------------------------------------------------------------------
+
+    def ListSolverPlugins(self, verbose=False):
+
+        solver_plugins = self.GetSolverPlugins()
+
+        if len(solver_plugins) == 0:
+
+            print "no solver plugins loaded"
+            
+            return 
+
+        print "solver plugins:"
+        
+        for sp in solver_plugins:
+
+            print "  - %s" % sp.GetName()
+            
+            if verbose:
+
+                print "      Label: %s" % sp.GetLabel()
+                print "      Version: %s" % sp.GetVersion()
+                print "      Description: %s" % sp.GetDescription()
+
+                
+#---------------------------------------------------------------------------
+
+    def GetServicePlugins(self):
+
+        try:
+            
+            return self._service_registry.GetPlugins()
+
+        except Exception:
+
+            return None
+        
+#---------------------------------------------------------------------------
+
+    def ListServicePlugins(self, verbose=False):
+
+        service_plugins = self.GetServicePlugins()
+
+        if len(service_plugins) == 0:
+
+            print "no service plugins loaded"
+            
+            return 
+
+        print "service plugins:"
+        
+        for sp in service_plugins:
+
+            print "  - %s:" % sp.GetName()
+
+            if verbose:
+
+                print "      Label: %s" % sp.GetLabel()
+                print "      Version: %s" % sp.GetVersion()
+                print "      Description: %s" % sp.GetDescription()
+
+#---------------------------------------------------------------------------
+
+    def GetOutputPlugins(self):
+
+        try:
+            
+            return self._output_registry.GetPlugins()
+
+        except Exception:
+
+            return None
+        
+#---------------------------------------------------------------------------
+
+    def ListOutputPlugins(self, verbose=False):
+
+        output_plugins = self.GetOutputPlugins()
+
+        if len(output_plugins) == 0:
+
+            print "no output plugins loaded"
+            
+            return 
+
+        print "output plugins:"
+        
+        for op in output_plugins:
+
+            print "  - %s:" % op.GetName()
+
+            if verbose:
+
+                print "      Label: %s" % op.GetLabel()
+                print "      Version: %s" % op.GetVersion()
+                print "      Description: %s" % op.GetDescription()
+
+#---------------------------------------------------------------------------
+
+    def GetInputPlugins(self):
+
+        try:
+            
+            return self._input_registry.GetPlugins()
+
+        except Exception:
+
+            return None
+        
+#---------------------------------------------------------------------------
+
+    def ListInputPlugins(self, verbose=False):
+
+        input_plugins = self.GetInputPlugins()
+
+        if len(input_plugins) == 0:
+
+            print "no input plugins loaded"
+            
+            return 
+
+        print "input plugins:"
+        
+        for ip in input_plugins:
+
+            print "  - %s:" % ip.GetName()
+
+            if verbose:
+
+                print "      Label: %s" % ip.GetLabel()
+                print "      Version: %s" % ip.GetVersion()
+                print "      Description: %s" % ip.GetDescription()
+
+#---------------------------------------------------------------------------
+
     def Load(self, filename):
         """
         @brief Loads a yaml specification

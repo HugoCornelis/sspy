@@ -18,7 +18,7 @@ class InputError(Exception):
     
     def __str__(self):
 
-        error_msg = "Input Error: %s" % (self.msg)
+        error_msg = "Input Error: %s\n" % (self.msg)
 
         return error_msg
 
@@ -33,7 +33,7 @@ class OutputError(Exception):
     
     def __str__(self):
 
-        error_msg = "Output Error: %s" % (self.msg)
+        error_msg = "Output Error: %s\n" % (self.msg)
 
         return error_msg
 
@@ -48,7 +48,7 @@ class PluginDirectoryError(Exception):
     
     def __str__(self):
 
-        error_msg = "Plugin Error: %s" % (self.msg)
+        error_msg = "Plugin Error: %s\n" % (self.msg)
 
         if not self.value is None and self.value != "":
 
@@ -67,7 +67,7 @@ class PluginFileError(Exception):
     
     def __str__(self):
 
-        error_msg = "Plugin Error: %s" % (self.msg)
+        error_msg = "Plugin Error: %s\n" % (self.msg)
 
         if not self.value is None and self.value != "":
 
@@ -86,7 +86,7 @@ class PluginError(Exception):
     
     def __str__(self):
 
-        error_msg = "Plugin Error: %s" % (self.msg)
+        error_msg = "Plugin Error: %s\n" % (self.msg)
 
         if not self.value is None and self.value != "":
 
@@ -105,7 +105,7 @@ class ScheduleeError(Exception):
     
     def __str__(self):
 
-        error_msg = "Schedulee Error: %s" % (self.msg)
+        error_msg = "Schedulee Error: %s\n" % (self.msg)
         
         return error_msg
 
@@ -120,7 +120,7 @@ class ScheduleeCreateError(Exception):
     
     def __str__(self):
 
-        error_msg = "Failed to create a schedulee\n %s : %s" % (self.msg, self.value)
+        error_msg = "Failed to create a schedulee\n %s : %s\n" % (self.msg, self.value)
         
         return error_msg
 
@@ -135,7 +135,7 @@ class ScheduleError(Exception):
     
     def __str__(self):
 
-        error_msg = "Specification Error: %s" % (self.msg)
+        error_msg = "Specification Error: %s\n" % (self.msg)
         
         return error_msg
 
@@ -150,7 +150,7 @@ class SolverError(Exception):
     
     def __str__(self):
 
-        error_msg = "Solver Error: %s" % (self.msg)
+        error_msg = "Solver Error: %s\n" % (self.msg)
         
         return error_msg
 
@@ -166,7 +166,7 @@ class ServiceError(Exception):
     
     def __str__(self):
 
-        error_msg = "Service Error: %s" % (self.msg)
+        error_msg = "Service Error: %s\n" % (self.msg)
 
         return error_msg
 

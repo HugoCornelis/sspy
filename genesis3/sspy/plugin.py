@@ -52,6 +52,14 @@ class Plugin:
 
 #---------------------------------------------------------------------------
 
+    def PrintData(self):
+
+        data = yaml.dump(self._plugin_data)
+
+        print "%s" % data
+
+#---------------------------------------------------------------------------
+
     def GetPath(self):
 
         return self._plugin_path

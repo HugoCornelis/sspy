@@ -34,6 +34,8 @@ def usage():
     print " --optimize\t\tturn on the schedule optimizer."
     print " --emit-output\t\tfiles to write to stdout after the simulation finishes."
     print " --emit-schedules\tprint schedules to stdout instead of running them."
+    print " --model-directory\tname of the directory where to look for non-std models."
+    print " --model-filename\tfilename of the model description file (when using a builtin configuration)."
     
     print "\nProtocol Options:"
     print " --perfectclamp\t\tset the command voltage for the perfect clamp protocol."
@@ -62,6 +64,7 @@ def main():
 
         command_options = ["cell", "model-name", 
                            "steps", "time", "time-step",
+                           "model-filename", "model-directory", 
                            "version", "help", "background", "builtins", "optimize",
                            "emit-schedules", "emit-output",
                            "perfectclamp", "pulsegen-width1", "verbose",
@@ -119,4 +122,5 @@ def main():
 
     print "Start sspy here"
 
+    scheduler.Run()
 
