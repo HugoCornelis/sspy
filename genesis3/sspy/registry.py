@@ -78,7 +78,7 @@ class Registry:
 
 #---------------------------------------------------------------------------
 
-    def LoadPlugin(self,plugin_file):
+    def LoadPlugin(self, plugin_file):
 
         if not os.path.exists(plugin_file):
 

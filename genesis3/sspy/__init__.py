@@ -110,6 +110,44 @@ class SSPy:
 
         return __cbi__.GetRevisionInfo()
 
+
+#---------------------------------------------------------------------------
+
+    def LoadSolverPlugin(self, path):
+        """!
+        @brief Loads a solver plugin
+        @param path A path to a solver plugin file or directory.
+        """
+
+        plugin_path = ""
+        
+        if os.path.isdir(path):
+
+            plugin_path = os.path.join(path, 'solver.yml')
+
+            
+            if not os.path.isfile( plugin_path ):
+
+                raise Exception("No solver.yml dscriptor file found in the plugin directory")
+
+        else:
+
+            plugin_path = path
+            
+            
+        if not os.path.isfile( plugin_path ):
+
+            raise Exception("Not a valid solver plugin path: %s" % path)
+
+
+        try:
+
+            self._solver_registry.LoadPlugin(plugin_path)
+
+        except Exception, e:
+            # probably redundant, but eeh
+            raise Exception(e)
+
 #---------------------------------------------------------------------------
 
     def _PrintPlugin(self, p=None, verbose=False):
@@ -125,7 +163,7 @@ class SSPy:
             if p.GetLabel() is not None: print "label: %s" % p.GetLabel()
             if p.GetVersion() is not None: print "version: %s" % p.GetVersion()
             if p.GetDescription() is not None: print "description: %s" % p.GetDescription()
-            if p.GetFormat() is not None: print "format: \n\n\"%s\"" % p.GetFormat()
+            if p.GetFormat() is not None: print "format:\n\n%s" % p.GetFormat()
             print ""
 
 #---------------------------------------------------------------------------

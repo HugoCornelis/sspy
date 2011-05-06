@@ -20,6 +20,7 @@ my $test
 						  {
 						   description => "Check for script completion",
 						   read => 'Done!',
+						   timeout => 15,
 						  },
 						  {
 						   description => "Can we produce simple output with simulation time?",
