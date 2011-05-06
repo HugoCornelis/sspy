@@ -99,7 +99,7 @@ def main():
 
             usage()
 
-        elif opt in ('--shell'):
+        elif opt in ('--shell',):
 
             shell = True
             

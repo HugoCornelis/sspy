@@ -8,6 +8,14 @@ class Input:
         pass
 
 
+
+    def Format(self):
+        
+        """
+        @brief Prints the text block format that is parsed for the input
+        """
+        return self._plugin_data.GetFormat()
+    
     
     def Add(self, input=None, options=None):
 

@@ -9,3 +9,8 @@ module: input
 solvers:
  - name: heccer
  - version: 0.1
+format: |
+  perfectclamp:
+    options:
+      command: command voltage value
+      name: purkinje cell perfect clamp

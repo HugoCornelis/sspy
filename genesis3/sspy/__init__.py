@@ -112,6 +112,24 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
+    def _PrintPlugin(self, p=None, verbose=False):
+
+        if p is None:
+
+            return
+
+        print "%s" % p.GetName()
+            
+        if verbose:
+
+            if p.GetLabel() is not None: print "label: %s" % p.GetLabel()
+            if p.GetVersion() is not None: print "version: %s" % p.GetVersion()
+            if p.GetDescription() is not None: print "description: %s" % p.GetDescription()
+            if p.GetFormat() is not None: print "format: \n\n\"%s\"" % p.GetFormat()
+            print ""
+
+#---------------------------------------------------------------------------
+
 
     def GetSolverPlugins(self):
 
@@ -135,18 +153,13 @@ class SSPy:
             
             return 
 
-        print "solver plugins:"
+        print "solver plugins:\n"
         
         for sp in solver_plugins:
 
-            print "  - %s" % sp.GetName()
+            self._PrintPlugin(sp, verbose)
             
-            if verbose:
-
-                print "      Label: %s" % sp.GetLabel()
-                print "      Version: %s" % sp.GetVersion()
-                print "      Description: %s" % sp.GetDescription()
-
+        print ""
                 
 #---------------------------------------------------------------------------
 
@@ -172,18 +185,14 @@ class SSPy:
             
             return 
 
-        print "service plugins:"
+        print "service plugins:\n"
         
         for sp in service_plugins:
 
-            print "  - %s:" % sp.GetName()
+            self._PrintPlugin(sp, verbose)
 
-            if verbose:
-
-                print "      Label: %s" % sp.GetLabel()
-                print "      Version: %s" % sp.GetVersion()
-                print "      Description: %s" % sp.GetDescription()
-
+        print ""
+        
 #---------------------------------------------------------------------------
 
     def GetOutputPlugins(self):
@@ -208,17 +217,13 @@ class SSPy:
             
             return 
 
-        print "output plugins:"
+        print "output plugins:\n"
         
         for op in output_plugins:
 
-            print "  - %s:" % op.GetName()
+            self._PrintPlugin(op, verbose)
 
-            if verbose:
-
-                print "      Label: %s" % op.GetLabel()
-                print "      Version: %s" % op.GetVersion()
-                print "      Description: %s" % op.GetDescription()
+        print ""
 
 #---------------------------------------------------------------------------
 
@@ -244,18 +249,14 @@ class SSPy:
             
             return 
 
-        print "input plugins:"
+        print "input plugins:\n"
         
         for ip in input_plugins:
 
-            print "  - %s:" % ip.GetName()
+            self._PrintPlugin(ip, verbose)
 
-            if verbose:
-
-                print "      Label: %s" % ip.GetLabel()
-                print "      Version: %s" % ip.GetVersion()
-                print "      Description: %s" % ip.GetDescription()
-
+        print ""
+            
 #---------------------------------------------------------------------------
 
     def Load(self, filename):

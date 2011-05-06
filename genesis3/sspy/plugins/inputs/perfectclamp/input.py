@@ -53,6 +53,15 @@ class Input:
 
 #---------------------------------------------------------------------------
 
+    def Format(self):
+        
+        """
+        @brief Prints the text block format that is parsed for the input
+        """
+        return self._plugin_data.GetFormat()
+            
+#---------------------------------------------------------------------------
+
     def GetName(self):
         """
         @brief 

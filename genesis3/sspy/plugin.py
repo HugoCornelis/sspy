@@ -168,5 +168,16 @@ class Plugin:
             return self._plugin_data['services']
             
                 
+    def GetFormat(self):
+        """
+        @brief Returns the block format for the plugin
+        """
+        if not self._plugin_data.has_key('format'):
+
+            return None
+
+        else:
+
+            return self._plugin_data['format']
 
 #***************************** End Plugin *****************************
