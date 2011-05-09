@@ -150,6 +150,88 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
+    def _LoadPlugin(self, registry, plugin_file, path):
+
+        """!
+        @brief Helper method for loading a plugin
+        @param registry A plugin registry object
+        @param plugin_file The file name of the plugin file to detect.
+        @param path A path to a service plugin file or directory.
+        """
+
+        plugin_path = ""
+        
+        if os.path.isdir(path):
+
+            plugin_path = os.path.join(path, plugin_file)
+
+            
+            if not os.path.isfile( plugin_path ):
+
+                raise Exception("No %s descriptor file found in the plugin directory" % plugin_file)
+
+        elif os.path.isfile( plugin_path ):    
+
+            dirrectory, filename = os.path.split(path)
+
+            if filename != plugin_file:
+
+                raise Exception("Invalid descriptor file found, expected %s, found %s" % (plugin_file, filename))
+
+            else:
+                
+                plugin_path = path
+                        
+        else:
+
+            raise Exception("%s is not a valid file or directory" % path)
+
+        registry.LoadPlugin(plugin_path)
+
+
+#---------------------------------------------------------------------------
+
+    def LoadServicePlugin(self, path):
+        """!
+        @brief Loads a service plugin
+        @param path A path to a service plugin file or directory.
+        """
+
+        self._LoadPlugin(self._service_registry, 'service.yml', path)
+
+#---------------------------------------------------------------------------
+
+    def LoadSolverPlugin(self, path):
+        """!
+        @brief Loads a solver plugin
+        @param path A path to a solver plugin file or directory.
+        """
+
+        self._LoadPlugin(self._solver_registry, 'solver.yml', path)
+
+#---------------------------------------------------------------------------
+
+    def LoadInputPlugin(self, path):
+        """!
+        @brief Loads an input plugin
+        @param path A path to an input plugin file or directory.
+        """
+
+        self._LoadPlugin(self._input_registry, 'input.yml', path)
+
+#---------------------------------------------------------------------------
+
+    def LoadOutputPlugin(self, path):
+        """!
+        @brief Loads an output plugin
+        @param path A path to an output plugin file or directory.
+        """
+
+        self._LoadPlugin(self._output_registry, 'output.yml', path)
+
+
+#---------------------------------------------------------------------------
+
     def _PrintPlugin(self, p=None, verbose=False):
 
         if p is None:
