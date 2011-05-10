@@ -63,10 +63,10 @@ class SSPy:
         self._solvers = []
         self._inputs = []
         self._outputs = []
-        
         self._models = []
 
         # Simulation variables
+        self.modelname = None # might need to make this a list of modelnames
         self.steps = None
         self.time_step = None
         self.simulation_time = None
@@ -605,7 +605,7 @@ class SSPy:
                 print "No model runtime parameters defined"
 
             return
-                
+
         num_models = len(self._models)
         
         if self.verbose:
@@ -623,13 +623,7 @@ class SSPy:
                     print "\tSetting runtime parameters for '%s'" % modelname
 
 
-                for s in self._solvers:
-
-                    if self.verbose:
-
-                        print "\t  Setting model name for solver '%s' to '%s'" % (s.GetName(), modelname)
-
-                    s.SetModelName(modelname)
+                self.SetModelName(modelname)
                     
 
                 if m.has_key('runtime_parameters'):
@@ -807,6 +801,13 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
+
+    def SetTimeStep(self, time_step):
+
+        self.time_step = time_step
+
+#---------------------------------------------------------------------------
+
     def GetTimeStep(self):
 
         pass
@@ -939,6 +940,20 @@ class SSPy:
         else:
 
             print "No services have been loaded"
+
+#---------------------------------------------------------------------------
+
+    def SetModelName(self, modelname):
+        """
+        @brief Sets the model name across all solvers
+        """
+        for s in self._solvers:
+
+            if self.verbose:
+
+                print "\t  Setting model name for solver '%s' to '%s'" % (s.GetName(), modelname)
+
+            s.SetModelName(modelname)
 
 #---------------------------------------------------------------------------
 
@@ -1161,7 +1176,6 @@ class SSPy:
 
             solvers = schedule_data['solverclasses']
 
-
             self._ParseSolvers(solvers)
             
 
@@ -1182,6 +1196,8 @@ class SSPy:
         if self._schedule_data.has_key('models'):
 
             self._models = schedule_data['models']
+
+            #self._ParseModelParameters(models)
 
 
         # 
@@ -1367,7 +1383,59 @@ class SSPy:
                     print "\tStep size is %f" % self.time_step
 
                 print ""
+
+#---------------------------------------------------------------------------
+
+
+    def _ParseModelParameters(self, model_data):
+
+        """!
+        @brief Applies model specific runtime parameters
+
+        This was done somewhat lazy as far as checking for
+        dictionary keys goes.
+        """
+        pdb.set_trace()
+        if model_data is None:
+
+            return
         
+        for m in model_data:
+
+            try:
+                
+                modelname = m['modelname']
+
+                model_parameters = []
+
+                solverclass = None
+                
+                if m.has_key('solverclass'):
+
+                    solverclass = m['solverclass']
+
+                if m.has_key('runtime_parameters'):
+                    
+                    for parameter in m['runtime_parameters']:
+
+                        component_name = parameter['component_name']
+                        field = parameter['field']
+                        val = parameter['value']
+
+                        model_parameters.append((component, field, val))
+
+                self._models.append([modelname, model_parameters, solverclass])
+
+            except Exception, e:
+
+                print e
+                
+                # catch the exception and allow the parse to continue if the next
+                # one is good
+                
+                continue
+
+        pdb.set_trace()
 #---------------------------------------------------------------------------
 
 

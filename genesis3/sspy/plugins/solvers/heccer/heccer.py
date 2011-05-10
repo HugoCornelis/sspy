@@ -162,6 +162,15 @@ class Solver:
 
 #---------------------------------------------------------------------------
 
+
+    def SetTimeStep(self, time_step):
+        """
+        @brief Sets the heccer time step
+        """
+        self._heccer.SetTimeStep(time_step)
+
+#---------------------------------------------------------------------------
+
     def GetTimeStep(self):
         """
         @brief Just returns the time step used for the schedulee
