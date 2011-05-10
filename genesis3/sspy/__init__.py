@@ -160,7 +160,7 @@ class SSPy:
         """
 
         plugin_path = ""
-        
+
         if os.path.isdir(path):
 
             plugin_path = os.path.join(path, plugin_file)
@@ -170,7 +170,7 @@ class SSPy:
 
                 raise Exception("No %s descriptor file found in the plugin directory" % plugin_file)
 
-        elif os.path.isfile( plugin_path ):    
+        elif os.path.isfile(path):    
 
             dirrectory, filename = os.path.split(path)
 
