@@ -58,7 +58,11 @@ class SSPy:
         self.name = name
 
         self._analyzers = {}
-            
+
+        #----------------------------------------------
+        #Internal data members that are representative
+        # of variables parsed from a declaration.
+        #----------------------------------------------
         self._loaded_services = []
         self._solvers = []
         self._inputs = []
@@ -594,11 +598,13 @@ class SSPy:
         """!
         @brief Applies model specific runtime parameters
 
-        This was done somewhat lazy as far as checking for
-        dictionary keys goes.
+        Sets the model runtime parameters that were parsed.
+        Directly reads from self._models so that this data
+        can be manipulated by a gui or other interface. 
+        
         """
         
-        if self._models is None:
+        if self._models is None or len(self._models) == 0:
 
             if self.verbose:
 
@@ -1195,9 +1201,9 @@ class SSPy:
         # to look for this symbol.
         if self._schedule_data.has_key('models'):
 
-            self._models = schedule_data['models']
+            models = schedule_data['models']
 
-            #self._ParseModelParameters(models)
+            self._ParseModelParameters(models)
 
 
         # 
@@ -1393,9 +1399,11 @@ class SSPy:
         @brief Applies model specific runtime parameters
 
         This was done somewhat lazy as far as checking for
-        dictionary keys goes.
+        dictionary keys goes. Operates mainly as a parser that
+        checks for keys and appends the dict to a new array. If there
+        is a bad key in the set, the exception is caught and it proceeds
+        to the next one. 
         """
-        pdb.set_trace()
         if model_data is None:
 
             return
@@ -1406,7 +1414,7 @@ class SSPy:
                 
                 modelname = m['modelname']
 
-                model_parameters = []
+                runtime_parameters = []
 
                 solverclass = None
                 
@@ -1424,18 +1432,17 @@ class SSPy:
 
                         model_parameters.append((component, field, val))
 
-                self._models.append([modelname, model_parameters, solverclass])
+                self._models.append(dict(modelname=modelname, runtime_parameters=runtime_parameters, solverclass=solverclass))
 
             except Exception, e:
 
-                print e
+                print "Error parsing model parameter for %s: %s" % (modelname,e)
                 
                 # catch the exception and allow the parse to continue if the next
                 # one is good
                 
                 continue
 
-        pdb.set_trace()
 #---------------------------------------------------------------------------
 
 
