@@ -67,8 +67,16 @@ class SSPy:
         self._solvers = []
         self._inputs = []
         self._outputs = []
-        self._models = []
 
+        # Each member of this array is in the format:
+        #  dict(modelname="modelname",
+        #       runtime_parameters=[ (component name, field, value), ...],
+        #       solverclass="solver type")
+        #
+        self._models = []
+        #----------------------------------------------
+
+        
         # Simulation variables
         self.modelname = None # might need to make this a list of modelnames
         self.steps = None

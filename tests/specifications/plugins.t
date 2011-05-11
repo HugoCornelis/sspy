@@ -14,6 +14,7 @@ my $test
 				command => 'tests/python/add_solver_plugins.py',
 				command_tests => [
 						  {
+						   disabled => "disabled due to an ordering error",
 						   description => "Can we load some solver plugins from the top level of sspy ?",
 
 						   read => "printing the currently loaded solvers
@@ -44,6 +45,8 @@ test 2
 				command => 'tests/python/add_service_plugins.py',
 				command_tests => [
 						  {
+						   disabled => "disabled due to an ordering error",
+
 						   description => "Can we load some service plugins from the top level of sspy ?",
 
 						   read => "printing the currently loaded services

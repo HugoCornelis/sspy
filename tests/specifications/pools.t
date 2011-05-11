@@ -20,6 +20,7 @@ my $test
 						  {
 						   description => "Check for script completion",
 						   read => 'Done!',
+						   timeout => 15,
 						  },
 						  {
 						   description => "Is a pool integrated correctly, one compartment, one pool with a feedback loop ?",
@@ -59,6 +60,7 @@ my $test
 						  {
 						   description => "Check for script completion",
 						   read => 'Done!',
+						   timeout => 15,
 						  },
 						  {
 						   description => "Is a pool integrated correctly, one pool, two feeding channels ?",
