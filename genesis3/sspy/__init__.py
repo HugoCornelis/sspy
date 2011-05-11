@@ -716,7 +716,7 @@ class SSPy:
 
         if num_solvers == 0:
 
-            print "No solvers to connect"
+            print "No solvers to connect to outputs"
 
             return False
 
@@ -761,7 +761,7 @@ class SSPy:
 
         if num_solvers == 0:
 
-            print "No solvers to connect"
+            print "No solvers to connect to inputs"
 
             return False
         

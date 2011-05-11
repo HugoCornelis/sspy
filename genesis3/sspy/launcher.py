@@ -5,8 +5,9 @@
 @brief This program starts the command line process for sspy
 """
 import getopt
-import sys
+import os
 import pdb
+import sys
 
 
 try:
@@ -47,7 +48,7 @@ def usage():
 
 from genesis3.sspy import SSPy
 
-def main():
+def main(cwd=os.getcwd()):
 
 
     try:
@@ -60,15 +61,16 @@ def main():
 
         usage()
 
-    try:
+        
+    command_options = ["cell", "model-name", 
+                       "steps", "time", "time-step",
+                       "model-filename=", "model-directory=", 
+                       "version", "help", "background", "builtins", "optimize",
+                       "emit-schedules", "emit-output",
+                       "perfectclamp", "pulsegen-width1=", "verbose",
+                       "shell"]
 
-        command_options = ["cell", "model-name", 
-                           "steps", "time", "time-step",
-                           "model-filename", "model-directory", 
-                           "version", "help", "background", "builtins", "optimize",
-                           "emit-schedules", "emit-output",
-                           "perfectclamp", "pulsegen-width1", "verbose",
-                           "shell"]
+    try:
 
         opts, args = getopt.getopt(sys.argv[1:], ":hvV", command_options)
         
@@ -78,26 +80,48 @@ def main():
         usage()
 
 
+    #---------------------------------------------
+    # This is simply to ensure that the invoking
+    # directory is used for relative paths. 
+    os.chdir(cwd)
+    #---------------------------------------------
+
     shell = False
     stdout = False
     verbose = False
 
+    configuration = None
+    model_directory = None
+    model_filename = None
+    model_name = None
+    
     for opt, arg in opts:
 
-        if opt in ('-V', '--version'):
+        if opt in ('-h', '--help'):
+
+            usage()
+
+        elif opt in ('--model-directory'):
+
+            model_directory = arg
+            
+        elif opt in ('--model-filename'):
+
+            model_filename = arg
+
+        elif opt in ('--model-name'):
+
+            model_name = arg
+
+        elif opt in ('-V', '--version'):
 
             print "version %s (%s)" % (GetVersion(), GetRevisionInfo())
 
             sys.exit(0)
 
-        elif opt in ('-v', '--vebose'):
+        elif opt in ('-v', '--verbose'):
 
             verbose = True
-
-
-        elif opt in ('-h', '--help'):
-
-            usage()
 
         elif opt in ('--shell',):
 
@@ -107,8 +131,47 @@ def main():
             
             assert False, "unhandled option %s" % opt
 
+    # here process the extra args
+    if len(args) > 0:
+
+        for a in args:
+
+            if os.path.isfile( a ):
+
+                configuration = a
+
+                args.remove(a)
+
+        if len(args) > 0:
+
+            print "Unprocessed arguments: ",
+        
+            for a in args:
+
+                print "%s " % a,
+
+            print ""
+        
 
     scheduler = SSPy(verbose=verbose)
+
+    # Add in the parsed arguments via the top level
+    # sspy api. This try exception block will kill
+    # the program is any errors occur.
+    try:
+
+        if not configuration is None:
+
+            scheduler.Load(configuration)
+
+        
+
+    except Exception, e:
+
+        print e
+        
+        sys.exit(1)
+
 
     if shell:
 
@@ -120,7 +183,6 @@ def main():
 
         sys.exit(1)
 
-    print "Start sspy here"
-
+    # Running sspy after all options have been set
+        
     scheduler.Run()
-
