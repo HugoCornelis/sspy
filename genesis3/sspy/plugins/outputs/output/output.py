@@ -26,7 +26,7 @@ class Output:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self,  name="Untitled Output", plugin=None, 
+    def __init__(self,  name="Untitled Output", plugin=None, filename=None,
                  arguments=None, verbose=False):
 
         self._name = name
@@ -51,8 +51,20 @@ class Output:
 
         self._solver = None
 
-        self._ParseArguments(arguments)
+        if not arguments is None:
+            
+            self._ParseArguments(arguments)
 
+        elif not filename is None:
+
+            self.filename = filename
+            
+            self._output_gen = og.Output(self.filename)
+
+        else:
+
+            self._output_gen = og.Output(self.filename)
+            
 
 #---------------------------------------------------------------------------
 
