@@ -585,7 +585,7 @@ class SSPy:
                 if self.verbose:
 
                     print "\tCompiling Solver: %s" % solver.GetName()
-                    
+
                 solver.Compile()
 
             except Exception, e:
@@ -1438,7 +1438,7 @@ class SSPy:
                         field = parameter['field']
                         val = parameter['value']
 
-                        model_parameters.append((component, field, val))
+                        runtime_parameters.append((component_name, field, val))
 
                 self._models.append(dict(modelname=modelname, runtime_parameters=runtime_parameters, solverclass=solverclass))
 
