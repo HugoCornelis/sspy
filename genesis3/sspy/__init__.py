@@ -957,6 +957,40 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
+    def SetOutput(self, path, parameter, output_name=None, output_type=None):
+        """!
+        @brief Sets a parameter on all loaded output
+
+        @param path The element path
+        @param parameter The parameter to set the output on, usually a solved variable.
+        @param output_name The name of a specific output object to add the output to. 
+        @param output_type The type of outputs to add an output to.
+        """
+
+        if self._outputs is not None:
+
+            for o in self._output:
+
+                if not output_name is None:
+
+                    if o.GetName() == output_name:
+                        
+                        o.AddOutput(path, parameter)
+                        
+                elif not output_type is None:
+
+                    if o.GetType() == output_type:
+
+                        o.AddOutput(path, parameter)
+                else:
+
+                    o.AddOutput(path, parameter)
+        else:
+
+            print "No outputs have been loaded"
+
+#---------------------------------------------------------------------------
+
     def SetModelName(self, modelname):
         """
         @brief Sets the model name across all solvers
