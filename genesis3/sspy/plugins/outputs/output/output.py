@@ -49,6 +49,8 @@ class Output:
         
         self._outputs = None
 
+        self._solver = None
+
         self._ParseArguments(arguments)
 
 
@@ -93,7 +95,32 @@ class Output:
         """
         
         self._outputs = outputs
-        
+
+#---------------------------------------------------------------------------
+
+    def AddOutput(self, name, field):
+        """!
+
+        @brief Adds an output to the solver
+
+
+        Performs a check for the solver type. Any issues after the solver check
+        should throw an exception. 
+        """
+        if self._solver is None:
+
+            raise Exception("Can't add output to %s, it is not connected to a solver" % self.GetName())
+
+        solver_type = self._solver.GetType()
+
+        if solver_type == "heccer":
+
+            my_heccer = self._solver.GetCore()
+
+            address = my_heccer.GetAddress(name, field)
+
+            self._output_gen.AddOutput(name, address)
+
 #---------------------------------------------------------------------------
 
     def GetTimeStep(self):
@@ -147,6 +174,12 @@ class Output:
             to communicate.
 
         """
+
+        # Here we save a copy of the solver
+        # in case we don't set any outputs during connection
+        # but with to set them later (via shell)
+        self._solver = solver
+        
         solver_type = solver.GetType()
 
         if solver_type == 'heccer':
@@ -159,51 +192,13 @@ class Output:
 
             self.SetTimeStep(time_step)
 
+            # Now after connection we can add any stored
+            # outputs from a configuration. Otherwise
+            # they can only be added after this connection step
+            # has proceeded. 
+            self._ParseOutputs()
 
-            #
-            # Could be possible to move this loop to it's own method
-            # for loading outputs.
-            #
-            component_name = ""
-            field = ""
-            
-            for i, o in enumerate(self._outputs):
 
-                if o.has_key('outputclass'):
-
-                    if o['outputclass'] != 'double_2_ascii':
-                        # if this output is not meant
-                        # for this object type then we
-                        # continue and ignore it
-                        continue
-
-                if o.has_key('component_name'):
-                    
-                    component_name = o['component_name']
-
-                else:
-
-                    print "Output Error, no component name for output %d" % i
-                    
-                    continue
-
-                if o.has_key('field'):
-
-                    field = o['field']
-
-                else:
-
-                    print "Output Error, no field given for output %d" % i
-
-                    continue
-
-                address = my_heccer.GetAddress(component_name, field)
-
-                if self.verbose:
-
-                    print "\tAdding output %d, '%s' with field '%s'" % (i+1,component_name, field)
-                    
-                self._output_gen.AddOutput(component_name, address)
 
 
 #---------------------------------------------------------------------------
@@ -221,7 +216,47 @@ class Output:
     def Report(self):
 
         pass
-    
+
+#---------------------------------------------------------------------------
+
+    def SetMode(self, mode=None):
+        """
+
+        """
+        if mode is None:
+
+            return
+        
+        if mode == 'steps':
+            
+            # turn on steps mode
+            
+            self._output_gen.SetSteps(1) 
+
+#---------------------------------------------------------------------------
+
+    def SetResolution(self, res=None):
+        """
+
+        """
+        if res is None:
+
+            return
+
+        self._output_gen.SetResolution(res)
+
+#---------------------------------------------------------------------------
+
+    def SetFormat(self, strfmt=None):
+        """
+
+        """
+        if strfmt is None:
+
+            return
+        
+        self._output_gen.SetFormat(strfmt)
+        
 #---------------------------------------------------------------------------
 
     def _ParseArguments(self, arguments):
@@ -274,19 +309,66 @@ class Output:
 
         self._output_gen = og.Output(self.filename)
 
+        self.SetMode(output_mode)
+
+        self.SetResolution(resolution)
+
+        self.SetFormat(string_format)
+
+#---------------------------------------------------------------------------
+
+
+    def _ParseOutputs(self):
+        """!
+
+        @brief Parses the set outputs from the schedule configuration.
+
+        Outputs can also be set via a yaml string fed to the parse method.
+        """
         
-        if output_mode == 'steps':
+        if not self._outputs is None:
+
+            #
+            # Could be possible to move this loop to it's own method
+            # for loading outputs.
+            #
+            component_name = ""
+            field = ""
             
-            # turn on steps mode
-            
-            self._output_gen.SetSteps(1) 
-            
+            for i, o in enumerate(self._outputs):
 
-        if resolution is not None:
+                if o.has_key('outputclass'):
 
-            self._output_gen.SetResolution(resolution)
+                    if o['outputclass'] != 'double_2_ascii':
+                        # if this output is not meant
+                        # for this object type then we
+                        # continue and ignore it
+                        continue
+
+                if o.has_key('component_name'):
+                    
+                    component_name = o['component_name']
+
+                else:
+
+                    print "Output Error, no component name for output %d" % i
+                    
+                    continue
+
+                if o.has_key('field'):
+
+                    field = o['field']
+
+                else:
+
+                    print "Output Error, no field given for output %d" % i
+
+                    continue
 
 
-        if string_format is not None:
+                if self.verbose:
 
-            self._output_gen.SetFormat(string_format)
+                    print "\tAdding output %d, '%s' with field '%s'" % (i+1, component_name, field)
+
+                    
+                self.AddOutput(component_name, field)
