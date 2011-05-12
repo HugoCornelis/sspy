@@ -644,9 +644,9 @@ class SSPy:
                     
                     for parameter in m['runtime_parameters']:
 
-                        component_name = parameter['component_name']
-                        field = parameter['field']
-                        val = parameter['value']
+                        component_name = parameter[0]
+                        field = parameter[1]
+                        val = parameter[2]
 
                         self.SetParameter(component_name, field, val)
 
