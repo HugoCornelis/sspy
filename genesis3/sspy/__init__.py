@@ -991,6 +991,107 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
+    def SetOutputFormat(self, format, output_name=None, output_type=None):
+        """!
+        @brief Sets a parameter on all loaded output
+
+        @param format A string for the output format.
+        @param output_name The name of a specific output object to add the output to. 
+        @param output_type The type of outputs to add an output to.
+        """
+
+        if self._outputs is not None:
+
+            for o in self._output:
+
+                if not output_name is None:
+
+                    if o.GetName() == output_name:
+                        
+                        o.SetFormat(format)
+                        
+                elif not output_type is None:
+
+                    if o.GetType() == output_type:
+
+                        o.SetFormat(format)
+                else:
+
+                    o.SetFormat(format)
+        else:
+
+            print "No outputs have been loaded"
+
+
+#---------------------------------------------------------------------------
+
+    def SetOutputMode(self, mode, output_name=None, output_type=None):
+        """!
+        @brief Sets a parameter on all loaded output
+
+        @param format A string for the output format.
+        @param output_name The name of a specific output object to add the output to. 
+        @param output_type The type of outputs to add an output to.
+        """
+
+        if self._outputs is not None:
+
+            for o in self._output:
+
+                if not output_name is None:
+
+                    if o.GetName() == output_name:
+                        
+                        o.SetMode(mode)
+                        
+                elif not output_type is None:
+
+                    if o.GetType() == output_type:
+
+                        o.SetMode(mode)
+                else:
+
+                    o.SetMode(mode)
+        else:
+
+            print "No outputs have been loaded"
+
+
+#---------------------------------------------------------------------------
+
+    def SetOutputResolution(self, res, output_name=None, output_type=None):
+        """!
+        @brief Sets a parameter on all loaded output
+
+        @param res A value to use for output granularity
+        @param output_name The name of a specific output object to add the output to. 
+        @param output_type The type of outputs to add an output to.
+        """
+
+        if self._outputs is not None:
+
+            for o in self._output:
+
+                if not output_name is None:
+
+                    if o.GetName() == output_name:
+                        
+                        o.SetResolution(res)
+                        
+                elif not output_type is None:
+
+                    if o.GetType() == output_type:
+
+                        o.SetResolution(res)
+                else:
+
+                    o.SetResolution(res)
+        else:
+
+            print "No outputs have been loaded"
+            
+#---------------------------------------------------------------------------
+
     def SetModelName(self, modelname):
         """
         @brief Sets the model name across all solvers
