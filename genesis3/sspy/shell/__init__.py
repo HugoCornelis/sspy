@@ -360,9 +360,10 @@ class GShell(cmd.Cmd):
     def do_inputclass_add(self, arg):
         print "Add an input plugin"
 
+        self._scheduler.LoadInput(arg)
 
     def help_inputclass_add(self):
-        print "usage: inputclass_add [input plugin]",
+        print "usage: inputclass_add [input plugin file or directory]",
         print "-- Adds an input plugin to the input registry."
 
 

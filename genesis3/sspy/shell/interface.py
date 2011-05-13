@@ -24,7 +24,7 @@ class SSPYInterface:
 
         if schedule is None:
 
-            raise SSPYInterfaceError("No sspy schedule created")
+            raise SSPYInterfaceError("No valid sspy object to interface to")
 
 
         self.cwe
@@ -44,4 +44,5 @@ class SSPYInterface:
         
 #---------------------------------------------------------------------------
 
+    def 
 
