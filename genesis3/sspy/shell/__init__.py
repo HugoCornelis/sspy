@@ -105,7 +105,7 @@ class GShell(cmd.Cmd):
 # shell
     def do_shell(self, arg):
         "Run a shell command"
-        print "running shell command:", line
+        print "running shell command:", arg
         output = os.popen(arg).read()
         print output
 
