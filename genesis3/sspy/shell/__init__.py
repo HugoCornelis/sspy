@@ -22,15 +22,15 @@ def parse(arg):
     return tuple(map(int, arg.split()))
 
 
-class GShell(cmd.Cmd):
+class SSPyShell(cmd.Cmd):
     """!
 
     
     """
 
     def __init__(self, scheduler=None,
-                 intro='Welcome to the GENESIS 3 shell. Type help or ? to list commands.\n',
-                 prompt='genesis3> ',
+                 intro='Welcome to the SSPy shell. Type help or ? to list commands.\n',
+                 prompt='sspy> ',
                  verbose=False):
         """
 
@@ -540,6 +540,38 @@ class GShell(cmd.Cmd):
         print "usage: output_add [name] [parameter]",
         print "-- Adds a new output."
 
+
+#---------------------------------------------------------------------------
+# service_new
+    def do_service_new(self, arg):
+        print "Creates a service with default options"
+
+
+    def help_service_new(self):
+        print "usage: service_new [name]",
+        print "-- Create a service with default options."
+        
+#---------------------------------------------------------------------------
+# service_load
+    def do_service_load(self, arg):
+        print "Loads a service with defautl options"
+
+
+    def help_service_load(self):
+        print "usage: service_load [name]",
+        print "-- Loads a service with default options."
+
+
+#---------------------------------------------------------------------------
+# service_show
+    def do_service_show(self, arg):
+
+        self._scheduler.ListS
+        
+
+    def help_service_show(self):
+        print "usage: service_show [v, verbose]",
+        print "-- Lists all loaded serices."
 
 #---------------------------------------------------------------------------
 #----                    End Gshell Commands                          ------

@@ -175,9 +175,9 @@ def main(cwd=os.getcwd()):
 
     if shell:
 
-        from genesis3.sspy.shell import GShell
+        from genesis3.sspy.shell import SSPyShell
         
-        sspy_shell = GShell(scheduler=scheduler)
+        sspy_shell = SSPyShell(scheduler=scheduler)
 
         sspy_shell.cmdloop()
 
