@@ -20,7 +20,7 @@ my $test
 
 						  },
 						 ],
-				description => "single passive compartment",
+				description => "single passive compartment, loaded from script",
 			       },
 
 
@@ -36,7 +36,7 @@ my $test
 
 						  },
 						 ],
-				description => "single active compartment in passive mode",
+				description => "single active compartment in passive mode, loaded from script",
 			       },
 
 			      ],

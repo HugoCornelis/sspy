@@ -18,6 +18,8 @@ except ImportError:
     sys.exit("Need PyYaml http://pyyaml.org/\n")
 
 import __cbi__
+__version__=__cbi__.GetVersion()
+
 from registry import SolverRegistry
 from registry import ServiceRegistry
 from registry import OutputRegistry
@@ -33,10 +35,10 @@ class SSPy:
 #---------------------------------------------------------------------------
 
     def __init__(self, name="Untitled", verbose=False,
-                 solver_directory= os.path.join( os.path.dirname(os.path.abspath(__file__)), 'plugins/solvers' ),
-                 service_directory= os.path.join( os.path.dirname(os.path.abspath(__file__)), 'plugins/services' ),
-                 input_directory= os.path.join( os.path.dirname(os.path.abspath(__file__)), 'plugins/inputs' ),
-                 output_directory= os.path.join( os.path.dirname(os.path.abspath(__file__)), 'plugins/outputs' )
+                 solver_directory= os.path.join( os.path.dirname(os.path.abspath(__file__)), 'plugins', 'solvers'),
+                 service_directory= os.path.join( os.path.dirname(os.path.abspath(__file__)), 'plugins', 'services'),
+                 input_directory= os.path.join( os.path.dirname(os.path.abspath(__file__)), 'plugins', 'inputs'),
+                 output_directory= os.path.join( os.path.dirname(os.path.abspath(__file__)), 'plugins', 'outputs')
                  ):
 
         # Registry objects for dynamically creating solvers and

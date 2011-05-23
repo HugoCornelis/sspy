@@ -8,18 +8,12 @@ import cmd
 import os
 import pdb
 import sys
+
 # Local imports
-#import sspy
+from interface import SSPyInterface
 
 
-def parse(arg):
-    """
 
-    Borrowed from the Python.org Turtle Shell example
-    
-    Convert a series of zero or more numbers to an argument tuple
-    """
-    return tuple(map(int, arg.split()))
 
 
 class SSPyShell(cmd.Cmd):
