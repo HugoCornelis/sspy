@@ -53,8 +53,9 @@ class SSPyShell(cmd.Cmd):
 
         self.histfile = None
 
-        self._schedule_interface = SSPYInterface(scheduler)
-        
+
+        self._scheduler = scheduler
+
 
 #---------------------------------------------------------------------------
 #----                           Commands                              ------
@@ -80,7 +81,7 @@ class SSPyShell(cmd.Cmd):
 
     def do_version(self, arg):
         
-        self._schedule_interface.get_version()
+        self._scheduler.get_version()
         
     def help_version(self):
         print "usage: version",
@@ -90,7 +91,7 @@ class SSPyShell(cmd.Cmd):
 # quit
     def do_quit(self, arg):
         
-        self._schedule_interface = None
+        self._scheduler = None
 
         sys.exit(1)
 
@@ -102,11 +103,11 @@ class SSPyShell(cmd.Cmd):
 #---------------------------------------------------------------------------
 # shell
     def do_shell(self, arg):
-        "Run a shell command"
-
-        self._schedule_interface.shell_command(arg)
-
-
+        """Run a shell command"""
+        print "running shell command:", arg
+        output = os.popen(arg).read()
+        print output
+        
     def help_shell(self):
         print "usage: shell [command]",
         print "-- Executes a shell command"
@@ -115,7 +116,7 @@ class SSPyShell(cmd.Cmd):
 #---------------------------------------------------------------------------
 # input_add
     def do_input_add(self, arg):
-        "Run a shell command"
+        """Add an input"""
         print "Input add %s" % arg
 
     def help_input_add(self):
@@ -128,9 +129,56 @@ class SSPyShell(cmd.Cmd):
     def do_run(self, arg):
         """Runs a loaded schedule """
 
-        self._schedule_interface.run(arg)
+        args = arg.split()
+
+        time = None
+        modelname = None
+        
+        num_args = len(args)
+        
+        if num_args > 2 or num_args == 0:
+
+            self.help_run()
+
+            return
+
+        if num_args == 1:
+
+            try:
+                
+                time = float(arg[0])
+
+            except ValueError, e:
+
+                print "Invalid simulation time: %s" % args[0]
+
+                return
+
+        elif num_args == 2:
+
+            modelname = args[0]
+            
+            try:
+                
+                time = float(args[1])
+
+            except ValueError, e:
+
+                print "Invalid simulation time: %s" % args[0]
+
+                return
+
+        try:
+
+            self._scheduler.Run()
+
+        except Exception, e:
+
+            print "%s" % e
+        
         
     def help_run(self):
+
         print "usage: run [modelname] [time]",
         print "-- runs a simulation"
 
@@ -140,7 +188,7 @@ class SSPyShell(cmd.Cmd):
 
     def do_list_solver_plugins(self, arg):
 
-        self._schedule_interface.list_solver_plugins(arg)
+        self._scheduler.list_solver_plugins(arg)
         
     # using these as templates
     def help_list_solver_plugins(self):
@@ -153,7 +201,7 @@ class SSPyShell(cmd.Cmd):
 
     def do_list_service_plugins(self, arg):
 
-        self._schedule_interface.list_service_plugins(arg)
+        self._scheduler.list_service_plugins(arg)
 
     def help_list_service_plugins(self):
         print "usage: list_service_plugins [v, verbose]",
@@ -165,7 +213,7 @@ class SSPyShell(cmd.Cmd):
 
     def do_list_output_plugins(self, arg):
 
-        self._schedule_interface.list_output_plugins(arg)
+        self._scheduler.list_output_plugins(arg)
 
     def help_list_output_plugins(self):
         print "usage: list_output_plugins [v, verbose]",
@@ -177,7 +225,7 @@ class SSPyShell(cmd.Cmd):
 
     def do_list_input_plugins(self, arg):
 
-        self._schedule_interface.list_input_plugins(arg)
+        self._scheduler.list_input_plugins(arg)
 
     def help_list_input_plugins(self):
         print "usage: list_input_plugins [v, verbose]",
@@ -325,7 +373,7 @@ class SSPyShell(cmd.Cmd):
     def do_inputclass_add(self, arg):
         print "Add an input plugin"
 
-        self._schedule_interface.load_input(arg)
+        self._scheduler.load_input(arg)
 
     def help_inputclass_add(self):
         print "usage: inputclass_add [input plugin file or directory]",

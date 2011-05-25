@@ -72,7 +72,12 @@ class SSPYInterface:
 #---------------------------------------------------------------------------
 
     def run(self, arg):
-    
+
+        args = arg.split()
+
+        if len(args) > 2:
+
+            print ""
         time = float(arg)
 
         try:
@@ -82,6 +87,11 @@ class SSPYInterface:
         except Exception, e:
 
             print "%s" % e
+
+#---------------------------------------------------------------------------
+
+    def help_run(self):
+        pass
 
 #---------------------------------------------------------------------------
 
@@ -101,9 +111,15 @@ class SSPYInterface:
         if arg == 'v' or arg == 'verbose':
 
             verbose = True
-            
-        self.scheduler.ListSolverPlugins(verbose)
 
+        try:
+            
+            self.scheduler.ListSolverPlugins(verbose)
+
+        except Exception, e:
+
+            print "%s" % e
+            
 #---------------------------------------------------------------------------
 
     def list_output_plugins(self, arg):
@@ -113,9 +129,14 @@ class SSPYInterface:
         if arg == 'v' or arg == 'verbose':
 
             verbose = True
-            
-        self.scheduler.ListOutputPlugins(verbose)
 
+        try:
+            
+            self.scheduler.ListOutputPlugins(verbose)
+
+        except Exception, e:
+
+            print "%s" % e
 
 #---------------------------------------------------------------------------
 
@@ -127,8 +148,14 @@ class SSPYInterface:
         if arg == 'v' or arg == 'verbose':
 
             verbose = True
+
+        try:
             
-        self.scheduler.ListInputPlugins(verbose)
+            self.scheduler.ListInputPlugins(verbose)
+
+        except Exception, e:
+
+            print "%s" % e
 
 #---------------------------------------------------------------------------
 
@@ -139,9 +166,15 @@ class SSPYInterface:
         if arg == 'v' or arg == 'verbose':
 
             verbose = True
+
+        try:
             
-        self.scheduler.ListServicePlugins(verbose)
-        
+            self.scheduler.ListServicePlugins(verbose)
+
+        except Exception, e:
+
+            print "%s" % e
+
 #---------------------------------------------------------------------------
 
     def load_input(self, arg):
