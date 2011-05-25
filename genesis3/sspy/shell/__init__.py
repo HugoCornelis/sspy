@@ -10,7 +10,7 @@ import pdb
 import sys
 
 # Local imports
-from interface import SSPyInterface
+from interface import SSPYInterface
 
 
 
@@ -52,8 +52,9 @@ class SSPyShell(cmd.Cmd):
         self.prompt = prompt
 
         self.histfile = None
+
+        self._schedule_interface = SSPYInterface(scheduler)
         
-        self._scheduler = scheduler
 
 #---------------------------------------------------------------------------
 #----                           Commands                              ------
@@ -79,8 +80,8 @@ class SSPyShell(cmd.Cmd):
 
     def do_version(self, arg):
         
-        print "%s (%s)" % (self._scheduler.GetVersion(), self._scheduler.GetRevisionInfo())
-
+        self._schedule_interface.get_version()
+        
     def help_version(self):
         print "usage: version",
         print "-- prints the version"
@@ -88,6 +89,9 @@ class SSPyShell(cmd.Cmd):
 #---------------------------------------------------------------------------
 # quit
     def do_quit(self, arg):
+        
+        self._schedule_interface = None
+
         sys.exit(1)
 
 
@@ -99,9 +103,9 @@ class SSPyShell(cmd.Cmd):
 # shell
     def do_shell(self, arg):
         "Run a shell command"
-        print "running shell command:", arg
-        output = os.popen(arg).read()
-        print output
+
+        self._schedule_interface.shell_command(arg)
+
 
     def help_shell(self):
         print "usage: shell [command]",
@@ -122,22 +126,13 @@ class SSPyShell(cmd.Cmd):
 # run
 
     def do_run(self, arg):
+        """Runs a loaded schedule """
 
-        time = float(arg)
+        self._schedule_interface.run(arg)
         
-        try:
-            
-            sspy.Run(time)
-
-        except Exception,e:
-
-            print "%s" % e
-            
-
     def help_run(self):
         print "usage: run [modelname] [time]",
         print "-- runs a simulation"
-
 
 
 #---------------------------------------------------------------------------
@@ -145,14 +140,8 @@ class SSPyShell(cmd.Cmd):
 
     def do_list_solver_plugins(self, arg):
 
-        verbose = False
+        self._schedule_interface.list_solver_plugins(arg)
         
-        if arg == 'v' or arg == 'verbose':
-
-            verbose = True
-            
-        self._scheduler.ListSolverPlugins(verbose)
-
     # using these as templates
     def help_list_solver_plugins(self):
         print "usage: list_solver_plugins [v, verbose]",
@@ -164,13 +153,7 @@ class SSPyShell(cmd.Cmd):
 
     def do_list_service_plugins(self, arg):
 
-        verbose = False
-        
-        if arg == 'v' or arg == 'verbose':
-
-            verbose = True
-            
-        self._scheduler.ListServicePlugins(verbose)
+        self._schedule_interface.list_service_plugins(arg)
 
     def help_list_service_plugins(self):
         print "usage: list_service_plugins [v, verbose]",
@@ -182,13 +165,7 @@ class SSPyShell(cmd.Cmd):
 
     def do_list_output_plugins(self, arg):
 
-        verbose = False
-        
-        if arg == 'v' or arg == 'verbose':
-
-            verbose = True
-            
-        self._scheduler.ListOutputPlugins(verbose)
+        self._schedule_interface.list_output_plugins(arg)
 
     def help_list_output_plugins(self):
         print "usage: list_output_plugins [v, verbose]",
@@ -200,13 +177,7 @@ class SSPyShell(cmd.Cmd):
 
     def do_list_input_plugins(self, arg):
 
-        verbose = False
-        
-        if arg == 'v' or arg == 'verbose':
-
-            verbose = True
-            
-        self._scheduler.ListInputPlugins(verbose)
+        self._schedule_interface.list_input_plugins(arg)
 
     def help_list_input_plugins(self):
         print "usage: list_input_plugins [v, verbose]",
@@ -354,7 +325,7 @@ class SSPyShell(cmd.Cmd):
     def do_inputclass_add(self, arg):
         print "Add an input plugin"
 
-        self._scheduler.LoadInput(arg)
+        self._schedule_interface.load_input(arg)
 
     def help_inputclass_add(self):
         print "usage: inputclass_add [input plugin file or directory]",
@@ -560,8 +531,7 @@ class SSPyShell(cmd.Cmd):
 # service_show
     def do_service_show(self, arg):
 
-        self._scheduler.ListS
-        
+        pass
 
     def help_service_show(self):
         print "usage: service_show [v, verbose]",

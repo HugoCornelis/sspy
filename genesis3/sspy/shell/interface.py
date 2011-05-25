@@ -38,8 +38,23 @@ class SSPYInterface:
 
         self.scheduler = scheduler
 
-        self.cwe
+        self.cwe = None
         
+#---------------------------------------------------------------------------
+
+    def __del__(self):
+        """
+        Do any cleanup here. Possibly a save dump to
+        preserve any work.
+        """
+        self.scheduler = None
+
+#---------------------------------------------------------------------------
+
+    def get_version(self):
+
+        print "%s (%s)" % (self.scheduler.GetVersion(), self.scheduler.GetRevisionInfo())
+
 #---------------------------------------------------------------------------
 
 
@@ -69,3 +84,75 @@ class SSPYInterface:
             print "%s" % e
 
 #---------------------------------------------------------------------------
+
+    def shell_command(self, arg):
+
+        "Run a shell command"
+        print "running shell command:", arg
+        output = os.popen(arg).read()
+        print output
+
+#---------------------------------------------------------------------------
+
+    def list_solver_plugins(self, arg):
+
+        verbose = False
+        
+        if arg == 'v' or arg == 'verbose':
+
+            verbose = True
+            
+        self.scheduler.ListSolverPlugins(verbose)
+
+#---------------------------------------------------------------------------
+
+    def list_output_plugins(self, arg):
+
+        verbose = False
+        
+        if arg == 'v' or arg == 'verbose':
+
+            verbose = True
+            
+        self.scheduler.ListOutputPlugins(verbose)
+
+
+#---------------------------------------------------------------------------
+
+
+    def list_input_plugins(self, arg):
+
+        verbose = False
+        
+        if arg == 'v' or arg == 'verbose':
+
+            verbose = True
+            
+        self.scheduler.ListInputPlugins(verbose)
+
+#---------------------------------------------------------------------------
+
+    def list_service_plugins(self, arg):
+
+        verbose = False
+        
+        if arg == 'v' or arg == 'verbose':
+
+            verbose = True
+            
+        self.scheduler.ListServicePlugins(verbose)
+        
+#---------------------------------------------------------------------------
+
+    def load_input(self, arg):
+
+        try:
+            
+            self.scheduler.LoadInput(arg)
+
+        except Exception, e:
+
+            print "%s" % e
+        
+#---------------------------------------------------------------------------
+
