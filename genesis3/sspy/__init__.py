@@ -1108,13 +1108,12 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def Run(self):
-        """!
-        @brief Runs the simulation
-        """
-        if not self._schedule_loaded:
+    def RunPrepare(self):
 
-            print "Can't run, No schedule has been loaded."
+        if not self._schedule_loaded:
+           
+            raise errors.ScheduleError("Can't run, No schedule has been loaded.")
+
 
         try:
             
@@ -1183,6 +1182,17 @@ class SSPy:
 
             raise errors.ScheduleError("%s" % e)
 
+
+#---------------------------------------------------------------------------
+
+    def Run(self):
+        """!
+        @brief Runs the simulation
+        """
+        
+        self.RunPrepare()
+        # catch exception?
+        
         if self.verbose:
 
             print "Running simulation"
