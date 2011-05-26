@@ -1110,8 +1110,10 @@ class SSPy:
 
     def RunPrepare(self):
 
+        # Note: This if statement may need to be revised if a user
+        # runs a simulation is created and run via API
         if not self._schedule_loaded:
-           
+            
             raise errors.ScheduleError("Can't run, No schedule has been loaded.")
 
 
