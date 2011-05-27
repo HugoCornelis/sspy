@@ -45,7 +45,7 @@ Initializing all schedulees
 	Initializing Schedulee: singlep (heccer)
 
 
-Running simulation
+Running simulation in steps mode
 singlep (heccer): 0 0.000020
 Heccer (pcName) : (/singlep)
 Heccer (iStatus) : (20)

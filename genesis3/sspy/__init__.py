@@ -83,6 +83,7 @@ class SSPy:
         self.modelname = None # might need to make this a list of modelnames
         self.steps = None
         self.time_step = None
+        self.current_simulation_time = None
         self.simulation_time = None
         self.simulation_verbose = None
 
@@ -1187,25 +1188,62 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def Run(self):
+    def Run(self, time=None, steps=None):
         """!
         @brief Runs the simulation
         """
+        run_steps = None
+        run_current_steps = None
+        run_time = None
+        run_time_step = None
         
         self.RunPrepare()
         # catch exception?
-        
-        if self.verbose:
 
-            print "Running simulation"
+        if not steps is None:
+
+            run_steps = steps
+
+        elif not time is None:
+
+            run_time = time
+
+        elif not self.steps is None:
+
+            run_steps = self.steps
+
+        elif not self.simulation_time is None:
+
+            run_time = self.simulation_time
 
         # We have steps so we run for this number of steps
-        if self.steps is not None:
+        if run_steps is not None:
 
-            for i in range(self.steps + 1):
+
+            if self.verbose:
+
+                print "Running simulation in steps mode"
+            
+            for i in range(run_steps + 1):
 
                 self.Step()
 
+        elif run_time is not None:
+
+            run_current_steps = 0
+
+            if self.verbose:
+
+                print "Running simulation in time mode"
+                
+            while self.current_simulation_time < run_time:
+
+                self.Step()
+
+                self.current_simulation_time += run_time_step
+
+                run_current_steps += 1
+                
                 
         if self.verbose:
 
