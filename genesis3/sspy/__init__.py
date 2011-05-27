@@ -651,7 +651,7 @@ class SSPy:
                         field = parameter[1]
                         val = parameter[2]
 
-                        self.SetParameter(component_name, field, val)
+                        self.SetParameter(path=component_name, parameter=field, value=val)
 
             except Exception, e:
 
@@ -827,7 +827,7 @@ class SSPy:
 
     def GetTimeStep(self):
 
-        pass
+        return self.time_step
 
 
 #---------------------------------------------------------------------------
@@ -869,9 +869,22 @@ class SSPy:
             except Exception, e:
 
                 raise errors.ScheduleeError("Error initializing schedulee '%s': %s" % (schedulee.GetName(),e))
-            
-        self._initialized = True
+
         
+        self.current_simulation_time = 0
+        
+        self._initialized = True
+
+#---------------------------------------------------------------------------
+
+    def Reset(self):
+        """!
+        @brief 
+        """
+
+        self.current_simulation_time = 0
+        
+
 #---------------------------------------------------------------------------
 
     def InstantiateCommunicators(self):
@@ -943,20 +956,34 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def SetParameter(self, path, parameter, value):
+    def SetParameter(self, path=None, parameter=None, value=None, service=None):
         """!
-        @brief Sets a parameter on all loaded services. 
+        @brief Sets a parameter on all or one loaded services. 
         """
 
-        if self._loaded_services is not None:
-
-            for service in self._loaded_services:
-
-                service.SetParameter(path, parameter, value)
-
-        else:
+        if self._loaded_services is None:
 
             print "No services have been loaded"
+
+            return
+        
+        else:
+
+            if service is None:
+                
+                for s in self._loaded_services:
+                        
+                    s.SetParameter(path, parameter, value)
+
+            else:
+
+                for s in self._loaded_services:
+
+                    if s.GetName() == service:
+
+                        s.SetParameter(path, parameter, value)
+                        
+                
 
 #---------------------------------------------------------------------------
 
@@ -1230,6 +1257,12 @@ class SSPy:
 
         elif run_time is not None:
 
+            run_time_step = self.GetTimeStep()
+
+            if run_time_step is None:
+
+                raise Exception("Can't run, no time step is set.")
+                
             run_current_steps = 0
 
             if self.verbose:

@@ -127,7 +127,7 @@ class Schedulee:
             self._schedulee.Step(self.current_time)
 
         except Exception, e:
-            pdb.set_trace()
+
             raise errors.ScheduleeError("%s" % e)
 
         self.current_time += self.time_step
