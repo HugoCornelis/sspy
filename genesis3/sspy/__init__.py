@@ -483,9 +483,20 @@ class SSPy:
 
     def ScheduleAll(self):
 
-        if self.verbose:
+        if self._scheduled:
 
-            print "Scheduling all simulation objects"
+            if self.verbose:
+
+                print "All objects are already scheduled"
+
+                return
+            
+        else:
+
+            if self.verbose:
+
+                print "Scheduling all simulation objects"
+
 
 
         if len(self._inputs) > 0:
@@ -794,6 +805,7 @@ class SSPy:
         self._inputs_connected = True
     
 #---------------------------------------------------------------------------
+
     def Daemonize(self):
 
         pass

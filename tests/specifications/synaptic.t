@@ -20,6 +20,7 @@ my $test
 						  {
 						   description => "Check for script completion",
 						   read => 'Done!',
+						   timeout => 10,
 						  },
 						  {
 						   description => "Is a synaptic (springmass) channel with an event table integrated correctly ?",

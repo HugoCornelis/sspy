@@ -132,6 +132,7 @@ class SSPyShell(cmd.Cmd):
         args = arg.split()
 
         time = None
+        steps = None
         modelname = None
         
         num_args = len(args)
@@ -157,6 +158,8 @@ class SSPyShell(cmd.Cmd):
         elif num_args == 2:
 
             modelname = args[0]
+
+            self.SetModelName(modelname)
             
             try:
                 
@@ -167,10 +170,10 @@ class SSPyShell(cmd.Cmd):
                 print "Invalid simulation time: %s" % args[0]
 
                 return
-
+            
         try:
 
-            self._scheduler.Run()
+            self._scheduler.Run(time=time)
 
         except Exception, e:
 
@@ -179,7 +182,7 @@ class SSPyShell(cmd.Cmd):
         
     def help_run(self):
 
-        print "usage: run [modelname] [time]",
+        print "usage: run [modelname] [time or steps]",
         print "-- runs a simulation"
 
 
