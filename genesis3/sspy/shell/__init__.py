@@ -570,7 +570,7 @@ class SSPyShell(cmd.Cmd):
 #---------------------------------------------------------------------------
 # service_load
     def do_service_load(self, arg):
-        print "Loads a service with defautl options"
+        print "Loads a service with default options"
 
 
     def help_service_load(self):
@@ -582,11 +582,44 @@ class SSPyShell(cmd.Cmd):
 # service_show
     def do_service_show(self, arg):
 
-        pass
+        self._scheduler.ListLoadedServices(arg)
 
     def help_service_show(self):
         print "usage: service_show [v, verbose]",
         print "-- Lists all loaded serices."
+
+
+#---------------------------------------------------------------------------
+# solver_show
+    def do_solver_show(self, arg):
+
+        self._scheduler.ListLoadedSolvers(arg)
+
+    def help_solver_show(self):
+        print "usage: solver_show [v, verbose]",
+        print "-- Lists all loaded solver."
+
+
+#---------------------------------------------------------------------------
+# input_show
+    def do_input_show(self, arg):
+
+        self._scheduler.ListLoadedInputs(arg)
+
+    def help_input_show(self):
+        print "usage: input_show [v, verbose]",
+        print "-- Lists all loaded inputs."
+
+
+#---------------------------------------------------------------------------
+# output_show
+    def do_output_show(self, arg):
+
+        self._scheduler.ListLoadedOutputs(arg)
+
+    def help_output_show(self):
+        print "usage: output_show [v, verbose]",
+        print "-- Lists all loaded outputs."
 
 #---------------------------------------------------------------------------
 #----                    End Gshell Commands                          ------

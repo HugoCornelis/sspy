@@ -263,6 +263,23 @@ class SSPy:
             if p.GetFormat() is not None: print "format:\n\n%s" % p.GetFormat()
             print ""
 
+
+#---------------------------------------------------------------------------
+
+    def _PrintSimObject(self, p=None, verbose=False):
+
+        if p is None:
+
+            return
+
+        print "%s" % p.GetName()
+            
+        if verbose:
+
+            if p.GetType() is not None: print "Type: %s" % p.GetLabel()
+            print ""
+
+
 #---------------------------------------------------------------------------
 
 
@@ -550,6 +567,104 @@ class SSPy:
     def GetLoadedServices(self):
 
         return self._loaded_services
+
+#---------------------------------------------------------------------------
+
+    def ListLoadedServices(self, verbose=False):
+
+        loaded_services = self.GetLoadedServices()
+
+        if len(loaded_services) == 0:
+
+            print "no services loaded"
+            
+            return 
+
+        print "loaded services:\n"
+        
+        for s in loaded_services:
+
+            self._PrintSimObject(s, verbose)
+            
+        print ""
+
+#---------------------------------------------------------------------------
+
+    def GetLoadedSolvers(self):
+
+        return self._solvers
+
+#---------------------------------------------------------------------------
+
+    def ListLoadedSolvers(self, verbose=False):
+
+        loaded_solvers = self.GetLoadedSolvers()
+
+        if len(loaded_solvers) == 0:
+
+            print "no solvers have been loaded"
+            
+            return 
+
+        print "loaded solvers:\n"
+        
+        for s in loaded_solvers:
+
+            self._PrintSimObject(s, verbose)
+            
+        print ""
+
+#---------------------------------------------------------------------------
+
+    def GetLoadedInputs(self):
+
+        return self._inputs
+
+#---------------------------------------------------------------------------
+
+    def ListLoadedInputs(self, verbose=False):
+
+        loaded_inputs = self.GetLoadedInputs()
+
+        if len(loaded_inputs) == 0:
+
+            print "no inputs have been loaded"
+            
+            return 
+
+        print "loaded inputs:\n"
+        
+        for i in loaded_inputs:
+
+            self._PrintSimObject(i, verbose)
+            
+        print ""
+
+#---------------------------------------------------------------------------
+
+    def GetLoadedOutputs(self):
+
+        return self._outputs
+
+#---------------------------------------------------------------------------
+
+    def ListLoadedOutputs(self, verbose=False):
+
+        loaded_outputs = self.GetLoadedOutputs()
+
+        if len(loaded_outputs) == 0:
+
+            print "no outputs have been loaded"
+            
+            return 
+
+        print "loaded outputs:\n"
+        
+        for o in loaded_outputs:
+
+            self._PrintSimObject(o, verbose)
+            
+        print ""
 
 #---------------------------------------------------------------------------
 
