@@ -49,7 +49,9 @@ class Input:
         self.command_voltage = None
 
         self._solver = None
-        
+
+        self._perfectclamp = PerfectClamp(self._name)
+
         self._ParseArguments(arguments)
 
 
@@ -305,8 +307,6 @@ class Input:
             if options.has_key('name'):
 
                 self._name = options['name']
-
-        self._perfectclamp = PerfectClamp(self._name)
 
         if self.command_voltage is not None:
 
