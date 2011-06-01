@@ -21,13 +21,9 @@ my_model_container = None
 #
 # Create a model container service and load an ndf file
 #
-try:
     
-    my_model_container = scheduler.CreateService(name="My Model Container",
-                                                 type="model_container")
-except Exception, e:
-    print e
-    sys.exit(2)
+my_model_container = scheduler.CreateService(name="My Model Container",
+                                             type="model_container")
 
 my_model_container.Load('tests/cells/purk_test_segment.ndf')
 
@@ -35,9 +31,8 @@ my_model_container.Load('tests/cells/purk_test_segment.ndf')
 # Create an perfectclamp input object
 #
 my_perfect_clamp = scheduler.CreateInput('Inject', 'perfectclamp')
-
-
-
 pdb.set_trace()
+
+
 
 scheduler.Run()

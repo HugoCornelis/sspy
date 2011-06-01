@@ -256,7 +256,7 @@ class Input:
 
 #---------------------------------------------------------------------------
 
-    def _ParseArguments(self, arguments):
+    def _ParseArguments(self, arguments=None):
         """!
         @brief Parsed the input initialization data
 
@@ -275,6 +275,9 @@ class Input:
             ['perfectclamp']['module_name']
             
         """
+        if arguments is None:
+
+            return
 
         if arguments.has_key('perfectclamp'):
 
