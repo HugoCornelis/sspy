@@ -936,7 +936,70 @@ class SSPy:
             s.Finish()
 
         
+#---------------------------------------------------------------------------
 
+    def CreateService(self, name=None, type=None, arguments=None, verbose=False):
+        """
+        @brief Creates a new service with the given name, type and arguments.
+        """
+
+        service = self._service_registry.CreateService(name,
+                                                       type,
+                                                       arguments)
+
+        self._loaded_services.append(service)
+
+        return service
+
+#---------------------------------------------------------------------------
+
+    def CreateSolver(self, name=None, type=None, data=None, verbose=False):
+        """
+        @brief Creates a new service with the given name, type and arguments.
+        """
+
+        solver = self._solver_registry.CreateSolver(name, type, data, verbose)
+
+        self._solver.append(solver)
+
+        return solver
+
+#---------------------------------------------------------------------------
+
+    def CreateInput(self, name=None, type=None, data=None, verbose=False):
+        """
+        @brief Creates a new service with the given name, type and arguments.
+        """
+
+
+        inp = self._input_registry.CreateInput(name, type, data, verbose)
+
+        self._inputs.append(inp)
+
+        return inp
+
+
+#---------------------------------------------------------------------------
+
+    def CreateOutputfile(self, name=None, mode=None, resolution=None, format=None, verbose=False):
+        """
+        @brief Creates a double_2_ascii output file.
+        """
+
+#         if not arguments is None:
+
+#             if 
+
+#         else:
+
+#             if not 
+            
+        outp = self._output_registry.CreateOutput(name, 'double_2_ascii', arguments, verbose)
+
+        self._inputs.append(inp)
+
+        return inp
+    
 #---------------------------------------------------------------------------
 
     def GetEngineOutputs(self):
