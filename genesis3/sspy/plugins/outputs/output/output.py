@@ -47,7 +47,7 @@ class Output:
 
         self.filename = _default_filename
         
-        self._outputs = None
+        self._outputs = {}
 
         self._solver = None
 
@@ -55,15 +55,6 @@ class Output:
             
             self._ParseArguments(arguments)
 
-        elif not filename is None:
-
-            self.filename = filename
-            
-            self._output_gen = og.Output(self.filename)
-
-        else:
-
-            self._output_gen = og.Output(self.filename)
             
 
 #---------------------------------------------------------------------------
@@ -119,6 +110,13 @@ class Output:
         Performs a check for the solver type. Any issues after the solver check
         should throw an exception. 
         """
+
+        if self._output_gen is None:
+            # if it's none then we store it for later use
+
+            self._outputs.append(dict(field=field,compnent_name=name))
+            
+        
         if self._solver is None:
 
             raise Exception("Can't add output to %s, it is not connected to a solver" % self.GetName())
@@ -202,6 +200,18 @@ class Output:
             # for our object
             time_step = my_heccer.GetTimeStep()
 
+
+            # if the output object is not built declaratively
+            # then it must be built here just before connection to a solver. 
+            if self._output_gen is None:
+
+                self._output_gen = og.Output(self.filename)
+
+                if self._output_gen is None:
+
+                    raise Exception("Connect failed, Can't create output generator object '%s'" % self.GetName())
+
+
             self.SetTimeStep(time_step)
 
             # Now after connection we can add any stored
@@ -268,6 +278,18 @@ class Output:
             return
         
         self._output_gen.SetFormat(strfmt)
+
+#---------------------------------------------------------------------------
+
+    def SetFilename(self, filename=None):
+        """
+        
+        """
+        if not filename:
+
+            return
+        
+        self.filename = filename
         
 #---------------------------------------------------------------------------
 
