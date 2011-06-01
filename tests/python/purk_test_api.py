@@ -31,8 +31,10 @@ my_model_container.Load('tests/cells/purk_test_segment.ndf')
 # Create an perfectclamp input object
 #
 my_perfect_clamp = scheduler.CreateInput('Inject', 'perfectclamp')
+
 pdb.set_trace()
 
+my_perfect_clamp.SetCommandVoltage(2e-9)
 
 
-scheduler.Run()
+#scheduler.Run()

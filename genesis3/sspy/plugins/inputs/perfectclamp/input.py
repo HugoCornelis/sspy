@@ -130,6 +130,12 @@ class Input:
 
 #---------------------------------------------------------------------------
 
+    def SetCommandVoltage(self, voltage):
+
+        self._perfectclamp.SetCommandVoltage(self.command_voltage)
+        
+#---------------------------------------------------------------------------
+
     def Advance(self):
 
         pass
