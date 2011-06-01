@@ -978,6 +978,19 @@ class SSPy:
 
         return inp
 
+#---------------------------------------------------------------------------
+
+    def CreatePerfectClamp(self, name=None, data=None, verbose=False):
+        """
+        @brief Creates a new service with the given name, type and arguments.
+        """
+
+
+        inp = self._input_registry.CreateInput(name, 'perfectclamp', data, verbose)
+
+        self._inputs.append(inp)
+
+        return inp
 
 #---------------------------------------------------------------------------
 

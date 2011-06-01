@@ -48,7 +48,16 @@ class Service:
 
         self._arguments = arguments
 
-        self._ParseArguments()
+        if not arguments is None:
+            
+            self._ParseArguments()
+
+
+#---------------------------------------------------------------------------
+
+    def Load(self, modelfile):
+
+        self._model_container.Read(modelfile)
 
 #---------------------------------------------------------------------------
 
