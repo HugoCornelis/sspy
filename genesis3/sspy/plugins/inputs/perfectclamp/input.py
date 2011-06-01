@@ -44,10 +44,12 @@ class Input:
         
         self._perfectclamp = None
         
-        self._inputs = None
+        self._inputs = {}
 
         self.command_voltage = None
 
+        self._solver = None
+        
         self._ParseArguments(arguments)
 
 
@@ -98,10 +100,25 @@ class Input:
 
 #---------------------------------------------------------------------------
     
-    def AddInput(self, path, field):
+    def AddInput(self, name, field):
 
-        pass
+        if self._perfectclamp is None:
 
+            self._inputs.append(dict(field=field,compnent_name=name))
+
+        if self._solver is None:
+
+            raise Exception("Can't add input to %s, it is not connected to a solver" % self.GetName())
+
+        solver_type = self._solver.GetType()
+
+        if solver_type == "heccer":
+
+            my_heccer = solver.GetCore()
+                
+            address = my_heccer.GetCompartmentAddress(component_name, field)
+
+            self._perfectclamp.AddInput(address)
 
 #---------------------------------------------------------------------------
 
@@ -144,10 +161,13 @@ class Input:
 
         solver_type = solver.GetType()
 
+        if self._perfectclamp is None:
+
+            self._perfectclamp = PerfectClamp(self._name)
 
         component_name = ""
         field = ""
-
+        pdb.set_trace()
         for i, inp in enumerate(self._inputs):
 
             if inp.has_key('inputclass'):
