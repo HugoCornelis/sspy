@@ -70,72 +70,16 @@ class Solver:
 
         self.time_step = -1
         
-        if constructor_settings.has_key('service_name'):
-
-            self._service_name = constructor_settings['service_name']
-
-        # This will probably be unneeded in python
-        if constructor_settings.has_key('module_name'):
-
-            self._module_name = constructor_settings['module_name']
-
         self._constructor_settings = {}
         
         self._configuration = {}
-
-        if constructor_settings.has_key('constructor_settings'):
-
-            self._constructor_settings = constructor_settings['constructor_settings']
-                
-            if constructor_settings['constructor_settings'].has_key('configuration'):
-
-                self._configuration = constructor_settings['constructor_settings']['configuration']
-
-
-        if self._constructor_settings.has_key('dStep'):
-
-            self.time_step = self._constructor_settings['dStep']
-
-        elif self._constructor_settings.has_key('step'):
-
-            self.time_step = self._constructor_settings['step']
-
-
-        self.options = 0
-        
-        if self._constructor_settings.has_key('options'):
-
-            options = self._constructor_settings['options']
-
-            if options.has_key('iOptions'):
-
-                self.options = options['iOptions']
-
-            elif options.has_key('options'):
-
-                self.options = options['options']
-                
-
-        self.granularity = 1
-        
-        # Now check for reporting options
-        if self._configuration.has_key('reporting'):
-
-            reporting = self._configuration['reporting']
-
-            if reporting.has_key('tested_things'):
-
-                self.dump_options = reporting['tested_things']
-
-            if reporting.has_key('granularity'):
-
-                self.granularity = reporting['granularity']
-        
             
         self._compiled = False
 
         # this is just to keep track of granularity printing
         self.current_step = 0
+
+        self._ParseConstructorSettings(constructor_settings)
 
         #self._heccer.SetTimeStep(time_step)
 
@@ -390,4 +334,75 @@ class Solver:
 
         pass
 
+#---------------------------------------------------------------------------
   
+    def _ParseConstructorSettings(self, constructor_settings=None):
+        """
+        @brief An internal helper method for parsing and setting constructor values
+        
+        """
+        if constructor_settings is None:
+
+            return 
+
+        if constructor_settings.has_key('service_name'):
+
+            self._service_name = constructor_settings['service_name']
+
+        # This will probably be unneeded in python
+        if constructor_settings.has_key('module_name'):
+
+            self._module_name = constructor_settings['module_name']
+
+
+        if constructor_settings.has_key('constructor_settings'):
+
+            self._constructor_settings = constructor_settings['constructor_settings']
+                
+            if constructor_settings['constructor_settings'].has_key('configuration'):
+
+                self._configuration = constructor_settings['constructor_settings']['configuration']
+
+
+        if self._constructor_settings.has_key('dStep'):
+
+            self.time_step = self._constructor_settings['dStep']
+
+        elif self._constructor_settings.has_key('step'):
+
+            self.time_step = self._constructor_settings['step']
+
+
+        self.options = 0
+        
+        if self._constructor_settings.has_key('options'):
+
+            options = self._constructor_settings['options']
+
+            if options.has_key('iOptions'):
+
+                self.options = options['iOptions']
+
+            elif options.has_key('options'):
+
+                self.options = options['options']
+                
+
+        self.granularity = 1
+        
+        # Now check for reporting options
+        if self._configuration.has_key('reporting'):
+
+            reporting = self._configuration['reporting']
+
+            if reporting.has_key('tested_things'):
+
+                self.dump_options = reporting['tested_things']
+
+            if reporting.has_key('granularity'):
+
+                self.granularity = reporting['granularity']
+
+
+
+

@@ -980,6 +980,20 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
+    def CreateOutput(self, name=None, type=None, data=None, verbose=False):
+        """
+        @brief Creates a new output with the given name, type and arguments.
+        """
+
+
+        out = self._input_registry.CreateOutput(name, type, data, verbose)
+
+        self._outputs.append(out)
+
+        return out
+
+#---------------------------------------------------------------------------
+
     def CreatePerfectClamp(self, name=None, data=None, verbose=False):
         """
         @brief Creates a new service with the given name, type and arguments.
