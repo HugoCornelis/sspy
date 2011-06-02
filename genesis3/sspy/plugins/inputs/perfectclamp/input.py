@@ -44,7 +44,7 @@ class Input:
         
         self._perfectclamp = None
         
-        self._inputs = {}
+        self._inputs = []
 
         self.command_voltage = None
 
@@ -104,23 +104,23 @@ class Input:
     
     def AddInput(self, name, field):
 
-        if self._perfectclamp is None:
+        if self._solver is None:
 
             self._inputs.append(dict(field=field,compnent_name=name))
 
-        if self._solver is None:
+#            raise Exception("Can't add input to %s, it is not connected to a solver" % self.GetName())
 
-            raise Exception("Can't add input to %s, it is not connected to a solver" % self.GetName())
+        else:
 
-        solver_type = self._solver.GetType()
+            solver_type = self._solver.GetType()
 
-        if solver_type == "heccer":
+            if solver_type == "heccer":
 
-            my_heccer = solver.GetCore()
+                my_heccer = solver.GetCore()
                 
-            address = my_heccer.GetCompartmentAddress(component_name, field)
+                address = my_heccer.GetCompartmentAddress(component_name, field)
 
-            self._perfectclamp.AddInput(address)
+                self._perfectclamp.AddInput(address)
 
 #---------------------------------------------------------------------------
 
@@ -134,7 +134,9 @@ class Input:
 
     def SetCommandVoltage(self, voltage):
 
-        self._perfectclamp.SetCommandVoltage(self.command_voltage)
+        self._perfectclamp.SetCommandVoltage(voltage)
+
+        self.command_voltage = voltage
         
 #---------------------------------------------------------------------------
 
@@ -175,7 +177,7 @@ class Input:
 
         component_name = ""
         field = ""
-        pdb.set_trace()
+
         for i, inp in enumerate(self._inputs):
 
             if inp.has_key('inputclass'):

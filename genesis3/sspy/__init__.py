@@ -69,6 +69,7 @@ class SSPy:
         self._solvers = []
         self._inputs = []
         self._outputs = []
+        self._runtime_parameters = []
 
         # Each member of this array is in the format:
         #  dict(modelname="modelname",
@@ -785,6 +786,31 @@ class SSPy:
 
                 continue
 
+        # Now apply genericly set parameters
+
+        if len(self._runtime_parameters) > 0:
+
+            if self.verbose:
+
+                print "Applying generically set model runtime parameters"
+
+            
+            for p in self._runtime_parameters:
+
+                try:
+
+                    path = p['path'] 
+                    parameter = p['parameter']
+                    value = p['value']
+                    service = None if not p.has_key('service') else p['service']
+
+                    self.SetParameter(path, parameter, value, service)
+                    
+                except Exception, e:
+
+                    print e
+
+                    continue
 
 #---------------------------------------------------------------------------
 
@@ -960,7 +986,7 @@ class SSPy:
 
         solver = self._solver_registry.CreateSolver(name, type, data, verbose)
 
-        self._solver.append(solver)
+        self._solvers.append(solver)
 
         return solver
 
@@ -986,7 +1012,7 @@ class SSPy:
         """
 
 
-        out = self._input_registry.CreateOutput(name, type, data, verbose)
+        out = self._output_registry.CreateOutput(name, type, data, verbose)
 
         self._outputs.append(out)
 
@@ -1180,9 +1206,17 @@ class SSPy:
 
         if self._loaded_services is None:
 
-            print "No services have been loaded"
+            # here we store any parameters we need if a service isn't loaded
+            # they are applied during ApplyRuntimeParameters()
 
-            return
+            self._runtime_parameters_applied.append(dict(path=path,
+                                                         parameter=parameter,
+                                                         value=value,
+                                                         service=service))
+
+#             print "No services have been loaded"
+
+#             return
         
         else:
 
@@ -1357,9 +1391,9 @@ class SSPy:
 
         # Note: This if statement may need to be revised if a user
         # runs a simulation is created and run via API
-        if not self._schedule_loaded:
+#         if not self._schedule_loaded:
             
-            raise errors.ScheduleError("Can't run, No schedule has been loaded.")
+#             raise errors.ScheduleError("Can't run, No schedule has been loaded.")
 
 
         try:
@@ -1476,6 +1510,7 @@ class SSPy:
 
             run_time_step = self.GetTimeStep()
 
+#            pdb.set_trace()
             if run_time_step is None:
 
                 raise Exception("Can't run, no time step is set.")

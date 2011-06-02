@@ -23,27 +23,25 @@ my_model_container = None
 #
     
 my_model_container = scheduler.CreateService(name="My Model Container",
-                                             type="model_container")
+                                             type="model_container",
+                                             verbose=True)
 
 my_model_container.Load('tests/cells/purk_test_segment.ndf')
+
+my_model_container.SetParameter('/purk_test_segment/segments/test_segment',
+                                'INJECT',
+                                2e-09)
 
 #
 # Must create solver.
 #
-my_heccer = scheduler.CreateSolver('My solver', 'heccer')
+my_heccer = scheduler.CreateSolver('My solver', 'heccer', verbose=True)
 
 # Sets the segment of the model to run from
 my_heccer.SetModelName('/purk_test_segment')
 
-
-#
-# Create an perfectclamp input object
-#
-my_perfect_clamp = scheduler.CreateInput('My Injection', 'perfectclamp')
-
-my_perfect_clamp.AddInput('/purk_test_segment/segments/test_segment', 'INJECT')
-
-my_perfect_clamp.SetCommandVoltage(2e-9)
+# set the timestep for the entire scheduler (solvers, inputs and outputs)
+scheduler.SetTimeStep(1e-05)
 
 
 #

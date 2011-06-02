@@ -76,6 +76,8 @@ class Solver:
             
         self._compiled = False
 
+        self.options = 0
+
         # this is just to keep track of granularity printing
         self.current_step = 0
 
@@ -372,8 +374,6 @@ class Solver:
 
             self.time_step = self._constructor_settings['step']
 
-
-        self.options = 0
         
         if self._constructor_settings.has_key('options'):
 

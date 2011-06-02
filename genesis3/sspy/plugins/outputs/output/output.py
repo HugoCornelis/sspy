@@ -47,7 +47,7 @@ class Output:
 
         self.filename = _default_filename
         
-        self._outputs = {}
+        self._outputs = []
 
         self._solver = None
 
@@ -111,25 +111,26 @@ class Output:
         should throw an exception. 
         """
 
-        if self._output_gen is None:
+        if self._solver is None:
             # if it's none then we store it for later use
 
-            self._outputs.append(dict(field=field,compnent_name=name))
+            self._outputs.append(dict(field=field,component_name=name))
             
-        
-        if self._solver is None:
+#         if self._solver is None:
 
-            raise Exception("Can't add output to %s, it is not connected to a solver" % self.GetName())
+#             raise Exception("Can't add output to %s, it is not connected to a solver" % self.GetName())
 
-        solver_type = self._solver.GetType()
+        else:
 
-        if solver_type == "heccer":
+            solver_type = self._solver.GetType()
 
-            my_heccer = self._solver.GetCore()
+            if solver_type == "heccer":
 
-            address = my_heccer.GetAddress(name, field)
+                my_heccer = self._solver.GetCore()
 
-            self._output_gen.AddOutput(name, address)
+                address = my_heccer.GetAddress(name, field)
+
+                self._output_gen.AddOutput(name, address)
 
 #---------------------------------------------------------------------------
 
@@ -368,7 +369,7 @@ class Output:
             #
             component_name = ""
             field = ""
-            
+
             for i, o in enumerate(self._outputs):
 
                 if o.has_key('outputclass'):
@@ -386,7 +387,7 @@ class Output:
                 else:
 
                     print "Output Error, no component name for output %d" % i
-                    
+
                     continue
 
                 if o.has_key('field'):
