@@ -60,3 +60,4 @@ my_output.AddOutput('/purk_test_segment/segments/test_segment/naf', 'state_h')
 
 scheduler.Run(steps=10000)
 
+print "Done!"
