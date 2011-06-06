@@ -12,7 +12,7 @@ add_sspy_path()
 from sspy import SSPy 
 
 
-scheduler = SSPy(verbose=True)
+scheduler = SSPy(verbose=False)
 
 try:
     
@@ -26,4 +26,4 @@ except Exception, e:
 
 scheduler.Run()
 
-
+print "Done!"

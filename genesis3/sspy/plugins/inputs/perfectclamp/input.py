@@ -48,6 +48,8 @@ class Input:
 
         self.command_voltage = None
 
+        self.command_file = None
+
         self._solver = None
 
         self._perfectclamp = PerfectClamp(self._name)
@@ -171,9 +173,7 @@ class Input:
 
         solver_type = solver.GetType()
 
-        if self._perfectclamp is None:
-
-            self._perfectclamp = PerfectClamp(self._name)
+        self.Initialize()
 
         component_name = ""
         field = ""
@@ -232,8 +232,27 @@ class Input:
 #---------------------------------------------------------------------------
 
     def Initialize(self):
+        """!
+        @brief Initializes the perfect clamp from any internal variables that were set
+        """
+        if self._perfectclamp is None:
 
-        pass
+            self._perfectclamp = PerfectClamp(self._name)
+
+        if self._perfectclamp is None:
+
+            raise Exception("Can't initialize the PerfectClamp object '%s'" % self._name)
+
+        # Apply the parameters loaded or set via api
+
+        if not self.command_voltage is None and not self.command_file is None:
+
+            self._perfectclamp.SetFields(self.command_voltage, self.command_file)
+
+        elif not self.command_voltage:
+            
+            self._perfectclamp.SetCommandVoltage(self.command_voltage)
+
 
 #---------------------------------------------------------------------------
 
@@ -310,9 +329,9 @@ class Input:
 
                 self._name = options['name']
 
-        if self.command_voltage is not None:
+            if options.has_key('filename'):
 
-            self._perfectclamp.SetCommandVoltage(self.command_voltage)
+                self.command_file = options['filename']
             
 #---------------------------------------------------------------------------
 
