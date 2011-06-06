@@ -561,6 +561,14 @@ class SSPy:
                 self.AddSchedulee(o, 'output')
 
 
+        # If we have a store timestep then we apply
+        # it here.
+        if not self.time_step is None:
+
+            for s in self._schedulees:
+
+                s.SetTimeStep(self.time_step)
+                
         self._scheduled = True
 
 #---------------------------------------------------------------------------
@@ -1063,6 +1071,14 @@ class SSPy:
 
 
     def SetTimeStep(self, time_step):
+        """!
+        @brief Sets the timestep across all schedulees
+        """
+        if self._scheduled:
+
+            for s in self._schedulees:
+
+                s.SetTimeStep(time_step)
 
         self.time_step = time_step
 

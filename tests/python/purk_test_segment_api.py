@@ -41,7 +41,7 @@ my_heccer = scheduler.CreateSolver('My solver', 'heccer', verbose=True)
 my_heccer.SetModelName('/purk_test_segment')
 
 # set the timestep for the entire scheduler (solvers, inputs and outputs)
-scheduler.SetTimeStep(1e-05)
+my_heccer.SetTimeStep(1e-05)
 
 
 #

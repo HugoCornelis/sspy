@@ -68,7 +68,7 @@ class Solver:
 
 #             raise Exception("Can't create Heccer solver '%s'" % name)
 
-        self.time_step = -1
+        self.time_step = None
         
         self._constructor_settings = {}
         
@@ -113,7 +113,13 @@ class Solver:
         """
         @brief Sets the heccer time step
         """
-        self._heccer.SetTimeStep(time_step)
+        if not self._heccer is None:
+        
+            self._heccer.SetTimeStep(time_step)
+
+        else:
+
+            self.time_step = time_step
 
 #---------------------------------------------------------------------------
 
@@ -121,9 +127,15 @@ class Solver:
         """
         @brief Just returns the time step used for the schedulee
         """
-        time_step = self._heccer.GetTimeStep()
+        if not self._heccer is None:
+            
+            time_step = self._heccer.GetTimeStep()
 
-        return time_step
+            return time_step
+        
+        else:
+            
+            return self.time_step
     
 #---------------------------------------------------------------------------
 
@@ -222,7 +234,7 @@ class Solver:
             raise Exception("Incompatible Service '%s' of type '%s'" % (service.GetName(), service.GetType()))
 
         # Set any simulator specific variables here
-        if self.time_step > -1:
+        if not self.time_step is None:
 
             self._heccer.SetTimeStep(float(self.time_step))
 

@@ -11,7 +11,7 @@ import pdb
 import sys
 
 
-import errors
+from errors import ScheduleeError
 
 #
 # Should probably be a way to automatically update this list
@@ -32,15 +32,15 @@ class Schedulee:
 
         if schedulee is None:
 
-            raise errors.ScheduleeError("Not defined")
+            raise ScheduleeError("Not defined")
 
         if schedulee_type is None:
 
-            raise errors.ScheduleeError("Type not defined")
+            raise ScheduleeError("Type not defined")
 
         if schedulee_type not in schedulee_types:
 
-            raise errors.ScheduleeError("Invalid type '%s'" % schedulee_type)
+            raise ScheduleeError("Invalid type '%s'" % schedulee_type)
 
         try:
             
@@ -48,11 +48,11 @@ class Schedulee:
 
         except Exception, e:
 
-            raise errors.ScheduleeError("Can't obtain time step: %s\n" % e)
+            raise ScheduleeError("Can't obtain time step: %s\n" % e)
 
         if self.time_step < 0.0 or self.time_step is None:
 
-            raise errors.ScheduleeError("Invalid step value: '%s'\n" % self.time_step)
+            raise ScheduleeError("Invalid step value: '%s'\n" % self.time_step)
 
         self.current_time = 0.0
 
@@ -78,7 +78,7 @@ class Schedulee:
 
         except Exception, e:
 
-            raise errors.ScheduleeError("%s" % e)
+            raise ScheduleeError("%s" % e)
         
 #---------------------------------------------------------------------------
 
@@ -128,11 +128,25 @@ class Schedulee:
 
         except Exception, e:
 
-            raise errors.ScheduleeError("%s" % e)
+            raise ScheduleeError("%s" % e)
 
         self.current_time += self.time_step
 
         self.current_step += 1
+        
+#---------------------------------------------------------------------------        
+
+    def SetTimeStep(self, time_step):
+        """
+
+        """
+        try:
+            
+            return self._schedulee.SetTimeStep(time_step)
+
+        except TypeError, e:
+
+            return ScheduleeError("Can't set time step: %s" % e)
         
 #---------------------------------------------------------------------------        
 
@@ -146,7 +160,7 @@ class Schedulee:
 
         except TypeError, e:
 
-            return errors.ScheduleeError("Can't retrieve time step: %s" % e)
+            return ScheduleeError("Can't retrieve time step: %s" % e)
 
 #---------------------------------------------------------------------------
 
@@ -174,7 +188,7 @@ class Schedulee:
 
         except Exception, e:
 
-            raise errors.ScheduleeError("%s" % e)
+            raise ScheduleeError("%s" % e)
 
 #---------------------------------------------------------------------------
 
@@ -186,7 +200,7 @@ class Schedulee:
 
         except Exception, e:
 
-            raise errors.ScheduleeError("%s" % e)
+            raise ScheduleeError("%s" % e)
 
         self.current_time = 0.0
 
@@ -209,7 +223,7 @@ class Schedulee:
 
         except Exception, e:
 
-            raise errors.ScheduleeError("Can't report schedulee for '%s': %s" % (self.GetName(),e))
+            raise ScheduleeError("Can't report schedulee for '%s': %s" % (self.GetName(),e))
 
 
         
