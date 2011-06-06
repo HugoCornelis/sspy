@@ -100,6 +100,18 @@ class Service:
 
 #---------------------------------------------------------------------------
 
+    def GetCoordinates(self):
+        """!
+        @brief Retrieves all visible coordinates
+        """
+        coord_list = []
+
+        coord_list = self._model_container.CoordinatesToList('/**')
+
+        return coord_list
+
+#---------------------------------------------------------------------------
+
     def SetParameter(self, path, field, value):
         """!
         @brief Set's a parameter on the service

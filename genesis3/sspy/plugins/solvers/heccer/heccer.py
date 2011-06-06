@@ -219,7 +219,7 @@ class Solver:
 
         else:
 
-            raise Exception("Incompatible Service")
+            raise Exception("Incompatible Service '%s' of type '%s'" % (service.GetName(), service.GetType()))
 
         # Set any simulator specific variables here
         if self.time_step > -1:

@@ -89,6 +89,14 @@ class Service:
         print "Setting parameters is not avaialable on the Heccer Intermediary"
 
         return
+
+#---------------------------------------------------------------------------
+
+    def GetCoordinates(self):
+
+        print "Getting coordinates is not available on the Heccer Intermediary"
+    
+        return None
     
 #---------------------------------------------------------------------------            
 
