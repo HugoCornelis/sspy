@@ -165,7 +165,16 @@ class Output:
 
     def Initialize(self):
 
-        pass
+        # if the output object is not built declaratively
+        # then it must be built here just before connection to a solver. 
+        if self._output_gen is None:
+
+            self._output_gen = og.Output(self.filename)
+
+            if self._output_gen is None:
+
+                raise Exception("Can't create output generator object '%s'" % self.GetName())
+
     
 #---------------------------------------------------------------------------
 
@@ -193,6 +202,9 @@ class Output:
         
         solver_type = solver.GetType()
 
+        # initialize the object at this point
+        self.Initialize()
+
         if solver_type == 'heccer':
 
             my_heccer = solver.GetCore()
@@ -200,19 +212,7 @@ class Output:
             # Here we need to get the timestep and set it
             # for our object
             time_step = my_heccer.GetTimeStep()
-
-
-            # if the output object is not built declaratively
-            # then it must be built here just before connection to a solver. 
-            if self._output_gen is None:
-
-                self._output_gen = og.Output(self.filename)
-
-                if self._output_gen is None:
-
-                    raise Exception("Connect failed, Can't create output generator object '%s'" % self.GetName())
-
-
+            
             self.SetTimeStep(time_step)
 
             # Now after connection we can add any stored
