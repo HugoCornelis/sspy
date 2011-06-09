@@ -81,7 +81,9 @@ class SSPyShell(cmd.Cmd):
 
     def do_version(self, arg):
         
-        self._scheduler.get_version()
+        version = self._scheduler.Version()
+
+        print "%s" % version
         
     def help_version(self):
         print "usage: version",
@@ -191,7 +193,13 @@ class SSPyShell(cmd.Cmd):
 
     def do_list_solver_plugins(self, arg):
 
-        self._scheduler.list_solver_plugins(arg)
+        verbose = False
+        
+        if arg == 'verbose' or arg == 'v':
+
+            verbose = True
+            
+        self._scheduler.ListSolverPlugins(verbose)
         
     # using these as templates
     def help_list_solver_plugins(self):
@@ -204,7 +212,13 @@ class SSPyShell(cmd.Cmd):
 
     def do_list_service_plugins(self, arg):
 
-        self._scheduler.list_service_plugins(arg)
+        verbose = False
+        
+        if arg == 'verbose' or arg == 'v':
+
+            verbose = True
+
+        self._scheduler.ListServicePlugins(verbose)
 
     def help_list_service_plugins(self):
         print "usage: list_service_plugins [v, verbose]",
@@ -216,7 +230,13 @@ class SSPyShell(cmd.Cmd):
 
     def do_list_output_plugins(self, arg):
 
-        self._scheduler.list_output_plugins(arg)
+        verbose = False
+        
+        if arg == 'verbose' or arg == 'v':
+
+            verbose = True
+            
+        self._scheduler.ListOutputPlugins(verbose)
 
     def help_list_output_plugins(self):
         print "usage: list_output_plugins [v, verbose]",
@@ -228,7 +248,13 @@ class SSPyShell(cmd.Cmd):
 
     def do_list_input_plugins(self, arg):
 
-        self._scheduler.list_input_plugins(arg)
+        verbose = False
+        
+        if arg == 'verbose' or arg == 'v':
+
+            verbose = True
+
+        self._scheduler.ListInputPlugins(verbose)
 
     def help_list_input_plugins(self):
         print "usage: list_input_plugins [v, verbose]",
