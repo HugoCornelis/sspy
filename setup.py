@@ -1,10 +1,18 @@
+import imp
 import os
 import pdb
+import re
 import sys
+from commands import getoutput
+
 from distutils.core import setup
 from distutils.command.install_data import install_data
 #from setuptools import setup, find_packages
-import genesis3.sspy.__cbi__ as cbi
+
+
+# import the cbi module. We use this since the check
+# for the compiled swig nmc_base gives an error
+cbi = imp.load_source('__cbi__', os.path.join('genesis3', 'sspy', '__cbi__.py'))
 
 
 #-------------------------------------------------------------------------------
@@ -55,6 +63,17 @@ def fullsplit(path, result=None):
 
 #-------------------------------------------------------------------------------
 
+def filetype(p, file_types):
+
+    if not os.path.isfile(p):
+
+        return False
+    pdb.set_trace()
+    if p[0] != '.' and p[-1] != '~' and os.path.splitext(p)[1] in file_types:
+
+        return True
+
+#-------------------------------------------------------------------------------
 
 """
 Returns a list of all files matching the given file types.
@@ -63,25 +82,41 @@ _file_types = ['.py', '.yml']
 
 def find_files(root_directory, file_types=_file_types):
 
-    package_files = []
+    files = []
 
-    for path, directories, files in os.walk( root_directory ):
-        
-        for f in files:
+    packages = []
+
+    for curdir, dirnames, filenames in os.walk(root_directory):
+        # Ignore dirnames that start with '.'
+        for i, dirname in enumerate(dirnames):
             
-            path_parts = fullsplit( os.path.join(path, f) )
+            if dirname.startswith('.'):
+                del dirnames[i]
 
-            path_parts.pop(0)
+        if '__init__.py' in filenames:
+            packages.append('.'.join(fullsplit(curdir)))
 
-            this_file = '/'.join(path_parts)
+        elif filenames:
 
-            basename, extension = os.path.splitext( this_file )
-            
-            if extension in file_types:
+            for i, f in enumerate(filenames):
 
-                package_files.append(this_file)
+                if filetype(f, file_types): 
 
-    return package_files
+                    del filenames[i]
+
+                # remove files from the list that don't have
+                # the suffix we require.
+#                 basename, extension = os.path.splitext( f )
+#                 if not extension in file_types:
+
+#                     del filenames[i]
+
+
+            if len(filenames) != 0:
+                
+                files.append([curdir, [os.path.join(curdir, f) for f in filenames]])
+
+    return files
 
 
 #-------------------------------------------------------------------------------
@@ -113,7 +148,7 @@ CLASSIFIERS = [
     'Topic :: Research :: Neuroscience',
 ]
 
-DATA_FILES=find_files('sspy')
+DATA_FILES=find_files('genesis3')
 
 OPTIONS={
     'sdist': {
@@ -133,7 +168,7 @@ if sys.platform == "darwin":
 else: 
     CMDCLASS = {'install_data': install_data}
 
-
+pdb.set_trace()
 #-------------------------------------------------------------------------------
 setup(
     name=NAME,
@@ -147,13 +182,12 @@ setup(
     license=LICENSE,
     keywords=KEYWORDS,
     url=URL,
-    packages=['sspy'],
-    package_data={'sspy' : DATA_FILES},
+    packages=['genesis3.sspy'],
+    package_data={'genesis3.sspy' : DATA_FILES},
 #     package_dir={'' : ''},
     classifiers=CLASSIFIERS,
     options=OPTIONS,
     platforms=PLATFORMS,
-    scripts=['sspy.py'],
-    setup_requires=['g3'],
+    scripts=['bin/sspy'],
 )
 

@@ -40,18 +40,13 @@ class SSPy:
                  input_directory= os.path.join( os.path.dirname(os.path.abspath(__file__)), 'plugins', 'inputs'),
                  output_directory= os.path.join( os.path.dirname(os.path.abspath(__file__)), 'plugins', 'outputs')
                  ):
-
-        # Registry objects for dynamically creating solvers and
-        # other objects
-
         
-        self.verbose = verbose
-
         # set up the pretty printer for printing out dicts and arrays
         self.pp = pprint.PrettyPrinter()
 
-        # Create our registry services for solvers, services, inputs
-        # and outputs
+
+        # Registry objects for dynamically creating solvers and
+        # other objects
         self._solver_registry = SolverRegistry(solver_directory, verbose=self.verbose)
         self._service_registry = ServiceRegistry(service_directory, verbose=self.verbose)
         self._output_registry = OutputRegistry(output_directory, verbose=self.verbose)
@@ -86,8 +81,10 @@ class SSPy:
         self.time_step = None
         self.current_simulation_time = None
         self.simulation_time = None
-        self.simulation_verbose = None
 
+        self.verbose = verbose
+        self.simulation_verbose = None
+        self.verbose_level = 0
 
         # Internal schedule data to manage.
         self._schedule_data = {}
