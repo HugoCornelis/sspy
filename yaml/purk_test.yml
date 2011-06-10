@@ -35,7 +35,7 @@ apply:
   simulation:
     - arguments:
         - 2500
-        - verbose: 2
+        - verbose: 0
       method: steps
 models:
   - modelname: /purk_test

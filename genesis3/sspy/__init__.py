@@ -1856,8 +1856,30 @@ class SSPy:
                         if method == 'steps':
 
                             self.steps = p['arguments'][0]
-                            
-                            self.simulation_verbose  = p['arguments'][1]['verbose']
+
+                            try:
+                                
+                                if( p['arguments'][1]['verbose'] == 2 ):
+
+                                    self.verbose = True
+
+                                    self.simulation_verbose = True
+
+                                elif( p['arguments'][1]['verbose'] == 1 ):
+
+                                    self.verbose = True
+
+                                    self.simulation_verbose = False
+
+                                else:
+
+                                    self.verbose = False
+
+                                    self.simulation_verbose = False
+
+                            except KeyError:
+
+                                pass
 
                         elif method == 'advance':
 
