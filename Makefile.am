@@ -27,6 +27,9 @@ clean-local:
 	$(RM) -rf $(top_builddir)/build
 	$(RM) -rf $(top_builddir)/dist/
 
+compile:
+	$(PYTHON) $(top_builddir)/setup.py build
+
 doxygen: doxygen.cfg
 	$(DOXYGEN) doxygen.cfg
 

@@ -1837,6 +1837,8 @@ class SSPy:
           method: advance
         
         """
+        verbosity_level = 0
+        
         if self.verbose:
 
             print "\nFound applied simulation parameters:"
@@ -1859,27 +1861,30 @@ class SSPy:
 
                             try:
                                 
-                                if( p['arguments'][1]['verbose'] == 2 ):
-
-                                    self.verbose = True
-
-                                    self.simulation_verbose = True
-
-                                elif( p['arguments'][1]['verbose'] == 1 ):
-
-                                    self.verbose = True
-
-                                    self.simulation_verbose = False
-
-                                else:
-
-                                    self.verbose = False
-
-                                    self.simulation_verbose = False
+                                verbosity_level = p['arguments'][1]['verbose']
 
                             except KeyError:
-
+                                                            
                                 pass
+
+                            if( verbosity_level == 2 ):
+                                
+                                self.verbose = True
+
+                                self.simulation_verbose = True
+
+                            elif( verbosity_level == 1 ):
+
+                                self.verbose = True
+
+                                self.simulation_verbose = False
+
+                            else:
+
+                                self.verbose = False
+
+                                self.simulation_verbose = False
+
 
                         elif method == 'advance':
 
@@ -1900,7 +1905,7 @@ class SSPy:
 
                 if self.simulation_verbose is not None:
 
-                    print "\tVerbosity level is %d" % self.simulation_verbose
+                    print "\tVerbosity level is %d" % verbosity_level
 
                 if self.time_step is not None:
 

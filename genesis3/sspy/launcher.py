@@ -67,8 +67,11 @@ def main(cwd=os.getcwd()):
                        "model-filename=", "model-directory=", 
                        "version", "help", "background", "builtins", "optimize",
                        "emit-schedules", "emit-output",
-                       "perfectclamp", "pulsegen-width1=", "verbose",
-                       "shell"]
+                       "perfectclamp",
+                       "pulsegen-width1=", "pulsegen-width2=",
+                       "shell",
+                       "verbose", "more-verbose", "vv",
+                       ]
 
     try:
 
@@ -89,6 +92,7 @@ def main(cwd=os.getcwd()):
     shell = False
     stdout = False
     verbose = False
+    more_verbose = False
 
     configuration = None
     model_directory = None
@@ -123,6 +127,10 @@ def main(cwd=os.getcwd()):
 
             verbose = True
 
+        elif opt in ('-vv', '--more-verbose'):
+
+            verbose = True
+            
         elif opt in ('--shell',):
 
             shell = True

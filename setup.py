@@ -4,7 +4,7 @@ import sys
 from distutils.core import setup
 from distutils.command.install_data import install_data
 #from setuptools import setup, find_packages
-import sspy.__cbi__ as cbi
+import genesis3.sspy.__cbi__ as cbi
 
 
 #-------------------------------------------------------------------------------
@@ -53,19 +53,6 @@ def fullsplit(path, result=None):
         return result
     return fullsplit(head, [tail] + result)
 
-django_dir = 'sspy'
-packages = []
-data_files = []
-for dirpath, dirnames, filenames in os.walk(django_dir):
-    for i, dirname in enumerate(dirnames):
-        if dirname.startswith('.'): del dirnames[i]
-
-        if '__init__.py' in filenames:
-            packages.append('.'.join(fullsplit(dirpath)))
-        elif filenames:
-            data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
-
-#pdb.set_trace()
 #-------------------------------------------------------------------------------
 
 
@@ -148,7 +135,6 @@ else:
 
 
 #-------------------------------------------------------------------------------
-pdb.set_trace()
 setup(
     name=NAME,
     version=VERSION,

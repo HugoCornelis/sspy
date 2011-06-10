@@ -212,8 +212,10 @@ class Schedulee:
         """
 
         if self.verbose:
-            
-            print "%s: %d %f" % (self.GetName(), self.GetTimeStep(), self.GetCurrentTime())
+
+            pass
+            # commented this out since it produces a lot of unuseful output
+#            print "%s: %d %f" % (self.GetName(), self.GetTimeStep(), self.GetCurrentTime())
         
         try:
             # The internals of the report are handled by passing
