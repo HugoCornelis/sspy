@@ -40,6 +40,11 @@ class SSPy:
                  input_directory= os.path.join( os.path.dirname(os.path.abspath(__file__)), 'plugins', 'inputs'),
                  output_directory= os.path.join( os.path.dirname(os.path.abspath(__file__)), 'plugins', 'outputs')
                  ):
+
+
+        self.verbose = verbose
+        self.simulation_verbose = None
+        self.verbose_level = 0
         
         # set up the pretty printer for printing out dicts and arrays
         self.pp = pprint.PrettyPrinter()
@@ -81,10 +86,6 @@ class SSPy:
         self.time_step = None
         self.current_simulation_time = None
         self.simulation_time = None
-
-        self.verbose = verbose
-        self.simulation_verbose = None
-        self.verbose_level = 0
 
         # Internal schedule data to manage.
         self._schedule_data = {}
