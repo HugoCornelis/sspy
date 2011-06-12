@@ -20,7 +20,7 @@ my $test
 						  {
 						   description => "Check for script completion",
 						   read => 'Done!',
-						   timeout => 10,
+						   timeout => 50,
 						  },
 						  {
 						   description => "Can we test a segment of the purkinje cell by loading it from a declarative specification ?",
@@ -59,7 +59,7 @@ my $test
 						  {
 						   description => "Check for script completion",
 						   read => 'Done!',
-						   timeout => 10,
+						   timeout => 50,
 						  },
 						  {
 						   description => "Can we test a segment of the purkinje cell by creating it via API ?",

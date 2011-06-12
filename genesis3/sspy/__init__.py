@@ -559,7 +559,7 @@ class SSPy:
                 self.AddSchedulee(o, 'output')
 
 
-        # If we have a store timestep then we apply
+        # If we have a stored timestep then we apply
         # it here.
         if not self.time_step is None:
 
