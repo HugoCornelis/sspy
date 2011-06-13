@@ -775,7 +775,6 @@ class SSPy:
 
                 self.SetModelName(modelname)
                     
-
                 if m.has_key('runtime_parameters'):
                     
                     for parameter in m['runtime_parameters']:
@@ -1524,7 +1523,6 @@ class SSPy:
 
             run_time_step = self.GetTimeStep()
 
-#            pdb.set_trace()
             if run_time_step is None:
 
                 raise Exception("Can't run, no time step is set.")

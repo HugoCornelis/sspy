@@ -133,9 +133,9 @@ class Service:
             if self.verbose:
 
                 print "\tModel Container: setting parameter %s %s %s" % (path, field, str(value))
-        
+            
             self._model_container.SetParameter(path, field, value)
-        
+
 #---------------------------------------------------------------------------
 
     def _ParseArguments(self):

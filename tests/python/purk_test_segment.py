@@ -25,7 +25,6 @@ except Exception, e:
     print "Error while loading schedule file: %s" % e
 
 
-
 scheduler.Run()
 
 print "Done!"
