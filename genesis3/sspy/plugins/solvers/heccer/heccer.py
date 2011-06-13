@@ -69,7 +69,9 @@ class Solver:
 #             raise Exception("Can't create Heccer solver '%s'" % name)
 
         self.time_step = None
-        
+
+        self.granularity = 1
+
         self._constructor_settings = {}
         
         self._configuration = {}
@@ -255,6 +257,13 @@ class Solver:
         """
         self._model_name = model_name
 
+#---------------------------------------------------------------------------
+
+    def SetGranularity(self, granularity):
+        """!
+        @brief sets the granularity of the solver output
+        """
+        self.granularity = granularity
 
 #---------------------------------------------------------------------------
 
@@ -399,8 +408,6 @@ class Solver:
 
                 self.options = options['options']
                 
-
-        self.granularity = 1
         
         # Now check for reporting options
         if self._configuration.has_key('reporting'):
