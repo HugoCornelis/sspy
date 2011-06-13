@@ -124,8 +124,9 @@ class Service:
             if self.verbose:
                 
                 print "\tModel Container: setting parameter concept %s %s %s" % (path, field, str(value))
+
+            self._model_container.SetParameterConcept(path, field, value)
         
-                self._model_container.SetParameter(path, field, value)
         
         else:
             
@@ -133,7 +134,7 @@ class Service:
 
                 print "\tModel Container: setting parameter %s %s %s" % (path, field, str(value))
         
-            self._model_container.SetParameterConcept(path, field, value)
+            self._model_container.SetParameter(path, field, value)
         
 #---------------------------------------------------------------------------
 

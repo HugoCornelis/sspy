@@ -28,7 +28,7 @@ my_model_container = scheduler.CreateService(name="My Model Container",
 
 my_model_container.Load('tests/cells/purk_test.ndf')
 
-my_model_container.SetParameter('/purk_test_segment/segments/soma',
+my_model_container.SetParameter('/purk_test/segments/soma',
                                 'INJECT',
                                 2e-09)
 
