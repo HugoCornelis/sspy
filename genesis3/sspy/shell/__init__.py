@@ -184,8 +184,9 @@ class SSPyShell(cmd.Cmd):
         
     def help_run(self):
 
-        print "usage: run [modelname] [time or steps]",
-        print "-- runs a simulation"
+        print "usage: run [modelname] [time or steps] value",
+        print "-- runs a simulation\n"
+        print ""
 
 
 #---------------------------------------------------------------------------
