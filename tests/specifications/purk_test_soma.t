@@ -21,7 +21,7 @@ my $test
 						  {
 						   description => "Check for script completion",
 						   read => 'Finishing simulation',
-						   timeout => 50,
+						   timeout => 80,
 						  },
 						  {
 						   description => "Is the purkinje cell soma solved correctly, no aggregators ?",
