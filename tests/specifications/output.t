@@ -94,6 +94,7 @@ my $test
 						  {
 						   description => "Check for script completion",
 						   read => 'Done!',
+						   timeout => 5,
 						  },
 						  {
 						   description => "Can we produce output with the steps mode at a coarser resolution?",
@@ -101,6 +102,7 @@ my $test
 							    application_output_file => "/tmp/output",
 							    expected_output_file => "$::config->{core_directory}/tests/specifications/strings/output3.txt",
 							   },
+						   wait => 3,
 
 						  },
 						 ],
@@ -131,6 +133,7 @@ my $test
 						  {
 						   description => "Check for script completion",
 						   read => 'Done!',
+						   timeout => 5,
 						  },
 						  {
 						   description => "Can we produce simple output with the steps mode and a format field?",
@@ -138,6 +141,7 @@ my $test
 							    application_output_file => "/tmp/output",
 							    expected_output_file => "$::config->{core_directory}/tests/specifications/strings/output4.txt",
 							   },
+						   wait => 3,
 
 						  },
 						 ],
