@@ -81,6 +81,7 @@ Finishing simulation
 							    application_output_file => "/tmp/purk_test_soma_aggregators",
 							    expected_output_file => "$::config->{core_directory}/tests/specifications/strings/purk_test_soma_aggregators.txt",
 							   },
+						   wait => 5,
 						  },
 						 ],
 				description => "Test a segment from the purkinje cell soma with aggregators from declaration",
