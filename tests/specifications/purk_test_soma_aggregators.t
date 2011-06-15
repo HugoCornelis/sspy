@@ -73,7 +73,7 @@ Initializing all schedulees
 Running simulation in steps mode
 Finishing simulation
 ',
-						   timeout => 10,
+						   timeout => 50,
 						  },
 						  {
 						   description => "Is the purkinje cell soma solved correctly, with aggregators ?",
