@@ -29,6 +29,7 @@ my $test
 							    application_output_file => "/tmp/OutputGenerator",
 							    expected_output_file => "$::config->{core_directory}/tests/specifications/strings/purk_test_soma.txt",
 							   },
+						   wait => 5,
 						  },
 						 ],
 				description => "Test a soma from the purkinje cell from declaration",

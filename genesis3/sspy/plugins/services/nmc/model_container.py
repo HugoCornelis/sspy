@@ -8,7 +8,7 @@ import re
 import sys
 
 # this should go away later when I update the
-# 
+# python installation
 sys.path.append("/usr/local/glue/swig/python")
 
 try:
