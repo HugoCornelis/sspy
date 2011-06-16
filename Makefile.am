@@ -28,7 +28,7 @@ clean-local:
 	$(RM) `find . -name "*.pyc"`
 	$(RM) -rf $(top_builddir)/build
 	$(RM) -rf $(top_builddir)/dist/
-
+	$(RM) -rf $(top_builddir)/html
 
 
 
