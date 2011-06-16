@@ -36,8 +36,6 @@ compile:
 	echo "build command"
 #	$(PYTHON) $(top_builddir)/setup.py build
 
-doxygen: doxygen.cfg
-	$(DOXYGEN) doxygen.cfg
 
 epydoc: epydoc.cfg
 	epydoc --config epydoc.cfg
