@@ -27,6 +27,9 @@ class Service:
     def __init__(self, name="Untitled Model Container", plugin=None,
                  arguments=None, verbose=False):
 
+        # Setting this here just in case
+        os.environ['NEUROSPACES_NMC_MODELS']= os.path.join('/', 'usr', 'local', 'neurospaces', 'models', 'library')
+
         self._name = name
 
         self._plugin_data = plugin
