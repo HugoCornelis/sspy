@@ -30,4 +30,5 @@ tar.gz$
 ^install\.sh$
 ^build$
 ^dist$
+^html$
 MANIFEST$
