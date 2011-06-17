@@ -30,7 +30,8 @@ clean-local:
 	$(RM) -rf $(top_builddir)/dist/
 	$(RM) -rf $(top_builddir)/html
 
-
+dist-hook:
+	print "not needed"
 
 compile:
 	echo "build command"
@@ -87,4 +88,3 @@ docs-level6: doxygen
 docs-level7:
 
 docs: docs-level1 docs-level2 docs-level3 docs-level4 docs-level5 docs-level6 docs-level7
-

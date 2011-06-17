@@ -7,7 +7,9 @@ Mirrors functionality provided by the gshell.
 import cmd
 import os
 import pdb
+import shlex # for more complex string splitting
 import sys
+
 
 # Local imports
 from interface import SSPYInterface
@@ -25,7 +27,7 @@ class SSPyShell(cmd.Cmd):
     def __init__(self, scheduler=None,
                  intro='Welcome to the SSPy shell. Type help or ? to list commands.\n',
                  prompt='sspy> ',
-                 verbose=False):
+                 verbose=True):
         """
 
         @param scheduler The sspy schedule object to wrap around
@@ -268,7 +270,7 @@ class SSPyShell(cmd.Cmd):
 
 
 #---------------------------------------------------------------------------
-#----                    Gshell Commands                              ------
+#----                       Commands                                  ------
 #---------------------------------------------------------------------------
 
 #---------------------------------------------------------------------------
@@ -301,7 +303,103 @@ class SSPyShell(cmd.Cmd):
         print "usage: component_load [component name]",
         print "-- Loads a component"
 
+#---------------------------------------------------------------------------
+# create_service
+    def do_create_service(self, arg):
 
+        print "Not implemented yet"
+
+    def help_create_service(self):
+        print "usage: create_service [type] [name]",
+        print "-- Creates a new service"
+
+#---------------------------------------------------------------------------
+# create_model_container
+    def do_create_model_container(self, arg):
+
+        if arg is None or arg == "":
+
+            print "Need a name for the new model container"
+            
+        try:
+            
+            self._scheduler.CreateService(name=arg,
+                                          type="model_container",
+                                          verbose=True)
+
+        except Exception, e:
+
+            print e
+            
+    def help_create_model_container(self):
+        print "usage: create_model_container [name]",
+        print "-- Creates a new model container"
+        
+        print """
+This command will create a service object via the default
+model container plugin.
+"""
+
+#---------------------------------------------------------------------------
+# create_output
+    def do_create_output(self, arg):
+
+        if arg is None or arg == "":
+
+            self.help_create_output()
+
+            return
+
+        try:
+            
+            tokens = shlex.split(arg)
+        except ValueError, e:
+
+            print "Error: %s" % e
+
+            return
+        
+        if len(tokens) > 2:
+
+            self.help_create_output()
+
+            return
+
+
+        output_name = tokens[0]
+
+        output_file = None
+        
+        try:
+
+            output_file = tokens[1]
+            
+        except IndexError:
+
+            output_file = None
+
+        
+        try:
+            
+            this_output = self._scheduler.CreateOutput(name=output_name,
+                                                       type="double_2_ascii",
+                                                       verbose=True)
+
+            if not output_file is None:
+                
+                this_output.SetFilename(output_file)
+            
+        except Exception, e:
+
+            print e
+            
+    def help_create_output(self):
+        print "usage: create_output [name] [file]",
+        print "-- Creates a new double_2_ascii output object"
+        
+        print """
+Currently creates a double_2_ascii object as a default. 
+"""
 
 #---------------------------------------------------------------------------
 # create
@@ -312,7 +410,40 @@ class SSPyShell(cmd.Cmd):
         print "usage: create [type] [element name]",
         print "-- create a compartment element in the current service"
 
+#---------------------------------------------------------------------------
+# create_solver
+    def do_create_solver(self, arg):
+        print "create a solver, not working yet"
 
+    def help_create_solver(self):
+        print "usage: create_solver [type] [solver name]",
+        print "-- create a solver"
+        print """
+Creates a solver of the indicated type with the given name.
+        """
+
+#---------------------------------------------------------------------------
+# create_solver_heccer
+    def do_create_solver_heccer(self, arg):
+
+        if arg is None or arg == "":
+
+            print "Need a name for the new model container"
+            
+        try:
+            
+            my_heccer = self._scheduler.CreateSolver(arg, 'heccer', verbose=True)
+
+        except Exception, e:
+
+            print e
+        
+    def help_create_solver_heccer(self):
+        print "usage: create_solver [type] [solver name]",
+        print "-- create a heccer solver"
+        print """
+Creates a heccer solver with the given name with default arguments.
+        """
 
 #---------------------------------------------------------------------------
 # delete
@@ -546,12 +677,12 @@ class SSPyShell(cmd.Cmd):
 #---------------------------------------------------------------------------
 # ndf_load
     def do_ndf_load(self, arg):
-        print "Loads an ndf file into the appropriate service"
 
+        pass
 
     def help_ndf_load(self):
         print "usage: ndf_load [filename]",
-        print "-- Loads an ndf file into a service."
+        print "-- Loads an ndf file into all loaded model container services."
 
 #---------------------------------------------------------------------------
 # ndf_save
@@ -574,14 +705,14 @@ class SSPyShell(cmd.Cmd):
         print "-- Loads an npy file into a service."
 
 #---------------------------------------------------------------------------
-# output_add
-    def do_output_add(self, arg):
+# service_query
+    def do_service_query(self, arg):
         print "Adds a new output"
 
 
-    def help_output_add(self):
-        print "usage: output_add [name] [parameter]",
-        print "-- Adds a new output."
+    def help_service_query(self):
+        print "usage: service_query [name] [query command]",
+        print "-- Sends a query command to the indicated service."
 
 
 #---------------------------------------------------------------------------
@@ -593,7 +724,18 @@ class SSPyShell(cmd.Cmd):
     def help_service_new(self):
         print "usage: service_new [name]",
         print "-- Create a service with default options."
-        
+
+#---------------------------------------------------------------------------
+# service_new
+    def do_service_new(self, arg):
+        print "Creates a service with default options"
+
+
+    def help_service_new(self):
+        print "usage: service_new [name]",
+        print "-- Create a service with default options."
+
+
 #---------------------------------------------------------------------------
 # service_load
     def do_service_load(self, arg):

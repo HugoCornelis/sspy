@@ -275,7 +275,22 @@ class SSPy:
             
         if verbose:
 
-            if p.GetType() is not None: print "Type: %s" % p.GetLabel()
+            if p.GetLabel() is not None: print "Label: %s" % p.GetLabel()
+            print ""
+
+#---------------------------------------------------------------------------
+
+    def _PrintOutputObject(self, o=None, verbose=False):
+
+        if o is None:
+
+            return
+
+        print "%s" % o.GetName()
+            
+        if verbose:
+
+            if o.GetFilename() is not None: print "filename: %s" % o.GetFilename()
             print ""
 
 
@@ -669,7 +684,7 @@ class SSPy:
         
         for o in loaded_outputs:
 
-            self._PrintSimObject(o, verbose)
+            self._PrintOutputObject(o, verbose)
             
         print ""
 

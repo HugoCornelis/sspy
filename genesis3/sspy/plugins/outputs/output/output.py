@@ -280,6 +280,7 @@ class Output:
         
         self._output_gen.SetFormat(strfmt)
 
+    
 #---------------------------------------------------------------------------
 
     def SetFilename(self, filename=None):
@@ -291,6 +292,12 @@ class Output:
             return
         
         self.filename = filename
+
+#---------------------------------------------------------------------------
+
+    def GetFilename(self):
+
+        return self.filename
         
 #---------------------------------------------------------------------------
 
