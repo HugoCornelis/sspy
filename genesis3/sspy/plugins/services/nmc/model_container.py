@@ -28,7 +28,10 @@ class Service:
                  arguments=None, verbose=False):
 
         # Setting this here just in case
-        os.environ['NEUROSPACES_NMC_MODELS']= os.path.join('/', 'usr', 'local', 'neurospaces', 'models', 'library')
+
+        self.library_path = os.path.join('/', 'usr', 'local', 'neurospaces', 'models', 'library')
+
+        os.environ['NEUROSPACES_NMC_MODELS']= self.library_path
 
         self._name = name
 

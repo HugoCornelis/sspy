@@ -730,13 +730,25 @@ Creates a heccer solver with the given name with default arguments.
         
         else:
 
-            services[0].Load(arg)
+            this_service = services[0]
+                        
+            this_service.Load(arg)
 
-            self._element_list = services[0].GetElements()
+            # Now we set a list of cached elements and
+            # a list of model files from the library
+            self._element_list = this_service.GetElements()
+
+            #for dirpath, dirnames, filenames in os.walk(services
 
     def help_ndf_load(self):
         print "usage: ndf_load [filename]",
         print "-- Loads an ndf file into all loaded model container services."
+        print """
+Loads an ndf file from the model container services model library. If a
+model container has not been created it will create a default one with
+the name 'model_container'.
+
+        """
 
 
     def complete_ndf_load(self, text, line, begidx, endidx):
