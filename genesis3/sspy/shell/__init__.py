@@ -55,6 +55,9 @@ class SSPyShell(cmd.Cmd):
 
         self.histfile = None
 
+        # some internal cached lists for auto completion
+        self._element_list = []
+        self._library_list = []
 
         self._scheduler = scheduler
 
@@ -126,7 +129,48 @@ class SSPyShell(cmd.Cmd):
     def help_input_add(self):
         print "usage: input_add [input]",
         print "-- Adds an input"
+
+    def complete_input_add(self, text, line, begidx, endidx):
         
+        if not text:
+            
+            completions = self._element_list[:]
+            
+        else:
+            
+            completions = [ f
+                            for f in self._element_list
+                            if f.startswith(text)
+                            ]
+            
+        return completions
+
+
+#---------------------------------------------------------------------------
+# output_add
+    def do_output_add(self, arg):
+        """Add an input"""
+        print "Input add %s" % arg
+
+    def help_output_add(self):
+        print "usage: output_add <output name> [element name] [parameter]",
+        print "-- Adds an output"
+
+    def complete_output_add(self, text, line, begidx, endidx):
+        
+        if not text:
+            
+            completions = self._element_list[:]
+            
+        else:
+            
+            completions = [ f
+                            for f in self._element_list
+                            if f.startswith(text)
+                            ]
+            
+        return completions
+    
 #---------------------------------------------------------------------------
 # run
 
@@ -678,11 +722,38 @@ Creates a heccer solver with the given name with default arguments.
 # ndf_load
     def do_ndf_load(self, arg):
 
-        pass
+        services = self._scheduler.GetLoadedServices()
+
+        if len(services) == 0:
+
+            pass
+        
+        else:
+
+            services[0].Load(arg)
+
+            self._element_list = services[0].GetElements()
 
     def help_ndf_load(self):
         print "usage: ndf_load [filename]",
         print "-- Loads an ndf file into all loaded model container services."
+
+
+    def complete_ndf_load(self, text, line, begidx, endidx):
+        
+        if not text:
+            
+            completions = self._library_list[:]
+            
+        else:
+            
+            completions = [ f
+                            for f in self._library_list
+                            if f.startswith(text)
+                            ]
+            
+        return completions
+
 
 #---------------------------------------------------------------------------
 # ndf_save

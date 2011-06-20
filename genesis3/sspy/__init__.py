@@ -70,6 +70,7 @@ class SSPy:
         self._inputs = []
         self._outputs = []
         self._runtime_parameters = []
+        self._element_list = []
 
         # Each member of this array is in the format:
         #  dict(modelname="modelname",
@@ -422,7 +423,64 @@ class SSPy:
             self._PrintPlugin(ip, verbose)
 
         print ""
+
+#---------------------------------------------------------------------------
+
+    def GetElements(self, service_name=None):
+        """!
+        @returns the elements present in this schedules services
+
+        Right now just returns the elements present in the first
+        service.
+        """
+
+        if not service_name is None:
             
+            for s in self._loaded_services:
+
+                if s.GetName() == service_name:
+
+                    self._element_list = s.GetElements()
+
+        else:
+
+            if len(self._loaded_services) > 0:
+
+                s = self._loaded_services[0]
+
+                self._element_list = s.GetElements()
+
+        return self._element_list
+
+
+#---------------------------------------------------------------------------
+
+    def GetCoordinates(self, service_name=None):
+        """!
+        @returns the coordinates present in this schedules services
+
+        Right now just returns the elements present in the first
+        service.
+        """
+
+        if not service_name is None:
+            
+            for s in self._loaded_services:
+
+                if s.GetName() == service_name:
+
+                    coordinate_list = s.GetCoordinates()
+
+        else:
+
+            if len(self._loaded_services) > 0:
+
+                s = self._loaded_services[0]
+
+                coordinate_list = s.GetCoordinates()
+
+        return coordinate_list
+
 #---------------------------------------------------------------------------
 
     def Load(self, filename):
@@ -460,7 +518,7 @@ class SSPy:
             self._schedule_loaded = False
 
         self._schedule_loaded = True
-            
+
 #---------------------------------------------------------------------------
 
     def Dump(self):

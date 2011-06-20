@@ -113,6 +113,19 @@ class Service:
 
         return coord_list
 
+
+#---------------------------------------------------------------------------
+
+    def GetElements(self):
+        """!
+        @brief Retrieves all element names
+        """
+        element_list = []
+
+        element_list = self._model_container.ChildrenToList('/')
+
+        return element_list
+    
 #---------------------------------------------------------------------------
 
     def SetParameter(self, path, field, value):
