@@ -63,6 +63,40 @@ class SSPyShell(cmd.Cmd):
 
 
 #---------------------------------------------------------------------------
+# All shell helper methods should be private
+#---------------------------------------------------------------------------
+
+    def _get_ndf_library_list(self, path, ext):
+        """!
+
+        """
+        files = []
+        
+        for dirpath, dirnames, filenames in os.walk(path):
+
+            for f in filenames:
+
+                head, tail = os.path.splitext(f)
+
+                if tail in ext:
+
+                    this_file = os.path.join(dirpath, f)
+
+                    # first remove the path part since the model
+                    # container doesn't need it.
+                    if this_file.startswith(path):
+                        
+                        this_file = this_file.replace(path, '')
+
+                        this_file = this_file.lstrip(os.sep)
+
+                    files.append(this_file)
+
+        return files
+            
+#---------------------------------------------------------------------------
+
+#---------------------------------------------------------------------------
 #----                           Commands                              ------
 #---------------------------------------------------------------------------
 
@@ -722,6 +756,19 @@ Creates a heccer solver with the given name with default arguments.
 # ndf_load
     def do_ndf_load(self, arg):
 
+        if len(self._library_list) == 0:
+
+            path = os.path.join('/',
+                           'usr',
+                           'local',
+                           'neurospaces',
+                           'models',
+                           'library'
+                           )
+            
+            self._library_list = self._get_ndf_library_list(path,
+                                                            ['.ndf'])
+        
         services = self._scheduler.GetLoadedServices()
 
         if len(services) == 0:
@@ -738,7 +785,6 @@ Creates a heccer solver with the given name with default arguments.
             # a list of model files from the library
             self._element_list = this_service.GetElements()
 
-            #for dirpath, dirnames, filenames in os.walk(services
 
     def help_ndf_load(self):
         print "usage: ndf_load [filename]",
