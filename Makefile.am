@@ -2,8 +2,8 @@ SUBDIRS = \
 	. 
 
 EXTRA_DIST = \
-	doxygen.cfg \
-	docs	
+	genesis3 \
+	doxygen.cfg 
 
 #check_SCRIPTS = $(srcdir)/tests/neurospaces_harness
 
@@ -31,12 +31,7 @@ clean-local:
 	$(RM) -rf $(top_builddir)/html
 
 dist-hook:
-	print "not needed"
-
-compile:
-	echo "build command"
-#	$(PYTHON) $(top_builddir)/setup.py build
-
+	echo "not needed"
 
 epydoc: epydoc.cfg
 	epydoc --config epydoc.cfg
