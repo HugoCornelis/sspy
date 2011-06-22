@@ -1042,7 +1042,7 @@ class SSPy:
         
 #---------------------------------------------------------------------------
 
-    def CreateService(self, name=None, type=None, arguments=None, verbose=False):
+    def CreateService(self, name="untitled_model_container", type=None, arguments=None, verbose=False):
         """
         @brief Creates a new service with the given name, type and arguments.
         """

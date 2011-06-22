@@ -7,6 +7,7 @@ Mirrors functionality provided by the gshell.
 import cmd
 import os
 import pdb
+import re
 import shlex # for more complex string splitting
 import sys
 
@@ -109,7 +110,24 @@ class SSPyShell(cmd.Cmd):
                     files.append(this_file)
 
         return files
-            
+
+#---------------------------------------------------------------------------
+
+    def _get_completions(self, token, text='', items=[]):
+
+        if token == '':
+
+            return []
+        
+        offs = len(token) - len(text)
+
+        completions = [ f[offs:] for f in items
+                        if f.startswith(token)
+
+                        ]
+
+        return completions
+        
 #---------------------------------------------------------------------------
 
 #---------------------------------------------------------------------------
@@ -119,6 +137,10 @@ class SSPyShell(cmd.Cmd):
     def do_EOF(self, arg):
         return True
 
+    def help_EOF(self, arg):
+
+        print "Just processes an empty line"
+        
     def help_help(self):
         print "help"
 
@@ -183,18 +205,33 @@ class SSPyShell(cmd.Cmd):
         print "-- Adds an input"
 
     def complete_input_add(self, text, line, begidx, endidx):
-        
-        if not text:
+
+        tokens = line.split()
+
+        trailing_space = False
+
+        try:
             
+            trailing_space = line[-1].isspace()
+
+        except IndexError:
+
+            pass
+
+        
+        if len(tokens) == 1:
+
             completions = self._element_list[:]
             
+        elif len(tokens) == 2 and not trailing_space:
+        # Here we autocomplete the ndf file
+        
+            completions = self._get_completions(tokens[1], text, self._element_list)
+
         else:
-            
-            completions = [ f
-                            for f in self._element_list
-                            if f.startswith(text)
-                            ]
-            
+
+            return []
+
         return completions
 
 
@@ -209,18 +246,33 @@ class SSPyShell(cmd.Cmd):
         print "-- Adds an output"
 
     def complete_output_add(self, text, line, begidx, endidx):
-        
-        if not text:
+
+        tokens = line.split()
+
+        trailing_space = False
+
+        try:
             
+            trailing_space = line[-1].isspace()
+
+        except IndexError:
+
+            pass
+
+        
+        if len(tokens) == 1:
+
             completions = self._element_list[:]
             
+        elif len(tokens) == 2 and not trailing_space:
+        # Here we autocomplete the ndf file
+        
+            completions = self._get_completions(tokens[1], text, self._element_list)
+
         else:
-            
-            completions = [ f
-                            for f in self._element_list
-                            if f.startswith(text)
-                            ]
-            
+
+            return []
+
         return completions
     
 #---------------------------------------------------------------------------
@@ -358,16 +410,6 @@ class SSPyShell(cmd.Cmd):
     def help_list_input_plugins(self):
         print "usage: list_input_plugins [v, verbose]",
         print "-- Lists the registered input plugins"
-
-#---------------------------------------------------------------------------
-# ce 
-    def do_ce(self, arg):
-        print "change element not working yet"
-
-    def help_ce(self):
-        print "usage: ce [element name]",
-        print "-- change the current element"
-
 
 
 #---------------------------------------------------------------------------
@@ -583,18 +625,6 @@ Creates a heccer solver with the given name with default arguments.
         print "-- Sets the timestep for the heccer solver"
 
 #---------------------------------------------------------------------------
-# input_add
-    def do_input_add(self, arg):
-        print "Adds an input to a compiled solver"
-
-
-    def help_input_add(self):
-        print "usage: input_add [input protocol type] [element name] [parameter]",
-        print "-- Adds an input of the given protocol type to the path",
-        print "   in elment name with the given parameter."
-
-
-#---------------------------------------------------------------------------
 # input_delete
     def do_input_delete(self, arg):
         print "Deletes an input"
@@ -685,24 +715,127 @@ Creates a heccer solver with the given name with default arguments.
 #---------------------------------------------------------------------------
 # list_elements
     def do_list_elements(self, arg):
-        print "Lists all elements in the loaded service"
+
+        for e in self._element_list:
+
+            if not arg is None or arg != "":
+
+                if e.startswith(arg):
+
+                    print "%s" % e
+
+            else:
+                
+                print "%s" % e
 
 
     def help_list_elements(self):
-        print "usage: list_elements [element name, wildcard]",
-        print "-- List all elements in the loaded service."
+        print "usage: list_elements [element name]",
+        print "-- List all accessible elements in the loaded service."
+        print """
+
+If given no arguments it will print out all elements from the given
+model. Passing an element path as an argument will cause the function
+to print only elements that are prefixed by the argument.
+
+Autocompletion is available to use for autocompleting an element path
+argument.
+
+        """
 
 
+
+    def complete_list_elements(self, text, line, start_index, end_index):
+
+        tokens = line.split()
+
+        if len(tokens) == 1:
+
+            completions = self._element_list[:]
+            
+        elif len(tokens) == 2:
+        # Here we autocomplete an element
+        
+            completions = self._get_completions(tokens[1], text, self._element_list)
+
+        else:
+
+            return []
+
+        return completions
+    
 #---------------------------------------------------------------------------
 # model_parameter_add
     def do_model_parameter_add(self, arg):
-        print "Sets a model parameter"
+
+        if arg is None or arg == "":
+
+            self.help_model_parameter_add()
+
+            return
+
+        tokens = arg.split()
+
+        if len(tokens) != 3:
+
+            self.help_model_parameter_add()
+
+            return
+
+        else:
+
+            path = tokens[0]
+            parameter = tokens[1]
+            value = tokens[2]
+
+            try:
+
+                self._scheduler.SetParameter(path, parameter, value)
+
+            except Exception, e:
+
+                print e
+
+                return
 
 
     def help_model_parameter_add(self):
         print "usage: model_parameter_add [element name] [parameter] [value]",
         print "-- Sets a model parameter."
 
+    def complete_model_parameter_add(self, text, line, start_index, end_index):
+
+        if line is None or line == "":
+
+            self.help_model_parameter_add()
+
+            return
+
+        tokens = line.split()
+
+        trailing_space = False
+
+        try:
+            
+            trailing_space = line[-1].isspace()
+
+        except IndexError:
+
+            pass
+        
+        if len(tokens) == 1:
+
+            completions = self._element_list[:]
+            
+        elif len(tokens) == 2 and not trailing_space:
+        
+            completions = self._get_completions(tokens[1], text, self._element_list)
+
+        else:
+
+            return []
+
+        return completions
 
 #---------------------------------------------------------------------------
 # model_parameter_show
@@ -814,26 +947,31 @@ model container has not been created it will create a default one with
 the name 'model_container'.
 
         """
-
-
+        
     def complete_ndf_load(self, text, line, start_index, end_index):
 
         tokens = line.split()
 
+        trailing_space = False
+
+        try:
+            
+            trailing_space = line[-1].isspace()
+
+        except IndexError:
+
+            pass
+
+        
         if len(tokens) == 1:
 
             completions = self._library_list[:]
             
-        elif len(tokens) == 2:
+        elif len(tokens) == 2 and not trailing_space:
+        # Here we autocomplete the ndf file
+        
+            completions = self._get_completions(tokens[1], text, self._library_list)
 
-            # autocomplete an ndf file
-
-            offs = len(tokens[1]) - len(text)
-
-            completions = [ f[offs:] for f in self._library_list
-                            if f.startswith(tokens[1])
-
-                            ]            
         else:
 
             return []
