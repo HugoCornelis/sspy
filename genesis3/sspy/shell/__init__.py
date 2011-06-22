@@ -62,6 +62,22 @@ class SSPyShell(cmd.Cmd):
         self._scheduler = scheduler
 
 
+        # Set up the library list via the default ndf library path
+        # should probably iterate through the env variables
+        if len(self._library_list) == 0:
+
+            path = os.path.join('/',
+                           'usr',
+                           'local',
+                           'neurospaces',
+                           'models',
+                           'library'
+                           )
+            
+            self._library_list = self._get_ndf_library_list(path,
+                                                            ['.ndf'])
+
+
 #---------------------------------------------------------------------------
 # All shell helper methods should be private
 #---------------------------------------------------------------------------
@@ -100,6 +116,8 @@ class SSPyShell(cmd.Cmd):
 #----                           Commands                              ------
 #---------------------------------------------------------------------------
 
+    def do_EOF(self, arg):
+        return True
 
     def help_help(self):
         print "help"
@@ -340,16 +358,6 @@ class SSPyShell(cmd.Cmd):
     def help_list_input_plugins(self):
         print "usage: list_input_plugins [v, verbose]",
         print "-- Lists the registered input plugins"
-
-#---------------------------------------------------------------------------
-#----                       End Commands                              ------
-#---------------------------------------------------------------------------
-
-
-
-#---------------------------------------------------------------------------
-#----                       Commands                                  ------
-#---------------------------------------------------------------------------
 
 #---------------------------------------------------------------------------
 # ce 
@@ -756,35 +764,46 @@ Creates a heccer solver with the given name with default arguments.
 # ndf_load
     def do_ndf_load(self, arg):
 
-        if len(self._library_list) == 0:
+        if arg == "" or arg is None:
 
-            path = os.path.join('/',
-                           'usr',
-                           'local',
-                           'neurospaces',
-                           'models',
-                           'library'
-                           )
-            
-            self._library_list = self._get_ndf_library_list(path,
-                                                            ['.ndf'])
+            self.help_ndf_load()
+
+            return
+
         
         services = self._scheduler.GetLoadedServices()
 
+
+        this_model_container = None
+        
         if len(services) == 0:
 
-            pass
-        
+            try:
+                
+                this_model_container = self._scheduler.CreateService(type="model_container",
+                                                                     verbose=True)
+
+            except Exception, e:
+
+                print e
+
+                return
+                
         else:
 
-            this_service = services[0]
+            this_model_container = services[0]
                         
-            this_service.Load(arg)
 
-            # Now we set a list of cached elements and
-            # a list of model files from the library
-            self._element_list = this_service.GetElements()
+        this_model_container.Load(arg)
 
+        # Now we set a list of cached elements and
+        # a list of model files from the library
+        print "caching model elements"
+        
+        self._element_list = this_model_container.GetElements()
+
+        return
+        
 
     def help_ndf_load(self):
         print "usage: ndf_load [filename]",
@@ -797,20 +816,48 @@ the name 'model_container'.
         """
 
 
-    def complete_ndf_load(self, text, line, begidx, endidx):
-        
-        if not text:
-            
+    def complete_ndf_load(self, text, line, start_index, end_index):
+
+        tokens = line.split()
+
+        if len(tokens) == 1:
+
             completions = self._library_list[:]
             
+        elif len(tokens) == 2:
+
+            # autocomplete an ndf file
+
+            offs = len(tokens[1]) - len(text)
+
+            completions = [ f[offs:] for f in self._library_list
+                            if f.startswith(tokens[1])
+
+                            ]            
         else:
-            
-            completions = [ f
-                            for f in self._library_list
-                            if f.startswith(text)
-                            ]
-            
+
+            return []
+
         return completions
+
+
+
+#     def complete_add(self, text, line, begidx, endidx):
+#         mline = line.partition(' ')[2]
+#         offs = len(mline) - len(text)
+#         return [s[offs:] for s in completions if s.startswith(mline)]
+
+
+#     def complete_greet(self, text, line, begidx, endidx):
+#         if not text:
+#             completions = self.FRIENDS[:]
+#         else:
+#             completions = [ f
+#                             for f in self.FRIENDS
+#                             if f.startswith(text)
+#                             ]
+#         return completions
+    
 
 
 #---------------------------------------------------------------------------
@@ -920,7 +967,7 @@ the name 'model_container'.
         print "-- Lists all loaded outputs."
 
 #---------------------------------------------------------------------------
-#----                    End Gshell Commands                          ------
+#----                           End Commands                          ------
 #---------------------------------------------------------------------------
 
 
