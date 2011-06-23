@@ -60,6 +60,8 @@ class SSPyShell(cmd.Cmd):
         self._element_list = []
         self._library_list = []
 
+
+        # The scheduler that this shell interprets
         self._scheduler = scheduler
 
 
@@ -155,6 +157,45 @@ class SSPyShell(cmd.Cmd):
         print "usage: hello [message]",
         print "-- prints a hello message"
 
+
+#---------------------------------------------------------------------------
+# pwd
+
+    def do_pwd(self, arg):
+        
+        if arg:
+
+            self.help_pwd()
+
+        print os.getcwd()
+
+    # using these as templates
+    def help_pwd(self):
+        print "usage: pwd",
+        print "-- print the current directory"
+
+
+#---------------------------------------------------------------------------
+# cd
+
+    def do_cd(self, arg):
+
+        try:
+
+            os.chdir(arg)
+            
+        except Exception, e:
+
+            print e
+
+            return
+
+    # using these as templates
+    def help_cd(self):
+        print "usage: cd [directory]",
+        print "-- Change the current working directory"
+
+        
 #---------------------------------------------------------------------------
 # version
 
@@ -617,12 +658,48 @@ Creates a heccer solver with the given name with default arguments.
 #---------------------------------------------------------------------------
 # heccer_set_timestep
     def do_heccer_set_timestep(self, arg):
-        print "Sets the heccer timestep"
 
+        if arg is None or arg == "":
+
+            self.heccer_set_timestep()
+
+            return
+
+        time_step = 0.0
+
+        try:
+
+            time_step = float(arg)
+
+        except ValueError:
+
+            print "not a valid timestep: %s" % arg
+
+            return
+
+        heccers = self._scheduler.GetLoadedSolvers()
+
+        if len(heccers) == 0:
+
+            default = 'default_heccer'
+
+            print "No heccer present, creating a default heccer solver: %s" % default
+
+            self._scheduler.CreateSolver(default, 'heccer', verbose=True)
+
+
+        self._scheduler.SetTimeStep(time_step)
+        
 
     def help_heccer_set_timestep(self):
         print "usage: heccer_set_timestep [timestep value]",
         print "-- Sets the timestep for the heccer solver"
+        print """
+
+If no heccer has been explicity created, then this command
+will create a default heccer with the name 'default_heccer'
+for use in your simulation.
+        """
 
 #---------------------------------------------------------------------------
 # input_delete
