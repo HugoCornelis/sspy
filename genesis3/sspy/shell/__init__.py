@@ -141,10 +141,11 @@ class SSPyShell(cmd.Cmd):
 
     def help_EOF(self, arg):
 
-        print "Just processes an empty line"
+        print "Terminates the shell"
         
     def help_help(self):
-        print "help"
+        
+        self.do_help()
 
 #---------------------------------------------------------------------------
 # hello (template)
@@ -158,6 +159,22 @@ class SSPyShell(cmd.Cmd):
         print "-- prints a hello message"
 
 
+#---------------------------------------------------------------------------
+# continue
+
+    do_continue = do_EOF
+
+    def help_continue(self):
+        print "usage: continue",
+        print "-- exits the shell and continues sspy"
+
+    do_c = do_continue
+
+    def help_c(self):
+        print "usage: c",
+        print "-- exits the shell and continues sspy"
+
+    
 #---------------------------------------------------------------------------
 # pwd
 
@@ -220,7 +237,7 @@ class SSPyShell(cmd.Cmd):
 
     def help_quit(self):
         print "usage: quit",
-        print "-- terminates the application"
+        print "-- terminates the shell and sspy"
 
 #---------------------------------------------------------------------------
 # shell
@@ -990,7 +1007,8 @@ argument.
 
             try:
                 
-                this_model_container = self._scheduler.CreateService(type="model_container",
+                this_model_container = self._scheduler.CreateService(name="default_model_container",
+                                                                     type="model_container",
                                                                      verbose=True)
 
             except Exception, e:

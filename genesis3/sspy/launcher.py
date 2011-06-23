@@ -189,8 +189,6 @@ def main(cwd=os.getcwd()):
 
         sspy_shell.cmdloop()
 
-        sys.exit(1)
-
     # Running sspy after all options have been set
         
     scheduler.Run()
