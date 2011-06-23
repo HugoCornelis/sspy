@@ -81,6 +81,8 @@ class SSPyShell(cmd.Cmd):
                                                             ['.ndf'])
 
 
+        self._element_list = self._scheduler.GetElements()
+        
 #---------------------------------------------------------------------------
 # All shell helper methods should be private
 #---------------------------------------------------------------------------
@@ -129,7 +131,7 @@ class SSPyShell(cmd.Cmd):
                         ]
 
         return completions
-        
+
 #---------------------------------------------------------------------------
 
 #---------------------------------------------------------------------------
@@ -296,12 +298,62 @@ class SSPyShell(cmd.Cmd):
 #---------------------------------------------------------------------------
 # output_add
     def do_output_add(self, arg):
-        """Add an input"""
-        print "Input add %s" % arg
 
+        if arg is None or arg == "":
+
+            self.help_output_add()
+
+            return
+
+        tokens = arg.split()
+
+        element = None
+        parameter = None
+
+        if len(tokens) != 2:
+
+            self.help_output_add()
+
+            return
+
+        else:
+
+            element = tokens[0]
+            parameter = tokens[1]
+
+            outputs = self._scheduler.GetLoadedOutputs()
+
+            if len(outputs) == 0:
+
+                try:
+                    
+                    self._scheduler.CreateOutput('default_output', 'double_2_ascii')
+
+                except Exception, e:
+
+                    print e
+
+                    return
+
+                try:
+                    
+                    self._scheduler.AddOutput(element, parameter)
+
+                except Exception, e:
+
+                    print e
+
+                    return
+        
+        
     def help_output_add(self):
-        print "usage: output_add <output name> [element name] [parameter]",
-        print "-- Adds an output"
+        print "usage: output_add [element name] [parameter]",
+        print "-- Adds an output",
+        print """
+        
+Creates a double_2_ascii output object. 
+
+        """
 
     def complete_output_add(self, text, line, begidx, endidx):
 
@@ -334,57 +386,69 @@ class SSPyShell(cmd.Cmd):
         return completions
     
 #---------------------------------------------------------------------------
-# run
+# run_time
 
     def do_run(self, arg):
         """Runs a loaded schedule """
 
-        args = arg.split()
+        tokens = arg.split()
 
         time = None
         steps = None
         modelname = None
         
-        num_args = len(args)
+        num_tokens = len(tokens)
         
-        if num_args > 2 or num_args == 0:
+        if num_tokens != 2:
 
             self.help_run()
 
             return
 
-        if num_args == 1:
+        if not tokens[0] in self._element_list:
+
+            print "Element '%s' is not in the model element space" % tokens[0]
+
+            return 
+        
+        try:
+
+            steps = int(tokens[1])
+                
+        except ValueError:
 
             try:
-                
-                time = float(arg[0])
+                    
+                time = float(tokens[1])
 
-            except ValueError, e:
+            except ValueError:
 
-                print "Invalid simulation time: %s" % args[0]
-
-                return
-
-        elif num_args == 2:
-
-            modelname = args[0]
-
-            self.SetModelName(modelname)
-            
-            try:
-                
-                time = float(args[1])
-
-            except ValueError, e:
-
-                print "Invalid simulation time: %s" % args[0]
+                print "Invalid time or step number: %s" % tokens[1]
 
                 return
+    
+        modelname = tokens[0]
+
+        if not modelname is None: 
+
+            self._scheduler.SetModelName(modelname)
             
         try:
 
-            self._scheduler.Run(time=time)
+            if not time is None:
+                
+                self._scheduler.Run(time=time)
+                
+            elif not steps is None:
 
+                self._scheduler.Run(steps=steps)
+
+            else:
+
+                print "Can't run, no time or step number given"
+
+                return
+                
         except Exception, e:
 
             print "%s" % e
@@ -392,11 +456,43 @@ class SSPyShell(cmd.Cmd):
         
     def help_run(self):
 
-        print "usage: run [modelname] [time or steps] value",
-        print "-- runs a simulation\n"
-        print ""
+        print "usage: run [modelname] [time or steps]",
+        print "-- runs a simulation for the specified time"
+        print """
+You can call it with 
 
+        """
 
+    def complete_run(self, text, line, begidx, endidx):
+
+        tokens = line.split()
+
+        trailing_space = False
+
+        try:
+            
+            trailing_space = line[-1].isspace()
+
+        except IndexError:
+
+            pass
+
+        
+        if len(tokens) == 1:
+
+            completions = self._element_list[:]
+            
+        elif len(tokens) == 2 and not trailing_space:
+        # Here we autocomplete the ndf file
+        
+            completions = self._get_completions(tokens[1], text, self._element_list)
+
+        else:
+
+            return []
+
+        return completions
+    
 #---------------------------------------------------------------------------
 # list_solver_plugins
 

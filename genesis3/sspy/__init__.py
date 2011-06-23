@@ -442,6 +442,8 @@ class SSPy:
 
                     self._element_list = s.GetElements()
 
+                    break
+
         else:
 
             if len(self._loaded_services) > 0:
@@ -1143,6 +1145,7 @@ class SSPy:
     def SetTimeStep(self, time_step):
         """!
         @brief Sets the timestep across all schedulees
+
         """
         if self._scheduled:
 
@@ -1155,6 +1158,22 @@ class SSPy:
 #---------------------------------------------------------------------------
 
     def GetTimeStep(self):
+        """
+
+        If a timestep has been loaded from the solvers, but not the
+        top level then we need to retrieve it from there. We set the
+        top level time_step variable to the first good timestep value
+        we get from a solver.
+        """
+        time_step = None
+        
+        if len(self._solvers) > 0:
+
+            time_step = self._solvers[0].GetTimeStep()
+
+            if not time_step is None:
+
+                self.time_step = time_step
 
         return self.time_step
 
@@ -1324,7 +1343,7 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def SetOutput(self, path, parameter, output_name=None, output_type=None):
+    def AddOutput(self, path, parameter, output_name=None, output_type=None):
         """!
         @brief Sets a parameter on all loaded output
 
@@ -1336,7 +1355,7 @@ class SSPy:
 
         if self._outputs is not None:
 
-            for o in self._output:
+            for o in self._outputs:
 
                 if not output_name is None:
 
@@ -1369,7 +1388,7 @@ class SSPy:
 
         if self._outputs is not None:
 
-            for o in self._output:
+            for o in self._outputs:
 
                 if not output_name is None:
 
@@ -1403,7 +1422,7 @@ class SSPy:
 
         if self._outputs is not None:
 
-            for o in self._output:
+            for o in self._outputs:
 
                 if not output_name is None:
 
@@ -1437,7 +1456,7 @@ class SSPy:
 
         if self._outputs is not None:
 
-            for o in self._output:
+            for o in self._outputs:
 
                 if not output_name is None:
 
