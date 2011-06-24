@@ -335,15 +335,15 @@ class SSPyShell(cmd.Cmd):
 
                     return
 
-                try:
+            try:
                     
-                    self._scheduler.AddOutput(element, parameter)
+                self._scheduler.AddOutput(element, parameter)
 
-                except Exception, e:
+            except Exception, e:
 
-                    print e
+                print e
 
-                    return
+                return
         
         
     def help_output_add(self):
