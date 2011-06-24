@@ -67,14 +67,6 @@ class Service:
 
         return self._plugin_data.GetName()
 
-
-#---------------------------------------------------------------------------
-
-    def GetModuleName(self):
-
-        return self._module_name
-
-
 #---------------------------------------------------------------------------
 
     def GetArguments(self):
