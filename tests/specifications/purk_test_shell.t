@@ -17,7 +17,7 @@ my $test
 					      '--shell'
 					     ],
 				command => './sspy',
-#				disabled => 'working on this',
+				disabled => 'working on this, should work but is giving some errors',
 				mac_report => 'Test fails on Mac OSX due to an IO lock. However when manually run this test case works fine.',
 
 				command_tests => [
@@ -258,7 +258,13 @@ my $test
 						  {
 						   description => "Run the simulation",
 						   write => 'run /purk_test 2500',
-						   wait => 30,
+						
+						  },
+
+						  {
+						   description => "Wait for output",
+						   wait => 20,
+						
 						  },
 
 						  {

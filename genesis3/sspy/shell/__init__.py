@@ -386,7 +386,7 @@ Creates a double_2_ascii output object.
         return completions
     
 #---------------------------------------------------------------------------
-# run_time
+# run
 
     def do_run(self, arg):
         """Runs a loaded schedule """
@@ -436,11 +436,15 @@ Creates a double_2_ascii output object.
         try:
 
             if not time is None:
+
+                print "Simulation will run for %f seconds" % time
                 
                 self._scheduler.Run(time=time)
                 
             elif not steps is None:
 
+                print "Simulation will run for %d steps" % steps
+                
                 self._scheduler.Run(steps=steps)
 
             else:
@@ -1102,6 +1106,8 @@ argument.
         if len(services) == 0:
 
             try:
+
+                print "No model container present, creating default: default_model_container"
                 
                 this_model_container = self._scheduler.CreateService(name="default_model_container",
                                                                      type="model_container",
