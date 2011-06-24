@@ -28,7 +28,7 @@ def usage():
     print "\nStartup:"
     print " -v, --version\t\tcurrent version number."
     print " -h, --help\t\tprint this help."
-    print " -b, --background\tgo to background after startup."
+#    print " -b, --background\tgo to background after startup."
 
     print "\nScheduling:"
     print " --builtins\t\tgive help about supported builtin simulation configurations."
@@ -98,6 +98,7 @@ def main(cwd=os.getcwd()):
     model_directory = None
     model_filename = None
     model_name = None
+    shell_batch_file = None
     
     for opt, arg in opts:
 
@@ -139,7 +140,7 @@ def main(cwd=os.getcwd()):
             
             assert False, "unhandled option %s" % opt
 
-    # here process the extra args
+    # here process the extra args at the tail end of the command
     if len(args) > 0:
 
         for a in args:
@@ -189,6 +190,8 @@ def main(cwd=os.getcwd()):
 
         sspy_shell.cmdloop()
 
-    # Running sspy after all options have been set
+    else:
         
-    scheduler.Run()
+        # Running sspy after all options have been set
+        
+        scheduler.Run()

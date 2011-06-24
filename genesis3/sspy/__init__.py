@@ -493,6 +493,10 @@ class SSPy:
 
             norm_file_path = os.path.normpath(filename)
 
+            if self.verbose:
+
+                print "Loading schedule '%s'" % norm_file_path
+                
             try:
                 
                 self._schedule_data = yaml.load(open(norm_file_path,'rb'))
