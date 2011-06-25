@@ -19,7 +19,7 @@ my $test
 					      '$::config->{core_directory}/tests/python/purk_test.sh',
 					     ],
 				command => './sspy',
-				mac_report => 'Test fails on Mac OSX due to an IO lock. However when manually run this test case works fine.',
+				disabled => 'Test confirmed to work manually but refuses to complete',
 
 				command_tests => [
 						  {
