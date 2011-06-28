@@ -461,10 +461,17 @@ Creates a double_2_ascii output object.
     def help_run(self):
 
         print "usage: run [modelname] [time or steps]",
-        print "-- runs a simulation for the specified time"
+        print "-- runs a simulation for the specified time or number or steps"
         print """
-You can call it with 
+Command type checks the argument automatically, so passing a integer runs the
+simulation in steps mode. This will run the simulation for 2500 steps:
 
+    run 2500
+
+Passing a float argument will run the test for the given amount of time. This
+will run the simulation for one second:
+
+    run 1.0
         """
 
     def complete_run(self, text, line, begidx, endidx):

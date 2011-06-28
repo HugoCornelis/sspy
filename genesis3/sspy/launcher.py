@@ -28,6 +28,7 @@ def usage():
     print "\nStartup:"
     print " -v, --version\t\tcurrent version number."
     print " -h, --help\t\tprint this help."
+    print " --shell\t\tStarts the interactive shell."
 #    print " -b, --background\tgo to background after startup."
 
     print "\nScheduling:"
