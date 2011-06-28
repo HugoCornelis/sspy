@@ -35,6 +35,7 @@ class Output:
 
         self.verbose = verbose
 
+
         # should be inconsequential in an output object
         # it is only here for reporting purposes to keep
         # the object consistent when it's passed on to
@@ -43,11 +44,15 @@ class Output:
         
         self._output_gen = None
 
-        self.output_mode = None
-
         self.filename = _default_filename
+
+        self.format = None
+
+        self.mode = None
+
+        self.resolution = None
         
-        self._outputs = []
+        self.outputs = []
 
         self._solver = None
 
@@ -97,7 +102,7 @@ class Output:
         until the solver is created after a connect. 
         """
         
-        self._outputs = outputs
+        self.outputs = outputs
 
 #---------------------------------------------------------------------------
 
@@ -114,7 +119,7 @@ class Output:
         if self._solver is None:
             # if it's none then we store it for later use
 
-            self._outputs.append(dict(field=field,component_name=name))
+            self.outputs.append(dict(field=field,component_name=name))
             
 #         if self._solver is None:
 
@@ -174,6 +179,25 @@ class Output:
             if self._output_gen is None:
 
                 raise Exception("Can't create output generator object '%s'" % self.GetName())
+
+        # Here we set any output parameters we loaded into the plugin
+
+        if not self.format is None:
+
+            self._output_gen.SetFormat(self.format)
+
+
+        if not self.mode is None:
+            
+            if self.mode == 'steps':
+                        
+                self._output_gen.SetSteps(1)
+
+
+        if not self.resolution is None:
+
+            self._output_gen.SetResolution(self.resolution)
+
 
     
 #---------------------------------------------------------------------------
@@ -246,15 +270,8 @@ class Output:
         """
 
         """
-        if mode is None:
-
-            return
-        
-        if mode == 'steps':
             
-            # turn on steps mode
-            
-            self._output_gen.SetSteps(1) 
+        self.mode = mode
 
 #---------------------------------------------------------------------------
 
@@ -262,23 +279,17 @@ class Output:
         """
 
         """
-        if res is None:
-
-            return
-
-        self._output_gen.SetResolution(res)
-
+        self.resolution = res
+            
+            
 #---------------------------------------------------------------------------
 
     def SetFormat(self, strfmt=None):
         """
 
         """
-        if strfmt is None:
 
-            return
-        
-        self._output_gen.SetFormat(strfmt)
+        self.format = strfmt
 
     
 #---------------------------------------------------------------------------
@@ -368,7 +379,7 @@ class Output:
         Outputs can also be set via a yaml string fed to the parse method.
         """
         
-        if not self._outputs is None:
+        if not self.outputs is None:
 
             #
             # Could be possible to move this loop to it's own method
@@ -377,7 +388,7 @@ class Output:
             component_name = ""
             field = ""
 
-            for i, o in enumerate(self._outputs):
+            for i, o in enumerate(self.outputs):
 
                 if o.has_key('outputclass'):
 

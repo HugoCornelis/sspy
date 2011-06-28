@@ -1269,7 +1269,18 @@ the name 'model_container'.
 # service_show
     def do_service_show(self, arg):
 
-        self._scheduler.ListLoadedServices(arg)
+
+        verbose = False
+        
+        if arg == 'verbose' or arg == 'v':
+
+            verbose = True
+
+        elif arg != "":
+
+            self.help_service_show()
+            
+        self._scheduler.ListLoadedServices(verbose)
 
     def help_service_show(self):
         print "usage: service_show [v, verbose]",
@@ -1280,18 +1291,39 @@ the name 'model_container'.
 # solver_show
     def do_solver_show(self, arg):
 
-        self._scheduler.ListLoadedSolvers(arg)
+        verbose = False
+        
+        if arg == 'verbose' or arg == 'v':
+
+            verbose = True
+
+        elif arg != "":
+
+            self.help_solver_show()
+            
+        self._scheduler.ListLoadedSolvers(verbose)
 
     def help_solver_show(self):
         print "usage: solver_show [v, verbose]",
-        print "-- Lists all loaded solver."
+        print "-- Lists all loaded solvers."
 
 
 #---------------------------------------------------------------------------
 # input_show
     def do_input_show(self, arg):
 
-        self._scheduler.ListLoadedInputs(arg)
+
+        verbose = False
+        
+        if arg == 'verbose' or arg == 'v':
+
+            verbose = True
+
+        elif arg != "":
+           
+            self.help_input_show()
+            
+        self._scheduler.ListLoadedInputs(verbose)
 
     def help_input_show(self):
         print "usage: input_show [v, verbose]",
@@ -1302,11 +1334,27 @@ the name 'model_container'.
 # output_show
     def do_output_show(self, arg):
 
-        self._scheduler.ListLoadedOutputs(arg)
+        verbose = False
+        
+        if arg == 'verbose' or arg == 'v':
+
+            verbose = True
+
+        elif arg != "":
+
+            self.help_output_show()
+            
+
+        self._scheduler.ListLoadedOutputs(verbose)
 
     def help_output_show(self):
         print "usage: output_show [v, verbose]",
-        print "-- Lists all loaded outputs."
+        print "-- Lists all loaded outputs.",
+        print """
+
+
+
+        """
 
 #---------------------------------------------------------------------------
 #----                           End Commands                          ------

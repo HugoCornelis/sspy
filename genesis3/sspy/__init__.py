@@ -276,7 +276,7 @@ class SSPy:
             
         if verbose:
 
-            if p.GetLabel() is not None: print "Label: %s" % p.GetLabel()
+#            if p.GetLabel() is not None: print "Label: %s" % p.GetLabel()
             print ""
 
 #---------------------------------------------------------------------------
@@ -287,12 +287,40 @@ class SSPy:
 
             return
 
-        print "%s" % o.GetName()
-            
+                    
         if verbose:
+            
+            print "name: %s" % o.GetName()
 
-            if o.GetFilename() is not None: print "filename: %s" % o.GetFilename()
+            if not o.GetFilename() is None: print "filename: %s" % o.GetFilename()
+
+            try:
+                if not o.format is None: print "format: %s" % o.format
+                if not o.mode is None: print "mode: %d" % o.mode
+                if not o.resolution is None: print "resolution: %d" % o.resolution
+
+            except Exception, e:
+
+                print e
+                
+            try:
+
+                print "outputs:"
+                for x in o.outputs:
+
+                    print "\t%s" % str(x)
+
+            except:
+
+                pass
+            
             print ""
+            
+        else:
+            
+            print "%s" % o.GetName()
+
+            
 
 
 #---------------------------------------------------------------------------
