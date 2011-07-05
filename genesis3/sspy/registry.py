@@ -212,8 +212,7 @@ class Registry:
                 plugins.append(pi)
 
         return plugins
-
-
+        
 
 #*************************** End Registry ****************************
 

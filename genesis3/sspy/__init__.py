@@ -308,7 +308,13 @@ class SSPy:
                 print "outputs:"
                 for x in o.outputs:
 
-                    print "\t%s" % str(x)
+                    try:
+                        
+                        print " %s\t%s\t%s" % (x['outputclass'], x['component_name'], x['field'])
+
+                    except KeyError, k:
+
+                        print k
 
             except:
 
@@ -1440,6 +1446,38 @@ class SSPy:
 
             print "No outputs have been loaded"
 
+#---------------------------------------------------------------------------
+
+    def SetOutputFilename(self, filename, output_name=None, output_type=None):
+        """!
+        @brief Sets the output filename on all loaded output.
+
+        @param filename A string for the output filename.
+        @param output_name The name of a specific output object to add the output to. 
+        @param output_type The type of outputs to add an output to.
+        """
+
+        if self._outputs is not None:
+
+            for o in self._outputs:
+
+                if not output_name is None:
+
+                    if o.GetName() == output_name:
+                        
+                        o.SetFilename(filename)
+                        
+                elif not output_type is None:
+
+                    if o.GetType() == output_type:
+
+                        o.SetFilename(filename)
+                else:
+
+                    o.SetFilename(filename)
+        else:
+
+            print "No outputs have been loaded"
 
 #---------------------------------------------------------------------------
 
@@ -1447,7 +1485,7 @@ class SSPy:
         """!
         @brief Sets a parameter on all loaded output
 
-        @param format A string for the output format.
+        @param mode A string for the mode to use
         @param output_name The name of a specific output object to add the output to. 
         @param output_type The type of outputs to add an output to.
         """

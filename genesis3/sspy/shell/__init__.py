@@ -162,6 +162,21 @@ class SSPyShell(cmd.Cmd):
 
 
 #---------------------------------------------------------------------------
+# clear
+
+    def do_clear(self, arg):
+
+        if arg != "":
+
+            self.help_clear()
+            
+        os.system('clear')
+        
+    def help_clear(self):
+        print "usage: clear",
+        print "-- clears the screen"
+
+#---------------------------------------------------------------------------
 # continue
 
     do_continue = do_EOF
@@ -384,7 +399,337 @@ Creates a double_2_ascii output object.
             return []
 
         return completions
+
+#---------------------------------------------------------------------------
+# output_resolution
+    def do_output_resolution(self, arg):
+
+        if arg is None or arg == "":
+
+            self.help_output_resolution()
+
+            return
+        
+        try:
+            
+            tokens = shlex.split(arg)
+        except ValueError, e:
+
+            print "Error: %s" % e
+
+            return
+
+        if len(tokens) < 1 or len(tokens) > 2:
+
+            self.help_output_resolution()
+
+            return
+
+        res = tokens[0]
+
+        name = None
+
+        try:
+
+            name = tokens[1]
+
+        except IndexError:
+
+            pass
+
+        try:
+
+            self._scheduler.SetOutputResolution(res=res,
+                                                output_name=name)
+
+        except Exception, e:
+
+            print e
+
+            return
+        
+        
+    def help_output_resolution(self):
+        print "usage: output_resolution [resolution value] <output name>",
+        print "-- ",
+        print """
+        
+Sets the output resolution for either on specific output, or
+all loaded outputs. 
+
+        """
+
+    def complete_output_resolution(self, text, line, begidx, endidx):
+
+
+        try:
+            
+            tokens = shlex.split(line)
+        except ValueError, e:
+
+            print "Error: %s" % e
+
+            return
+            
+        trailing_space = False
+
+        try:
+            
+            trailing_space = line[-1].isspace()
+
+        except IndexError:
+
+            pass
+
+        
+        if len(tokens) == 1:
+
+            completions = []
+
+        elif len(tokens) == 2:
+
+            pass
+            
+        elif len(tokens) == 3 and not trailing_space:
+
+            outputs = self._scheduler.GetLoadedOutputs()
+
+            output_list = []
+
+            for o in outputs:
+
+                output_list.append( o.GetName() )
+
+            completions = self._get_completions(tokens[2], text, output_list)
+
+        else:
+
+            return []
+
+        return completions
+
+#---------------------------------------------------------------------------
+# output_filename
+    def do_output_filename(self, arg):
+
+        if arg is None or arg == "":
+
+            self.help_output_filename()
+
+            return
+
+        try:
+            
+            tokens = shlex.split(arg)
+        except ValueError, e:
+
+            print "Error: %s" % e
+
+            return
+
+        if len(tokens) < 1 or len(tokens) > 3:
+
+            self.help_output_filename()
+
+            return
+
+        filename = tokens[0]
+
+        name = None
+
+        try:
+
+            name = tokens[1]
+
+        except IndexError:
+
+            pass
+
+        try:
+
+            self._scheduler.SetOutputFilename(filename=filename,
+                                              output_name=name)
+
+        except Exception, e:
+
+            print e
+
+            return
+        
+        
+    def help_output_filename(self):
+        print "usage: output_filename [filename] <output name>",
+        print "-- ",
+        print """
+
+Sets the output file for an output object.
+
+If an third argument is passed for the output name then filename is
+set on only that output object. Autocomplete is available for the
+loaded output names.
+
+        """
+
+    def complete_output_filename(self, text, line, begidx, endidx):
+
+
+        try:
+            
+            tokens = shlex.split(line)
+        except ValueError, e:
+
+            print "Error: %s" % e
+
+            return
+            
+        trailing_space = False
+
+        try:
+            
+            trailing_space = line[-1].isspace()
+
+        except IndexError:
+
+            pass
+
+        
+        if len(tokens) == 1:
+
+            completions = []
+
+        elif len(tokens) == 2:
+
+            pass
+            
+        elif len(tokens) == 3 and not trailing_space:
+
+            outputs = self._scheduler.GetLoadedOutputs()
+
+            output_list = []
+
+            for o in outputs:
+
+                output_list.append( o.GetName() )
+
+            completions = self._get_completions(tokens[2], text, output_list)
+
+        else:
+
+            return []
+
+        return completions
     
+#---------------------------------------------------------------------------
+# output_format
+    def do_output_format(self, arg):
+
+        if arg is None or arg == "":
+
+            self.help_output_format()
+
+            return
+
+        try:
+            
+            tokens = shlex.split(arg)
+        except ValueError, e:
+
+            print "Error: %s" % e
+
+            return
+
+        if len(tokens) < 1 or len(tokens) > 3:
+
+            self.help_output_format()
+
+            return
+
+        my_format = tokens[0]
+
+        name = None
+
+        try:
+
+            name = tokens[1]
+
+        except IndexError:
+
+            pass
+
+        try:
+
+            self._scheduler.SetOutputFormat(format=my_format,
+                                            output_name=name)
+
+        except Exception, e:
+
+            print e
+
+            return
+        
+        
+    def help_output_format(self):
+        print "usage: output_format [format] <output name>",
+        print "-- ",
+        print """
+
+Sets the output format for a single output or all loaded outputs.
+
+Second argument is optional, if no output name is given then the
+format is set across all loaded outputs.
+
+        """
+
+    def complete_output_format(self, text, line, begidx, endidx):
+
+
+        try:
+            
+            tokens = shlex.split(line)
+        except ValueError, e:
+
+            print "Error: %s" % e
+
+            return
+            
+        trailing_space = False
+
+        try:
+            
+            trailing_space = line[-1].isspace()
+
+        except IndexError:
+
+            pass
+
+        
+        if len(tokens) == 1:
+
+            completions = []
+
+        elif len(tokens) == 2:
+
+            pass
+            
+        elif len(tokens) == 3 and not trailing_space:
+
+            outputs = self._scheduler.GetLoadedOutputs()
+
+            output_list = []
+
+            for o in outputs:
+
+                output_list.append( o.GetName() )
+
+            completions = self._get_completions(tokens[2], text, output_list)
+
+        else:
+
+            return []
+
+        return completions
+
+
 #---------------------------------------------------------------------------
 # run
 
@@ -1182,26 +1527,6 @@ the name 'model_container'.
 
         return completions
 
-
-
-#     def complete_add(self, text, line, begidx, endidx):
-#         mline = line.partition(' ')[2]
-#         offs = len(mline) - len(text)
-#         return [s[offs:] for s in completions if s.startswith(mline)]
-
-
-#     def complete_greet(self, text, line, begidx, endidx):
-#         if not text:
-#             completions = self.FRIENDS[:]
-#         else:
-#             completions = [ f
-#                             for f in self.FRIENDS
-#                             if f.startswith(text)
-#                             ]
-#         return completions
-    
-
-
 #---------------------------------------------------------------------------
 # ndf_save
     def do_ndf_save(self, arg):
@@ -1352,7 +1677,7 @@ the name 'model_container'.
         print "-- Lists all loaded outputs.",
         print """
 
-
+Prints out all loaded outputs currently loaded.
 
         """
 
