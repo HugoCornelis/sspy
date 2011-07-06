@@ -85,6 +85,6 @@ scheduler.Run(steps=2500)
 
 output_data = my_output.GetData()
 
-pdb.set_trace()
+# you can put some sort of data manipulation here for the output_data
 
 print "Done!"
