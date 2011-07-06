@@ -93,7 +93,6 @@ class Solver:
 
         self.current_step = 0
         
-        
         self._heccer.Initiate()
 
 #---------------------------------------------------------------------------

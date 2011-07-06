@@ -253,6 +253,17 @@ class Input:
             
             self._perfectclamp.SetCommandVoltage(self.command_voltage)
 
+#---------------------------------------------------------------------------
+
+    def Reset(self):
+        """!
+        @brief Destroys and recreates the core perfectclamp object
+        """
+
+        
+        self._perfectclamp = None
+
+        self.Initialize()
 
 #---------------------------------------------------------------------------
 

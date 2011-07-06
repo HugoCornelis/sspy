@@ -198,6 +198,18 @@ class Output:
 
             self._output_gen.SetResolution(self.resolution)
 
+#---------------------------------------------------------------------------
+
+    def Reset(self):
+        """!
+        @brief Destroys and recreates the core output object
+        """
+
+        
+        self._output_gen = None
+
+        self.Initialize()
+
 
     
 #---------------------------------------------------------------------------
