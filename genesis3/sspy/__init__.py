@@ -1427,18 +1427,25 @@ class SSPy:
         if self._outputs is not None:
 
             for o in self._outputs:
+                        
+                if not output_type is None:
 
-                if not output_name is None:
+                    if o.GetType() == output_type:
+
+                        if output_name is None:
+
+                            o.SetFormat(format)
+
+                        elif o.GetName() == output_name:
+
+                            o.SetFormat(format)
+
+                elif not output_name is None:
 
                     if o.GetName() == output_name:
                         
                         o.SetFormat(format)
-                        
-                elif not output_type is None:
-
-                    if o.GetType() == output_type:
-
-                        o.SetFormat(format)
+                    
                 else:
 
                     o.SetFormat(format)
@@ -1461,17 +1468,24 @@ class SSPy:
 
             for o in self._outputs:
 
-                if not output_name is None:
+                if not output_type is None:
+
+                    if o.GetType() == output_type:
+
+                        if output_name is None:
+
+                            o.SetFilename(filename)
+
+                        elif o.GetName() == output_name:
+
+                            o.SetFilename(filename)
+                            
+                elif not output_name is None:
 
                     if o.GetName() == output_name:
                         
                         o.SetFilename(filename)
                         
-                elif not output_type is None:
-
-                    if o.GetType() == output_type:
-
-                        o.SetFilename(filename)
                 else:
 
                     o.SetFilename(filename)

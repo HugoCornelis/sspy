@@ -548,7 +548,8 @@ all loaded outputs.
         try:
 
             self._scheduler.SetOutputFilename(filename=filename,
-                                              output_name=name)
+                                              output_name=name,
+                                              output_type='double_2_ascii')
 
         except Exception, e:
 
@@ -659,7 +660,8 @@ loaded output names.
         try:
 
             self._scheduler.SetOutputFormat(format=my_format,
-                                            output_name=name)
+                                            output_name=name,
+                                            output_type='double_2_ascii')
 
         except Exception, e:
 
