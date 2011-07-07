@@ -88,6 +88,24 @@ my $test
 					      },
 
 			       },
+
+
+
+			       {
+				arguments => [
+					     ],
+				command => 'tests/python/purk_test_api_live_output.py',
+				command_tests => [
+						  {
+						   description => "Can we run purk test with a live output object ?",
+						   read => (join '', `cat tests/specifications/strings/purk_test_api_live_output.txt`),
+						   timeout => 15,
+						  },
+						 ],
+
+				description => "purk test run with a live output object",
+
+			       },
 			      ],
        description => "Purkinje test segment",
        name => 'purk_test.t',
