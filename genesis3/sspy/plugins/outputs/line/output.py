@@ -13,11 +13,11 @@ sys.path.append("/usr/local/glue/swig/python")
 
 try:
 
-    from neurospaces.experiment.output import LiveOutput
+    from neurospaces.experiment.output import LineOutput
 
 except ImportError, e:
 
-    sys.exit("Error importing the Live Output object: %s\n" % e)
+    sys.exit("Error importing the Line Output object: %s\n" % e)
 
 
 
@@ -41,7 +41,7 @@ class Output:
         # the schedulee.
         self.time_step = 0.0
         
-        self._live_output = None
+        self._line_output = None
 
         self.mode = None
 
@@ -63,7 +63,7 @@ class Output:
         """
         @brief 
         """
-        self._live_output.Compile()
+        self._line_output.Compile()
 
 #---------------------------------------------------------------------------
 
@@ -71,7 +71,7 @@ class Output:
         """
         @brief 
         """
-        self._live_output.Finish()
+        self._line_output.Finish()
 
 #---------------------------------------------------------------------------
 
@@ -130,7 +130,7 @@ class Output:
 
                 address = my_heccer.GetAddress(name, field)
 
-                self._live_output.AddOutput(name, address)
+                self._line_output.AddOutput(name, address)
 
 #---------------------------------------------------------------------------
 
@@ -159,7 +159,7 @@ class Output:
 
     def Finish(self):
 
-        self._live_output.Finish()
+        self._line_output.Finish()
 
 #---------------------------------------------------------------------------
 
@@ -167,11 +167,11 @@ class Output:
 
         # if the output object is not built declaratively
         # then it must be built here just before connection to a solver. 
-        if self._live_output is None:
+        if self._line_output is None:
 
-            self._live_output = LiveOutput()
+            self._line_output = LineOutput()
 
-            if self._live_output is None:
+            if self._line_output is None:
 
                 raise Exception("Can't create output generator object '%s'" % self.GetName())
 
@@ -181,12 +181,12 @@ class Output:
             
             if self.mode == 'steps':
                         
-                self._live_output.SetSteps(1)
+                self._line_output.SetSteps(1)
 
 
         if not self.resolution is None:
 
-            self._live_output.SetResolution(self.resolution)
+            self._line_output.SetResolution(self.resolution)
 
 #---------------------------------------------------------------------------
 
@@ -196,7 +196,7 @@ class Output:
         """
 
         
-        self._live_output = None
+        self._line_output = None
 
         self.Initialize()
 
@@ -257,7 +257,11 @@ class Output:
         """
 
         """
-        self._live_output.Step(time)
+        output_line = self._line_output.Step(time)
+
+        if not output_line is None:
+
+            print ' '.join(map(str, output_line))
 
 
 #---------------------------------------------------------------------------
@@ -287,7 +291,7 @@ class Output:
 
     def GetData(self):
 
-        return self._live_output.GetData()
+        return self._line_output.GetData()
     
 #---------------------------------------------------------------------------
 
@@ -321,8 +325,8 @@ class Output:
 
                 resolution = options['resolution']
 
-
-        self._live_output = LiveOutput()
+                
+        self._line_output = LineOutput()
 
         self.SetMode(output_mode)
 
