@@ -22,23 +22,24 @@ __description__ = ("The simple scheduler in python is a software package that "
 __url__ = "http://genesis-sim.org"
 __download_url__ = "http://repo-genesis3.cbi.utsa.edu"
 
-def GetRevisionInfo():
-# $Format: "    return \"${monotone_id}\""$
-    return "b676f85605976d49c51e5db6e82c20ebc0b2a8c7"
+class PackageInfo:
+    
+    def GetRevisionInfo():
+# $Format: "        return \"${monotone_id}\""$
+        return "c387d0fa6f794c217458406adefa206a5adaeca6"
 
-def GetPackageName():
-# $Format: "    return \"${package}\""$
-    return "sspy"
+    def GetName():
+# $Format: "        return \"${package}\""$
+        return "model-container"
 
-def GetVersion():
-# $Format: "    return \"${major}.${minor}.${micro}-${label}\""$
-    return "0.0.0-alpha"
+    def GetVersion():
+# $Format: "        return \"${major}.${minor}.${micro}-${label}\""$
+        return "0.0.0-alpha"
 
-def GetDependencies():
-    """!
-    @brief Provides a list of other CBI dependencies needed.
-    """
-    dependencies = []
-
-    return dependencies
-
+    def GetDependencies():
+        """!
+        @brief Provides a list of other CBI dependencies needed.
+        """
+        dependencies = []
+        
+        return dependencies
