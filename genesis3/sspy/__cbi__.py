@@ -26,11 +26,11 @@ class PackageInfo:
     
     def GetRevisionInfo():
 # $Format: "        return \"${monotone_id}\""$
-        return "c387d0fa6f794c217458406adefa206a5adaeca6"
+        return "3d959be8f93bbe1a26a46c49c447ecaada263e80"
 
     def GetName():
 # $Format: "        return \"${package}\""$
-        return "model-container"
+        return "sspy"
 
     def GetVersion():
 # $Format: "        return \"${major}.${minor}.${micro}-${label}\""$
