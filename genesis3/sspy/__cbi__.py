@@ -23,10 +23,10 @@ __url__ = "http://genesis-sim.org"
 __download_url__ = "http://repo-genesis3.cbi.utsa.edu"
 
 class PackageInfo:
-    
-    def GetRevisionInfo():
+        
+    def GetRevisionInfo(self):
 # $Format: "        return \"${monotone_id}\""$
-        return "3d959be8f93bbe1a26a46c49c447ecaada263e80"
+        return "86a093ecc5d3027ffafe0151ba6c0319bc6b7b83"
 
     def GetName():
 # $Format: "        return \"${package}\""$
