@@ -40,5 +40,25 @@ def GetDependencies(self):
     """
     dependencies = []
 
-    return dependencies
+    return dependenciesclass PackageInfo:
+        
+    def GetRevisionInfo(self):
+# $Format: "        return \"${monotone_id}\""$
+        return "609ee575e9b994be615e017461dd894e0e03fd66"
+
+    def GetName(self):
+# $Format: "        return \"${package}\""$
+        return "developer"
+
+    def GetVersion(self):
+# $Format: "        return \"${major}.${minor}.${micro}-${label}\""$
+        return "0.0.0-alpha"
+
+    def GetDependencies(self):
+        """!
+        @brief Provides a list of other CBI dependencies needed.
+        """
+        dependencies = []
+        
+        return dependencies
 
