@@ -1,0 +1,11 @@
+---
+name: chemesis3
+label: Chemesis 3
+version: ssp
+description: This is the SSPy object for driving the Chemesis 3 solver
+file: chemesis3.py
+source: chemesis3.py
+module: chemesis3
+services:
+  - name: model_container
+    version: ssp

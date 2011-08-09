@@ -47,7 +47,7 @@ class SSPy:
         self.verbose_level = 0
         
         # set up the pretty printer for printing out dicts and arrays
-        self.pp = pprint.PrettyPrinter()
+#        self.pp = pprint.PrettyPrinter()
 
 
         # Registry objects for dynamically creating solvers and
