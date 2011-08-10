@@ -15,8 +15,9 @@ try:
 except ImportError:
     sys.exit("Need PyYaml http://pyyaml.org/\n")
 
-from __cbi__ import GetVersion
-from __cbi__ import GetRevisionInfo
+from __cbi__ import PackageInfo
+
+_package_info = PackageInfo()
 
 
 #---------------------------------------------------------------------------
@@ -121,7 +122,7 @@ def main(cwd=os.getcwd()):
 
         elif opt in ('-V', '--version'):
 
-            print "version %s (%s)" % (GetVersion(), GetRevisionInfo())
+            print "version %s (%s)" % (_package_info.GetVersion(), _package_info.GetRevisionInfo())
 
             sys.exit(0)
 

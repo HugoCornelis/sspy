@@ -28,15 +28,15 @@ class PackageInfo:
 # $Format: "        return \"${monotone_id}\""$
         return "86a093ecc5d3027ffafe0151ba6c0319bc6b7b83"
 
-    def GetName():
+    def GetName(self):
 # $Format: "        return \"${package}\""$
         return "sspy"
 
-    def GetVersion():
+    def GetVersion(self):
 # $Format: "        return \"${major}.${minor}.${micro}-${label}\""$
         return "0.0.0-alpha"
 
-    def GetDependencies():
+    def GetDependencies(self):
         """!
         @brief Provides a list of other CBI dependencies needed.
         """

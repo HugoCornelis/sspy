@@ -17,8 +17,11 @@ try:
 except ImportError:
     sys.exit("Need PyYaml http://pyyaml.org/\n")
 
-import __cbi__
-__version__=__cbi__.GetVersion()
+from __cbi__ import PackageInfo
+
+_package_info = PackageInfo()
+
+__version__ = _package_info.GetVersion()
 
 from registry import SolverRegistry
 from registry import ServiceRegistry
