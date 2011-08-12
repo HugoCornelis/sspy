@@ -30,6 +30,8 @@ from registry import InputRegistry
 
 from schedulee import Schedulee
 
+_module_directory =  os.path.dirname(os.path.abspath(__file__))
+
 
 #*********************************** Begin SSPy ****************************
 class SSPy:
@@ -38,10 +40,10 @@ class SSPy:
 #---------------------------------------------------------------------------
 
     def __init__(self, name="Untitled", verbose=False,
-                 solver_directory= os.path.join( os.path.dirname(os.path.abspath(__file__)), 'plugins', 'solvers'),
-                 service_directory= os.path.join( os.path.dirname(os.path.abspath(__file__)), 'plugins', 'services'),
-                 input_directory= os.path.join( os.path.dirname(os.path.abspath(__file__)), 'plugins', 'inputs'),
-                 output_directory= os.path.join( os.path.dirname(os.path.abspath(__file__)), 'plugins', 'outputs')
+                 solver_directory= os.path.join(_module_directory, 'plugins', 'solvers'),
+                 service_directory= os.path.join( _module_directory, 'plugins', 'services'),
+                 input_directory= os.path.join( _module_directory, 'plugins', 'inputs'),
+                 output_directory= os.path.join( _module_directory, 'plugins', 'outputs')
                  ):
 
 
