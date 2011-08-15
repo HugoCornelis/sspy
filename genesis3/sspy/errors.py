@@ -10,166 +10,53 @@ from exceptions import Exception
 #---------------------------------------------------------------------------
 
 class InputError(Exception):
-    """
-    @brief Used to report errors with intput objects
-    """
-    def __init__(self,msg):
-        self.msg = msg
-    
-    def __str__(self):
-
-        error_msg = "Input Error: %s\n" % (self.msg)
-
-        return error_msg
+    pass
 
 #---------------------------------------------------------------------------
 
 class OutputError(Exception):
-    """
-    @brief Used to report errors with output objects
-    """
-    def __init__(self,msg):
-        self.msg = msg
-    
-    def __str__(self):
-
-        error_msg = "Output Error: %s\n" % (self.msg)
-
-        return error_msg
+    pass
 
 #---------------------------------------------------------------------------
 
 class PluginDirectoryError(Exception):
-    """
-
-    """
-    def __init__(self,msg):
-        self.msg = msg
-    
-    def __str__(self):
-
-        error_msg = "Plugin Error: %s\n" % (self.msg)
-
-        if not self.value is None and self.value != "":
-
-            error_msg = error_msg + ", " + self.value
-        
-        return error_msg
+    pass
 
 #---------------------------------------------------------------------------
 
 class PluginFileError(Exception):
-    """
-
-    """
-    def __init__(self,msg):
-        self.msg = msg
-    
-    def __str__(self):
-
-        error_msg = "Plugin Error: %s\n" % (self.msg)
-
-        if not self.value is None and self.value != "":
-
-            error_msg = error_msg + ", " + self.value
-        
-        return error_msg
+    pass
 
 #---------------------------------------------------------------------------
 
 class PluginError(Exception):
-    """
-
-    """
-    def __init__(self,msg):
-        self.msg = msg
-    
-    def __str__(self):
-
-        error_msg = "Plugin Error: %s\n" % (self.msg)
-
-        if not self.value is None and self.value != "":
-
-            error_msg = error_msg + ", " + self.value
-        
-        return error_msg
+    pass
 
 #---------------------------------------------------------------------------
 
 class ScheduleeError(Exception):
-    """
-
-    """
-    def __init__(self,msg):
-        self.msg = msg
-    
-    def __str__(self):
-
-        error_msg = "Schedulee Error: %s\n" % (self.msg)
-        
-        return error_msg
+    pass
 
 #---------------------------------------------------------------------------
 
 class ScheduleeCreateError(Exception):
-    """
-
-    """
-    def __init__(self,msg):
-        self.msg = msg
-    
-    def __str__(self):
-
-        error_msg = "Failed to create a schedulee\n %s : %s\n" % (self.msg, self.value)
-        
-        return error_msg
+    pass
 
 #---------------------------------------------------------------------------
 
 class ScheduleError(Exception):
-    """
-
-    """
-    def __init__(self,msg):
-        self.msg = msg
-    
-    def __str__(self):
-
-        error_msg = "Specification Error: %s\n" % (self.msg)
-        
-        return error_msg
+    pass
 
 #---------------------------------------------------------------------------
 
 class SolverError(Exception):
-    """
-
-    """
-    def __init__(self,msg):
-        self.msg = msg
-    
-    def __str__(self):
-
-        error_msg = "Solver Error: %s\n" % (self.msg)
-        
-        return error_msg
+    pass
 
 #---------------------------------------------------------------------------
 
 
 class ServiceError(Exception):
-    """
-
-    """
-    def __init__(self,msg):
-        self.msg = msg
-    
-    def __str__(self):
-
-        error_msg = "Service Error: %s\n" % (self.msg)
-
-        return error_msg
-
+    pass
 
 #---------------------------------------------------------------------------
     
