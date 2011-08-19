@@ -135,7 +135,7 @@ class Output:
                 address = my_solver.GetAddress(name, field)
 
                 self._output_gen.AddOutput(name, address)
-
+                
             except Exception, e:
 
                 raise Exception("Output error: can't add output for %s, %s: %s" % (name, field, e))
@@ -244,21 +244,22 @@ class Output:
         # initialize the object at this point
         self.Initialize()
 
-        if solver_type == 'heccer':
+        # Shouldn't be needed anymore, it should work for both heccer and chemesis3
+        #if solver_type == 'heccer':
 
-            my_heccer = solver.GetCore()
+        my_solver = solver.GetCore()
 
-            # Here we need to get the timestep and set it
-            # for our object
-            time_step = my_heccer.GetTimeStep()
+        # Here we need to get the timestep and set it
+        # for our object
+        time_step = my_solver.GetTimeStep()
             
-            self.SetTimeStep(time_step)
+        self.SetTimeStep(time_step)
 
-            # Now after connection we can add any stored
-            # outputs from a configuration. Otherwise
-            # they can only be added after this connection step
-            # has proceeded. 
-            self._ParseOutputs()
+        # Now after connection we can add any stored
+        # outputs from a configuration. Otherwise
+        # they can only be added after this connection step
+        # has proceeded. 
+        self._ParseOutputs()
 
 
 

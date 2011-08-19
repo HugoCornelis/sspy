@@ -102,7 +102,7 @@ class Solver:
         @brief Just returns the time step used for the schedulee
         """
         if not self._chemesis3 is None:
-            pdb.set_trace()
+
             time_step = self._chemesis3.GetTimeStep()
 
             return time_step
