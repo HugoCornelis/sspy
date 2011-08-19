@@ -127,15 +127,18 @@ class Output:
 
         else:
 
-            solver_type = self._solver.GetType()
+            try:
+                solver_type = self._solver.GetType()
 
-            if solver_type == "heccer":
+                my_solver = self._solver.GetCore()
 
-                my_heccer = self._solver.GetCore()
-
-                address = my_heccer.GetAddress(name, field)
+                address = my_solver.GetAddress(name, field)
 
                 self._output_gen.AddOutput(name, address)
+
+            except Exception, e:
+
+                raise Exception("Output error: can't add output for %s, %s: %s" % (name, field, e))
 
 #---------------------------------------------------------------------------
 

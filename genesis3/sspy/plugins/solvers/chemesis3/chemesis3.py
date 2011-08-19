@@ -11,14 +11,11 @@ import sys
 sys.path.append("/usr/local/glue/swig/python")
 
 try:
-    
-    import neurospaces.heccer as heccer
-    from neurospaces.heccer import Heccer
-    from neurospaces.heccer import HeccerOptions
+    from neurospaces.chemesis3 import Chemesis3
 
 except ImportError, e:
 
-    sys.exit("Error importing the Heccer Python module: %s\n" % e)
+    sys.exit("Error importing the chemesis3 module: %s\n" % e)
 
 
 class Solver:
@@ -40,7 +37,7 @@ class Solver:
 
         self.verbose = verbose
         
-        self._heccer = None
+        self._chemesis3 = None
 
         self._module_name = None
 
@@ -69,13 +66,13 @@ class Solver:
 
         self.current_step = 0
         
-        self._heccer.Initiate()
+        self._chemesis3.Initiate()
 
 #---------------------------------------------------------------------------
 
     def GetCore(self):
 
-        return self._heccer
+        return self._chemesis3
 
 #---------------------------------------------------------------------------
 
@@ -90,9 +87,9 @@ class Solver:
         """
         @brief Sets the heccer time step
         """
-        if not self._heccer is None:
+        if not self._chemesis3 is None:
         
-            self._heccer.SetTimeStep(time_step)
+            self._chemesis3.SetTimeStep(time_step)
 
         else:
 
@@ -104,9 +101,9 @@ class Solver:
         """
         @brief Just returns the time step used for the schedulee
         """
-        if not self._heccer is None:
-            
-            time_step = self._heccer.GetTimeStep()
+        if not self._chemesis3 is None:
+            pdb.set_trace()
+            time_step = self._chemesis3.GetTimeStep()
 
             return time_step
         
@@ -148,7 +145,7 @@ class Solver:
         """
         if self._compiled is False:
 
-            self._heccer.CompileAll()
+            self._chemesis3.Compile()
 
             self._compiled = True
 
@@ -166,9 +163,6 @@ class Solver:
 
         Compatible services need to be coded into this method.
 
-        Much like the ns-sli, the heccer object can only really
-        be created when we know which service it will be connected
-        to.
         """
 
         if not service:
@@ -177,23 +171,9 @@ class Solver:
 
 
         service_type = service.GetType()
-
-
-        if service_type == "heccer_intermediary":
-
-            intermediary = service.GetCore()
-
-            if not intermediary:
-
-                raise Exception("Heccer Intermediary is not defined")
-
-            else:
-
-
-                self._heccer = Heccer(name=self._model_name, pinter=intermediary)
                 
 
-        elif service_type == "model_container":
+        if service_type == "model_container":
 
             model_container = service.GetCore()
 
@@ -203,7 +183,7 @@ class Solver:
 
             else:
 
-                self._heccer = Heccer(name=self._model_name, model=model_container)
+                self._chemesis3 = Chemesis3(name=self._model_name, model=model_container)
 
 
         else:
@@ -213,11 +193,8 @@ class Solver:
         # Set any simulator specific variables here
         if not self.time_step is None:
 
-            self._heccer.SetTimeStep(float(self.time_step))
+            self._chemesis3.SetTimeStep(float(self.time_step))
 
-        if self.options != 0:
-
-            self._heccer.SetOptions(self.options)
 
 
 #---------------------------------------------------------------------------
@@ -256,7 +233,7 @@ class Solver:
 
     def Finish(self):
 
-        self._heccer.Finish()
+        pass
 
 #---------------------------------------------------------------------------
 
@@ -307,9 +284,9 @@ class Solver:
         """
 
         """
-        if self._heccer is not None:
+        if self._chemesis3 is not None:
 
-            self._heccer.Step(time)
+            self._chemesis3.Step(time)
 
             self.current_step += 1
         else:
@@ -323,8 +300,8 @@ class Solver:
         granularity_result = self.current_step % self.granularity
         
         if granularity_result == 0:
-            
-            self._heccer.Dump(0, self.dump_options)
+
+            print "No 'Dump' method for Chemesis3"
 
 #---------------------------------------------------------------------------
 
@@ -370,33 +347,7 @@ class Solver:
 
             self.time_step = self._constructor_settings['step']
 
-        
-        if self._constructor_settings.has_key('options'):
-
-            options = self._constructor_settings['options']
-
-            if options.has_key('iOptions'):
-
-                self.options = options['iOptions']
-
-            elif options.has_key('options'):
-
-                self.options = options['options']
-                
-        
-        # Now check for reporting options
-        if self._configuration.has_key('reporting'):
-
-            reporting = self._configuration['reporting']
-
-            if reporting.has_key('tested_things'):
-
-                self.dump_options = reporting['tested_things']
-
-            if reporting.has_key('granularity'):
-
-                self.granularity = reporting['granularity']
-
+ 
 
 
 
