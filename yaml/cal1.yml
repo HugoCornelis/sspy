@@ -1,0 +1,48 @@
+---
+apply:
+  results:
+    - arguments:
+        - commands:
+            - cat /tmp/output_cal1_ssp
+      method: shell
+  simulation:
+    - arguments:
+        - 1000
+        - verbose: 1
+      method: steps
+models:
+  - modelname: /cal1
+    solverclass: chemesis3
+name: cal1
+outputclasses:
+  double_2_ascii:
+    module_name: Experiment
+    options:
+      filename: /tmp/output_cal1_ssp
+    package: Experiment::Output
+outputs:
+  - component_name: /cal1/somaCa
+    field: concentration
+    outputclass: double_2_ascii
+  - component_name: /cal1/somaCabuf
+    field: concentration
+    outputclass: double_2_ascii
+  - component_name: /cal1/somabuf
+    field: concentration
+    outputclass: double_2_ascii
+services:
+  model_container:
+    initializers:
+      - arguments:
+          -
+            - tests/perl/cal1
+            - -P
+            - chemesis/cal1.ndf
+        method: read
+    module_name: Neurospaces
+solverclasses:
+  chemesis3:
+    constructor_settings:
+      dStep: 0.002
+    module_name: Chemesis3
+    service_name: model_container
