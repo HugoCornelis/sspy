@@ -143,6 +143,7 @@ class Solver:
         """
         @brief 
         """
+
         if self._compiled is False:
 
             self._chemesis3.Compile()
