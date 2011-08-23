@@ -130,6 +130,27 @@ class SSPy:
 
         return __cbi__.GetRevisionInfo()
 
+#---------------------------------------------------------------------------
+
+    def GetVerbosityLevel(self):
+        """
+        This is ugly, will need to change this.
+        """
+        if self.verbose and self.simulation_verbose:
+
+            return 2
+
+        elif self.verbose and not self.simulation_verbose:
+
+            return 1
+
+        elif not self.verbose and self.simulation_verbose:
+
+            return 1
+
+        else:
+
+            return 0
 
 #---------------------------------------------------------------------------
 
@@ -553,7 +574,7 @@ class SSPy:
         self._schedule_file = norm_file_path
 
         try:
-            
+
             self.ParseSchedule(self._schedule_data)
 
         except errors.ScheduleError, e:
