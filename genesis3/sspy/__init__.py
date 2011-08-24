@@ -1378,14 +1378,11 @@ class SSPy:
             # here we store any parameters we need if a service isn't loaded
             # they are applied during ApplyRuntimeParameters()
 
-            self._runtime_parameters_applied.append(dict(path=path,
-                                                         parameter=parameter,
-                                                         value=value,
-                                                         service=service))
+            self._runtime_parameters.append(dict(path=path,
+                                                 parameter=parameter,
+                                                 value=value,
+                                                 service=service))
 
-#             print "No services have been loaded"
-
-#             return
         
         else:
 

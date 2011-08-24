@@ -39,6 +39,41 @@ class Save:
 
 #---------------------------------------------------------------------------
 
+    def SaveToFile(self, filename=None):
+
+        schedule = {}
+
+        apply_block = self.Apply()
+
+        if not apply_block is None:
+
+            schedule['apply']=apply_block
+
+        name = self.Name()
+        
+        if not name is None:
+
+            schedule['name']=name
+
+        loaded_services = self.scheduler.GetLoadedServices()
+
+        if len(loaded_services) > 0:
+
+            schedule['services']=self.Services()
+
+        loaded_solvers = self.scheduler.GetLoadedSolvers()
+
+        if len(loaded_solvers) > 0:
+
+            schedule['solverclasses']=self.SolverClasses()
+
+
+        if filename is None:
+
+            print yaml.dump(schedule,explicit_start=True,default_flow_style=False)
+            
+#---------------------------------------------------------------------------
+
     def SetFilename(self, filename):
 
         self.filename = filename
@@ -103,7 +138,7 @@ class Save:
 
         apply_block = dict(simulation=simulations)
 
-        return yaml.dump(apply_block)
+        return apply_block
 
 #---------------------------------------------------------------------------
 
@@ -111,33 +146,82 @@ class Save:
 
         pass
 
+#---------------------------------------------------------------------------
+
     def Name(self):
 
-        return dict(name=self.scheduler.GetName())
+        return self.scheduler.GetName()
+
+#---------------------------------------------------------------------------
 
     def Optimize(self):
 
         pass
 
+#---------------------------------------------------------------------------
+
     def InputClasses(self):
 
         pass
+
+#---------------------------------------------------------------------------
 
     def Inputs(self):
 
         pass
 
+#---------------------------------------------------------------------------
+
     def OutputClasses(self):
 
         pass
 
+#---------------------------------------------------------------------------
+
     def Outputs(self):
 
         pass
-    
+
+ 
+#---------------------------------------------------------------------------
+
     def Services(self):
 
-        pass
+        services = self.scheduler.GetLoadedServices()
+
+        services_block = {}
+
+        if len(services) <= 0:
+
+            return None
+
+        else:
+
+            service = services[0]
+
+            service_type = service.GetType()
+
+            if service_type == 'model_container':
+
+                arguments = {}
+                arguments['arguments']=[service.files]
+
+                initializers = {}
+                initializers['initializers']=[arguments,]
+
+                model_container_block = {}
+                model_container_block['model_container']=initializers
+                model_container_block['module_name']="Neurospaces"
+
+            else:
+
+                raise SaveError("Currently only saves 'model_container' schedules, this sched is %s" % service_type)
+
+
+        return model_container_block
+
+
+#---------------------------------------------------------------------------
 
     def SolverClasses(self):
         """
@@ -145,19 +229,70 @@ class Save:
         """
         solvers = self.scheduler.GetLoadedSolvers()
 
+        solverclasses_block = {}
+
         if len(solvers) <= 0:
 
             return None
 
         else:
 
-            if solvers[0].GetType() == 'heccer':
+            solver = solvers[0]
 
-                pass
+            services = self.scheduler.GetLoadedServices()
 
-            elif solvers[0].GetType() == 'chemesis3':
+            # This will be the default service type
+            service_name = "model_container"
+            
+            if len(services) > 0:
+                
+                service_name = services[0].GetType()
 
-                pass
+
+            if solver.GetType() == 'heccer':
+
+                reporting = {}
+                reporting['granularity']=solver.granularity
+                reporting['tested_things']=solver.dump_options
+
+                configuration = {}
+                configuration['reporting']=reporting
+
+
+                constructor_settings = {}                
+                constructor_settings['dStep']=solver.GetTimeStep()
+                constructor_settings['configuration']=configuration
+
+                if solver.options > 0:
+
+                    options = {}
+                    options['iOptions']=solver.options
+
+                    constructor_settings['options']=options
+
+                heccer_block = {}
+                heccer_block['constructor_settings']=constructor_settings
+
+                solverclasses_block['heccer']=heccer_block
+                solverclasses_block['module_name']='Heccer'
+
+
+            elif solver.GetType() == 'chemesis3':
+
+                constructor_settings = {}
+
+                constructor_settings['dStep']=solver.GetTimeStep()
+
+                chemesis_block = {}
+                chemesis_block['constructor_settings']=constructor_settings
+                
+                solverclasses_block['chemesis3']=chemesis_block
+                solverclasses_block['module_name']='Chemesis3'
+
+
+            solverclasses_block['service_name']=service_name
+
+            return solverclasses_block
 
 #---------------------------------------------------------------------------
 

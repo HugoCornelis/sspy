@@ -39,6 +39,8 @@ class Service:
 
         self.verbose = verbose
 
+        self.files = []
+
         try:
             
             self._model_container = ModelContainer()
@@ -157,9 +159,7 @@ class Service:
         Gets loadable ndf files from strings by checking for
         the .ndf suffix. 
         """
-        
-        filenames = []
-                    
+                            
         for a in self._arguments:
 
             possible_filename = ""
@@ -174,10 +174,10 @@ class Service:
                 
             if re.search(".ndf", possible_filename):
 
-                filenames.append(possible_filename)
+                self.files.append(possible_filename)
                 
 
-        for filename in filenames:
+        for filename in self.files:
 
             if self.verbose:
 

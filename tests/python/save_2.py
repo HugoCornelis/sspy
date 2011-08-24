@@ -18,7 +18,7 @@ scheduler = SSPy(verbose=False)
 
 try:
     
-    scheduler.Load("./yaml/purk_test.yml")
+    scheduler.Load("./yaml/cal1.yml")
 
 except Exception, e:
 
