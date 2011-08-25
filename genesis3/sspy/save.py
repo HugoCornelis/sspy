@@ -43,17 +43,17 @@ class Save:
 
         schedule = {}
 
-        apply_block = self.Apply()
-
-        if not apply_block is None:
-
-            schedule['apply']=apply_block
-
         name = self.Name()
         
         if not name is None:
 
             schedule['name']=name
+            
+        apply_block = self.Apply()
+
+        if not apply_block is None:
+
+            schedule['apply']=apply_block
 
         loaded_services = self.scheduler.GetLoadedServices()
 
@@ -66,6 +66,20 @@ class Save:
         if len(loaded_solvers) > 0:
 
             schedule['solverclasses']=self.SolverClasses()
+
+
+        inputclasses_block = self.InputClasses()
+
+        if not inputclasses_block is None:
+
+            schedule['inputclasses'] = inputclasses_block
+
+
+        outputclasses_block = self.OutputClasses()
+
+        if not outputclasses_block is None:
+
+            schedule['outputclasses'] = outputclasses_block
 
 
         if filename is None:
@@ -162,7 +176,44 @@ class Save:
 
     def InputClasses(self):
 
-        pass
+        inputs = self.scheduler.GetLoadedInputs()
+
+        if len(inputs) <= 0:
+
+            return None
+
+        else:
+
+            i = inputs[0]
+
+            input_type = i.GetType()
+
+            if input_type == 'perfectclamp':
+
+                options = {}
+
+                if not i.command_voltage is None:
+                    
+                    options['command']=i.command_voltage
+
+                if not i.command_file is None:
+
+                    options['filename']=i.command_file
+
+                if i.GetName() != "Untitled PerfectClamp":
+
+                    options['name']=i.GetName()
+
+                perfectclamp_block = {}
+                perfectclamp_block['module_name']='Experiment'
+                perfectclamp_block['options']=options
+                perfectclamp_block['package']='Experiment::PerfectClamp'
+
+                return {'perfectclamp': perfectclamp_block}
+                
+            else:
+
+                raise SaveError("Can't save input, '%s' currently not supported" % input_type)
 
 #---------------------------------------------------------------------------
 
@@ -173,14 +224,51 @@ class Save:
 #---------------------------------------------------------------------------
 
     def OutputClasses(self):
+        """
+        Currently only takes the first output class. The sspy format only
+        allows one of one type.
+        """
+        outputs = self.scheduler.GetLoadedOutputs()
 
-        pass
+        if len(outputs) <= 0:
 
+            return None
+
+        else:
+
+            o = outputs[0]
+
+            output_type = o.GetType()
+
+            if output_type == 'double_2_ascii':
+
+                options = {}
+                options['filename']=o.GetFilename()
+
+                if not o.format is None:
+
+                    options['format']=o.format
+
+                if not o.mode is None:
+
+                    options['output_mode']='steps'
+
+                output_class = {}
+                output_class['module_name']='Experiment'
+                output_class['options']=options
+                output_class['package']='Experiment::Output'
+
+                return {'double_2_ascii': output_class}
+
+            else:
+
+                raise SaveError("Can't save output, '%s' currently not supported" % output_type)
+            
 #---------------------------------------------------------------------------
 
     def Outputs(self):
 
-        pass
+        outputs = self.scheduler.GetOutputs()
 
  
 #---------------------------------------------------------------------------
