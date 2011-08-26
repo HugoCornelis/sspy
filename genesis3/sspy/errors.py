@@ -19,6 +19,11 @@ class OutputError(Exception):
 
 #---------------------------------------------------------------------------
 
+class ParameterSetError(Exception):
+    pass
+
+#---------------------------------------------------------------------------
+
 class PluginDirectoryError(Exception):
     pass
 

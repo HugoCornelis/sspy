@@ -20,7 +20,12 @@ except ImportError, e:
     sys.exit("Error importing the experiment perfectclamp python module: %s\n" % e)
 
 
+#---------------------------------------------------------------------------
 
+class InputError(Exception):
+    pass
+
+#---------------------------------------------------------------------------
 
 class Input:
 

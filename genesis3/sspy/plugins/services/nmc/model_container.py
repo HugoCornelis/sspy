@@ -41,6 +41,8 @@ class Service:
 
         self.files = []
 
+        self.parameters = []
+
         try:
             
             self._model_container = ModelContainer()
@@ -67,6 +69,8 @@ class Service:
 
         self._model_container.Read(modelfile)
 
+        self.files.append(modelfile)
+        
 #---------------------------------------------------------------------------
 
 
@@ -127,11 +131,15 @@ class Service:
     
 #---------------------------------------------------------------------------
 
-    def SetParameter(self, path, field, value):
+    def SetParameter(self, path, field, value, no_store=False):
         """!
         @brief Set's a parameter on the service
 
-        Will automatically detect name space parameters.
+        Will automatically detect name space parameters. Need to add some sort
+        of exception for when a parameter isn't set.
+
+        Only time the no_store option should be set is when performing a reset
+        to put the service back in the state it was previously.
         """
 
         if re.search("::",path):
@@ -151,6 +159,12 @@ class Service:
             
             self._model_container.SetParameter(path, field, value)
 
+
+        if not no_store:
+            
+            # at the end we save any parameters passed.
+            self.parameters.append(dict(component_name=path, field=field, value=value))
+
 #---------------------------------------------------------------------------
 
     def _ParseArguments(self):
@@ -159,7 +173,9 @@ class Service:
         Gets loadable ndf files from strings by checking for
         the .ndf suffix. 
         """
-                            
+        
+        files = []
+        
         for a in self._arguments:
 
             possible_filename = ""
@@ -174,16 +190,15 @@ class Service:
                 
             if re.search(".ndf", possible_filename):
 
-                self.files.append(possible_filename)
+                files.append(possible_filename)
                 
 
-        for filename in self.files:
+        for filename in files:
 
             if self.verbose:
 
                 print "Loading model from file '%s'" % filename
 
-                
-            self._model_container.Read(filename)
+            self.Load(filename)
 
 

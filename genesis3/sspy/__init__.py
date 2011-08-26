@@ -82,7 +82,7 @@ class SSPy:
         #       runtime_parameters=[ (component name, field, value), ...],
         #       solverclass="solver type")
         #
-        self._models = []
+        self.models = []
         #----------------------------------------------
 
         
@@ -888,12 +888,12 @@ class SSPy:
         @brief Applies model specific runtime parameters
 
         Sets the model runtime parameters that were parsed.
-        Directly reads from self._models so that this data
+        Directly reads from self.models so that this data
         can be manipulated by a gui or other interface. 
         
         """
         
-        if self._models is None or len(self._models) == 0:
+        if self.models is None or len(self.models) == 0:
 
             if self.verbose:
 
@@ -901,13 +901,13 @@ class SSPy:
 
             return
 
-        num_models = len(self._models)
-        
+        num_models = len(self.models)
+
         if self.verbose:
 
             print "Applying model runtime parameters to %d models" % num_models
 
-        for m in self._models:
+        for m in self.models:
 
             try:
                 
@@ -1383,12 +1383,16 @@ class SSPy:
 
             # here we store any parameters we need if a service isn't loaded
             # they are applied during ApplyRuntimeParameters()
+            # Edit: This is commented out, easier to export parameters if they're all saved
+            # in the plugin.
 
-            self._runtime_parameters.append(dict(path=path,
-                                                 parameter=parameter,
-                                                 value=value,
-                                                 service=service))
+#             self._runtime_parameters.append(dict(path=path,
+#                                                  parameter=parameter,
+#                                                  value=value,
+#                                                  service=service))
 
+
+            raise errors.ParameterSetError("Can't set parameter %s on element %s, no service loaded" % (parameter,path))
         
         else:
 
@@ -2156,7 +2160,7 @@ class SSPy:
 
                         runtime_parameters.append((component_name, field, val))
 
-                self._models.append(dict(modelname=modelname, runtime_parameters=runtime_parameters, solverclass=solverclass))
+                self.models.append(dict(modelname=modelname, runtime_parameters=runtime_parameters, solverclass=solverclass))
 
             except Exception, e:
 
