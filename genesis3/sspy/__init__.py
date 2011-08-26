@@ -73,7 +73,9 @@ class SSPy:
         self._loaded_services = []
         self._solvers = []
         self._inputs = []
+        self._input_parameters = []
         self._outputs = []
+        self._output_parameters = []
         self._runtime_parameters = []
         self._element_list = []
 
@@ -1049,6 +1051,14 @@ class SSPy:
                         print "\tCan't connect solver '%s' to output '%s': %s" % (solver.GetName(), o.GetName(), e)
 
 
+        # Here we connect all of the output parameters we stored
+        for o in self._output_parameters:
+
+            self.ConnectOutputParameter(o['path'],
+                                        o['parameter'],
+                                        o['output_name'],
+                                        o['output_type'])
+
         self._outputs_connected = True
 
 
@@ -1414,7 +1424,7 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def AddOutput(self, path, parameter, output_name=None, output_type=None):
+    def ConnectOutputParameter(self, path, parameter, output_name=None, output_type=None):
         """!
         @brief Sets a parameter on all loaded output
 
@@ -1444,7 +1454,19 @@ class SSPy:
                     o.AddOutput(path, parameter)
         else:
 
-            print "No outputs have been loaded"
+            raise OutputError("Can't connect output parameter (%s, %s), no outputs have been loaded" % (path,parameter))
+
+#---------------------------------------------------------------------------
+
+
+    def AddOutput(self, path, parameter, output_name=None, output_type=None):
+        """
+        
+        """
+        self._output_parameters.append(dict(path=path,
+                                            parameter=parameter,
+                                            output_name=output_name,
+                                            output_type=output_type))
 
 #---------------------------------------------------------------------------
 
@@ -1611,79 +1633,111 @@ class SSPy:
 
     def RunPrepare(self):
 
-        # Note: This if statement may need to be revised if a user
-        # runs a simulation is created and run via API
-#         if not self._schedule_loaded:
-            
-#             raise errors.ScheduleError("Can't run, No schedule has been loaded.")
 
 
-        try:
-            
+        if self.verbose:
+
+            print "\n"
+
+        if not self._runtime_parameters_applied:
+
+            try:
+                
+                self.ApplyRuntimeParameters()
+
+            except Exception, e:
+
+                raise errors.RuntimeError("Can't apply runtime parameters: %s" % e)
+
+        if self.verbose:
+
+            print "\n"
+                
+        if not self._services_connected:
+
+            try:
+                
+                self.ConnectServices()
+
+            except Exception, e:
+                
+                raise errors.ConnectError("Can't connect services: %s" % e)
+
             if self.verbose:
 
                 print "\n"
 
-            if not self._runtime_parameters_applied:
-
-                self.ApplyRuntimeParameters()
-
-                if self.verbose:
-
-                    print "\n"
-                
-            if not self._services_connected:
-
-                self.ConnectServices()
-
-                if self.verbose:
-
-                    print "\n"
             
-            if not self._compiled:
+        if not self._compiled:
 
+            try:
+                
                 self.Compile()
 
-                if self.verbose:
+            except Exception, e:
 
-                    print "\n"
+                raise errors.CompileError("Can't compile schedule: %s" % e)
 
-            if not self._outputs_connected:
+            if self.verbose:
 
+                print "\n"
+
+        if not self._outputs_connected:
+
+            try:
+                
                 self.ConnectOutputs()
 
-                if self.verbose:
+            except Exception, e:
 
-                    print "\n"
+                raise errors.ConnectError("Can't connect outputs: %s" % e)
+                
+            if self.verbose:
 
-            if not self._inputs_connected:
+                print "\n"
 
+        if not self._inputs_connected:
+
+            try:
+                
                 self.ConnectInputs()
 
-                if self.verbose:
+            except Exception, e:
 
-                    print "\n"
+                raise errors.ConnectError("Can't connect inputs: %s" % e)
 
-            if not self._scheduled:
+            if self.verbose:
 
+                print "\n"
+
+        if not self._scheduled:
+
+            try:
+                
                 self.ScheduleAll()
 
-                if self.verbose:
+            except Exception, e:
 
-                    print "\n"
+                raise errors.ScheduleError("Can't schedule simulation objects: %s" % e)
+
+            if self.verbose:
+
+                print "\n"
                 
-            if not self._initialized:
+        if not self._initialized:
 
+            try:
+                
                 self.Initialize()
 
-                if self.verbose:
+            except Exception, e:
 
-                    print "\n"
+                raise errors.ScheduleeError("Can't initialize schedulees: %s" % e)
 
+            if self.verbose:
 
-        except Exception, e:
+                print "\n"
 
-            raise errors.ScheduleError("%s" % e)
 
 
 #---------------------------------------------------------------------------
@@ -2335,9 +2389,13 @@ class SSPy:
         # After giving initializing data, we give the output parameters
         #
         if output_parameters is not None:
-            
-            output.SetOutputs(output_parameters)
-        
+
+            for o in output_parameters:
+
+                self.AddOutput(path=o['component_name'],
+                               parameter=o['field'],
+                               output_type=o['outputclass'],)
+
         self._outputs.append(output)
 
 
