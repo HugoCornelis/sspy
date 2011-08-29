@@ -53,7 +53,6 @@ Compiling all solvers
 
 Connecting 1 outputs to 1 solvers
 	Connecting solver \'purk_test_soma (heccer)\' to output \'purk_test_soma (double_2_ascii)\'
-	Adding output 1, \'/purk_test_soma/segments/soma\' with field \'Vm\'
 
 
 

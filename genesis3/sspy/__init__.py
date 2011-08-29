@@ -23,6 +23,8 @@ _package_info = PackageInfo()
 
 __version__ = _package_info.GetVersion()
 
+import errors
+
 from registry import SolverRegistry
 from registry import ServiceRegistry
 from registry import OutputRegistry
@@ -1454,7 +1456,7 @@ class SSPy:
                     o.AddOutput(path, parameter)
         else:
 
-            raise OutputError("Can't connect output parameter (%s, %s), no outputs have been loaded" % (path,parameter))
+            raise errors.OutputError("Can't connect output parameter (%s, %s), no outputs have been loaded" % (path,parameter))
 
 #---------------------------------------------------------------------------
 
@@ -1463,10 +1465,20 @@ class SSPy:
         """
         
         """
-        self._output_parameters.append(dict(path=path,
-                                            parameter=parameter,
-                                            output_name=output_name,
-                                            output_type=output_type))
+
+        output_data = dict(path=path, parameter=parameter,
+                           output_name=output_name, output_type=output_type)
+
+
+        if output_data in self._output_parameters:
+
+            raise errors.OutputError("Output has already been added")
+        
+        self._output_parameters.append(output_data)
+
+        if self._outputs_connected:
+
+            self.ConnectOutputParameter(path, parameter, output_name, output_type)
 
 #---------------------------------------------------------------------------
 
@@ -2385,6 +2397,7 @@ class SSPy:
                 print "Loading Output '%s' of type '%s'" % (output_name, output_type)
 
             output = self._output_registry.CreateOutput(output_name, output_type, output_data)
+
 
         # After giving initializing data, we give the output parameters
         #
