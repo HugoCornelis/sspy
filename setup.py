@@ -168,7 +168,6 @@ if sys.platform == "darwin":
 else: 
     CMDCLASS = {'install_data': install_data}
 
-pdb.set_trace()
 #-------------------------------------------------------------------------------
 setup(
     name=NAME,

@@ -2411,7 +2411,6 @@ class SSPy:
 
         self._outputs.append(output)
 
-
 #---------------------------------------------------------------------------        
 
     def _ParseInputs(self, inp_data, inp_parameters=None):
