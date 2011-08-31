@@ -6,10 +6,6 @@ import os
 import pdb
 import sys
 
-# this should go away later when I update the
-# 
-sys.path.append("/usr/local/glue/swig/python")
-
 try:
 
     from neurospaces.heccer import Heccer
