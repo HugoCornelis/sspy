@@ -9,15 +9,21 @@ EXTRA_DIST = \
 
 TESTS = /usr/local/bin/neurospaces_harness
 
+setup: setup.py
+	echo "no op"
+#	$(PYTHON) setup.py build
+#	$(PYTHON) setup.py build_py
 
-all:
-	echo "Nothing to build"
+install-exec-hook:
+	$(PYTHON) setup.py install
+
+uninstall-hook:
+	$(PYTHON) uninstall.py
+
+all: setup
 
 
 clean: clean-local
-#	$(RM) -f $(top_builddir)/sspy/*.pyc
-#	$(RM) -rf $(top_builddir)/epydocs
-#	$(RM) -rf $(top_builddir)/docs/html
 
 
 clean-local:

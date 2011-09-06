@@ -14,6 +14,7 @@ from distutils.command.install_data import install_data
 # for the compiled swig nmc_base gives an error
 cbi = imp.load_source('__cbi__', os.path.join('genesis3', 'sspy', '__cbi__.py'))
 
+_package_info = cbi.PackageInfo()
 
 #-------------------------------------------------------------------------------
 
@@ -63,13 +64,13 @@ def fullsplit(path, result=None):
 
 #-------------------------------------------------------------------------------
 
-def filetype(p, file_types):
+def good_file(p):
 
-    if not os.path.isfile(p):
+    if p[0] == '.' or p[-1] == '~' or p[0] == '#' or p[-1] == '#':
 
         return False
-    pdb.set_trace()
-    if p[0] != '.' and p[-1] != '~' and os.path.splitext(p)[1] in file_types:
+
+    else:
 
         return True
 
@@ -89,8 +90,8 @@ def find_files(root_directory, file_types=_file_types):
     for curdir, dirnames, filenames in os.walk(root_directory):
         # Ignore dirnames that start with '.'
         for i, dirname in enumerate(dirnames):
-            
             if dirname.startswith('.'):
+
                 del dirnames[i]
 
         if '__init__.py' in filenames:
@@ -100,17 +101,12 @@ def find_files(root_directory, file_types=_file_types):
 
             for i, f in enumerate(filenames):
 
-                if filetype(f, file_types): 
-
-                    del filenames[i]
-
                 # remove files from the list that don't have
                 # the suffix we require.
-#                 basename, extension = os.path.splitext( f )
-#                 if not extension in file_types:
+                basename, extension = os.path.splitext( f )
+                if not extension in file_types or not good_file(f):
 
-#                     del filenames[i]
-
+                    del filenames[i]
 
             if len(filenames) != 0:
                 
@@ -120,35 +116,34 @@ def find_files(root_directory, file_types=_file_types):
 
 
 #-------------------------------------------------------------------------------
-NAME = cbi.GetPackageName()
-VERSION = cbi.GetVersion()
+NAME = _package_info.GetName()
+VERSION = _package_info.GetVersion()
 AUTHOR = cbi.__author__
 AUTHOR_EMAIL = cbi.__email__
 LICENSE = cbi.__license__
 URL = cbi.__url__
 DOWNLOAD_URL = cbi.__download_url__
-DESCRIPTION="A pluggable scheduler for the GENESIS simulator"
+DESCRIPTION="A pluggable scheduler for the GENESIS3 neurosimulator"
 LONG_DESCRIPTION=cbi.__description__
 
 KEYWORDS="neuroscience neurosimulator simulator modeling GENESIS"
 
 # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
 CLASSIFIERS = [
-    'Development Status :: 0 - Alpha',
+    'Development Status :: 3 - Alpha',
     'Environment :: Console',
-    'Environment :: Desktop Application',
     'Intended Audience :: End Users/Desktop',
     'Intended Audience :: Developers',
-    'Intended Audience :: Research',
-    'Intended Audience :: Science',        
-    'License :: OSI Approved :: GPL License',
+    'Intended Audience :: Science/Research',
+    'License :: OSI Approved :: GNU General Public License (GPL)',
     'Operating System :: MacOS :: MacOS X',
-    'Operating System :: POSIX',
-    'Programming Language :: Python',
-    'Topic :: Research :: Neuroscience',
+    'Operating System :: POSIX :: Linux',
+    'Programming Language :: Python :: 2.5',
+    'Programming Language :: Python :: 2.6',
+    'Topic :: Software Development :: Libraries :: Python Modules',
 ]
 
-DATA_FILES=find_files('genesis3')
+PACKAGE_FILES=find_files('genesis3')
 
 OPTIONS={
     'sdist': {
@@ -159,8 +154,6 @@ OPTIONS={
 
 PLATFORMS=["Unix", "Lunix", "MacOS X"]
 
-PY_MODULES=['sspy']
-
 
 CMDCLASS = None
 if sys.platform == "darwin": 
@@ -169,24 +162,27 @@ else:
     CMDCLASS = {'install_data': install_data}
 
 #-------------------------------------------------------------------------------
-setup(
-    name=NAME,
-    version=VERSION,
-    author=AUTHOR,
-    author_email=AUTHOR_EMAIL,
-    cmdclass=CMDCLASS,
-#    data_files=DATA_FILES,
-    description=DESCRIPTION,
-    long_description=LONG_DESCRIPTION,
-    license=LICENSE,
-    keywords=KEYWORDS,
-    url=URL,
-    packages=['genesis3.sspy'],
-    package_data={'genesis3.sspy' : DATA_FILES},
-#     package_dir={'' : ''},
-    classifiers=CLASSIFIERS,
-    options=OPTIONS,
-    platforms=PLATFORMS,
-    scripts=['bin/sspy'],
-)
+try:
+    setup(
+        name=NAME,
+        version=VERSION,
+        author=AUTHOR,
+        author_email=AUTHOR_EMAIL,
+        cmdclass=CMDCLASS,
+        #    data_files=DATA_FILES,
+        description=DESCRIPTION,
+        long_description=LONG_DESCRIPTION,
+        license=LICENSE,
+        keywords=KEYWORDS,
+        url=URL,
+        packages=['genesis3', 'genesis3.sspy'],
+        package_data={'genesis3' : [os.path.join('genesis3','__init__.py')],
+                      'genesis3.sspy' : PACKAGE_FILES},
+        classifiers=CLASSIFIERS,
+        options=OPTIONS,
+        platforms=PLATFORMS,
+        scripts=['sspy'],
+        )
+except Exception, e:
 
+    pdb.set_trace()

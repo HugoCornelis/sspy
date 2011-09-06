@@ -43,6 +43,11 @@ AC_PATH_PROGS(PERL, perl perl5)
 AC_PATH_PROGS(DOXYGEN,doxygen,["NULL"])
 
 
+dnl Check for Python and it's headers
+AM_PATH_PYTHON(,[],[
+   echo "Python is not installed."
+   exit -1
+])
 
 
 AC_MSG_CHECKING([Checking OS])
