@@ -15,10 +15,12 @@ setup: setup.py
 #	$(PYTHON) setup.py build_py
 
 install-exec-hook:
-	$(PYTHON) setup.py install
+	echo "no install"
+#	$(PYTHON) setup.py install
 
 uninstall-hook:
-	$(PYTHON) uninstall.py
+	echo "no uninstall"
+#	$(PYTHON) uninstall.py
 
 all: setup
 
