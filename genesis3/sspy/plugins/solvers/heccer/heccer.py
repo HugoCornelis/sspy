@@ -8,9 +8,9 @@ import sys
 
 try:
     
-    import neurospaces.heccer as heccer
-    from neurospaces.heccer import Heccer
-    from neurospaces.heccer import HeccerOptions
+    import heccer as heccer
+    from heccer import Heccer
+    from heccer import HeccerOptions
 
 except ImportError, e:
 

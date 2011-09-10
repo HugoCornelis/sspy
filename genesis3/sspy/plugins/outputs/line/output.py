@@ -8,7 +8,7 @@ import sys
 
 try:
 
-    from neurospaces.experiment.output import LineOutput
+    from experiment.output import LineOutput
 
 except ImportError, e:
 

@@ -9,7 +9,7 @@ import sys
 
 try:
 
-    from neurospaces.model_container import ModelContainer
+    from model_container import ModelContainer
     
 except ImportError, e:
 

@@ -7,7 +7,7 @@ import pdb
 import sys
 
 try:
-    from neurospaces.chemesis3 import Chemesis3
+    from chemesis3 import Chemesis3
 
 except ImportError, e:
 

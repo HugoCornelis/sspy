@@ -8,7 +8,7 @@ import sys
 
 try:
 
-    from neurospaces.experiment.perfectclamp import PerfectClamp
+    from experiment.perfectclamp import PerfectClamp
 
 except ImportError, e:
 

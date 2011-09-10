@@ -8,7 +8,7 @@ import sys
 
 try:
 
-    import neurospaces.experiment.output as og
+    import experiment.output as og
 
 except ImportError, e:
 

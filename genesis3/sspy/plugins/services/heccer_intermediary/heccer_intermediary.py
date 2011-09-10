@@ -8,9 +8,9 @@ import sys
 
 try:
 
-    from neurospaces.heccer import Heccer
-    from neurospaces.heccer import Compartment
-    from neurospaces.heccer import Intermediary
+    from heccer import Heccer
+    from heccer import Compartment
+    from heccer import Intermediary
     
 except ImportError, e:
 
