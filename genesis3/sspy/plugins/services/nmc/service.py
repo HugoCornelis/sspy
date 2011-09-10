@@ -10,9 +10,9 @@ import sys
 try:
 
     from model_container import ModelContainer
-    
-except ImportError, e:
 
+except ImportError, e:
+        
     sys.exit("Error importing the Neurospaces Model Container Python module: %s\n" % e)
 
 

@@ -3,9 +3,9 @@ name: heccer
 label: Heccer Solver
 version: ssp
 description: This is the SSPy object for driving the Heccer solver
-file: heccer.py
-source: heccer.py
-module: heccer
+file: solver.py
+source: solver.py
+module: solver
 services:
   - name: heccer_intermediary
     version: ssp
