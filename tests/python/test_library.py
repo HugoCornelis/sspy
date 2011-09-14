@@ -9,6 +9,23 @@ import sys
 import pdb
 
 
+
+# This is borrowed from django's setup tools
+def fullsplit(path, result=None):
+    """
+    Split a pathname into components (the opposite of os.path.join) in a
+    platform-neutral way.
+    """
+    if result is None:
+        result = []
+    head, tail = os.path.split(path)
+    if head == '':
+        return [tail] + result
+    if head == path:
+        return result
+    return fullsplit(head, [tail] + result)
+
+
 def add_package_path(package, subdir=''):
     """
     Adds an import path to a python module in a project directory.
@@ -19,10 +36,7 @@ def add_package_path(package, subdir=''):
                         package,
                         'source',
                         'snapshots',
-                        '0',
-                        'glue',
-                        'swig',
-                        'python')
+                        '0',)
 
     build_dir = os.path.join(path, 'build')
 
@@ -57,7 +71,7 @@ def add_sspy_path():
     Adds an import path to a python module in a project directory.
     """
     
-    add_package_path('sspy','genesis3')
+    add_package_path('sspy', 'genesis3')
     
 
     
