@@ -9,6 +9,22 @@ from distutils.core import setup
 from distutils.command.install_data import install_data
 #from setuptools import setup, find_packages
 
+# This will work for both setuptools and distutils
+# main difference is that if distutils is imported then
+# the bdist_egg option is not available.
+try:
+    
+    from setuptools import setup, find_packages, Extension
+
+except ImportError:
+
+    from distutils.core import setup
+    from distutils.core import Extension
+    
+    def find_packages():
+
+        return ['sspy']
+    
 
 # import the cbi module. We use this since the check
 # for the compiled swig nmc_base gives an error
@@ -121,8 +137,8 @@ VERSION = _package_info.GetVersion()
 AUTHOR = cbi.__author__
 AUTHOR_EMAIL = cbi.__email__
 LICENSE = cbi.__license__
-URL = cbi.__url__
-DOWNLOAD_URL = cbi.__download_url__
+URL = "http://pypi.python.org/pypi/sspy"
+DOWNLOAD_URL = "http://pypi.python.org/pypi/sspy"
 DESCRIPTION="A pluggable scheduler for the GENESIS3 neurosimulator"
 LONG_DESCRIPTION=cbi.__description__
 
@@ -162,27 +178,24 @@ else:
     CMDCLASS = {'install_data': install_data}
 
 #-------------------------------------------------------------------------------
-try:
-    setup(
-        name=NAME,
-        version=VERSION,
-        author=AUTHOR,
-        author_email=AUTHOR_EMAIL,
-        cmdclass=CMDCLASS,
-        #    data_files=DATA_FILES,
-        description=DESCRIPTION,
-        long_description=LONG_DESCRIPTION,
-        license=LICENSE,
-        keywords=KEYWORDS,
-        url=URL,
-        packages=['genesis3', 'genesis3.sspy'],
-        package_data={'genesis3' : [os.path.join('genesis3','__init__.py')],
-                      'genesis3.sspy' : PACKAGE_FILES},
-        classifiers=CLASSIFIERS,
-        options=OPTIONS,
-        platforms=PLATFORMS,
-        scripts=['sspy'],
-        )
-except Exception, e:
+args = {}
 
-    pdb.set_trace()
+args['name']=NAME
+args['version']=VERSION
+args['author']=AUTHOR
+args['author_email']=AUTHOR_EMAIL
+args['cmdclass']=CMDCLASS
+args['description']=DESCRIPTION
+args['long_description']=LONG_DESCRIPTION
+args['license']=LICENSE
+args['keywords']=KEYWORDS
+args['url']=URL
+args['packages']=['genesis3.sspy']
+args['package_data']={'sspy': PACKAGE_FILES}
+args['classifiers']=CLASSIFIERS
+args['options']=OPTIONS
+args['platforms']=PLATFORMS
+args['scripts']=['sspy']
+
+setup(**args)
+

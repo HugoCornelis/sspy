@@ -9,7 +9,7 @@ import sys
 import pdb
 
 
-def add_package_path(package):
+def add_package_path(package, subdir=''):
     """
     Adds an import path to a python module in a project directory.
     """
@@ -24,8 +24,31 @@ def add_package_path(package):
                         'swig',
                         'python')
 
+    build_dir = os.path.join(path, 'build')
 
-    sys.path.append(path)
+    python_build = ""
+    parts = []
+
+    if os.path.exists(build_dir):
+
+        for curr_dir, directories, files in os.walk( build_dir ):
+
+            if os.path.isfile( os.path.join( curr_dir, '__cbi__.py' )):
+
+                parts = list(fullsplit(curr_dir))
+
+                parts.pop()
+
+                python_build = os.path.join(os.sep, os.path.join(*parts))
+                #sys.path.append(os.path.join(python_build, subdir))
+                sys.path.insert(0, os.path.join(python_build, subdir))
+
+                return
+
+    # Add this path if we didn't find one previously
+    sys.path.insert(0, os.path.join(path, subdir))
+#    sys.path.append(os.path.join(path, subdir))
+
 
 
 
@@ -34,17 +57,7 @@ def add_sspy_path():
     Adds an import path to a python module in a project directory.
     """
     
-    sspy_path = os.path.join(os.environ['HOME'],
-                             'neurospaces_project',
-                             'sspy',
-                             'source',
-                             'snapshots',
-                             '0',
-                             'genesis3')
-
-    sys.path.append(sspy_path)
-
-
+    add_package_path('sspy','genesis3')
     
 
     
