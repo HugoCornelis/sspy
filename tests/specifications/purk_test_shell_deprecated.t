@@ -16,7 +16,7 @@ my $test
 				arguments => [
 					      '--shell'
 					     ],
-				command => './sspy',
+				command => './sspy.py',
 				disabled => 'working on this, should work but is giving some errors',
 				mac_report => 'Test fails on Mac OSX due to an IO lock. However when manually run this test case works fine.',
 

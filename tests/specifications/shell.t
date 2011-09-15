@@ -16,7 +16,7 @@ my $test
 				arguments => [
 					      '--shell'
 					     ],
-				command => './sspy',
+				command => './sspy.py',
 				disabled => 'Due to the prompt appearing in output this test passes on macs but not on linux',
 				command_tests => [
 						  {

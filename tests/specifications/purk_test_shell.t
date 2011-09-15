@@ -18,7 +18,7 @@ my $test
 					      '<',
 					      '$::config->{core_directory}/tests/python/purk_test.sh',
 					     ],
-				command => './sspy',
+				command => './sspy.py',
 				disabled => 'Test confirmed to work manually but refuses to complete',
 
 				command_tests => [

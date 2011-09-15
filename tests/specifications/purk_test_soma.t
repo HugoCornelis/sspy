@@ -16,7 +16,7 @@ my $test
 				arguments => [
 					      "$::config->{core_directory}/tests/yaml/purk_test_soma.yml",
 					     ],
-				command => './sspy',
+				command => './sspy.py',
 				command_tests => [
 						  {
 						   description => "Check for script completion",

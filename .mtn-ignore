@@ -34,3 +34,4 @@ tar.gz$
 MANIFEST$
 ^docs/doxygen.tag$
 ^docs/man
+egg-info$

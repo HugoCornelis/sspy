@@ -71,7 +71,7 @@ def add_sspy_path():
     Adds an import path to a python module in a project directory.
     """
     
-    add_package_path('sspy', 'genesis3')
+    add_package_path('sspy')
     
 
     

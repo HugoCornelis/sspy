@@ -28,7 +28,9 @@ except ImportError:
 
 # import the cbi module. We use this since the check
 # for the compiled swig nmc_base gives an error
-cbi = imp.load_source('__cbi__', os.path.join('genesis3', 'sspy', '__cbi__.py'))
+#cbi = imp.load_source('__cbi__', os.path.join('genesis3', 'sspy', '__cbi__.py'))
+
+import sspy.__cbi__ as cbi
 
 _package_info = cbi.PackageInfo()
 
@@ -183,7 +185,7 @@ args['package_data']={'sspy': PACKAGE_FILES }
 args['classifiers']=CLASSIFIERS
 args['options']=OPTIONS
 args['platforms']=PLATFORMS
-args['scripts']=['sspy.py']
+args['scripts']=['bin/sspy']
 
 setup(**args)
 

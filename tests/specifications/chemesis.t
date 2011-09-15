@@ -15,7 +15,7 @@ my $test
 			       {
 				arguments => ['./yaml/cal1.yml'
 					     ],
-				command => './sspy',
+				command => './sspy.py',
 				command_tests => [
 
 						  {

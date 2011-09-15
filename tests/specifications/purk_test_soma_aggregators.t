@@ -17,7 +17,7 @@ my $test
 					      "--verbose",
 					      "$::config->{core_directory}/yaml/purk_test_soma_aggregators.yml",
 					     ],
-				command => './sspy',
+				command => './sspy.py',
 				command_tests => [
 
 						  {
