@@ -1,8 +1,0 @@
----
-name: live_output
-label: Live Output
-version: 1
-description: This is the SSPy object for the live output
-file: output.py
-source: output.py
-module: output
