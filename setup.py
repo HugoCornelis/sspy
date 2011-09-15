@@ -99,37 +99,25 @@ _file_types = ['.py', '.yml']
 
 def find_files(root_directory, file_types=_file_types):
 
-    files = []
+    package_files = []
 
-    packages = []
+    for path, directories, files in os.walk( root_directory ):
+        
+        for f in files:
+            
+            path_parts = fullsplit( os.path.join(path, f) )
 
-    for curdir, dirnames, filenames in os.walk(root_directory):
-        # Ignore dirnames that start with '.'
-        for i, dirname in enumerate(dirnames):
-            if dirname.startswith('.'):
+            path_parts.pop(0)
 
-                del dirnames[i]
+            this_file = '/'.join(path_parts)
 
-        if '__init__.py' in filenames:
-            packages.append('.'.join(fullsplit(curdir)))
+            basename, extension = os.path.splitext( this_file )
+            
+            if extension in file_types:
 
-        elif filenames:
+                package_files.append(this_file)
 
-            for i, f in enumerate(filenames):
-
-                # remove files from the list that don't have
-                # the suffix we require.
-                basename, extension = os.path.splitext( f )
-                if not extension in file_types or not good_file(f):
-
-                    del filenames[i]
-
-            if len(filenames) != 0:
-                
-                files.append([curdir, [os.path.join(curdir, f) for f in filenames]])
-
-    return files
-
+    return package_files
 
 #-------------------------------------------------------------------------------
 NAME = _package_info.GetName()
@@ -159,7 +147,7 @@ CLASSIFIERS = [
     'Topic :: Software Development :: Libraries :: Python Modules',
 ]
 
-PACKAGE_FILES=find_files('genesis3')
+PACKAGE_FILES=find_files('sspy')
 
 OPTIONS={
     'sdist': {
@@ -190,12 +178,12 @@ args['long_description']=LONG_DESCRIPTION
 args['license']=LICENSE
 args['keywords']=KEYWORDS
 args['url']=URL
-args['packages']=['genesis3.sspy']
-args['package_data']={'sspy': PACKAGE_FILES}
+args['packages']=['sspy']
+args['package_data']={'sspy': PACKAGE_FILES }
 args['classifiers']=CLASSIFIERS
 args['options']=OPTIONS
 args['platforms']=PLATFORMS
-args['scripts']=['sspy']
+args['scripts']=['sspy.py']
 
 setup(**args)
 

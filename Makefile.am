@@ -11,8 +11,8 @@ TESTS = /usr/local/bin/neurospaces_harness
 
 setup: setup.py
 	echo "no op"
-#	$(PYTHON) setup.py build
-#	$(PYTHON) setup.py build_py
+	$(PYTHON) setup.py build
+	$(PYTHON) setup.py build_py
 
 install-exec-hook:
 	echo "no install"
