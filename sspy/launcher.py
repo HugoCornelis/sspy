@@ -48,7 +48,7 @@ def usage():
 #---------------------------------------------------------------------------
 
 
-from genesis3.sspy import SSPy
+from sspy import SSPy
 
 def main(cwd=os.getcwd()):
 
@@ -186,7 +186,7 @@ def main(cwd=os.getcwd()):
 
     if shell:
 
-        from genesis3.sspy.shell import SSPyShell
+        from sspy.shell import SSPyShell
         
         sspy_shell = SSPyShell(scheduler=scheduler)
 
