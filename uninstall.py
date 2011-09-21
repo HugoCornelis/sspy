@@ -50,11 +50,16 @@ def remove_egg(module_name):
                                          
         found_eggs = glob.glob("%s%s%s*.egg" % (path, os.sep, module_name))
         
+        found_infos = glob.glob("%s%s%s*.egg-info" % (path, os.sep, module_name))
+
+        egg_data = []
+        egg_data.extend(found_eggs)
+        egg_data.extend(found_infos)
+        
         if os.path.isfile(easy_install_file) and len(found_eggs) > 0:
 
             installs.append(dict(pth_file=easy_install_file,
-                                 eggs=found_eggs))
-
+                                 eggs=egg_data))
 
     if len(installs) == 0:
 
@@ -120,8 +125,13 @@ def remove_egg(module_name):
 
                 raise Exception("An error occured, the easy-path.pth file wasn't written")
         
+try:
+    
+    remove_egg('sspy')
 
-remove_egg('sspy')
+except Exception, e:
+
+    print "%s... continuing" % e
 
 try:
     
