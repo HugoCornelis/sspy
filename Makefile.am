@@ -16,11 +16,11 @@ setup: setup.py
 
 install-exec-hook:
 	echo "no install"
-#	$(PYTHON) setup.py install
+	$(PYTHON) setup.py install
 
 uninstall-hook:
-	echo "no uninstall"
-#	$(PYTHON) uninstall.py
+#	echo "no uninstall"
+	$(PYTHON) uninstall.py
 
 all: setup
 
@@ -34,8 +34,7 @@ clean-local:
 	$(RM) -f $(top_srcdir)/sspy-*.tar.gz
 	echo "Removing all compiled byte code files"
 	$(RM) `find . -name "*.pyc"`
-	$(RM) -rf $(top_builddir)/build
-	$(RM) -rf $(top_builddir)/dist/
+	$(PYTHON) clean.py
 	$(RM) -rf $(top_builddir)/html
 
 dist-hook:
