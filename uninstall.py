@@ -137,12 +137,13 @@ try:
     
     from neurospaces.packages import PackageManager
 
-except ImportError:
+    package_manager = PackageManager(verbose=False)
 
-    sys.exit("SSPy package is not installed.")
+    package_manager.uninstall('sspy')
+    
+except Exception:
+
+    print "SSPy package is not installed."
 
 
-package_manager = PackageManager(verbose=False)
-
-package_manager.uninstall('sspy')
 
