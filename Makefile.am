@@ -3,7 +3,10 @@ SUBDIRS = \
 
 EXTRA_DIST = \
 	genesis3 \
-	doxygen.cfg 
+	doxygen.cfg \
+	clean.py \
+	setup.py \
+	uninstall.py
 
 #check_SCRIPTS = $(srcdir)/tests/neurospaces_harness
 
