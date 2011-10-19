@@ -141,7 +141,7 @@ try:
 
     package_manager.uninstall('sspy')
     
-except ImportError:
+except Exception:
 
     print "SSPy package is not installed."
 
