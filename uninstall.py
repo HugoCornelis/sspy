@@ -141,9 +141,9 @@ try:
 
     package_manager.uninstall('sspy')
     
-except Exception:
+except Exception, e:
 
-    print "SSPy package is not installed."
+    print "SSPy package is not installed: %s" % e
 
 
 
