@@ -2,7 +2,6 @@ SUBDIRS = \
 	. 
 
 EXTRA_DIST = \
-	genesis3 \
 	doxygen.cfg \
 	clean.py \
 	setup.py \
