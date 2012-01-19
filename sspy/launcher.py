@@ -5,6 +5,7 @@
 @brief This program starts the command line process for sspy
 """
 import getopt
+import optparse
 import os
 import pdb
 import sys
@@ -14,6 +15,7 @@ try:
     import yaml
 except ImportError:
     sys.exit("Need PyYaml http://pyyaml.org/\n")
+
 
 from __cbi__ import PackageInfo
 
@@ -47,6 +49,7 @@ def usage():
 
 #---------------------------------------------------------------------------
 
+from optparse import OptionParser
 
 from sspy import SSPy
 
@@ -59,32 +62,29 @@ def main(cwd=os.getcwd()):
     except:
         pass
 
-    if len(sys.argv) < 2:
+    usage = "%s [OPTIONS] <files>" % sys.argv[0]
 
-        usage()
+    parser = OptionParser(usage)
+    parser.add_option("-v", "--verbose", action="store_true", dest="verbose",
+                      help="show verbose output")
 
-        
-    command_options = ["cell", "model-name", 
-                       "steps", "time", "time-step",
-                       "model-filename=", "model-directory=", 
-                       "version", "help", "background", "builtins", "optimize",
-                       "emit-schedules", "emit-output",
-                       "perfectclamp",
-                       "pulsegen-width1=", "pulsegen-width2=",
-                       "shell",
-                       "verbose", "more-verbose", "vv",
-                       ]
+    parser.add_option("-s", "--shell", action="store_true", dest="shell",
+                      help="starts the interactive shell")
 
-    try:
+    parser.add_option("-o", "--stdout", action="store_true", dest="stdout",
+                      help="show verbose output")
 
-        opts, args = getopt.getopt(sys.argv[1:], ":hvV", command_options)
-        
-    except getopt.GetoptError, err:
-        #print help information and exit:
-        print str(err) # will print something like "option -a not recognized"
-        usage()
+    parser.add_option("-d", "--model-directory", dest="model_directory", type="string",
+                      help="name of the directory where to look for non-std models")
 
+    parser.add_option("-f", "--model-filename", dest="model_filename", type="string",
+                      help="filename of the model description file (when using a builtin configuration).")
 
+#     parser.add_option("-n", "--model-name", dest="model_name", type="string",
+#                       help="Name of the model to start simulating.")
+
+    (options, args) = parser.parse_args()
+    
     #---------------------------------------------
     # This is simply to ensure that the invoking
     # directory is used for relative paths. 
@@ -101,7 +101,37 @@ def main(cwd=os.getcwd()):
     model_filename = None
     model_name = None
     shell_batch_file = None
+
     
+    if not parser.shell is None:
+        
+        shell = False
+
+    if not parser.stdout is None:
+        
+        stdout = False
+
+    if not parser.verbose is None:
+        
+        verbose = False
+        
+    if not parser.model_directory is None:
+        
+        model_directory = None
+
+    if not parser.model_filename is None:
+        
+        model_filename = None
+
+#     if not parser.model_name is None:
+        
+#         model_name = None
+
+#     if not parser.shell_batch_file is None:
+        
+#         shell_batch_file = None
+
+
     for opt, arg in opts:
 
         if opt in ('-h', '--help'):
