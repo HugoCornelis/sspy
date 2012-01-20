@@ -102,76 +102,6 @@ def main(cwd=os.getcwd()):
     model_name = None
     shell_batch_file = None
 
-    
-    if not parser.shell is None:
-        
-        shell = False
-
-    if not parser.stdout is None:
-        
-        stdout = False
-
-    if not parser.verbose is None:
-        
-        verbose = False
-        
-    if not parser.model_directory is None:
-        
-        model_directory = None
-
-    if not parser.model_filename is None:
-        
-        model_filename = None
-
-#     if not parser.model_name is None:
-        
-#         model_name = None
-
-#     if not parser.shell_batch_file is None:
-        
-#         shell_batch_file = None
-
-
-    for opt, arg in opts:
-
-        if opt in ('-h', '--help'):
-
-            usage()
-
-        elif opt in ('--model-directory'):
-
-            model_directory = arg
-            
-        elif opt in ('--model-filename'):
-
-            model_filename = arg
-
-        elif opt in ('--model-name'):
-
-            model_name = arg
-
-        elif opt in ('-V', '--version'):
-
-            print "version %s (%s)" % (_package_info.GetVersion(), _package_info.GetRevisionInfo())
-
-            sys.exit(0)
-
-        elif opt in ('-v', '--verbose'):
-
-            verbose = True
-
-        elif opt in ('-vv', '--more-verbose'):
-
-            verbose = True
-            
-        elif opt in ('--shell',):
-
-            shell = True
-            
-        else:
-            
-            assert False, "unhandled option %s" % opt
-
     # here process the extra args at the tail end of the command
     if len(args) > 0:
 
@@ -183,16 +113,33 @@ def main(cwd=os.getcwd()):
 
                 args.remove(a)
 
-        if len(args) > 0:
+            else:
 
-            print "Unprocessed arguments: ",
+                parser.error("File '%s' doesn't exist" % a)
+
         
-            for a in args:
-
-                print "%s " % a,
-
-            print ""
+    if not options.shell is None:
+    
+        shell = options.shell
         
+    if not options.stdout is None:
+        
+        stdout = options.stdout
+        
+    if not options.verbose is None:
+        
+        verbose = options.verbose
+        
+    if not options.model_directory is None:
+        
+        model_directory = None
+            
+    if not options.model_filename is None:
+        
+        model_filename = None
+
+
+
 
     scheduler = SSPy(verbose=verbose)
 
@@ -204,8 +151,6 @@ def main(cwd=os.getcwd()):
         if not configuration is None:
 
             scheduler.Load(configuration)
-
-        
 
     except Exception, e:
 
