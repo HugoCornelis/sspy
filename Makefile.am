@@ -7,7 +7,6 @@ nobase_dist_python_DATA = \
 	sspy/analyzer.py \
 	sspy/errors.py \
 	sspy/launcher.py \
-	sspy/launcher_old.py \
 	sspy/plugin.py \
 	sspy/plugins/inputs/perfectclamp/input.py \
 	sspy/plugins/inputs/perfectclamp/input.yml \
@@ -34,8 +33,7 @@ nobase_dist_python_DATA = \
 	sspy/schedulee.py \
 	sspy/shell/__init__.py \
 	sspy/shell/commands.yml \
-	sspy/shell/interface.py \
-	sspy/launcher_old.py
+	sspy/shell/interface.py 
 
 EXTRA_DIST = \
 	bin/sspy \
