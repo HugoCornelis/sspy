@@ -34,7 +34,8 @@ nobase_dist_python_DATA = \
 	sspy/schedulee.py \
 	sspy/shell/__init__.py \
 	sspy/shell/commands.yml \
-	sspy/shell/interface.py
+	sspy/shell/interface.py \
+	sspy/launcher_old.py
 
 EXTRA_DIST = \
 	bin/sspy \
