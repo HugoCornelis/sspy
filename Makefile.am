@@ -69,8 +69,8 @@ clean: clean-local
 clean-local:
 	$(RM) -rf $(top_builddir)/docs/html
 	$(RM) -rf $(top_srcdir)/tests/html
-	$(RM) -f $(top_srcdir)/sspy-*.tar.gz
-	$(RM) -f $(top_srcdir)/sspy-*	
+	$(RM) -rf $(top_srcdir)/sspy-*.tar.gz
+	$(RM) -rf $(top_srcdir)/sspy-*	
 	echo "Removing all compiled byte code files"
 	$(RM) `find . -name "*.pyc"`
 	$(PYTHON) clean.py
