@@ -1,7 +1,8 @@
 SUBDIRS = \
 	. 
 
-nobase_dist_python_DATA = \
+
+EXTRA_DIST = \
 	sspy/__cbi__.py	\
 	sspy/__init__.py \
 	sspy/analyzer.py \
@@ -33,9 +34,7 @@ nobase_dist_python_DATA = \
 	sspy/schedulee.py \
 	sspy/shell/__init__.py \
 	sspy/shell/commands.yml \
-	sspy/shell/interface.py 
-
-EXTRA_DIST = \
+	sspy/shell/interface.py \
 	bin/sspy \
 	doxygen.cfg \
 	clean.py \
