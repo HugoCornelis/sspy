@@ -26,28 +26,31 @@ my_model_container = scheduler.CreateService(name="My Model Container",
                                              type="model_container",
                                              verbose=True)
 
-my_model_container.Load('cells/RScell-nolib.ndf')
+my_model_container.Load('cells/purkinje/edsjb1994.ndf')
 
-my_model_container.SetParameter('/cell/soma',
-                                'INJECT',
-                                1e-09)
 
 #
 # Must create solver.
 #
 my_heccer = scheduler.CreateSolver('My solver', 'heccer', verbose=True)
 
+# Not sure wether to give this a get/set method 
+my_heccer.options = 4
+
 # Sets the segment of the model to run from
-my_heccer.SetModelName('/cell')
+my_heccer.SetModelName('/Purkinje')
 
 # set the timestep for the entire scheduler (solvers, inputs and outputs)
 my_heccer.SetTimeStep(2e-05)
 
-
+#
 # Create a perfectclamp object for current holding.
-my_input = scheduler.CreateInput('My perfectclamp','perfectclamp',verbose=True)
+#
+my_input = scheduler.CreateInput('purkinje cell perfect clamp','perfectclamp',verbose=True)
 
+my_input.AddInput('/Purkinje/segments/soma', 'Vm')
 
+my_input.SetCommandVoltage(-0.06)
 
 
 #
@@ -57,7 +60,13 @@ my_output = scheduler.CreateOutput('My output object', 'double_2_ascii')
 
 my_output.SetFilename('/tmp/output')
 
-my_output.AddOutput('/cell/soma', 'Vm')
+my_output.AddOutput('/Purkinje/segments/soma', 'Vm')
+my_output.AddOutput('/Purkinje/segments/b0s01[0]', 'Vm')
+my_output.AddOutput('/Purkinje/segments/b0s03[56]', 'Vm')
+my_output.AddOutput('/Purkinje/segments/b1s06[137]', 'Vm')
+my_output.AddOutput('/Purkinje/segments/b1s12[26]', 'Vm')
+my_output.AddOutput('/Purkinje/segments/b2s30[3]', 'Vm')
+my_output.AddOutput('/Purkinje/segments/b3s44[49]', 'Vm')
 
 # This should probably just be arg flags or something, passing 'steps'
 # seems a bit tacky.
@@ -67,6 +76,6 @@ my_output.SetResolution(10)
 
 
 
-scheduler.Run(time=0.2)
+scheduler.Run(steps=25000)
 
 print "Done!"
