@@ -37,11 +37,14 @@ my_heccer = scheduler.CreateSolver('My solver', 'heccer', verbose=True)
 # Not sure wether to give this a get/set method 
 my_heccer.options = 4
 
+my_heccer.SetGranularity(1000)
+
 # Sets the segment of the model to run from
 my_heccer.SetModelName('/Purkinje')
 
 # set the timestep for the entire scheduler (solvers, inputs and outputs)
 my_heccer.SetTimeStep(2e-05)
+
 
 #
 # Create a perfectclamp object for current holding.
@@ -72,7 +75,6 @@ my_output.AddOutput('/Purkinje/segments/b3s44[49]', 'Vm')
 # seems a bit tacky.
 my_output.SetMode('steps')
 
-my_output.SetResolution(10)
 
 
 

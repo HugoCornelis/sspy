@@ -108,7 +108,7 @@ class Input:
 
         if self._solver is None:
 
-            self._inputs.append(dict(field=field,compnent_name=name))
+            self._inputs.append(dict(field=field,component_name=name))
 
 #            raise Exception("Can't add input to %s, it is not connected to a solver" % self.GetName())
 
