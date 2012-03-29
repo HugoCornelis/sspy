@@ -46,9 +46,14 @@ class Input:
         
         self._inputs = []
 
-        self.command_voltage = None
-
-        self.command_file = None
+        self.level1 = None
+        self.level2 = None
+        self.delay1 = None
+        self.delay2 = None
+        self.width1 = None
+        self.width2 = None
+        self.base_level = None
+        self.trigger_mode = None
 
         self._solver = None
 
@@ -182,7 +187,7 @@ class Input:
 
             if inp.has_key('inputclass'):
 
-                if inp['inputclass'] != 'perfectclamp':
+                if inp['inputclass'] != 'pulsegen':
                     # if this output is not meant
                     # for this object type then we
                     # continue and ignore it
@@ -237,21 +242,23 @@ class Input:
         """
         if self._pulsegen is None:
 
-            self._pulsegen = PerfectClamp(self._name)
+            self._pulsegen = PerfectClamp(self._name,
+                                          level1=self.level1, width1=self.width1, delay1=self.delay1,
+                                          level2=self.level2, width2=self.width2, delay2=self.delay2,
+                                          trigger_mode=self.trigger_mode
+                                          )
+
+        else:
+
+            self._pulsegen.SetFields(level1=self.level1, width1=self.width1, delay1=self.delay1,
+                                     level2=self.level2, width2=self.width2, delay2=self.delay2,
+                                     trigger_mode=self.trigger_mode
+                                     )
 
         if self._pulsegen is None:
 
-            raise Exception("Can't initialize the PerfectClamp object '%s'" % self._name)
+            raise Exception("Can't initialize the PulseGen plugin object '%s'" % self._name)
 
-        # Apply the parameters loaded or set via api
-
-        if not self.command_voltage is None and not self.command_file is None:
-
-            self._pulsegen.SetFields(self.command_voltage, self.command_file)
-
-        elif not self.command_voltage:
-            
-            self._pulsegen.SetCommandVoltage(self.command_voltage)
 
 #---------------------------------------------------------------------------
 
@@ -302,48 +309,70 @@ class Input:
 
         The block of yaml to parse looks like this:
             
-          perfectclamp:
-              module_name: Experiment
-              options:
-                  command: -0.06
-                  name: purkinje cell perfect clamp
-              package: Experiment::PerfectClamp
-
+            inputclasses:
+                pulsegen:
+                    module_name: Experiment
+                    options:
+                        level1: 50.0
+                        width1: 3.0
+                        delay1: 5.0
+                        level2: -20.0
+                        width2: 5.0
+                        delay2: 8.0
+                        baselevel: 10.0
+                        triggermode: 0
+                        
         Ignored Keys:
 
-            ['perfectclamp']['package']
-            ['perfectclamp']['module_name']
+            ['pulsegen']['package']
+            ['pulsegen']['module_name']
             
         """
         if arguments is None:
 
             return
 
-        if arguments.has_key('perfectclamp'):
+        if arguments.has_key('pulsegen'):
 
-            configuration = arguments['perfectclamp']
+            configuration = arguments['pulsegen']
 
         else:
 
-            raise Exception("No 'perfectclamp' configuration block present")
+            raise Exception("No 'pulsegen' configuration block present")
 
 
         if configuration.has_key('options'):
 
             options = configuration['options']
 
-            if options.has_key('command'):
+            if options.has_key('level1'):
 
-                self.command_voltage = options['command']
+                self.level1 = options['level1']
 
-            if options.has_key('name'):
+            if options.has_key('width1'):
 
-                self._name = options['name']
+                self.width1 = options['width1']
 
-            if options.has_key('filename'):
+            if options.has_key('delay1'):
 
-                self.command_file = options['filename']
-            
+                self.delay1 = options['delay1']
+
+            if options.has_key('level2'):
+
+                self.level2 = options['level2']
+
+            if options.has_key('width2'):
+
+                self.width2 = options['width2']
+
+            if options.has_key('delay2'):
+
+                self.delay2 = options['delay2']
+
+            if options.has_key('triggermode'):
+
+                self.trigger_mode = options['triggermode']
+
 #---------------------------------------------------------------------------
 
 
