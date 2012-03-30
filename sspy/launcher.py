@@ -171,4 +171,4 @@ def main(cwd=os.getcwd()):
         
         # Running sspy after all options have been set
         
-        scheduler.Run()
+        scheduler.Run(finish=True)
