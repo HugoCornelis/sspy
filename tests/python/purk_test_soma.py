@@ -26,6 +26,6 @@ except Exception, e:
 
 
 
-scheduler.Run()
+scheduler.Run(finish=True)
 
 

@@ -82,6 +82,6 @@ my_output.AddOutput('/purk_test/segments/main[0]/k2', 'state_m')
 my_output.AddOutput('/purk_test/segments/main[0]/k2', 'state_h')
 
 
-scheduler.Run(steps=2500)
+scheduler.Run(steps=2500, finish=True)
 
 print "Done!"

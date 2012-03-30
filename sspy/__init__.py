@@ -1125,6 +1125,10 @@ class SSPy:
         """
         @brief Performs a finish on all schedulees
         """
+        if self.verbose:
+
+            print "Finishing simulation"
+
         for s in self._schedulees:
 
             s.Finish()
@@ -1319,7 +1323,18 @@ class SSPy:
         """
 
         self.current_simulation_time = 0
-        
+
+        for schedulee in self._schedulees:
+
+            try:
+
+                schedulee.Reset()
+
+            except Exception, e:
+
+                print "Error, Can't reset: %s" % e
+
+                return
 
 #---------------------------------------------------------------------------
 
@@ -1760,7 +1775,7 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def Run(self, time=None, steps=None):
+    def Run(self, time=None, steps=None, finish=False):
         """!
         @brief Runs the simulation
         """
@@ -1822,12 +1837,12 @@ class SSPy:
 
                 run_current_steps += 1
                 
-                
-        if self.verbose:
 
-            print "Finishing simulation"
+        if finish:
+
+            self.Finish()
             
-        self.Finish()
+        #self.Finish()
         
 
 #---------------------------------------------------------------------------

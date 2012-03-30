@@ -25,4 +25,4 @@ except Exception, e:
     print e
 
 
-scheduler.Run()
+scheduler.Run(finish=True)

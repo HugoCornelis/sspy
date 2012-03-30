@@ -53,6 +53,6 @@ my_output.SetFilename('/tmp/purk_test_soma_aggregators')
 
 my_output.AddOutput('/purk_test_soma/segments/soma', 'Vm')
 
-scheduler.Run(steps=5000)
+scheduler.Run(steps=5000, finish=True)
 
 print "Done!"

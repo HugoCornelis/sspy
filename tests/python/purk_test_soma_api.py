@@ -63,6 +63,6 @@ my_output.AddOutput('/purk_test_soma/segments/soma/naf', 'state_m')
 my_output.AddOutput('/purk_test_soma/segments/soma/naf', 'state_h')
 
 
-scheduler.Run(steps=5000)
+scheduler.Run(steps=5000, finish=True)
 
 print "Done!"
