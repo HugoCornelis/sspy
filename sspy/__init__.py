@@ -1332,7 +1332,7 @@ class SSPy:
 
             except Exception, e:
 
-                print "Error, Can't reset: %s" % e
+                print "Error, Can't reset object '%s' of type '%s': %s" % (schedulee.GetName(), schedulee.GetType(), e)
 
                 return
 

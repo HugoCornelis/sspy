@@ -29,7 +29,7 @@ inputs:
 models:
   - modelname: /Purkinje
     solverclass: heccer
-name: purkinje cell perfect clamp
+name: purkinje cell with pulsegen
 outputclasses:
   double_2_ascii:
     module_name: Experiment
@@ -46,10 +46,10 @@ services:
       - arguments:
           - filename: cells/purkinje/edsjb1994.ndf
             no-use-library: 1
-          -
-            - ssp configuration for edsjb1994 using pulsegen
-            - -R
-            - -A
+#          -
+#            - ssp configuration for edsjb1994 using pulsegen
+#           - -R
+#            - -A
         method: load
     module_name: Neurospaces
 solverclasses:

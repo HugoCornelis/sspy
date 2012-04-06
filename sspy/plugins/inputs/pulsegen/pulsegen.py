@@ -8,7 +8,7 @@ import sys
 
 try:
 
-    from experiment.pulsegen import Pulsegen
+    from experiment.pulsegen import PulseGen
 
 except ImportError, e:
 
@@ -238,7 +238,7 @@ class Input:
 
     def Initialize(self):
         """!
-        @brief Initializes the perfect clamp from any internal variables that were set
+        @brief Initializes the pulsegen from any internal variables that were set
         """
         if self._pulsegen is None:
 
@@ -276,7 +276,7 @@ class Input:
 
     def Compile(self):
         """
-        @brief Compiles the perfectclamp input
+        @brief Compiles the pulsegen input
         """
         self._pulsegen.Compile()
 

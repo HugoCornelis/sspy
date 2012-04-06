@@ -81,7 +81,7 @@ my_output.AddOutput('/purk_test/segments/main[0]/kc', 'state_h')
 my_output.AddOutput('/purk_test/segments/main[0]/k2', 'state_m')
 my_output.AddOutput('/purk_test/segments/main[0]/k2', 'state_h')
 
-
+pdb.set_trace()
 scheduler.Run(steps=2500, finish=True)
 
 print "Done!"
