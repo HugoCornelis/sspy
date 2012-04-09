@@ -57,7 +57,7 @@ class Input:
 
         self._solver = None
 
-        self._pulsegen = PerfectClamp(self._name)
+        self._pulsegen = PulseGen(self._name)
 
         self._ParseArguments(arguments)
 
@@ -240,13 +240,14 @@ class Input:
         """!
         @brief Initializes the pulsegen from any internal variables that were set
         """
+
         if self._pulsegen is None:
 
-            self._pulsegen = PerfectClamp(self._name,
-                                          level1=self.level1, width1=self.width1, delay1=self.delay1,
-                                          level2=self.level2, width2=self.width2, delay2=self.delay2,
-                                          trigger_mode=self.trigger_mode
-                                          )
+            self._pulsegen = PulseGen(self._name,
+                                      level1=self.level1, width1=self.width1, delay1=self.delay1,
+                                      level2=self.level2, width2=self.width2, delay2=self.delay2,
+                                      trigger_mode=self.trigger_mode
+                                      )
 
         else:
 

@@ -37,23 +37,30 @@ my_heccer = scheduler.CreateSolver('My solver', 'heccer', verbose=True)
 # Not sure wether to give this a get/set method 
 my_heccer.options = 4
 
-my_heccer.SetGranularity(1000)
+my_heccer.SetGranularity(1)
 
 # Sets the segment of the model to run from
 my_heccer.SetModelName('/Purkinje')
 
 # set the timestep for the entire scheduler (solvers, inputs and outputs)
-my_heccer.SetTimeStep(2e-05)
+my_heccer.SetTimeStep(0.5)
 
 
 #
 # Create a pulsegen object for current holding.
 #
-my_input = scheduler.CreateInput('purkinje cell perfect clamp','perfectclamp',verbose=True)
+my_pulsegen = scheduler.CreateInput('purkinje cell perfect clamp','pulsegen',verbose=True)
 
-my_input.AddInput('/Purkinje/segments/soma', 'Vm')
+my_pulsegen.AddInput('/Purkinje/segments/soma', 'Vm')
 
-my_input.SetCommandVoltage(-0.06)
+my_pulsgen.level1 = 50.0
+my_pulsgen.width1 = 3.0
+my_pulsgen.delay1 = 5.0
+my_pulsgen.level2 = -20.0
+my_pulsgen.width2 = 5.0
+my_pulsgen.delay2 = 8.0
+my_pulsgen.baselevel = 10.0
+my_pulsgen.triggermode = 0 # zero is "free run"
 
 
 #
@@ -78,6 +85,6 @@ my_output.SetMode('steps')
 
 
 
-scheduler.Run(steps=25000)
+scheduler.Run(steps=200)
 
 print "Done!"
