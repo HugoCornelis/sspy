@@ -53,7 +53,7 @@ class Input:
         self.width1 = None
         self.width2 = None
         self.base_level = None
-        self.trigger_mode = None
+        self.trigger_mode = 0
 
         self._solver = None
 
@@ -234,32 +234,45 @@ class Input:
         """
         self._pulsegen.Finish()
 
+
+
+
+            
+        
 #---------------------------------------------------------------------------
 
     def Initialize(self):
         """!
         @brief Initializes the pulsegen from any internal variables that were set
         """
-
+        
         if self._pulsegen is None:
 
             self._pulsegen = PulseGen(self._name,
-                                      level1=self.level1, width1=self.width1, delay1=self.delay1,
-                                      level2=self.level2, width2=self.width2, delay2=self.delay2,
-                                      trigger_mode=self.trigger_mode
+                                      level1=float(self.level1),
+                                      width1=float(self.width1),
+                                      delay1=float(self.delay1),
+                                      level2=float(self.level2),
+                                      width2=float(self.width2),
+                                      delay2=float(self.delay2),
+                                      trigger_mode=int(self.trigger_mode)
                                       )
 
         else:
 
-            self._pulsegen.SetFields(level1=self.level1, width1=self.width1, delay1=self.delay1,
-                                     level2=self.level2, width2=self.width2, delay2=self.delay2,
-                                     trigger_mode=self.trigger_mode
+            self._pulsegen.SetFields(level1=float(self.level1),
+                                     width1=float(self.width1),
+                                     delay1=float(self.delay1),
+                                     level2=float(self.level2),
+                                     width2=float(self.width2),
+                                     delay2=float(self.delay2),
+                                     trigger_mode=int(self.trigger_mode)
                                      )
+
 
         if self._pulsegen is None:
 
             raise Exception("Can't initialize the PulseGen plugin object '%s'" % self._name)
-
 
 #---------------------------------------------------------------------------
 
@@ -294,7 +307,7 @@ class Input:
         """
         @brief performs a single step for the input
         """
-        self._pulsegen.Step(time)
+        self._pulsegen.SingleStep(time)
 
 #---------------------------------------------------------------------------
 

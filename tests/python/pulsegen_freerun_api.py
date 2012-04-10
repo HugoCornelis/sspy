@@ -53,14 +53,14 @@ my_pulsegen = scheduler.CreateInput('purkinje cell perfect clamp','pulsegen',ver
 
 my_pulsegen.AddInput('/Purkinje/segments/soma', 'Vm')
 
-my_pulsgen.level1 = 50.0
-my_pulsgen.width1 = 3.0
-my_pulsgen.delay1 = 5.0
-my_pulsgen.level2 = -20.0
-my_pulsgen.width2 = 5.0
-my_pulsgen.delay2 = 8.0
-my_pulsgen.baselevel = 10.0
-my_pulsgen.triggermode = 0 # zero is "free run"
+my_pulsegen.level1 = 50.0
+my_pulsegen.width1 = 3.0
+my_pulsegen.delay1 = 5.0
+my_pulsegen.level2 = -20.0
+my_pulsegen.width2 = 5.0
+my_pulsegen.delay2 = 8.0
+my_pulsegen.baselevel = 10.0
+my_pulsegen.triggermode = 0 # zero is "free run"
 
 
 #
