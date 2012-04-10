@@ -49,8 +49,7 @@ my_heccer.SetTimeStep(2e-05)
 #
 # Create a pulsegen object for current holding.
 #
-my_pulsegen = scheduler.CreateInput('pulsegen','pulsegen',verbose=True)
-
+my_pulsegen = scheduler.CreateInput('pulsgen','pulsegen',verbose=True)
 
 my_pulsegen.AddInput('/Purkinje/segments/soma', 'Vm')
 
@@ -61,7 +60,7 @@ my_pulsegen.level2 = -20.0
 my_pulsegen.width2 = 5.0
 my_pulsegen.delay2 = 8.0
 my_pulsegen.baselevel = 10.0
-my_pulsegen.triggermode = 0 # zero is "free run"
+my_pulsegen.triggermode = 1 # one is "ext trig"
 
 
 #

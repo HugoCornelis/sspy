@@ -223,7 +223,7 @@ class Input:
 
                     print "\tConnecting input variable '%s -> '%s' from solver '%s'" % (component_name, field, solver.GetName())
                     
-                self._pulsegen.AddInput(address)
+                self._pulsegen.AddVariable(address)
                 
 
 #---------------------------------------------------------------------------
@@ -312,8 +312,8 @@ class Input:
 #---------------------------------------------------------------------------
 
     def Report(self):
-
         pass
+
 
 #---------------------------------------------------------------------------
 
