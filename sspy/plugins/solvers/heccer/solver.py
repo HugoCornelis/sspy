@@ -338,6 +338,15 @@ class Solver:
 
 #---------------------------------------------------------------------------
 
+    def Reset(self):
+        """
+        Performs a reset on the solver object.
+        """
+        
+        self.Initialize()
+
+#---------------------------------------------------------------------------
+
     def Report(self):
 
         granularity_result = self.current_step % self.granularity

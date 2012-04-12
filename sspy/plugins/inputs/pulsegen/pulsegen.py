@@ -278,11 +278,8 @@ class Input:
 
     def Reset(self):
         """!
-        @brief Destroys and recreates the core perfectclamp object
+        @brief resets the pulsegen back to it's precompiled state
         """
-
-        
-        self._pulsegen = None
 
         self.Initialize()
 

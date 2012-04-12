@@ -189,10 +189,7 @@ class Output:
         """!
         @brief Destroys and recreates the core output object
         """
-
         
-        self._line_output = None
-
         self.Initialize()
 
 
