@@ -227,13 +227,22 @@ class Schedulee:
 
             raise ScheduleeError("Can't report schedulee for '%s': %s" % (self.GetName(),e))
 
-
-        
 #---------------------------------------------------------------------------
 
-    def Run(self, time):
 
-         pass
+    def Reset(self):
+
+        self.current_time = 0.0
+
+        self.current_step = 0
+
+        try:
+            
+            self._schedulee.Reset()
+
+        except Exception, e:
+
+            raise ScheduleeError("" % (self.GetName(), e))
 
 
 #----------------------------------------------------------------------------
