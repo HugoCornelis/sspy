@@ -1407,6 +1407,71 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
+    def SetServiceParameter(self, path=None, parameter=None, value=None, service=None):
+        """!
+        @brief Sets a parameter on all or one loaded services. 
+        """
+
+        if self._loaded_services is None:
+
+            raise errors.ParameterSetError("Can't set parameter %s on element %s, no service loaded" % (parameter,path))
+        
+        else:
+
+            if service is None:
+                
+                for s in self._loaded_services:
+                        
+                    s.SetParameter(path, parameter, value)
+
+            else:
+
+                for s in self._loaded_services:
+
+                    if s.GetName() == service:
+
+                        s.SetParameter(path, parameter, value)
+
+
+#---------------------------------------------------------------------------
+
+    def SetSolverParameter(self, path=None, parameter=None, value=None, solver=None, solver_type=None):
+        """!
+
+        """
+
+        if not self._compiled:
+
+            raise errors.ParameterSetError("Can't set parameter %s on element %s, Solvers haven't been compiled" % (parameter,path))
+        
+        else:
+
+            if solver is None:
+
+                if not solver_type is None:
+                    
+                    for s in self._solvers:
+
+                        if s.GetType() == solver_type:
+                            
+                            s.SetParameter(path, parameter, value)
+
+                else:
+
+                    for s in self._solvers:
+
+                        s.SetParameter(path, parameter, value)
+
+            else:
+
+                for s in self._solvers:
+
+                    if s.GetName() == solver:
+
+                        s.SetParameter(path, parameter, value)
+                        
+#---------------------------------------------------------------------------
+
     def SetParameter(self, path=None, parameter=None, value=None, service=None):
         """!
         @brief Sets a parameter on all or one loaded services. 
