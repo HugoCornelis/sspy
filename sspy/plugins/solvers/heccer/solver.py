@@ -254,6 +254,14 @@ class Solver:
 
 #---------------------------------------------------------------------------
 
+    def SetParameter(self, path, field, value):
+        """
+        @brief Sets a parameter value in the solver.
+        """
+        self._heccer.SetParameter(path, field, value)
+
+#---------------------------------------------------------------------------
+
     def SetGranularity(self, granularity):
         """!
         @brief sets the granularity of the solver output
