@@ -1472,43 +1472,20 @@ class SSPy:
                         
 #---------------------------------------------------------------------------
 
-    def SetParameter(self, path=None, parameter=None, value=None, service=None):
+    def SetParameter(self, path=None, parameter=None, value=None,
+                     service=None, solver=None, solver_type=None):
         """!
         @brief Sets a parameter on all or one loaded services. 
         """
 
-        if self._loaded_services is None:
+        if self._compiled:
 
-            # here we store any parameters we need if a service isn't loaded
-            # they are applied during ApplyRuntimeParameters()
-            # Edit: This is commented out, easier to export parameters if they're all saved
-            # in the plugin.
+            self.SetSolverParameter(path, parameter, value, solver, solver_type)
 
-#             self._runtime_parameters.append(dict(path=path,
-#                                                  parameter=parameter,
-#                                                  value=value,
-#                                                  service=service))
-
-
-            raise errors.ParameterSetError("Can't set parameter %s on element %s, no service loaded" % (parameter,path))
-        
         else:
 
-            if service is None:
-                
-                for s in self._loaded_services:
-                        
-                    s.SetParameter(path, parameter, value)
-
-            else:
-
-                for s in self._loaded_services:
-
-                    if s.GetName() == service:
-
-                        s.SetParameter(path, parameter, value)
-                        
-                
+            self.SetServiceParameter(path, parameter, value, service)
+            
 
 #---------------------------------------------------------------------------
 
