@@ -30,7 +30,6 @@ class Output:
 
         self.verbose = verbose
 
-
         # should be inconsequential in an output object
         # it is only here for reporting purposes to keep
         # the object consistent when it's passed on to
@@ -48,6 +47,8 @@ class Output:
         self.resolution = None
         
         self.outputs = []
+
+        self.append = False
 
         self._solver = None
 
@@ -202,7 +203,17 @@ class Output:
         """!
         @brief Destroys and recreates the core output object
         """
-        
+
+        if not self.append:
+
+            self.Finish()
+
+            self._output_gen = None
+            
+            if os.path.isfile(self.filename):
+                
+                os.remove(self.filename)
+            
         self.Initialize()
 
 
