@@ -108,7 +108,7 @@ class Input:
         return self._plugin_data.GetName()
 
 #---------------------------------------------------------------------------
-3    
+    
     def AddInput(self, name, field):
 
         if self._solver is None:
