@@ -61,16 +61,19 @@ my_pulsegen = scheduler.CreateInput('pulsegen','pulsegen',verbose=True)
 
 my_pulsegen.AddInput('/Purkinje/segments/soma', 'INJECT')
 
-my_pulsegen.baselevel = 0.0
-my_pulsegen.level1 = 0.5e-09
 
-my_pulsegen.delay1 = 0.05
-my_pulsegen.width1 = 0.15
-my_pulsegen.level2 = 0.0
-my_pulsegen.width2 = 0.0
-my_pulsegen.delay2 = 100.0 # give it a very long delay to prevent repeating
 
-my_pulsegen.triggermode = 0 # zero is "free run"
+my_pulsegen.SetLevel1(0.5e-09)
+my_pulsegen.SetWidth1(0.15) 
+my_pulsegen.SetDelay1(0.05)
+my_pulsegen.SetLevel2(0.0)
+my_pulsegen.SetWidth2(0.0)
+my_pulsegen.SetDelay2(100.0) # give it a very long delay to prevent repeating
+
+my_pulsegen.SetBaseLevel(0.0)
+my_pulsegen.SetTriggerMode(0) # zero is "free run"
+
+
 
 
 #
