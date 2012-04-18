@@ -316,7 +316,11 @@ class Input:
 
     def SetLevel1(self,level1):
 
-        self._pulsegen.SetLevel1(level1)
+        self.level1 = level1
+
+        if not self._pulsegen is None:
+            
+            self._pulsegen.SetLevel1(level1)
 
 #---------------------------------------------------------------------------
 
@@ -328,7 +332,11 @@ class Input:
 
     def SetWidth1(self,width1):
 
-        self._pulsegen.SetWidth1(width1)
+        self.width1 = width1
+
+        if not self._pulsegen is None:
+            
+            self._pulsegen.SetWidth1(width1)
 
 #---------------------------------------------------------------------------
 
@@ -339,7 +347,11 @@ class Input:
 #---------------------------------------------------------------------------
     def SetDelay1(self,delay1):
 
-        self._pulsegen.SetDelay1(delay1)
+        self.delay1 = delay1
+
+        if not self._pulsegen is None:
+            
+            self._pulsegen.SetDelay1(delay1)
 
 #---------------------------------------------------------------------------
 
@@ -351,7 +363,11 @@ class Input:
 
     def SetLevel2(self,level2):
 
-        self._pulsegen.SetLevel2(level2)
+        self.level2 = level2
+
+        if not self._pulsegen is None:
+            
+            self._pulsegen.SetLevel2(level2)
 
 #---------------------------------------------------------------------------
 
@@ -363,7 +379,11 @@ class Input:
 
     def SetWidth2(self,width2):
 
-        self._pulsegen.SetWidth2(width2)
+        self.width2 = width2
+
+        if not self._pulsegen is None:
+            
+            self._pulsegen.SetWidth2(width2)
 
 #---------------------------------------------------------------------------
 
@@ -375,7 +395,11 @@ class Input:
 
     def SetDelay2(self,delay2):
 
-        self._pulsegen.SetDelay2(delay2)
+        self.delay2 = delay2
+
+        if not self._pulsegen is None:
+            
+            self._pulsegen.SetDelay2(delay2)
 
 #---------------------------------------------------------------------------
 
@@ -387,7 +411,11 @@ class Input:
 
     def SetBaseLevel(self,base_level):
 
-        self._pulsegen.SetBaseLevel(base_level)
+        self.base_level = base_level
+
+        if not self._pulsegen is None:
+            
+            self._pulsegen.SetBaseLevel(base_level)
 
 #---------------------------------------------------------------------------
 
@@ -399,7 +427,11 @@ class Input:
 
     def SetTriggerMode(self,trigger_mode):
 
-        self._pulsegen.SetTriggerMode(trigger_mode)
+        self.trigger_mode = trigger_mode
+
+        if not self._pulsegen is None:
+            
+            self._pulsegen.SetTriggerMode(trigger_mode)
 
 #---------------------------------------------------------------------------
 
