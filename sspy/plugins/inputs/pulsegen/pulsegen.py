@@ -108,7 +108,7 @@ class Input:
         return self._plugin_data.GetName()
 
 #---------------------------------------------------------------------------
-    
+3    
     def AddInput(self, name, field):
 
         if self._solver is None:
@@ -168,7 +168,7 @@ class Input:
             2. Connect the solver core to the input core.
 
             3. Add the inputs via whatever method the cores use
-            to communicate.
+3            to communicate.
         
         """
 
@@ -311,6 +311,101 @@ class Input:
     def Report(self):
         pass
 
+
+#---------------------------------------------------------------------------
+
+    def SetLevel1(self,level1):
+
+        self._pulsegen.SetLevel1(level1)
+
+#---------------------------------------------------------------------------
+
+    def GetLevel1(self):
+
+        return self._pulsegen.GetLevel1()
+
+#---------------------------------------------------------------------------
+
+    def SetWidth1(self,width1):
+
+        self._pulsegen.SetWidth1(width1)
+
+#---------------------------------------------------------------------------
+
+    def GetWidth1(self):
+
+        return self._pulsegen.GetWidth1()
+
+#---------------------------------------------------------------------------
+    def SetDelay1(self,delay1):
+
+        self._pulsegen.SetDelay1(delay1)
+
+#---------------------------------------------------------------------------
+
+    def GetDelay1(self):
+
+        return self._pulsegen.GetDelay1()
+
+#---------------------------------------------------------------------------
+
+    def SetLevel2(self,level2):
+
+        self._pulsegen.SetLevel2(level2)
+
+#---------------------------------------------------------------------------
+
+    def GetLevel2(self):
+
+        return self._pulsegen.GetLevel2()
+
+#---------------------------------------------------------------------------
+
+    def SetWidth2(self,width2):
+
+        self._pulsegen.SetWidth2(width2)
+
+#---------------------------------------------------------------------------
+
+    def GetWidth2(self):
+
+        return self._pulsegen.GetWidth2()
+
+#---------------------------------------------------------------------------
+
+    def SetDelay2(self,delay2):
+
+        self._pulsegen.SetDelay2(delay2)
+
+#---------------------------------------------------------------------------
+
+    def GetDelay2(self):
+
+        return self._pulsegen.GetDelay2()
+
+#---------------------------------------------------------------------------
+
+    def SetBaseLevel(self,base_level):
+
+        self._pulsegen.SetBaseLevel(base_level)
+
+#---------------------------------------------------------------------------
+
+    def GetBaseLevel(self):
+
+        return self._pulsegen.GetBaseLevel()
+
+#---------------------------------------------------------------------------
+
+    def SetTriggerMode(self,trigger_mode):
+
+        self._pulsegen.SetTriggerMode(trigger_mode)
+
+#---------------------------------------------------------------------------
+
+    def GetTriggerMode(self):
+
+        return self._pulsegen.GetTriggerMode()
 
 #---------------------------------------------------------------------------
 
