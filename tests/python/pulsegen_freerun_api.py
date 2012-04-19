@@ -6,6 +6,13 @@ import pdb
 import os
 import sys
 
+# This sets an environment to find the libraries needed for running SSPy
+# It will likely not be required in later versions of G-3
+
+sys.path.append( os.path.join(os.environ['HOME'],
+    'neurospaces_project/sspy/source/snapshots/0/tests/python'))
+
+
 os.environ['NEUROSPACES_NMC_MODELS']= os.path.join('/', 'usr', 'local', 'neurospaces', 'models', 'library')
 
 from test_library import add_sspy_path
@@ -52,17 +59,21 @@ my_heccer.SetTimeStep(2e-05)
 my_pulsegen = scheduler.CreateInput('pulsegen','pulsegen',verbose=True)
 
 
-my_pulsegen.AddInput('/Purkinje/segments/soma', 'Vm')
+my_pulsegen.AddInput('/Purkinje/segments/soma', 'INJECT')
 
 
-my_pulsegen.SetLevel1(50.0)
-my_pulsegen.SetWidth1(3.0) 
-my_pulsegen.SetDelay1(5.0)
-my_pulsegen.SetLevel2(-20.0)
-my_pulsegen.SetWidth2(5.0)
-my_pulsegen.SetDelay2(8.0)
-my_pulsegen.SetBaseLevel(10.0)
+
+my_pulsegen.SetLevel1(0.5e-09)
+my_pulsegen.SetWidth1(0.15) 
+my_pulsegen.SetDelay1(0.05)
+my_pulsegen.SetLevel2(0.0)
+my_pulsegen.SetWidth2(0.0)
+my_pulsegen.SetDelay2(100.0) # give it a very long delay to prevent repeating
+
+my_pulsegen.SetBaseLevel(0.0)
 my_pulsegen.SetTriggerMode(0) # zero is "free run"
+
+
 
 
 #
@@ -83,9 +94,6 @@ my_output.AddOutput('/Purkinje/segments/b3s44[49]', 'Vm')
 # This should probably just be arg flags or something, passing 'steps'
 # seems a bit tacky.
 my_output.SetMode('steps')
-
-
-
 
 scheduler.Run(steps=25000)
 
