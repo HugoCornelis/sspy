@@ -117,24 +117,38 @@ class Output:
 
             self.outputs.append(dict(field=field,component_name=name))
             
-#         if self._solver is None:
-
-#             raise Exception("Can't add output to %s, it is not connected to a solver" % self.GetName())
 
         else:
 
-            try:
-                solver_type = self._solver.GetType()
+            self.AddAddressFromSolver(name, field)
 
-                my_solver = self._solver.GetCore()
+            self.outputs.append(dict(field=field,component_name=name))
+            
+#---------------------------------------------------------------------------
 
-                address = my_solver.GetAddress(name, field)
+    def AddAddressFromSolver(self, name, field):
+        """
 
-                self._output_gen.AddOutput(name, address)
+        """
+        
+        if self._solver is None:
+
+            raise Exception("Output error: can't add output for %s, %s: No Solver" % (name, field))
+        
+        try:
+            
+            solver_type = self._solver.GetType()
+
+            my_solver = self._solver.GetCore()
+
+            address = my_solver.GetAddress(name, field)
+            
+            self._output_gen.AddOutput(name, address)
+    
+        except Exception, e:
                 
-            except Exception, e:
+            raise Exception("Output error: can't add output for %s, %s: %s" % (name, field, e))
 
-                raise Exception("Output error: can't add output for %s, %s: %s" % (name, field, e))
 
 #---------------------------------------------------------------------------
 
@@ -216,6 +230,7 @@ class Output:
             
         self.Initialize()
 
+        self._ParseOutputs()
 
     
 #---------------------------------------------------------------------------
@@ -443,4 +458,4 @@ class Output:
                     print "\tAdding output %d, '%s' with field '%s'" % (i+1, component_name, field)
 
                     
-                self.AddOutput(component_name, field)
+                self.AddAddressFromSolver(component_name, field)

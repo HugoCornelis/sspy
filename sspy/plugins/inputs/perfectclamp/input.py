@@ -44,7 +44,7 @@ class Input:
         
         self._perfectclamp = None
         
-        self._inputs = []
+        self.inputs = []
 
         self.command_voltage = None
 
@@ -108,7 +108,7 @@ class Input:
 
         if self._solver is None:
 
-            self._inputs.append(dict(field=field,component_name=name))
+            self.inputs.append(dict(field=field,component_name=name))
 
 #            raise Exception("Can't add input to %s, it is not connected to a solver" % self.GetName())
 
@@ -118,11 +118,19 @@ class Input:
 
             if solver_type == "heccer":
 
-                my_heccer = solver.GetCore()
+                try:
+                    
+                    my_heccer = solver.GetCore()
                 
-                address = my_heccer.GetCompartmentAddress(component_name, field)
+                    address = my_heccer.GetCompartmentAddress(component_name, field)
 
-                self._perfectclamp.AddInput(address)
+                    self._perfectclamp.AddInput(address)
+
+                except Exception, e:
+
+                    raise Exception("Input Error: can't add input for %s %s: %s" % (name, field, e))
+
+                self.inputs.append(dict(field=field,component_name=name))
 
 #---------------------------------------------------------------------------
 
@@ -130,7 +138,7 @@ class Input:
         """!
         @brief Sets the inputs for this object
         """
-        self._inputs = inputs
+        self.inputs = inputs
 
 #---------------------------------------------------------------------------
 
@@ -178,7 +186,7 @@ class Input:
         component_name = ""
         field = ""
 
-        for i, inp in enumerate(self._inputs):
+        for i, inp in enumerate(self.inputs):
 
             if inp.has_key('inputclass'):
 
@@ -284,6 +292,7 @@ class Input:
         """
         @brief performs a single step for the input
         """
+
         self._perfectclamp.Step(time)
 
 #---------------------------------------------------------------------------
