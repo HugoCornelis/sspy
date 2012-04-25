@@ -52,7 +52,7 @@ class Input:
 
         self._solver = None
 
-        self._perfectclamp = PerfectClamp(self._name)
+        self._perfectclamp = None #PerfectClamp(self._name)
 
         self._ParseArguments(arguments)
 
@@ -264,13 +264,15 @@ class Input:
 
         # Apply the parameters loaded or set via api
 
-        if not self.command_voltage is None and not self.command_file is None:
+        if not self.command_voltage is None:
 
-            self._perfectclamp.SetFields(self.command_voltage, self.command_file)
+            if not self.command_file is None:
 
-        elif not self.command_voltage:
-            
-            self._perfectclamp.SetCommandVoltage(self.command_voltage)
+                self._perfectclamp.SetFields(self.command_voltage, self.command_file)
+                
+            else:
+                
+                self._perfectclamp.SetCommandVoltage(self.command_voltage)
 
 #---------------------------------------------------------------------------
 
