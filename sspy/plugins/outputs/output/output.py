@@ -137,8 +137,6 @@ class Output:
         
         try:
             
-            solver_type = self._solver.GetType()
-
             my_solver = self._solver.GetCore()
 
             address = my_solver.GetAddress(name, field)

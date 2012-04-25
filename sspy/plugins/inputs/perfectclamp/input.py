@@ -114,24 +114,35 @@ class Input:
 
         else:
 
+            self.AddAddressFromSolver(name, field)
+
+            self.inputs.append(dict(field=field,component_name=name))
+
+
+#---------------------------------------------------------------------------
+
+    def AddAddressFromSolver(self, name, field):
+
+        if self._solver is None:
+
+            raise Exception("Input Error: can't add output for %s, %s: No Solver" % (name, field))
+            
+        try:
+
             solver_type = self._solver.GetType()
 
             if solver_type == "heccer":
-
-                try:
-                    
-                    my_heccer = solver.GetCore()
                 
-                    address = my_heccer.GetCompartmentAddress(component_name, field)
+                my_heccer = self._solver.GetCore()
+                
+                address = my_heccer.GetCompartmentAddress(component_name, field)
 
-                    self._perfectclamp.AddInput(address)
+                self._perfectclamp.AddInput(address)
 
-                except Exception, e:
+        except Exception, e:
 
-                    raise Exception("Input Error: can't add input for %s %s: %s" % (name, field, e))
-
-                self.inputs.append(dict(field=field,component_name=name))
-
+            raise Exception("Input Error: can't add input for %s %s: %s" % (name, field, e))
+        
 #---------------------------------------------------------------------------
 
     def SetInputs(self, inputs):
