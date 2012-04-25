@@ -52,7 +52,7 @@ class Input:
 
         self._solver = None
 
-        self._perfectclamp = None #PerfectClamp(self._name)
+        self._perfectclamp = PerfectClamp(self._name)
 
         self._ParseArguments(arguments)
 
