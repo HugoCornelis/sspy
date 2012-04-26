@@ -20,7 +20,7 @@ my $test
 
 						  {
 						   description => "Can we find the expected output for cal1.py via declaration ?",
-						   wait => 4,
+						   wait => 10,
 						   read => {
 							    application_output_file => "/tmp/output_cal1_ssp",
 							    expected_output_file => "$::config->{core_directory}/tests/specifications/strings/cal1.txt",
