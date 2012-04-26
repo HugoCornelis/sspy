@@ -26,4 +26,5 @@ except Exception, e:
 
 scheduler.Run()
 
+print "Done!"
 

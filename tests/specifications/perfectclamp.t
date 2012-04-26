@@ -20,7 +20,7 @@ my $test
 						  {
 						   description => "Check for script completion",
 						   read => 'Done!',
-						   timeout => 200,
+						   timeout => 300,
 						  },
 						  {
 						   description => "Can we clamp the purkinje cell by loading it from specificaiton ?",
@@ -59,13 +59,13 @@ my $test
 						  {
 						   description => "Check for script completion",
 						   read => 'Done!',
-						   timeout => 200,
+						   timeout => 300,
 						  },
 						  {
 						   description => "Can we clamp the purkinje cell by loading it via API ?",
 						   read => {
 							    application_output_file => "/tmp/output",
-							    expected_output_file => "$::config->{core_directory}/tests/specifications/strings/purk_test.txt",
+							    expected_output_file => "$::config->{core_directory}/tests/specifications/strings/edsjb1994-perfectclamp.txt",
 							   },
 						  },
 						 ],
