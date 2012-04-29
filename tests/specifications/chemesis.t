@@ -20,7 +20,7 @@ my $test
 
 						  {
 						   description => "Can we find the expected output for cal1.py via declaration ?",
-						   wait => 10,
+						   wait => 50,
 						   read => {
 							    application_output_file => "/tmp/output_cal1_ssp",
 							    expected_output_file => "$::config->{core_directory}/tests/specifications/strings/cal1.txt",
@@ -28,6 +28,7 @@ my $test
 						  },
 						 ],
 				description => "Schedule based on the G-2 cal1.g script",
+				timeout => 50,
 				preparation => {
 						description => "Clean out any previous files",
 						preparer =>
