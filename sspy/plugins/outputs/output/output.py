@@ -130,7 +130,7 @@ class Output:
         """
 
         """
-        
+            
         if self._solver is None:
 
             raise Exception("Output error: can't add output for %s, %s: No Solver" % (name, field))
@@ -228,7 +228,6 @@ class Output:
             
         self.Initialize()
 
-        self._ParseOutputs()
 
     
 #---------------------------------------------------------------------------
@@ -323,6 +322,11 @@ class Output:
 
         self.format = strfmt
 
+#---------------------------------------------------------------------------
+
+    def SetAppend(self, append=False):
+
+        self.append = append
     
 #---------------------------------------------------------------------------
 
@@ -387,6 +391,12 @@ class Output:
 
                 self.filename = options['filename']
 
+            if options.has_key('append'):
+
+                if options['append'] == '1':
+                    
+                    append = True
+
             else:
 
                 self.filename = None
@@ -399,6 +409,8 @@ class Output:
         self.SetResolution(resolution)
 
         self.SetFormat(string_format)
+
+        self.SetAppend(append)
 
 #---------------------------------------------------------------------------
 

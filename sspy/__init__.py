@@ -1324,17 +1324,26 @@ class SSPy:
 
         self.current_simulation_time = 0
 
+        if self.verbose:
+
+
+            print "Resetting all schedulees:"
+            
         for schedulee in self._schedulees:
 
             try:
 
                 schedulee.Reset()
 
+                if self.verbose:
+
+                    print "\tObject %s has been reset" % schedulee.GetName()
+                    
             except Exception, e:
 
                 print "Error, Can't reset object '%s' of type '%s': %s" % (schedulee.GetName(), schedulee.GetType(), e)
 
-                return
+                pass
 
 #---------------------------------------------------------------------------
 
@@ -1918,8 +1927,17 @@ class SSPy:
 #---------------------------------------------------------------------------
 
     def Shell(self):
+        """!
+        
+        A call to the shell method for exploring the simulation.
+        Should work using the self reference to itself internally.
+        """
+        
+        from shell import SSPyShell
+        
+        sspy_shell = SSPyShell(scheduler=self)
 
-        pass
+        sspy_shell.cmdloop()
 
 #---------------------------------------------------------------------------
 
