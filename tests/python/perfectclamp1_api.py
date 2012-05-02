@@ -71,6 +71,6 @@ my_output.SetMode('steps')
 
 
 
-scheduler.Run(steps=30)
+scheduler.Run(steps=30, finish=True)
 
 print "Done!"
