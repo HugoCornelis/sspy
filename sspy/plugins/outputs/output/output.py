@@ -48,6 +48,8 @@ class Output:
         
         self.outputs = []
 
+        self.outputs_parsed = False
+
         self.append = False
 
         self._solver = None
@@ -221,15 +223,20 @@ class Output:
             self.Finish()
 
             self._output_gen = None
-            
+  
             if os.path.isfile(self.filename):
                 
                 os.remove(self.filename)
-            
+
+            # if we destroy the object we need to flag it as not loaded
+            # so we can reload them after reconnecting. The plugin is still
+            # connected because we have an internal copy of the solver
+            self.outputs_parsed = False
+
         self.Initialize()
 
-
-    
+        self._ParseOutputs()
+                
 #---------------------------------------------------------------------------
 
     def Connect(self, solver):
@@ -422,8 +429,8 @@ class Output:
 
         Outputs can also be set via a yaml string fed to the parse method.
         """
-        
-        if not self.outputs is None:
+
+        if not self.outputs is None and not self.outputs_parsed:
 
             #
             # Could be possible to move this loop to it's own method
@@ -469,3 +476,6 @@ class Output:
 
                     
                 self.AddAddressFromSolver(component_name, field)
+
+
+            self.outputs_parsed = True
