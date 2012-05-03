@@ -16,7 +16,7 @@ my $test
 			       {
 				arguments => [
 					     ],
-				command => 'tests/python/reset.py',
+				command => 'tests/python/reset1.py',
 				command_tests => [
 						  {
 						   description => "Check for script completion",
@@ -27,7 +27,7 @@ my $test
 						   description => "Can we clamp a single passive compartment from API ?",
 						   read => {
 							    application_output_file => "/tmp/output",
-							    expected_output_file => "$::config->{core_directory}/tests/specifications/strings/reset.txt",
+							    expected_output_file => "$::config->{core_directory}/tests/specifications/strings/reset1.txt",
 							   },
 						  },
 						 ],
