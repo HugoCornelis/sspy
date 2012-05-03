@@ -46,6 +46,8 @@ class Input:
         
         self.inputs = []
 
+        self.inputs_parsed = False
+
         self.command_voltage = None
 
         self.command_file = None
