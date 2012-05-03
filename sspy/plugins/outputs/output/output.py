@@ -391,15 +391,19 @@ class Output:
 
                 self.filename = options['filename']
 
+            else:
+
+                self.filename = _default_filename
+
             if options.has_key('append'):
 
                 if options['append'] == '1':
                     
                     append = True
 
-            else:
+                else:
 
-                self.filename = None
+                    append = False
 
 
         self._output_gen = og.Output(self.filename)
