@@ -370,6 +370,7 @@ class Output:
         output_mode = None
         resolution = None
         string_format = None
+        append = False
         
         if configuration.has_key('options'):
 
@@ -400,11 +401,6 @@ class Output:
                 if options['append'] == '1':
                     
                     append = True
-
-                else:
-
-                    append = False
-
 
         self._output_gen = og.Output(self.filename)
 
