@@ -139,7 +139,7 @@ class Output:
 
             address = my_solver.GetAddress(name, field)
             
-            self._output_gen.AddOutput(name, address)
+            self._live_output.AddOutput(name, address)
     
         except Exception, e:
                 
@@ -348,6 +348,11 @@ class Output:
 
                 resolution = options['resolution']
 
+            if options.has_key('append'):
+
+                if options['append'] == '1':
+                    
+                    append = True
 
         self._live_output = LiveOutput()
 
@@ -366,8 +371,8 @@ class Output:
 
         Outputs can also be set via a yaml string fed to the parse method.
         """
-        
-        if not self.outputs is None:
+
+        if not self.outputs is None and not self.outputs_parsed:
 
             #
             # Could be possible to move this loop to it's own method
@@ -380,7 +385,7 @@ class Output:
 
                 if o.has_key('outputclass'):
 
-                    if o['outputclass'] != 'live_output':
+                    if o['outputclass'] != 'double_2_ascii':
                         # if this output is not meant
                         # for this object type then we
                         # continue and ignore it
@@ -412,4 +417,7 @@ class Output:
                     print "\tAdding output %d, '%s' with field '%s'" % (i+1, component_name, field)
 
                     
-                self.AddOutput(component_name, field)
+                self.AddAddressFromSolver(component_name, field)
+
+
+            self.outputs_parsed = True

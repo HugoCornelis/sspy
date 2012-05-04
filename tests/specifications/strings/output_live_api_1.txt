@@ -1,0 +1,62 @@
+
+
+No model runtime parameters defined
+
+
+Connecting 1 solvers to 1 services
+	Connecting solver 'My solver' to service 'My Model Container'
+
+
+Compiling all solvers
+	Compiling Solver: My solver
+
+
+Connecting 1 outputs to 1 solvers
+	Connecting solver 'My solver' to output 'output_object'
+	Adding output 1, '/singlep/segments/soma' with field 'Vm'
+
+
+
+
+Scheduling all simulation objects
+	Scheduling solvers:
+		Scheduling solver 'My solver'
+	Scheduling outputs:
+		Scheduling output 'output_object'
+
+
+Initializing all schedulees
+	Initializing Schedulee: My solver
+	Initializing Schedulee: output_object
+
+
+Running simulation in steps mode
+Timestep: 0.000000, Vm: -0.068000
+Timestep: 0.000010, Vm: -0.068007
+Timestep: 0.000020, Vm: -0.068015
+Timestep: 0.000030, Vm: -0.068022
+Timestep: 0.000040, Vm: -0.068029
+Timestep: 0.000050, Vm: -0.068037
+Resetting all schedulees:
+	Object My solver has been reset
+	Object output_object has been reset
+
+
+No model runtime parameters defined
+
+
+Running simulation in steps mode
+Finishing simulation
+Timestep: 0.000000, Vm: -0.068000
+Timestep: 0.000010, Vm: -0.068007
+Timestep: 0.000020, Vm: -0.068015
+Timestep: 0.000030, Vm: -0.068022
+Timestep: 0.000040, Vm: -0.068029
+Timestep: 0.000050, Vm: -0.068037
+Timestep: 0.000000, Vm: -0.068000
+Timestep: 0.000010, Vm: -0.068007
+Timestep: 0.000020, Vm: -0.068015
+Timestep: 0.000030, Vm: -0.068022
+Timestep: 0.000040, Vm: -0.068029
+Timestep: 0.000050, Vm: -0.068037
+Done!
