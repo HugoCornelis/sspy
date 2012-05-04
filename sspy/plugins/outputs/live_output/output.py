@@ -44,6 +44,10 @@ class Output:
         
         self.outputs = []
 
+        self.outputs_parsed = False
+
+        self.append = False
+
         self._solver = None
 
         if not arguments is None:
@@ -111,21 +115,35 @@ class Output:
 
             self.outputs.append(dict(field=field,component_name=name))
             
-#         if self._solver is None:
-
-#             raise Exception("Can't add output to %s, it is not connected to a solver" % self.GetName())
 
         else:
 
-            solver_type = self._solver.GetType()
+            self.AddAddressFromSolver(name, field)
 
-            if solver_type == "heccer":
+            self.outputs.append(dict(field=field,component_name=name))
+            
+#---------------------------------------------------------------------------
 
-                my_heccer = self._solver.GetCore()
+    def AddAddressFromSolver(self, name, field):
+        """
 
-                address = my_heccer.GetAddress(name, field)
+        """
+            
+        if self._solver is None:
 
-                self._live_output.AddOutput(name, address)
+            raise Exception("Output error: can't add output for %s, %s: No Solver" % (name, field))
+        
+        try:
+            
+            my_solver = self._solver.GetCore()
+
+            address = my_solver.GetAddress(name, field)
+            
+            self._output_gen.AddOutput(name, address)
+    
+        except Exception, e:
+                
+            raise Exception("Output error: can't add output for %s, %s: %s" % (name, field, e))
 
 #---------------------------------------------------------------------------
 
@@ -189,10 +207,22 @@ class Output:
         """!
         @brief Destroys and recreates the core output object
         """
+
+        if not self.append:
+
+            self.Finish()
+
+            self._live_output = None
+            
+            # if we destroy the object we need to flag it as not loaded
+            # so we can reload them after reconnecting. The plugin is still
+            # connected because we have an internal copy of the solver
+            self.outputs_parsed = False
+
         self.Initialize()
 
-
-    
+        self._ParseOutputs()
+            
 #---------------------------------------------------------------------------
 
     def Connect(self, solver):
@@ -273,7 +303,13 @@ class Output:
 
         """
         self.resolution = res
-            
+
+#---------------------------------------------------------------------------
+
+    def SetAppend(self, append=False):
+
+        self.append = append
+
 #---------------------------------------------------------------------------
 
     def GetData(self):

@@ -85,14 +85,12 @@ scheduler.Run(steps=2500, finish=True)
 
 output_data = my_output.GetData()
 
-
 # you can put some sort of data manipulation here for the output_data
 
-print "Data at step 1, time '%f' is %s" % (output_data[1][0], ','.join(map(str, output_data[1][1])))
+print "Data at step 1, time '%f' is %s" % (output_data[1][0], ','.join(map(str, output_data[1][1:])))
 
-print "Data at step 100, time '%f' is %s" % (output_data[100][0], ','.join(map(str, output_data[100][1])))
+print "Data at step 100, time '%f' is %s" % (output_data[100][0], ','.join(map(str, output_data[100][1:])))
 
-print "Data at step 10,000, time '%f' is %s" % (output_data[1000][0], ','.join(map(str, output_data[1000][1])))
-
+print "Data at step 10,000, time '%f' is %s" % (output_data[1000][0], ','.join(map(str, output_data[1000][1:])))
 
 print "Done!"
