@@ -11,7 +11,7 @@ EXTRA_DIST = \
 	sspy/plugin.py \
 	sspy/plugins/inputs/perfectclamp/input.py \
 	sspy/plugins/inputs/perfectclamp/input.yml \
-	sspy/plugins/inputs/pulsegen/input.py \
+	sspy/plugins/inputs/pulsegen/pulsegen.py \
 	sspy/plugins/inputs/pulsegen/input.yml \
 	sspy/plugins/outputs/line/output.py \
 	sspy/plugins/outputs/line/output.yml \
