@@ -28,12 +28,13 @@ tar.gz$
 \.so$
 ^autom4te.cache/
 ^install\.sh$
-^build$
-^dist$
-^html$
+^build
+^dist
+^html
 MANIFEST$
 ^docs/doxygen.tag$
 ^docs/man
+^sspy.egg-info*
 .egg-info$
 build$
 dist$
