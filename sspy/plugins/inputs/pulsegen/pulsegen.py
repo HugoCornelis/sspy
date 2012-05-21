@@ -59,6 +59,8 @@ class Input:
 
         self._pulsegen = PulseGen(self._name)
 
+        self.disable = False
+
         self._ParseArguments(arguments)
 
 
@@ -168,7 +170,7 @@ class Input:
             2. Connect the solver core to the input core.
 
             3. Add the inputs via whatever method the cores use
-3            to communicate.
+            to communicate.
         
         """
 
@@ -304,7 +306,10 @@ class Input:
         """
         @brief performs a single step for the input
         """
-        self._pulsegen.SingleStep(time)
+
+        if not self.disable:
+            
+            self._pulsegen.SingleStep(time)
 
 #---------------------------------------------------------------------------
 
