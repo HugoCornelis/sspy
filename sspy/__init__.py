@@ -96,6 +96,7 @@ class SSPy:
         self.time_step = None
         self.current_simulation_time = None
         self.simulation_time = None
+        self.run_halt = False
 
         # Internal schedule data to manage.
         self._schedule_data = {}
@@ -552,6 +553,14 @@ class SSPy:
                 coordinate_list = s.GetCoordinates()
 
         return coordinate_list
+
+#---------------------------------------------------------------------------
+
+    def Halt(self):
+        """
+        Sets a boolean that will make the main running loop exit
+        """
+        self.run_halt = True
 
 #---------------------------------------------------------------------------
 
@@ -1864,6 +1873,10 @@ class SSPy:
             
             for i in range(run_steps + 1):
 
+                if self.run_halt:
+                    # exit if we set the halt boolean
+                    break
+                
                 self.Step()
 
         elif run_time is not None:
@@ -1882,6 +1895,10 @@ class SSPy:
                 
             while self.current_simulation_time < run_time:
 
+                if self.run_halt:
+                    # exit if we set the halt boolean
+                    break
+                
                 self.Step()
 
                 self.current_simulation_time += run_time_step
@@ -1892,8 +1909,12 @@ class SSPy:
         if finish:
 
             self.Finish()
-            
-        #self.Finish()
+
+
+        # reset the run halt flag
+        if self.run_halt:
+
+            self.run_halt = False
         
 
 #---------------------------------------------------------------------------
