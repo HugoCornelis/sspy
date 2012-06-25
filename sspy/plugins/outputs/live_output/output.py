@@ -48,6 +48,8 @@ class Output:
 
         self.append = False
 
+        self.order = "row"
+
         self._solver = None
 
         if not arguments is None:
@@ -201,6 +203,9 @@ class Output:
 
             self._live_output.SetResolution(self.resolution)
 
+
+        self._live_output.SetOrder(self.order)
+
 #---------------------------------------------------------------------------
 
     def Reset(self):
@@ -312,6 +317,12 @@ class Output:
 
 #---------------------------------------------------------------------------
 
+    def SetOrder(self, order):
+
+        self.order = order
+
+#---------------------------------------------------------------------------
+
     def GetData(self):
 
         return self._live_output.GetData()
@@ -352,7 +363,13 @@ class Output:
 
                 if options['append'] == '1':
                     
-                    append = True
+                    self.append = True
+
+            if options.has_key('column_order'):
+
+                if options['column_order'] == '1':
+
+                    self.order = 'column'
 
         self._live_output = LiveOutput()
 

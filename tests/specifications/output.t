@@ -199,6 +199,39 @@ my $test
 
 			       },
 
+			       {
+				arguments => [
+					     ],
+				command => 'tests/python/output_live_column_api_1.py',
+				command_tests => [
+						  {
+						   description => "Can we run a simple script with a live output object with append and output in column order ?",
+						   read => (join '', `cat tests/specifications/strings/output_live_api_1.txt`),
+						   timeout => 15,
+						  },
+						 ],
+
+				description => "output test using live output object with append",
+
+			       },
+
+
+			       {
+				arguments => [
+					     ],
+				command => 'tests/python/output_live_column_api_2.py',
+				command_tests => [
+						  {
+						   description => "Can we run a simple script with a live output object without append and output in column order ?",
+						   read => (join '', `cat tests/specifications/strings/output_live_api_2.txt`),
+						   timeout => 15,
+						  },
+						 ],
+
+				description => "output test using live output object without append",
+
+			       },
+
 			      ],
        description => "output functions",
        name => 'output.t',
