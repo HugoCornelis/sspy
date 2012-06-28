@@ -11,6 +11,8 @@ import os
 import pdb
 import pprint
 import sys
+import threading
+
 
 try:
     import yaml
@@ -1966,8 +1968,13 @@ class SSPy:
         """
         @brief Executes a single step on all schedulees and updates the simulation time
 
-        
+        This is made to be thread safe so that steps can complete and not lead to uneven
+        output.
         """
+        lock = threading.Lock()
+
+        lock.acquire()
+        
         for schedulee in self._schedulees:
 
                 
@@ -1976,7 +1983,9 @@ class SSPy:
             if self.simulation_verbose:
 
                 schedulee.Report()
-            
+
+        lock.release()
+        
 #---------------------------------------------------------------------------
 
     def Steps(self):

@@ -58,7 +58,7 @@ def add_package_path(package, subdir=''):
                 sys.path.insert(0, os.path.join(python_build, subdir))
 
                 return
-    pdb.set_trace()
+
     # Add this path if we didn't find one previously
     sys.path.insert(0, os.path.join(path, subdir))
 #    sys.path.append(os.path.join(path, subdir))
