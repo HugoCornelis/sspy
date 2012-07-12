@@ -97,6 +97,7 @@ class SSPy:
         self.steps = None
         self.time_step = None
         self.current_simulation_time = None
+        self.current_step = None
         self.simulation_time = None
         self.run_halt = False
 
@@ -108,6 +109,7 @@ class SSPy:
         self._schedulees = []
 
         # status variables to check
+        self._steps_mode = False # if true it's in steps mode, if false in time mode
         self._compiled = False
         self._initialized = False
         self._schedule_loaded = False
@@ -164,6 +166,18 @@ class SSPy:
         else:
 
             return 0
+
+#---------------------------------------------------------------------------
+
+    def PercentCompleted(self):
+
+        if self._steps_mode:
+
+            return (self.current_step / self.steps)
+
+        else:
+            
+            return (self.current_simulation_time / self.simulation_time)
 
 #---------------------------------------------------------------------------
 
@@ -1321,8 +1335,13 @@ class SSPy:
 
                 raise errors.ScheduleeError("Error initializing schedulee '%s': %s" % (schedulee.GetName(),e))
 
-        
-        self.current_simulation_time = 0
+        if self._steps_mode:
+
+            self.current_step = 0
+            
+        else:
+            
+            self.current_simulation_time = 0
         
         self._initialized = True
 
@@ -1333,7 +1352,8 @@ class SSPy:
         @brief 
         """
 
-        self.current_simulation_time = 0
+        self.current_simulation_time = None
+        self.current_step = None
 
         if self.verbose:
 
@@ -1851,29 +1871,36 @@ class SSPy:
 
         if not steps is None:
 
-            run_steps = steps
+            run_steps = self.steps = steps
+
+            self._steps_mode = True
 
         elif not time is None:
 
-            run_time = time
+            run_time = self.simulation_time = time
+
+            self._steps_mode = False
 
         elif not self.steps is None:
 
             run_steps = self.steps
 
+            self._steps_mode = True
+
         elif not self.simulation_time is None:
 
             run_time = self.simulation_time
 
+            self._steps_mode = False
+
         # We have steps so we run for this number of steps
         if run_steps is not None:
-
 
             if self.verbose:
 
                 print "Running simulation in steps mode"
             
-            for i in range(run_steps + 1):
+            for self.current_step in range(run_steps + 1):
 
                 if self.run_halt:
                     # exit if we set the halt boolean
@@ -2240,6 +2267,8 @@ class SSPy:
                         if method == 'steps':
 
                             self.steps = p['arguments'][0]
+
+                            self._steps_mode = True
 
                             try:
                                 
