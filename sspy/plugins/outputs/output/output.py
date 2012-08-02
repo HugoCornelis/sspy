@@ -52,6 +52,8 @@ class Output:
 
         self.append = False
 
+        self.no_timestep = 0
+
         self._solver = None
 
         if not arguments is None:
@@ -211,6 +213,9 @@ class Output:
 
             self._output_gen.SetResolution(self.resolution)
 
+
+        self._output_gen.NoTimeStep(self.no_timestep)
+
 #---------------------------------------------------------------------------
 
     def Reset(self):
@@ -352,6 +357,16 @@ class Output:
     def GetFilename(self):
 
         return self.filename
+
+#---------------------------------------------------------------------------
+
+    def NoTimeStep(self, v):
+
+        self.no_timestep = v
+
+        if not self._output_gen is None:
+            
+            self._output_gen.NoTimeStep(v)
         
 #---------------------------------------------------------------------------
 

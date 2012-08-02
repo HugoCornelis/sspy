@@ -51,6 +51,8 @@ my_output = scheduler.CreateOutput('My output object', 'double_2_ascii')
 
 my_output.SetFilename('/tmp/output')
 
+my_output.NoTimeStep(1)
+
 my_output.AddOutput('/purk_test/segments/soma', 'Vm')
 my_output.AddOutput('/purk_test/segments/soma/ca_pool', 'Ca')
 my_output.AddOutput('/purk_test/segments/soma/km', 'state_n')
