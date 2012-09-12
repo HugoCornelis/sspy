@@ -66,6 +66,12 @@ class Service:
         self._model_container.Read(modelfile)
 
         self.files.append(modelfile)
+
+#---------------------------------------------------------------------------
+
+    def NDFLoadLibrary(self, filename, namespace):
+
+        self._model_container.NDFLoadLibrary(filename, namespace)
         
 #---------------------------------------------------------------------------
 

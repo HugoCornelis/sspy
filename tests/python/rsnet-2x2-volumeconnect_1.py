@@ -27,7 +27,7 @@ my_model_container = scheduler.CreateService(name="My Model Container",
                                              verbose=True)
 
 
-my_model_container.Load('cells/RScell-nolib2.ndf')
+my_model_container.NDFLoadLibrary('cells/RScell-nolib2.ndf', 'rscell')
 
 # my_model_container.SetParameter('/RSNet/population/3/soma',
 #                                 'INJECT',

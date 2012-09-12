@@ -1,0 +1,13 @@
+---
+name: des
+label: The discrete event simulator
+version: ssp
+description: This is the SSPy plugin for driving the discrete event simulator
+file: solver.py
+source: solver.py
+module: solver
+services:
+  - name: heccer_intermediary
+    version: ssp
+  - name: model_container
+    version: ssp
