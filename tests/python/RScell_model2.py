@@ -77,7 +77,9 @@ if __name__ == '__main__':
     # run with default 0.5e-9 injection
     myModel.run_simulation(0.5)
     # reset and run again with 0.7e-9 injection
+
     myModel.scheduler.Reset()
     myModel.set_injection(0.7e-9)
+
 #    myModel.run_simulation(0.5)
     myModel.scheduler.Run(time=0.5, finish=False)
