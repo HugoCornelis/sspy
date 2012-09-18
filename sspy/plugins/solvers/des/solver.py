@@ -25,7 +25,7 @@ class Solver:
                  constructor_settings=None, verbose=False):
         """
 
-        Should be able to pass the scheudler and use it as
+        Should be able to pass the scheduler and use it as
         an internal member here.
         """
         self._name = name
