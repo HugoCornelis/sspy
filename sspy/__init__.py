@@ -1352,8 +1352,8 @@ class SSPy:
         @brief 
         """
 
-        self.current_simulation_time = None
-        self.current_step = None
+        self.current_simulation_time = 0.0
+        self.current_step = 0
 
         if self.verbose:
 
