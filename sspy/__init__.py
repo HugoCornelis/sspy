@@ -1527,6 +1527,114 @@ class SSPy:
             self.SetServiceParameter(path, parameter, value, service)
             
 
+
+                       
+#---------------------------------------------------------------------------
+
+    def GetParameter(self, path=None, parameter=None, 
+                     service=None, solver=None, solver_type=None):
+        """!
+        @brief Sets a parameter on all or one loaded services. 
+        """
+
+        if self._compiled:
+
+            self.GetSolverParameter(path, parameter, value, solver, solver_type)
+
+        else:
+
+            self.GetServiceParameter(path, parameter, value, service)
+            
+#---------------------------------------------------------------------------
+
+
+    def GetSolverParameter(self, path, parameter, solver=None, solver_type=None):
+        """
+
+        Returns the value at the given parameter and path. If a solver option is given it
+        returns only the parameter on the solver. If solver_type is given it collects all
+        values for that particular solver type. If no options are given then it just returns
+        all parameter values at the given path in all solvers is available.
+        """
+        
+        if len(self._solvers) == 1:
+
+            solver = self._solvers[0]
+
+            return solver.GetParameter(path, parameter)
+
+        elif not solver is None:
+
+            for s in self._solvers:
+
+                if s.GetName() == solver:
+
+                    return s.GetParameter(path, parameter)
+
+            return None
+        
+        elif not solver_type is None:
+
+            solver_dict = {}
+            
+            for s in self._solvers:
+
+                if s.GetType() == solver_type:
+                    
+                    key = s.GetName()
+                
+                    solver_dict[key] = s.GetParameter(path, parameter)
+
+            return solver_dict  
+
+        else:
+
+            solver_dict = {}
+            
+            for s in self._solvers:
+                
+                key = s.GetName()
+                
+                solver_dict[key] = s.GetParameter(path, parameter)
+
+            return solver_dict  
+
+#---------------------------------------------------------------------------
+
+
+    def GetServiceParameter(self, path, parameter, service=None):
+
+        if len(self._loaded_services) == 1:
+
+            service = self._loaded_services[0]
+
+            return service.GetParameter(path, parameter)
+
+        elif not service is None:
+
+            for s in self._loaded_services:
+
+                if s.GetName() == service:
+
+                    return s.GetParameter(path, parameter)
+
+            return None
+        
+        else:
+
+            # probably no reason for this part to exist but it's here just in case
+            # It will return a python dict with each service name as a key
+            
+            service_dict = {}
+            
+            for s in self._loaded_services:
+
+                key = s.GetName()
+                
+                service_dict[key] = s.GetParameter(path, parameter)
+
+            return service_dict
+
 #---------------------------------------------------------------------------
 
     def ConnectOutputParameter(self, path, parameter, output_name=None, output_type=None):

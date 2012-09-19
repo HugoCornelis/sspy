@@ -264,9 +264,9 @@ class Solver:
 
     def GetParameter(self, path, field):
         """
-        @brief Sets a parameter value in the solver.
+        @brief Returns a parameter value from the given path and field.
         """
-        self._heccer.GetParameter(path, field)
+        return self._heccer.GetParameter(path, field)
         
 #---------------------------------------------------------------------------
 

@@ -167,6 +167,19 @@ class Service:
             # at the end we save any parameters passed.
             self.parameters.append(dict(component_name=path, field=field, value=value))
 
+
+#---------------------------------------------------------------------------
+
+    def GetParameter(self, path, parameter):
+
+        self._model_container.GetParameter(path, parameter)
+
+#---------------------------------------------------------------------------
+
+    def GetAllParameters(self, path):
+
+        self._model_container.GetAllParameters(path)
+        
 #---------------------------------------------------------------------------
 
     def _ParseArguments(self):
