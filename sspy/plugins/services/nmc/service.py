@@ -172,13 +172,21 @@ class Service:
 
     def GetParameter(self, path, parameter):
 
-        self._model_container.GetParameter(path, parameter)
+        return self._model_container.GetParameter(path, parameter)
 
 #---------------------------------------------------------------------------
 
     def GetAllParameters(self, path):
 
-        self._model_container.GetAllParameters(path)
+        parameter_dict = self._model_container.GetAllParameters(path)
+
+        if len(parameter_dict.keys()) == 0:
+
+            return None
+
+        else:
+
+            return parameter_dict
         
 #---------------------------------------------------------------------------
 

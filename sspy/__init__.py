@@ -1537,14 +1537,47 @@ class SSPy:
         @brief Sets a parameter on all or one loaded services. 
         """
 
+        value = None
+
         if self._compiled:
 
-            self.GetSolverParameter(path, parameter, value, solver, solver_type)
+            value = self.GetSolverParameter(path, parameter, solver, solver_type)
 
         else:
 
-            self.GetServiceParameter(path, parameter, value, service)
-            
+            value = self.GetServiceParameter(path, parameter, service)
+
+        return value
+    
+#---------------------------------------------------------------------------
+
+
+    def GetAllParameters(self, path, service=None):
+        """!
+        Gets all parameters for an element at the given path.
+        If service is set then it retrieves all parameters from the service
+        and returns them. If the model has been compiled then it will
+        update service parameters with values from 
+        """
+
+        param_dict = None
+        
+        if len(self._loaded_services) == 0:
+
+            return None
+        
+        elif len(self._loaded_services) == 1:
+
+            serv = self._loaded_services[0].GetCore()
+
+            param_dict = serv.GetAllParameters(path)
+
+
+        # now that we're done with the service, we check the solvers for
+        # values just in case they have changed. Or for solved variables
+        # that are only generated in the solvers.
+
+        
 #---------------------------------------------------------------------------
 
 
@@ -1556,8 +1589,11 @@ class SSPy:
         values for that particular solver type. If no options are given then it just returns
         all parameter values at the given path in all solvers is available.
         """
-        
-        if len(self._solvers) == 1:
+        if len(self._solvers) == 0 or not self._compiled:
+
+            return None
+            
+        elif len(self._solvers) == 1:
 
             solver = self._solvers[0]
 
@@ -1634,6 +1670,25 @@ class SSPy:
                 service_dict[key] = s.GetParameter(path, parameter)
 
             return service_dict
+
+#---------------------------------------------------------------------------
+
+
+    def GetRuntimeParameter(self, path, parameter):
+        """!
+        Does a parameter lookup in the pending runtime parameters.
+        """
+
+        for rp in self._runtime_parameters:
+
+            if rp['path'] == path:
+
+                if rp['parameter'] == parameter:
+
+                    return rp['value']
+
+
+        return None
 
 #---------------------------------------------------------------------------
 
