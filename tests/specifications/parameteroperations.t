@@ -55,6 +55,7 @@ rel_Z: 0.0
 Parameters on \'/purk_test/segments/soma\' after compile
 DIA: 2.98e-05
 SURFACE: 2.78985994009e-09
+Vm: -0.068
 LENGTH: 0.0
 INJECT: 2e-09
 rel_Y: 0.0
