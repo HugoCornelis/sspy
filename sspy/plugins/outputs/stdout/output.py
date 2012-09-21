@@ -8,7 +8,9 @@ import sys
 
 try:
 
-    from experiment.output import StdOut ImportError, e:
+    from experiment.output import StdOut
+
+except ImportError, e:
 
     sys.exit("Error importing the Line Output object: %s\n" % e)
 

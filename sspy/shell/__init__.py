@@ -18,6 +18,17 @@ from interface import SSPYInterface
 
 
 
+# This is just an import test of readline to warn the user
+# so they know that autocompletion will not work if this is not
+# found
+try:
+
+    import readline
+
+except ImportError:
+
+    print "The readline module for python is not installed, autocompletion will not work."
+
 
 class SSPyShell(cmd.Cmd):
     """!
@@ -38,16 +49,6 @@ class SSPyShell(cmd.Cmd):
 
         cmd.Cmd.__init__(self)
 
-        # This is just an import test of readline to warn the user
-        # so they know that autocompletion will not work if this is not
-        # found
-        try:
-
-            import readline
-
-        except ImportError:
-
-            print "The readline module for python is not installed, autocompletion will not work."
 
         self.verbose = verbose
 
