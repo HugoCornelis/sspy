@@ -32,6 +32,46 @@ Done!
 				description => "Returns the INJECT value that is set via script",
 				timeout => 15,
 			       },
+
+
+
+
+			       {
+				arguments => [
+					     ],
+				command => 'tests/python/parameter_operation_2.py',
+				command_tests => [
+						  {
+						   description => "Can we check parameters on an element ?",
+						   read => '
+Parameters on \'/purk_test/segments/soma\' before compile
+DIA: 2.98e-05
+LENGTH: 0.0
+INJECT: 2e-09
+rel_Y: 0.0
+rel_X: 0.0
+rel_Z: 0.0
+
+Parameters on \'/purk_test/segments/soma\' after compile
+DIA: 2.98e-05
+SURFACE: 2.78985994009e-09
+LENGTH: 0.0
+INJECT: 2e-09
+rel_Y: 0.0
+rel_X: 0.0
+rel_Z: 0.0
+
+Done!
+',
+
+
+						  },
+						 ],
+				description => "prints out the parameter values for an element in the purk_test model",
+				timeout => 15,
+			       },
+
+
 			      ],
        description => "Some test for setting and retrieving parameters",
        name => 'parameteroperations.t',
