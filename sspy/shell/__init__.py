@@ -22,12 +22,21 @@ from interface import SSPYInterface
 # so they know that autocompletion will not work if this is not
 # found
 try:
-
     import readline
-
 except ImportError:
+    print "The readline module for python is not available."
+else:
+    import rlcompleter
+    readline.parse_and_bind("tab: complete")
 
-    print "The readline module for python is not installed, autocompletion will not work."
+                            
+# try:
+
+#     import readline
+
+# except ImportError:
+
+#     print "The readline module for python is not installed, autocompletion will not work."
 
 
 class SSPyShell(cmd.Cmd):
