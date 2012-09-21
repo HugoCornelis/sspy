@@ -1572,7 +1572,8 @@ class SSPy:
 
             param_dict = serv.GetAllParameters(path)
 
-
+            return param_dict
+            
         # now that we're done with the service, we check the solvers for
         # values just in case they have changed. Or for solved variables
         # that are only generated in the solvers.

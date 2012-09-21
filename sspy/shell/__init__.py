@@ -1386,6 +1386,56 @@ argument.
         return completions
 
 #---------------------------------------------------------------------------
+# model_parameter_showall
+    def do_model_parameter_showall(self, arg):
+
+        if arg is None or arg == "":
+
+            self.help_model_parameter_showall()
+
+            return
+
+        tokens = arg.split()
+
+        if len(tokens) != 1:
+
+            self.help_model_parameter_showall()
+
+            return
+
+        else:
+
+            path = tokens[0]
+ 
+
+            try:
+
+                parameters = self._scheduler.GetAllParameters(path)
+
+                if parameters is None:
+
+                    print "No parameters found in '%s'" % path
+
+                    return
+
+                else:
+                    
+                    for k in parameters.iterkeys():
+
+                        print "%s: %s" % (k, parameters[k])
+
+            except Exception, e:
+
+                print e
+
+                return
+
+
+    def help_model_parameter_showall(self):
+        print "usage: model_parameter_showall [element name]",
+        print "-- Shows all parameters for a model element."
+    
+#---------------------------------------------------------------------------
 # model_parameter_show
     def do_model_parameter_show(self, arg):
         print "Shows all parameters for a model element."
