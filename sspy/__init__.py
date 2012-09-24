@@ -1561,6 +1561,8 @@ class SSPy:
         """
 
         param_dict = None
+
+        _model_container = None
         
         if len(self._loaded_services) == 0:
 
@@ -1568,28 +1570,23 @@ class SSPy:
         
         elif len(self._loaded_services) == 1:
 
-            serv = self._loaded_services[0].GetCore()
+            _model_container = self._loaded_services[0].GetCore()
 
-            param_dict = serv.GetAllParameters(path)
+            param_dict = _model_container.GetAllParameters(path)
 
-            
         # now that we're done with the service, we check the solvers for
         # values just in case they have changed. Or for solved variables
         # that are only generated in the solvers.
 
         if self._compiled:
-            
-            vm = self.GetSolverParameter(path, 'Vm')
 
-            param_dict['Vm'] = vm
-            
-#             try:
+            _type = _model_container.GetComponentType(path)
 
-#                 items = vm.items()
+            if _type == 'SEGMENT':
                 
-#                 param_dict['Vm'] = vm
-                
-#             except AttributeError:
+                vm = self.GetSolverParameter(path, 'Vm')
+
+                param_dict['Vm'] = vm
 
 
         return param_dict
