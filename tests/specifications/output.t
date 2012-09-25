@@ -232,6 +232,46 @@ my $test
 
 			       },
 
+
+
+
+			       {
+				arguments => [
+					     ],
+				command => 'tests/python/output_api_header.py',
+				command_tests => [
+						  {
+						   description => "Check for script completion",
+						   read => 'Done!',
+						  },
+						  {
+						   description => "Can we output a header on an output file?",
+						   read => {
+							    application_output_file => "/tmp/output",
+							    expected_output_file => "$::config->{core_directory}/tests/specifications/strings/output_header_1.txt",
+							   },
+						  },
+						 ],
+				description => "simple output with a header",
+				timeout => 10,
+				preparation => {
+						description => "Clean out any previous files",
+						preparer =>
+						sub
+						{
+						    `rm -f /tmp/output`;
+						},
+					       },
+				reparation => {
+					       description => "Remove the generated output files",
+					       reparer =>
+					       sub
+					       {
+ 						   `rm -f /tmp/output`;
+					       },
+					      },
+
+			       },
 			      ],
        description => "output functions",
        name => 'output.t',
