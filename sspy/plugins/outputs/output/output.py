@@ -54,6 +54,8 @@ class Output:
 
         self.no_timestep = 0
 
+        self.header = None
+
         self._solver = None
 
         if not arguments is None:
@@ -181,6 +183,30 @@ class Output:
 
         self._output_gen.Finish()
 
+
+#---------------------------------------------------------------------------
+
+    def SetHeader(self, line):
+
+        self.header = line
+
+#---------------------------------------------------------------------------
+
+    def WriteLine(self, line):
+
+        if self._output_gen is None:
+
+            raise Exception("Can't write line, output not initialized")
+            
+        elif line == "" or line == None:
+
+            raise Exception("Can't write line, invalid or empty line")
+
+        else:
+            
+            self._output_gen.WriteLine(line)
+
+
 #---------------------------------------------------------------------------
 
     def Initialize(self):
@@ -194,6 +220,10 @@ class Output:
             if self._output_gen is None:
 
                 raise Exception("Can't create output generator object '%s'" % self.GetName())
+
+            if not self.header is None:
+            
+                self._output_gen.WriteLine(self.header)
 
         # Here we set any output parameters we loaded into the plugin
 
@@ -216,6 +246,7 @@ class Output:
 
         self._output_gen.NoTimeStep(self.no_timestep)
 
+        
 #---------------------------------------------------------------------------
 
     def Reset(self):
