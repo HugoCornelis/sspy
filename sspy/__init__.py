@@ -86,6 +86,7 @@ class SSPy:
         # Each member of this array is in the format:
         #  dict(modelname="modelname",
         #       runtime_parameters=[ (component name, field, value), ...],
+        #       solver="heccer_1",
         #       solverclass="solver type")
         #
         self.models = []
@@ -379,11 +380,7 @@ class SSPy:
             
             print "%s" % o.GetName()
 
-            
-
-
 #---------------------------------------------------------------------------
-
 
     def GetSolverPlugins(self):
 
@@ -394,7 +391,55 @@ class SSPy:
         except Exception:
 
             return None
-        
+
+#---------------------------------------------------------------------------
+
+    def GetSolver(self, name):
+
+        for s in self._solvers:
+
+            if name == s.GetName():
+
+                return s
+
+        return None
+
+#---------------------------------------------------------------------------
+
+    def GetService(self, name):
+
+        for s in self._loaded_services:
+
+            if name == s.GetName():
+
+                return s
+
+        return None
+
+#---------------------------------------------------------------------------
+
+    def GetInput(self, name):
+
+        for i in self._inputs:
+
+            if name == i.GetName():
+
+                return i
+
+        return None
+
+#---------------------------------------------------------------------------
+
+    def GetOutput(self, name):
+
+        for o in self._outputs:
+
+            if name == o.GetName():
+
+                return o
+
+        return None
+
 #---------------------------------------------------------------------------
 
     def ListSolverPlugins(self, verbose=False):
@@ -1909,17 +1954,34 @@ class SSPy:
             
 #---------------------------------------------------------------------------
 
-    def SetModelName(self, modelname):
+    def SetModelName(self, modelname, solver=None):
         """
         @brief Sets the model name across all solvers
         """
-        for s in self._solvers:
+
+        if not solver is None:
+
+            s = self.GetSolver(solver)
+
+            if s is None:
+
+                raise Exception("Can't set modelname '%s' on solver '%s', solver not found" % (modelname, solver))
 
             if self.verbose:
 
-                print "\t  Setting model name for solver '%s' to '%s'" % (s.GetName(), modelname)
+                    print "\t  Setting model name for solver '%s' to '%s'" % (solver, modelname)
 
             s.SetModelName(modelname)
+
+        else:
+        
+            for s in self._solvers:
+
+                if self.verbose:
+
+                    print "\t  Setting model name for solver '%s' to '%s'" % (s.GetName(), modelname)
+
+                s.SetModelName(modelname)
 
 #---------------------------------------------------------------------------
 
@@ -2205,6 +2267,15 @@ class SSPy:
         from __cbi__ import GetVersion
 
         return GetVersion()
+
+#---------------------------------------------------------------------------
+
+    def SolverSet(self, model_name, solver=None, solver_type=None):
+        """
+
+        """
+        
+        
 
 
 #---------------------------------------------------------------------------
