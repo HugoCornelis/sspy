@@ -1486,10 +1486,50 @@ class SSPy:
         pass
 
 #---------------------------------------------------------------------------
-    def RegisterDriver(self):
 
-        pass
+    def SolverSet(self, model_name, solver_name=None, solver_type=None):
 
+        _model_container = None
+        _solver = None
+        _solver_type = None
+
+        if solver_name is None and solver_type is None:
+
+            raise Exception("Can't set solver for path '%s', need a solver name or type" % path)
+
+
+        if len(self._loaded_services) == 1:
+
+            _model_container = self._loaded_services[0].GetCore()
+
+
+        elif len(self._loaded_services) == 0:
+
+            raise Exception("Can't set solver to element, no services")
+
+        else:
+            
+            raise Exception("Can't set '%s' to solver, sore than one service is currently not supported" % model_name)
+        
+
+        if not solver_name is None:
+
+            _solver = self.GetSolver(solver_name)
+
+            if _solver is None:
+
+                raise Exception("Can't set solver for '%s', no solver by that name" % solver_name)
+
+        _solver_type = _solver.GetType()
+
+        # We use GetCore to get the actual solver object that the plugin is wrapped around.
+        # Not to be confused with the low level object that the solver object wraps and
+        # is also retrieved by using a GetCore method. Thankfully the plugin provides a
+        # GetType method for us to use.
+        #
+        _model_container.RegisterSolver(model_name, _solver.GetCore(), _solver_type)
+        
+        
 #---------------------------------------------------------------------------
 
     def SetServiceParameter(self, path=None, parameter=None, value=None, service=None):
@@ -2270,15 +2310,6 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def SolverSet(self, model_name, solver=None, solver_type=None):
-        """
-
-        """
-        
-        
-
-
-#---------------------------------------------------------------------------
     
     def ParseSchedule(self, schedule_data):
         """
