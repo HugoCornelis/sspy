@@ -1,5 +1,5 @@
 ---
-name: model_container2
+name: model_container_h
 label: Neurospaces Model Container
 version: ssp
 description: This is the SSPy object for setting up a model container
