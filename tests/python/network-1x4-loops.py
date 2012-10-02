@@ -31,6 +31,42 @@ my_model_container.NDFLoadLibrary('cells/RScell-nolib.ndf', 'rscell')
 my_model_container.SetParameter('::rscell::/cell/soma/Ex_channel', 'G_MAX', '0.04330736624')
 my_model_container.SetParameter('::rscell::/cell/soma/Ex_channel', 'Erev', '0')
 
+my_model_container.CreateNetwork('/n_cells')
+# can also use my_model_container.Create('/n_cells', 'network') if you want
+
+
+# sources
+my_model_container.InsertAlias('::rscell::/cell', '/n_cells/s1')
+
+# targets
+for i in range(1, 5):
+
+    my_model_container.InsertAlias('::rscell::/cell', "/n_cells/t%s" % i)
+
+
+my_model_container.Create('/n_cells/projection', 'projection')
+
+
+model_container.SetParameter('/n_cells/projection', 'SOURCE', '/n_cells')
+model_container.SetParameter('/n_cells/projection', 'TARGET', '/n_cells')
+
+
+for i in range(1, 5):
+
+    projection_path = "/n_cells/projection/%s" % i
+
+    connection = my_model_container.Create(projection_path, 'single_connection')
+
+    my_model_container.SetParameter(projection_path, 'PRE', 's1/soma/spike')
+    my_model_container.SetParameter(projection_path, 'POST', "t%s/soma/Ex_channel/synapse" % projection_path)
+    my_model_container.SetParameter(projection_path, 'WEIGHT', 2.0)
+    my_model_container.SetParameter(projection_path, 'DELAY', 0.03)
+    
+
+
+
+
+
 #
 # Must create solver.
 #
