@@ -27,7 +27,6 @@ my_model_container = scheduler.CreateService(name="My Model Container",
                                              verbose=True)
 
 my_model_container.NDFLoadLibrary('cells/RScell-nolib.ndf', 'rscell')
-pdb.set_trace()
 
 my_model_container.SetParameter('::rscell::/cell/soma/Ex_channel', 'G_MAX', '0.04330736624')
 my_model_container.SetParameter('::rscell::/cell/soma/Ex_channel', 'Erev', '0')
@@ -56,7 +55,7 @@ for i in range(1, 5):
 
     projection_path = "/n_cells/projection/%s" % i
 
-    connection = my_model_container.Create(projection_path, 'single_connection')
+    connection = my_model_container.Create(projection_path, 'connection')
 
     my_model_container.SetParameter(projection_path, 'PRE', 's1/soma/spike')
     my_model_container.SetParameter(projection_path, 'POST', "t%s/soma/Ex_channel/synapse" % projection_path)
