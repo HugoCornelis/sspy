@@ -27,11 +27,12 @@ my_model_container = scheduler.CreateService(name="My Model Container",
                                              verbose=True)
 
 my_model_container.NDFLoadLibrary('cells/RScell-nolib.ndf', 'rscell')
+pdb.set_trace()
 
 my_model_container.SetParameter('::rscell::/cell/soma/Ex_channel', 'G_MAX', '0.04330736624')
 my_model_container.SetParameter('::rscell::/cell/soma/Ex_channel', 'Erev', '0')
 
-my_model_container.CreateNetwork('/n_cells')
+my_model_container.Create('/n_cells', 'network')
 # can also use my_model_container.Create('/n_cells', 'network') if you want
 
 
@@ -47,8 +48,8 @@ for i in range(1, 5):
 my_model_container.Create('/n_cells/projection', 'projection')
 
 
-model_container.SetParameter('/n_cells/projection', 'SOURCE', '/n_cells')
-model_container.SetParameter('/n_cells/projection', 'TARGET', '/n_cells')
+my_model_container.SetParameter('/n_cells/projection', 'SOURCE', '/n_cells')
+my_model_container.SetParameter('/n_cells/projection', 'TARGET', '/n_cells')
 
 
 for i in range(1, 5):

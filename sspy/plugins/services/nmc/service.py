@@ -62,7 +62,13 @@ class Service:
 
     def Create(self, path, typ):
 
-        self._model_container.Create(path, typ)
+        return self._model_container.Create(path, typ)
+
+#---------------------------------------------------------------------------
+
+    def InsertAlias(self, source, target):
+
+        self._model_container.InsertAlias(source, target)
 
 #---------------------------------------------------------------------------
 
@@ -149,23 +155,22 @@ class Service:
         to put the service back in the state it was previously.
         """
 
-        if re.search("::",path):
+        
             
-            if self.verbose:
+        if self.verbose:
+
+
+            if re.search("::",path):
                 
                 print "\tModel Container: setting parameter concept %s %s %s" % (path, field, str(value))
 
-            self._model_container.SetParameterConcept(path, field, value)
-        
-        
-        else:
-            
-            if self.verbose:
-
+            else:
+                
                 print "\tModel Container: setting parameter %s %s %s" % (path, field, str(value))
-            
-            self._model_container.SetParameter(path, field, value)
 
+        self._model_container.SetParameter(path, field, value)
+        
+        
 
         if not no_store:
             
