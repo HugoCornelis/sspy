@@ -49,6 +49,8 @@ setup: setup.py
 	echo "no op"
 	$(PYTHON) setup.py build
 	$(PYTHON) setup.py build_py
+	$(PYTHON) setup.py bdist
+	$(PYTHON) setup.py bdist_egg
 
 install-exec-hook:
 	echo "no install"
