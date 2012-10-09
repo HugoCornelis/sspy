@@ -90,6 +90,7 @@ class SSPy:
         #       solverclass="solver type")
         #
         self.models = []
+
         #----------------------------------------------
 
         
@@ -1044,6 +1045,32 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
+    def ApplySolverParameters(self):
+        """
+        @brief connects solvers to the solver registry
+
+        """
+
+        if not self._compiled:
+
+            raise Exception("Can't apply solvers to models, solvers haven't been compiled yet.")
+            
+        try:
+
+
+            for m in self.models:
+
+                if not m['solver'] is None:
+                    # only use this is we were given an explicit solver to set it to. otherwise
+                    # it may cause an error.
+                    self.SolverSet(m['modelname'], solver_name=m['solver'], solver_type=m['solver_type'])
+
+        except Exception, e:
+
+            raise Exception("Can't set model '%s': %s" % (m['modelname'], e)) 
+
+#---------------------------------------------------------------------------
+
     def ConnectServices(self):
         """
         @brief Connects services to solvers and solvers to protocols
@@ -1421,6 +1448,24 @@ class SSPy:
 
                 pass
 
+        # reset model variables
+        
+        for m in self.models:
+
+            try:
+
+                if self.verbose:
+
+                    print "\tResetting model '%s'" % m['modelname']
+                                    
+                m['model_set'] = False
+
+            except Exception,e:
+
+                print "Can't reset model '%s'" % (m['modelname'])
+
+                raise
+
 #---------------------------------------------------------------------------
 
     def InstantiateCommunicators(self):
@@ -1493,9 +1538,26 @@ class SSPy:
         _solver = None
         _solver_type = None
 
+
+        # first check if we checked in this model
+
+        for m in self.models:
+
+            if model_name == m['model_name']:
+
+                if solver_name == m['solver']:
+
+                    # we return because it's already set here
+                    if self.verbose:
+
+                        print "Model '%s' with solver '%s' has already been set" % (model_name, solver_name)
+                        
+                    return 
+            
+
         if solver_name is None and solver_type is None:
 
-            raise Exception("Can't set solver for path '%s', need a solver name or type" % path)
+            raise Exception("Can't set solver for path '%s', need a solver name" % path)
 
 
         if len(self._loaded_services) == 1:
@@ -1520,16 +1582,35 @@ class SSPy:
 
                 raise Exception("Can't set solver for '%s', no solver by that name" % solver_name)
 
+        else:
+
+            raise Exception("Can't retrieve solver for solverset, no solvername given")
+
         _solver_type = _solver.GetType()
 
-        # We use GetCore to get the actual solver object that the plugin is wrapped around.
-        # Not to be confused with the low level object that the solver object wraps and
-        # is also retrieved by using a GetCore method. Thankfully the plugin provides a
-        # GetType method for us to use.
-        #
-        _model_container.RegisterSolver(model_name, _solver.GetCore(), _solver_type)
+        _model_set = False
+
+        if self._compiled:
+
+            # We use GetCore to get the actual solver object that the plugin is wrapped around.
+            # Not to be confused with the low level object that the solver object wraps and
+            # is also retrieved by using a GetCore method. Thankfully the plugin provides a
+            # GetType method for us to use.
+            #
+            _model_container.RegisterSolver(model_name, _solver.GetCore(), _solver_type)
+
+            # if it's been set then we make sure to flag it as such. otherwise we may set it twice.
+            _model_set = True
+
+
+        # If solvers haven't been compiled then we need to store the value first.
+
+        self.StoreModelName(model_name, solver=solver_name, solver_type=solver_type, model_set=_model_set)
         
-        
+        if self.verbose:
+
+            print "Solver '%s' of type '%s' to model '%s'" % (_solver.GetName(), _solver_type, model_name)
+            
 #---------------------------------------------------------------------------
 
     def SetServiceParameter(self, path=None, parameter=None, value=None, service=None):
@@ -2025,6 +2106,26 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
+    def store_modelname(self, modelname, solver=None, solver_type=None, runtime_parameters=None,model_set=False):
+        """
+
+        Stores a model name and sets the model set variable to false so that
+        we know it has no been set.
+        """
+        _model = dict(modelname=modelname,
+                      runtime_parameters=runtime_parameters,
+                      solver=solver,
+                      solver_type=solver_type,
+                      model_set=model_set
+                      )
+
+        self.models.append(_model)
+
+    # method alias
+    StoreModelName = store_modelname
+    
+#---------------------------------------------------------------------------
+
     def RunPrepare(self):
 
 
@@ -2061,6 +2162,7 @@ class SSPy:
 
                 print "\n"
 
+
             
         if not self._compiled:
 
@@ -2075,6 +2177,19 @@ class SSPy:
             if self.verbose:
 
                 print "\n"
+
+            try:
+                
+                self.ApplySolverParameters()
+
+            except Exception, e:
+
+                raise errors.CompileError("Can't set solvers to models: %s" % e)
+
+            if self.verbose:
+
+                print "\n"
+
 
         if not self._outputs_connected:
 
@@ -2633,7 +2748,7 @@ class SSPy:
                 
                 if m.has_key('solverclass'):
 
-                    solverclass = m['solverclass']
+                    solver_type = m['solverclass']
 
                 if m.has_key('runtime_parameters'):
                     
@@ -2645,7 +2760,10 @@ class SSPy:
 
                         runtime_parameters.append((component_name, field, val))
 
-                self.models.append(dict(modelname=modelname, runtime_parameters=runtime_parameters, solverclass=solverclass))
+
+                self.StoreModelName(modelname=modelname,
+                                    runtime_parameters=runtime_parameters,
+                                    solver_type=solver_type)
 
             except Exception, e:
 

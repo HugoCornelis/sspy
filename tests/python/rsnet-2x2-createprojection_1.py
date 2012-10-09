@@ -31,7 +31,7 @@ my_model_container = scheduler.CreateService(name="My Model Container",
 my_mc_core = my_model_container.GetCore()
 
 
-my_mc_core.NDFLoadLibrary('cells/RScell-nolib.ndf', 'rscell')
+my_mc_core.NDFLoadLibrary('cells/RScell-nolib2.ndf', 'rscell')
 
 nx= 2 # number of cells nx*ny
 ny=2
@@ -50,6 +50,7 @@ my_mc_core.CreateMap('::rscell::/cell', '/RSNet/population', nx, ny, sep_x, sep_
 
 
 my_mc_core.CreateProjection(network='/RSNet',
+                            projection='/RSNet/projection',
                             probability=1.0,
                             random_seed=1212.0,
                             source=('/RSNet/population', 'box', -1e10, -1e10, -1e10, 1e10, 1e10, 1e10),
@@ -72,7 +73,7 @@ my_input.SetCommandVoltage(1e-9)
 #
 # Must create solver.
 #
-my_heccer = scheduler.CreateSolver('My solver', 'heccer', verbose=True)
+my_heccer = scheduler.CreateSolver('My heccer', 'heccer', verbose=True)
 
 # Sets the segment of the model to run from
 my_heccer.SetModelName('/RSNet')
@@ -82,51 +83,22 @@ my_heccer.SetTimeStep(2e-05)
 
 
 
-##########
-# user workflow: configure the simulation
+#
+# Must a des.
+#
+my_heccer = scheduler.CreateSolver('My DES', 'des', verbose=True)
 
-# configure the numerical solver
+# Sets the segment of the model to run from
+#my_heccer.SetModelName('/RSNet')
 
-heccer_set_config('disassem_simple');
+for i in range(0, nx*ny):
 
-set_verbose('debug');
+    path = "/RSNet/population/%s" % i
+    pdb.set_trace()
+    # This performs a lookup and set on the solver by the solver name
+    # given when you create it via CreateSolver.
+    scheduler.SolverSet(path, 'My heccer')
 
-ce('/RSNet/population');
-
-for (my $counter = 0 ; $counter < $NX * $NY ; $counter++)
-{
-    solverset($counter, 'heccer', '/RSNet');
-}
-
-solverset('/RSNet/projection', 'des', '/RSNet');
-
-# save the schedule for later use
-
-ssp_save('/RSNet', '/tmp/network-simple.ssp');
-
-
-
-##########
-# user workflow: run the simulation
-
-# run the simulation
-
-run('/RSNet', '0.2');
----------------------------------------
-
-
-
-ce('/RSNet/population');
-
-for (my $counter = 0 ; $counter < $NX * $NY ; $counter++)
-{
-    output_add($counter . '/soma', 'Vm');
-}
-
-for (my $counter = 0 ; $counter < $NX * $NY ; $counter++)
-{
-    output_add($counter . '/soma/Ex_channel', 'Gsyn');
-}
 
 #
 # Create Outputs
@@ -153,6 +125,7 @@ my_output.SetMode('steps')
 my_output.SetResolution(10)
 
 
+scheduler.SetModelName('/RSNet')
 
 scheduler.Run(time=0.2)
 

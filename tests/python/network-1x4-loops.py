@@ -26,8 +26,10 @@ my_model_container = scheduler.CreateService(name="My Model Container",
                                              type="model_container",
                                              verbose=True)
 
-my_model_container.NDFLoadLibrary('cells/RScell-nolib.ndf', 'rscell')
+pdb.set_trace()
 
+my_model_container.NDFLoadLibrary('cells/RScell-nolib2.ndf', 'rscell')
+pdb.set_trace()
 my_model_container.SetParameter('::rscell::/cell/soma/Ex_channel', 'G_MAX', '0.04330736624')
 my_model_container.SetParameter('::rscell::/cell/soma/Ex_channel', 'Erev', '0')
 
@@ -46,7 +48,7 @@ for i in range(1, 5):
 
 my_model_container.Create('/n_cells/projection', 'projection')
 
-
+pdb.set_trace()
 my_model_container.SetParameter('/n_cells/projection', 'SOURCE', '/n_cells')
 my_model_container.SetParameter('/n_cells/projection', 'TARGET', '/n_cells')
 
@@ -55,7 +57,7 @@ for i in range(1, 5):
 
     projection_path = "/n_cells/projection/%s" % i
 
-    connection = my_model_container.Create(projection_path, 'connection')
+    connection = my_model_container.Create(projection_path, 'single_connection')
 
     my_model_container.SetParameter(projection_path, 'PRE', 's1/soma/spike')
     my_model_container.SetParameter(projection_path, 'POST', "t%s/soma/Ex_channel/synapse" % projection_path)
@@ -84,6 +86,8 @@ my_input = scheduler.CreateInput('My perfectclamp','perfectclamp',verbose=True)
 
 my_input.SetCommandVoltage(1e-9)
 
+my_input.AddInput('/n_cells/s1/soma', 'INJECT')
+
 
 #
 # Create Outputs
@@ -92,7 +96,13 @@ my_output = scheduler.CreateOutput('My output object', 'double_2_ascii')
 
 my_output.SetFilename('/tmp/output')
 
-my_output.AddOutput('/cell/soma', 'Vm')
+for i in range(1,5):
+
+    my_output.AddOutput("t%s/soma/Ex_channel" % i, 'Gsyn')
+    my_output.AddOutput("t%s/soma/Ex_channel" % i, 'Isyn')
+    my_output.AddOutput("t%s/soma" % i, 'Vm')
+
+
 
 # This should probably just be arg flags or something, passing 'steps'
 # seems a bit tacky.

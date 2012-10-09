@@ -168,6 +168,7 @@ class Service:
                 
                 print "\tModel Container: setting parameter %s %s %s" % (path, field, str(value))
 
+
         self._model_container.SetParameter(path, field, value)
         
         
