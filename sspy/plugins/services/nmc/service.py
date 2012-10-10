@@ -162,11 +162,11 @@ class Service:
 
             if re.search("::",path):
                 
-                print "\tModel Container: setting parameter concept %s %s %s" % (path, field, str(value))
+                print "Model Container: setting parameter concept %s %s %s" % (path, field, str(value))
 
             else:
                 
-                print "\tModel Container: setting parameter %s %s %s" % (path, field, str(value))
+                print "Model Container: setting parameter %s %s %s" % (path, field, str(value))
 
 
         self._model_container.SetParameter(path, field, value)

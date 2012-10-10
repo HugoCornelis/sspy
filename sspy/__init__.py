@@ -1051,9 +1051,9 @@ class SSPy:
 
         """
 
-        if not self._compiled:
+        if not self._services_connected:
 
-            raise Exception("Can't apply solvers to models, solvers haven't been compiled yet.")
+            raise Exception("Can't apply solvers to models, solvers haven't been connected to services yet.")
             
         try:
 
@@ -2166,17 +2166,6 @@ class SSPy:
             
         if not self._compiled:
 
-            try:
-                
-                self.Compile()
-
-            except Exception, e:
-
-                raise errors.CompileError("Can't compile schedule: %s" % e)
-
-            if self.verbose:
-
-                print "\n"
 
             try:
                 
@@ -2189,6 +2178,20 @@ class SSPy:
             if self.verbose:
 
                 print "\n"
+
+
+            try:
+                
+                self.Compile()
+
+            except Exception, e:
+
+                raise errors.CompileError("Can't compile schedule: %s" % e)
+
+            if self.verbose:
+
+                print "\n"
+
 
 
         if not self._outputs_connected:
