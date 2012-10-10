@@ -1001,7 +1001,7 @@ class SSPy:
 
                 self.SetModelName(modelname)
                     
-                if m.has_key('runtime_parameters'):
+                if m.has_key('runtime_parameters') and not m['runtime_parameters'] is None:
                     
                     for parameter in m['runtime_parameters']:
 
@@ -1014,7 +1014,7 @@ class SSPy:
             except Exception, e:
 
                 print e
-
+                pdb.set_trace()
                 continue
 
         # Now apply genericly set parameters
@@ -1065,6 +1065,9 @@ class SSPy:
                     # it may cause an error.
                     self.SolverSet(m['modelname'], solver_name=m['solver'], solver_type=m['solver_type'])
 
+                    # If no exception is thrown then this will set it to true
+                    m['model_set'] = True
+                    
         except Exception, e:
 
             raise Exception("Can't set model '%s': %s" % (m['modelname'], e)) 
@@ -1542,18 +1545,25 @@ class SSPy:
         # first check if we checked in this model
 
         for m in self.models:
-
-            if model_name == m['model_name']:
-
-                if solver_name == m['solver']:
-
-                    # we return because it's already set here
-                    if self.verbose:
-
-                        print "Model '%s' with solver '%s' has already been set" % (model_name, solver_name)
-                        
-                    return 
             
+            try:
+                
+                if model_name == m['modelname']:
+
+                    if solver_name == m['solver']:
+
+                        if m['model_set'] == True:
+                            
+                            # we return because it's already set here
+                            if self.verbose:
+                        
+                                print "\tModel '%s' with solver '%s' has already been set" % (model_name, solver_name)
+                        
+                            return
+                    
+            except KeyError:
+
+                raise
 
         if solver_name is None and solver_type is None:
 
@@ -1599,6 +1609,10 @@ class SSPy:
             #
             _model_container.RegisterSolver(model_name, _solver.GetCore(), _solver_type)
 
+            if self.verbose:
+
+                print "\tRegistering solver '%s' of type '%s' to model '%s'" % (_solver.GetName(), _solver_type, model_name)
+
             # if it's been set then we make sure to flag it as such. otherwise we may set it twice.
             _model_set = True
 
@@ -1607,9 +1621,6 @@ class SSPy:
 
         self.StoreModelName(model_name, solver=solver_name, solver_type=solver_type, model_set=_model_set)
         
-        if self.verbose:
-
-            print "Solver '%s' of type '%s' to model '%s'" % (_solver.GetName(), _solver_type, model_name)
             
 #---------------------------------------------------------------------------
 
@@ -2090,7 +2101,7 @@ class SSPy:
 
             if self.verbose:
 
-                    print "\t  Setting model name for solver '%s' to '%s'" % (solver, modelname)
+                    print "\tSetting model name for solver '%s' to '%s'" % (solver, modelname)
 
             s.SetModelName(modelname)
 
@@ -2100,7 +2111,7 @@ class SSPy:
 
                 if self.verbose:
 
-                    print "\t  Setting model name for solver '%s' to '%s'" % (s.GetName(), modelname)
+                    print "\tSetting model name for solver '%s' to '%s'" % (s.GetName(), modelname)
 
                 s.SetModelName(modelname)
 
@@ -2112,6 +2123,43 @@ class SSPy:
         Stores a model name and sets the model set variable to false so that
         we know it has no been set.
         """
+
+
+        for m in self.models:
+
+            if m['modelname'] == modelname:
+
+
+                if m['model_set']:
+
+                    if self.verbose:
+
+                        print "Can't store modelname '%s', it has already been set." % m['modelname']
+
+                    return
+
+                if not runtime_parameters is None and m.has_key('runtime_parameters'):
+
+                    if not m['runtime_parameters'] is None:
+                        
+                        for rp in runtime_parameters:
+                        
+                            if not rp in m['runtime_parameters']:
+
+                                m['runtime_parameters'].append(rp)
+
+                if not solver is None:
+
+                    m['solver'] = solver
+
+                if not solver_type is None:
+
+                    m['solver_type'] = solver_type
+
+                # if we found the modelname in our list then we update it and return
+                
+                return 
+
         _model = dict(modelname=modelname,
                       runtime_parameters=runtime_parameters,
                       solver=solver,

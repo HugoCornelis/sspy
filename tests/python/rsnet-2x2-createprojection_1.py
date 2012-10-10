@@ -94,7 +94,7 @@ my_heccer = scheduler.CreateSolver('My DES', 'des', verbose=True)
 for i in range(0, nx*ny):
 
     path = "/RSNet/population/%s" % i
-    pdb.set_trace()
+
     # This performs a lookup and set on the solver by the solver name
     # given when you create it via CreateSolver.
     scheduler.SolverSet(path, 'My heccer')
@@ -107,15 +107,12 @@ my_output = scheduler.CreateOutput('My output object', 'double_2_ascii')
 
 my_output.SetFilename('/tmp/output')
 
-counter = 0
+for i in range(0, nx * ny):
 
-while counter < NX * NY:
+    my_output.AddOutput("/RSNet/population/%s/soma" % i, 'Vm')
 
-    my_output.AddOutput("/RSNet/population/%s/soma" % counter, 'Vm')
+    my_output.AddOutput("/RSNet/population/%s/soma/Ex_channel" % i, 'Gsyn')
 
-    my_output.AddOutput("/RSNet/population/%s/soma/Ex_channel" % counter, 'Gsyn')
-
-    counter += 1
 
 
 # This should probably just be arg flags or something, passing 'steps'
