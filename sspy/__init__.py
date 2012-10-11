@@ -1014,7 +1014,7 @@ class SSPy:
             except Exception, e:
 
                 print e
-                pdb.set_trace()
+
                 continue
 
         # Now apply genericly set parameters
@@ -1168,7 +1168,7 @@ class SSPy:
                                         o['output_type'])
 
         self._outputs_connected = True
-
+        
 
 #---------------------------------------------------------------------------
 
