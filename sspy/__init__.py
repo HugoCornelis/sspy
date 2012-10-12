@@ -1600,7 +1600,7 @@ class SSPy:
 
         _model_set = False
 
-        if self._compiled:
+        if self._services_connected:
 
             # We use GetCore to get the actual solver object that the plugin is wrapped around.
             # Not to be confused with the low level object that the solver object wraps and
@@ -2210,11 +2210,6 @@ class SSPy:
 
                 print "\n"
 
-
-            
-        if not self._compiled:
-
-
             try:
                 
                 self.ApplySolverParameters()
@@ -2226,6 +2221,10 @@ class SSPy:
             if self.verbose:
 
                 print "\n"
+
+
+            
+        if not self._compiled:
 
 
             try:

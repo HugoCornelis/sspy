@@ -97,6 +97,7 @@ for i in range(0, nx*ny):
 
     # This performs a lookup and set on the solver by the solver name
     # given when you create it via CreateSolver.
+
     scheduler.SolverSet(path, 'My heccer')
 
 
@@ -113,13 +114,15 @@ for i in range(0, nx * ny):
 
     my_output.AddOutput("/RSNet/population/%s/soma/Ex_channel" % i, 'Gsyn')
 
-pdb.set_trace()
 
 # This should probably just be arg flags or something, passing 'steps'
 # seems a bit tacky.
 my_output.SetMode('steps')
 
 my_output.SetResolution(10)
+
+
+
 
 
 scheduler.SetModelName('/RSNet')
