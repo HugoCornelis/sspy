@@ -8,21 +8,19 @@ import sys
 
 try:
     
-    import heccer as heccer
-    from heccer import Heccer
-    from heccer import HeccerOptions
+    from heccer.des import DES
 
 except ImportError, e:
 
     sys.exit("Error importing the Heccer Python module: %s\n" % e)
 
 
-class Solver:
+class EventDistributor:
 
 #---------------------------------------------------------------------------
 
     def __init__(self,  name="Untitled DES", plugin=None, 
-                 constructor_settings=None, verbose=False):
+                 arguments=None, verbose=False):
         """
 
         Should be able to pass the scheduler and use it as
@@ -40,35 +38,11 @@ class Solver:
 
         self._module_name = None
 
-        # default dump options, do they need to be here? They're commented out
-        # in ssp
-        self.dump_options = (heccer.heccer_base.HECCER_DUMP_INDEXERS_SUMMARY
-		   | heccer.heccer_base.HECCER_DUMP_INDEXERS_STRUCTURE
-		   | heccer.heccer_base.HECCER_DUMP_INTERMEDIARY_COMPARTMENTS_PARAMETERS
-		   | heccer.heccer_base.HECCER_DUMP_INTERMEDIARY_COMPARTMENT_SUMMARY
-		   | heccer.heccer_base.HECCER_DUMP_INTERMEDIARY_MECHANISM_SUMMARY
-		   | heccer.heccer_base.HECCER_DUMP_INTERMEDIARY_STRUCTURE
-		   | heccer.heccer_base.HECCER_DUMP_INTERMEDIARY_SUMMARY
-		   | heccer.heccer_base.HECCER_DUMP_TABLE_GATE_SUMMARY
-		   | heccer.heccer_base.HECCER_DUMP_TABLE_GATE_TABLES
-		   | heccer.heccer_base.HECCER_DUMP_VM_COMPARTMENT_MATRIX
-		   | heccer.heccer_base.HECCER_DUMP_VM_COMPARTMENT_MATRIX_DIAGONALS
-		   | heccer.heccer_base.HECCER_DUMP_VM_COMPARTMENT_OPERATIONS
-		   | heccer.heccer_base.HECCER_DUMP_VM_MECHANISM_DATA
-		   | heccer.heccer_base.HECCER_DUMP_VM_MECHANISM_OPERATIONS
-		   | heccer.heccer_base.HECCER_DUMP_VM_CHANNEL_POOL_FLUXES
-		   | heccer.heccer_base.HECCER_DUMP_VM_SUMMARY
-		   | heccer.heccer_base.HECCER_DUMP_VM_AGGREGATORS)
-
-#         if self._heccer is None:
-
-#             raise Exception("Can't create Heccer solver '%s'" % name)
-
         self.time_step = None
 
         self.granularity = 1
 
-        self._constructor_settings = {}
+        self._arguments = {}
         
         self._configuration = {}
             

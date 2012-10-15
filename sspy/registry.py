@@ -11,6 +11,7 @@ present are:
     ServiceRegistry: Registry used to create modeling service objects.
     OutputRegistry: Registry used to create output objects.
     InputRegistry: Registry used to create an input object.
+    EventDistributorRegistry: Registry used to create an event distributor object.
     
 """
 import errors
@@ -602,3 +603,100 @@ class InputRegistry(Registry):
 
 
 #************************* End InputRegistry ****************************
+
+
+
+
+
+
+
+#************************* Begin EventDistributorRegistry ***************
+class EventDistributorRegistry(Registry):
+    """
+
+    """
+
+    def __init__(self, event_distributor_directory, verbose=False):
+
+        Registry.__init__(self,
+                          plugin_directory=event_distributor_directory,
+                          plugin_file="event_distributor.yml",
+                          verbose=verbose)
+
+#---------------------------------------------------------------------------
+
+    def CreateEventDistributor(self, name, type=None, arguments=None, index=-1):
+
+        plugin = None
+
+        if type is not None:
+
+            plugin = self.GetPluginData(type)
+
+        elif index != -1:
+
+            # bounds check?
+            plugin = self._service_plugins[index]
+            
+            
+        my_input = self._InstantiateFromFile(plugin, name, arguments)
+
+        return my_input   
+
+
+#---------------------------------------------------------------------------
+
+
+    def _InstantiateFromFile(self, plugin, name="Untitled", arguments=None):
+        """
+        @brief Creates an output object from a plugin
+        """
+        class_inst = None
+        expected_class = 'EventDistributor'
+
+        
+        # First we check to see if we have the proper data to
+        # allocate from a file.
+        try:
+            
+            filepath = plugin.GetFile()
+
+            input_type = plugin.GetName()
+            
+        except AttributeError, e:
+
+            raise errors.ScheduleError("Cannot create Event Distributor, invalid plugin '%s': %s" % (name,e))
+
+
+        if not os.path.exists(filepath):
+
+            raise errors.ScheduleError("Error: no such plugin to load class from: %s" % filepath)
+
+        mod_name,file_ext = os.path.splitext(os.path.split(filepath)[-1])
+        if file_ext.lower() == '.py':
+            py_mod = imp.load_source(mod_name, filepath)
+
+        elif file_ext.lower() == '.pyc':
+            py_mod = imp.load_compiled(mod_name, filepath)
+
+        if expected_class in dir(py_mod):
+
+            
+            try:
+                
+                class_inst = py_mod.EventDistributor(name=name,
+                                                     plugin=plugin,
+                                                     arguments=arguments,
+                                                     verbose=self.verbose) 
+
+            except Exception, e:
+
+                raise errors.OutputError("'Event Distributor' object '%s' cannot be created: %s" % (name, e))
+
+        return class_inst
+
+
+#---------------------------------------------------------------------------
+
+
+#************************* End EventDistributorRegistry ****************************

@@ -32,7 +32,7 @@ class Plugin:
             
             except yaml.YAMLError, exc:    
 
-                raise errors.PluginFileError("Failed to load simulation plugin %s: %s" % (p, exc))
+                raise errors.PluginFileError("Failed to load simulation plugin %s: %s" % (norm_file_path, exc))
 
 
             self._plugin_path = os.path.dirname(os.path.abspath(norm_file_path))

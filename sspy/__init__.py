@@ -31,6 +31,7 @@ from registry import SolverRegistry
 from registry import ServiceRegistry
 from registry import OutputRegistry
 from registry import InputRegistry
+from registry import EventDistributorRegistry
 
 from schedulee import Schedulee
 
@@ -47,7 +48,8 @@ class SSPy:
                  solver_directory= os.path.join(_module_directory, 'plugins', 'solvers'),
                  service_directory= os.path.join( _module_directory, 'plugins', 'services'),
                  input_directory= os.path.join( _module_directory, 'plugins', 'inputs'),
-                 output_directory= os.path.join( _module_directory, 'plugins', 'outputs')
+                 output_directory= os.path.join( _module_directory, 'plugins', 'outputs'),
+                 event_distributor_directory= os.path.join( _module_directory, 'plugins', 'event_distributors')
                  ):
 
 
@@ -65,6 +67,7 @@ class SSPy:
         self._service_registry = ServiceRegistry(service_directory, verbose=self.verbose)
         self._output_registry = OutputRegistry(output_directory, verbose=self.verbose)
         self._input_registry = InputRegistry(input_directory, verbose=self.verbose)
+        self._event_distributor_registry = EventDistributorRegistry(event_distributor_directory, verbose=self.verbose)
 
         self.name = name
 
@@ -82,6 +85,8 @@ class SSPy:
         self._output_parameters = []
         self._runtime_parameters = []
         self._element_list = []
+        self._event_distributor = None
+        
 
         # Each member of this array is in the format:
         #  dict(modelname="modelname",
@@ -90,6 +95,11 @@ class SSPy:
         #       solverclass="solver type")
         #
         self.models = []
+
+        #         dict(modelname="modelname",
+        #              solver="solver name",
+        #              solver_type="solver type")
+        self.solver_models = []
 
         #----------------------------------------------
 
@@ -298,7 +308,15 @@ class SSPy:
         """
 
         self._LoadPlugin(self._output_registry, 'output.yml', path)
+#---------------------------------------------------------------------------
 
+    def LoadEventDistributorPlugin(self, path):
+        """!
+        @brief Loads an event distributor plugin
+        @param path A path to an event distributor plugin file or directory.
+        """
+
+        self._LoadPlugin(self._event_distributor_registry, 'event_distributor.yml', path)
 
 #---------------------------------------------------------------------------
 
@@ -1324,6 +1342,23 @@ class SSPy:
         self._inputs.append(inp)
 
         return inp
+
+#---------------------------------------------------------------------------
+
+    def CreateEventDistributor(self, name=None, type=None, data=None):
+        """
+        Creates an event distributor
+        """
+        
+        if not self._event_distributor is None:
+
+            raise errors.EventDistributorError("An event distributor with the name '%s' already exists" % self._event_distributor.GetName())
+
+        evt_dist = self._event_distributor_registry.CreateEventDistributor(name=name, type=type)
+
+        self._event_distributor = evt_dist
+
+        return evt_dist
     
 #---------------------------------------------------------------------------
 
