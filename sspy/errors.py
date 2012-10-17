@@ -83,3 +83,12 @@ class EventDistributorError(Exception):
 
 #---------------------------------------------------------------------------
     
+class SolverRegistryError(Exception):
+    pass
+
+#---------------------------------------------------------------------------
+
+class SolverRegistryModelError(Exception):
+    pass
+
+#---------------------------------------------------------------------------

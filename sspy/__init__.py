@@ -97,8 +97,8 @@ class SSPy:
         self.models = []
 
         #         dict(modelname="modelname",
-        #              solver="solver name",
-        #              solver_type="solver type")
+        #              solver="name",
+        #              solver_type="type")
         self.solver_models = []
 
         #----------------------------------------------
@@ -1654,7 +1654,7 @@ class SSPy:
 
         # If solvers haven't been compiled then we need to store the value first.
 
-        self.StoreModelName(model_name, solver=solver_name, solver_type=solver_type, model_set=_model_set)
+        self.StoreSolverModel(solver=solver_name, solver_type=solver_type, model=model_name, set=_model_set)
         
             
 #---------------------------------------------------------------------------
@@ -2206,6 +2206,32 @@ class SSPy:
 
     # method alias
     StoreModelName = store_modelname
+
+#---------------------------------------------------------------------------
+
+    def store_solver_model(self, solver=None, solver_type=None, model=None, set=False):
+        """!
+        
+        """
+
+        for sm in self.solver_models:
+
+            if sm['solver'] = solver:
+
+                if sm['type'] == solver_type:
+
+                    if sm['modelname'] == model:
+
+                        raise errors.SolverRegistryError("Model '%s' has already been registered to solver '%s' of type '%s'" % (model,solver,solver_type))
+                        
+
+        
+        _solver_reg = dict(solver=solver, type=solver_type, model=model, set=False)
+
+        self.solver_models.append(_solver_reg)
+
+    # alias
+    StoreSolverModel = store_solver_model
     
 #---------------------------------------------------------------------------
 
