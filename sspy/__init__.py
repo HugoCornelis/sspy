@@ -1254,7 +1254,7 @@ class SSPy:
         
 #---------------------------------------------------------------------------
 
-    def CreateService(self, name="default_model_container", type=None, arguments=None, verbose=False):
+    def CreateService(self, name="default_model_container", type=None, arguments=None):
         """
         @brief Creates a new service with the given name, type and arguments.
         """
@@ -1274,7 +1274,7 @@ class SSPy:
         @brief Creates a new service with the given name, type and arguments.
         """
 
-        solver = self._solver_registry.CreateSolver(name, type, data, verbose)
+        solver = self._solver_registry.CreateSolver(name, type, data)
 
         self._solvers.append(solver)
 
@@ -1288,7 +1288,7 @@ class SSPy:
         """
 
 
-        inp = self._input_registry.CreateInput(name, type, data, verbose)
+        inp = self._input_registry.CreateInput(name, type, data)
 
         self._inputs.append(inp)
 
@@ -1302,7 +1302,7 @@ class SSPy:
         """
 
 
-        out = self._output_registry.CreateOutput(name, type, data, verbose)
+        out = self._output_registry.CreateOutput(name, type, data)
 
         self._outputs.append(out)
 
@@ -1316,7 +1316,7 @@ class SSPy:
         """
 
 
-        inp = self._input_registry.CreateInput(name, 'perfectclamp', data, verbose)
+        inp = self._input_registry.CreateInput(name, 'perfectclamp', data)
 
         self._inputs.append(inp)
 
@@ -1337,7 +1337,7 @@ class SSPy:
 
 #             if not 
             
-        outp = self._output_registry.CreateOutput(name, 'double_2_ascii', arguments, verbose)
+        outp = self._output_registry.CreateOutput(name, 'double_2_ascii', arguments)
 
         self._inputs.append(inp)
 
@@ -1345,7 +1345,7 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def CreateEventDistributor(self, name=None, type=None, data=None):
+    def CreateEventDistributor(self, name=None, type=None, data=None, verbose=False):
         """
         Creates an event distributor
         """
@@ -1354,7 +1354,7 @@ class SSPy:
 
             raise errors.EventDistributorError("An event distributor with the name '%s' already exists" % self._event_distributor.GetName())
 
-        evt_dist = self._event_distributor_registry.CreateEventDistributor(name=name, type=type)
+        evt_dist = self._event_distributor_registry.CreateEventDistributor(name, type, data)
 
         self._event_distributor = evt_dist
 
@@ -2216,7 +2216,7 @@ class SSPy:
 
         for sm in self.solver_models:
 
-            if sm['solver'] = solver:
+            if sm['solver'] == solver:
 
                 if sm['type'] == solver_type:
 

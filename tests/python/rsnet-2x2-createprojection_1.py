@@ -71,6 +71,27 @@ my_input.SetCommandVoltage(1e-9)
 
 
 #
+# Must a des.
+#
+my_des = scheduler.CreateEventDistributor('My DES', 'des', verbose=True)
+
+my_des.SetModelName('/RSNet')
+
+
+for i in range(0, nx*ny):
+
+    path = "/RSNet/population/%s" % i
+
+    # This performs a lookup and set on the solver by the solver name
+    # given when you create it via CreateSolver.
+
+    scheduler.SolverSet(path, 'My heccer')
+
+
+
+
+
+#
 # Must create solver.
 #
 my_heccer = scheduler.CreateSolver('My heccer', 'heccer', verbose=True)
@@ -82,23 +103,6 @@ my_heccer.SetModelName('/RSNet')
 my_heccer.SetTimeStep(2e-05)
 
 
-
-#
-# Must a des.
-#
-my_heccer = scheduler.CreateSolver('My DES', 'des', verbose=True)
-
-# Sets the segment of the model to run from
-#my_heccer.SetModelName('/RSNet')
-
-for i in range(0, nx*ny):
-
-    path = "/RSNet/population/%s" % i
-
-    # This performs a lookup and set on the solver by the solver name
-    # given when you create it via CreateSolver.
-
-    scheduler.SolverSet(path, 'My heccer')
 
 
 #
