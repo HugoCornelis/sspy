@@ -96,10 +96,17 @@ class SSPy:
         #
         self.models = []
 
-        #         dict(modelname="modelname",
+        #
+        # This is where all of the models that are registered
+        # to solvers in the model containers model registry are stored
+        # during something like a file load. The dict it uses
+        # looks like this.
+        #
+        #         dict(model="model",
         #              solver="name",
-        #              solver_type="type")
-        self.solver_models = []
+        #              type="type",
+        #              set=False)
+        self.registered_solvers = []
 
         #----------------------------------------------
 
@@ -129,6 +136,7 @@ class SSPy:
         self._inputs_connected = False
         self._outputs_connected = False
         self._scheduled = False
+        self._registered_solvers_applied = False
         self._runtime_parameters_applied = False
         
 
@@ -1063,7 +1071,7 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def ApplySolverParameters(self):
+    def ApplyRegisteredSolvers(self):
         """
         @brief connects solvers to the solver registry
 
@@ -1071,24 +1079,42 @@ class SSPy:
 
         if not self._services_connected:
 
-            raise Exception("Can't apply solvers to models, solvers haven't been connected to services yet.")
-            
-        try:
+            raise Exception("Can't apply registered solvers to models, solvers haven't been connected to services yet.")
 
+        elif self._registered_solvers_applied:
 
-            for m in self.models:
+            raise Exception("Registered solvers have already been set")
 
-                if not m['solver'] is None:
-                    # only use this is we were given an explicit solver to set it to. otherwise
-                    # it may cause an error.
-                    self.SolverSet(m['modelname'], solver_name=m['solver'], solver_type=m['solver_type'])
+        elif len(self.registered_solvers) > 0:
 
-                    # If no exception is thrown then this will set it to true
-                    m['model_set'] = True
+            if self.verbose:
+
+                print "\nSetting registered models:"
                     
-        except Exception, e:
+            try:
 
-            raise Exception("Can't set model '%s': %s" % (m['modelname'], e)) 
+
+                for rs in self.registered_solvers:
+
+                    if not rs['solver'] is None and not rs['set']:
+                        # only use this is we were given an explicit solver to set it to. otherwise
+                        # it may cause an error.
+                        self.SolverSet(rs['model'], solver_name=rs['solver'], solver_type=rs['type'])
+
+                        # If no exception is thrown then this will set it to true
+                        rs['set'] = True
+                    
+            except Exception, e:
+
+                raise Exception("Can't set model '%s': %s" % (rs['model'], e)) 
+
+
+            if self.verbose:
+            
+                print "\n"
+
+            self._registered_solvers_applied = True
+
 
 #---------------------------------------------------------------------------
 
@@ -1254,7 +1280,7 @@ class SSPy:
         
 #---------------------------------------------------------------------------
 
-    def CreateService(self, name="default_model_container", type=None, arguments=None):
+    def CreateService(self, name="default_model_container", type=None, arguments=None, verbose=False):
         """
         @brief Creates a new service with the given name, type and arguments.
         """
@@ -1653,8 +1679,7 @@ class SSPy:
 
 
         # If solvers haven't been compiled then we need to store the value first.
-
-        self.StoreSolverModel(solver=solver_name, solver_type=solver_type, model=model_name, set=_model_set)
+        self.StoreRegisteredSolver(solver=solver_name, solver_type=_solver_type, model=model_name, set=_model_set)
         
             
 #---------------------------------------------------------------------------
@@ -2209,29 +2234,33 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def store_solver_model(self, solver=None, solver_type=None, model=None, set=False):
+    def store_registered_solver(self, solver=None, solver_type=None, model=None, set=False):
         """!
         
         """
 
-        for sm in self.solver_models:
+        for rs in self.registered_solvers:
 
-            if sm['solver'] == solver:
+            if rs['solver'] == solver:
 
-                if sm['type'] == solver_type:
+                if rs['type'] == solver_type:
 
-                    if sm['modelname'] == model:
+                    if rs['model'] == model and rs['set']:
 
-                        raise errors.SolverRegistryError("Model '%s' has already been registered to solver '%s' of type '%s'" % (model,solver,solver_type))
+                        # Here we know it's already been registered and needs to be
+                        # set at runtime, so we ignore it.
+                        return
+
+                        #raise errors.SolverRegistryError("Model '%s' has already been registered to solver '%s' of type '%s'" % (model,solver,solver_type))
                         
 
         
         _solver_reg = dict(solver=solver, type=solver_type, model=model, set=False)
 
-        self.solver_models.append(_solver_reg)
+        self.registered_solvers.append(_solver_reg)
 
     # alias
-    StoreSolverModel = store_solver_model
+    StoreRegisteredSolver = store_registered_solver
     
 #---------------------------------------------------------------------------
 
@@ -2271,18 +2300,16 @@ class SSPy:
 
                 print "\n"
 
+
+        if not self._registered_solvers_applied:
+            
             try:
                 
-                self.ApplySolverParameters()
+                self.ApplyRegisteredSolvers()
 
             except Exception, e:
 
-                raise errors.CompileError("Can't set solvers to models: %s" % e)
-
-            if self.verbose:
-
-                print "\n"
-
+                raise errors.SolverRegistryModelError("Can't set solvers to models: %s" % e)
 
             
         if not self._compiled:

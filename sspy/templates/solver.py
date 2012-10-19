@@ -1,5 +1,5 @@
 """
-This is the solver plugin for DES to interact with
+This is the solver plugin for Heccer to interact with
 the interface of SSPy.
 """
 import os
@@ -8,22 +8,24 @@ import sys
 
 try:
     
-    from heccer.des import DES
+    import heccer as heccer
+    from heccer import Heccer
+    from heccer import HeccerOptions
 
 except ImportError, e:
 
     sys.exit("Error importing the Heccer Python module: %s\n" % e)
 
 
-class EventDistributor:
+class Solver:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self,  name="Untitled DES", plugin=None, 
-                 arguments=None, verbose=False):
+    def __init__(self,  name="Untitled solver", plugin=None, 
+                 constructor_settings=None, verbose=False):
         """
 
-        Should be able to pass the scheduler and use it as
+        Should be able to pass the scheudler and use it as
         an internal member here.
         """
         self._name = name
@@ -34,15 +36,39 @@ class EventDistributor:
 
         self.verbose = verbose
         
-        self._des = None
+        self._heccer = None
 
         self._module_name = None
+
+        # default dump options, do they need to be here? They're commented out
+        # in ssp
+        self.dump_options = (heccer.heccer_base.HECCER_DUMP_INDEXERS_SUMMARY
+		   | heccer.heccer_base.HECCER_DUMP_INDEXERS_STRUCTURE
+		   | heccer.heccer_base.HECCER_DUMP_INTERMEDIARY_COMPARTMENTS_PARAMETERS
+		   | heccer.heccer_base.HECCER_DUMP_INTERMEDIARY_COMPARTMENT_SUMMARY
+		   | heccer.heccer_base.HECCER_DUMP_INTERMEDIARY_MECHANISM_SUMMARY
+		   | heccer.heccer_base.HECCER_DUMP_INTERMEDIARY_STRUCTURE
+		   | heccer.heccer_base.HECCER_DUMP_INTERMEDIARY_SUMMARY
+		   | heccer.heccer_base.HECCER_DUMP_TABLE_GATE_SUMMARY
+		   | heccer.heccer_base.HECCER_DUMP_TABLE_GATE_TABLES
+		   | heccer.heccer_base.HECCER_DUMP_VM_COMPARTMENT_MATRIX
+		   | heccer.heccer_base.HECCER_DUMP_VM_COMPARTMENT_MATRIX_DIAGONALS
+		   | heccer.heccer_base.HECCER_DUMP_VM_COMPARTMENT_OPERATIONS
+		   | heccer.heccer_base.HECCER_DUMP_VM_MECHANISM_DATA
+		   | heccer.heccer_base.HECCER_DUMP_VM_MECHANISM_OPERATIONS
+		   | heccer.heccer_base.HECCER_DUMP_VM_CHANNEL_POOL_FLUXES
+		   | heccer.heccer_base.HECCER_DUMP_VM_SUMMARY
+		   | heccer.heccer_base.HECCER_DUMP_VM_AGGREGATORS)
+
+#         if self._heccer is None:
+
+#             raise Exception("Can't create Heccer solver '%s'" % name)
 
         self.time_step = None
 
         self.granularity = 1
 
-        self._arguments = {}
+        self._constructor_settings = {}
         
         self._configuration = {}
             
@@ -53,7 +79,9 @@ class EventDistributor:
         # this is just to keep track of granularity printing
         self.current_step = 0
 
-      #  self._ParseConstructorSettings(constructor_settings)
+        self._ParseConstructorSettings(constructor_settings)
+
+        #self._heccer.SetTimeStep(time_step)
 
 #---------------------------------------------------------------------------
         
@@ -232,6 +260,14 @@ class EventDistributor:
         """
         self._heccer.SetParameter(path, field, value)
 
+#---------------------------------------------------------------------------
+
+    def GetParameter(self, path, field):
+        """
+        @brief Returns a parameter value from the given path and field.
+        """
+        return self._heccer.GetParameter(path, field)
+        
 #---------------------------------------------------------------------------
 
     def SetGranularity(self, granularity):

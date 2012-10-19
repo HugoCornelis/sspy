@@ -23,8 +23,7 @@ my_model_container = None
 #
     
 my_model_container = scheduler.CreateService(name="My Model Container",
-                                             type="model_container",
-                                             verbose=True)
+                                             type="model_container")
 
 # we go one layer lower below the plugin layer so that we
 # can do work on the model container core.
@@ -71,6 +70,18 @@ my_input.SetCommandVoltage(1e-9)
 
 
 #
+# Must create solver.
+#
+my_heccer = scheduler.CreateSolver('My heccer', 'heccer', verbose=True)
+
+# Sets the segment of the model to run from
+my_heccer.SetModelName('/RSNet')
+
+# set the timestep for the entire scheduler (solvers, inputs and outputs)
+my_heccer.SetTimeStep(2e-05)
+
+
+#
 # Must a des.
 #
 my_des = scheduler.CreateEventDistributor('My DES', 'des', verbose=True)
@@ -86,21 +97,6 @@ for i in range(0, nx*ny):
     # given when you create it via CreateSolver.
 
     scheduler.SolverSet(path, 'My heccer')
-
-
-
-
-
-#
-# Must create solver.
-#
-my_heccer = scheduler.CreateSolver('My heccer', 'heccer', verbose=True)
-
-# Sets the segment of the model to run from
-my_heccer.SetModelName('/RSNet')
-
-# set the timestep for the entire scheduler (solvers, inputs and outputs)
-my_heccer.SetTimeStep(2e-05)
 
 
 

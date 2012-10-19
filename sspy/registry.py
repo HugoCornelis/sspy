@@ -691,7 +691,7 @@ class EventDistributorRegistry(Registry):
 
             except Exception, e:
 
-                raise errors.OutputError("'Event Distributor' object '%s' cannot be created: %s" % (name, e))
+                raise errors.SolverRegistryError("'Event Distributor' object '%s' cannot be created: %s" % (name, e))
 
         return class_inst
 
