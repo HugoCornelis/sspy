@@ -136,6 +136,7 @@ class SSPy:
         self._inputs_connected = False
         self._outputs_connected = False
         self._scheduled = False
+        self._event_distributor_connected = False
         self._registered_solvers_applied = False
         self._runtime_parameters_applied = False
         
@@ -1115,6 +1116,20 @@ class SSPy:
 
             self._registered_solvers_applied = True
 
+#---------------------------------------------------------------------------
+
+
+    def ConnectEventDistributors(self):
+
+        if self._event_distributor_connected:
+
+            raise errors.EventDistributorError("Can't connect event distributor '%s', already connected", self._event_distributor.GetName())
+
+
+        elif not self._event_distributor is None:
+
+
+            pass
 
 #---------------------------------------------------------------------------
 

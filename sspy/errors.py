@@ -92,3 +92,4 @@ class SolverRegistryModelError(Exception):
     pass
 
 #---------------------------------------------------------------------------
+
