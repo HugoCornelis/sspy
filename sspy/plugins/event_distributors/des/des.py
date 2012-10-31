@@ -40,15 +40,9 @@ class EventDistributor:
 
         self.time_step = None
 
-        self.granularity = 1
-
         self._arguments = {}
-        
-        self._configuration = {}
-            
+                    
         self._compiled = False
-
-        self.options = 0
 
         # this is just to keep track of granularity printing
         self.current_step = 0
@@ -61,13 +55,13 @@ class EventDistributor:
 
         self.current_step = 0
         
-        self._heccer.Initiate()
+        self._des.Initiate()
 
 #---------------------------------------------------------------------------
 
     def GetCore(self):
 
-        return self._heccer
+        return self._des
 
 #---------------------------------------------------------------------------
 
@@ -80,15 +74,11 @@ class EventDistributor:
 
     def SetTimeStep(self, time_step):
         """
-        @brief Sets the heccer time step
+        @brief Sets the des plugin time step
         """
-        if not self._heccer is None:
-        
-            self._heccer.SetTimeStep(time_step)
+ 
 
-        else:
-
-            self.time_step = time_step
+        self.time_step = time_step
 
 #---------------------------------------------------------------------------
 
@@ -96,15 +86,8 @@ class EventDistributor:
         """
         @brief Just returns the time step used for the schedulee
         """
-        if not self._heccer is None:
-            
-            time_step = self._heccer.GetTimeStep()
-
-            return time_step
-        
-        else:
-            
-            return self.time_step
+    
+        return self.time_step
     
 #---------------------------------------------------------------------------
 
@@ -119,18 +102,7 @@ class EventDistributor:
 
         pass
 
-#---------------------------------------------------------------------------
-
-    def New(self, modelname, filename):
-
-        print "Modelname %s, Filename %s" % (modelname, filename)
         
-
-#---------------------------------------------------------------------------
-
-    def Advance(self):
-
-        pass
 
 #---------------------------------------------------------------------------
 
@@ -165,27 +137,13 @@ class EventDistributor:
 
         if not service:
 
-            raise Exception("No service to connect to solver '%s'" % self.GetName())
+            raise Exception("No service to connect to event simulator (DES) '%s'" % self.GetName())
 
 
         service_type = service.GetType()
 
 
-        if service_type == "heccer_intermediary":
-
-            intermediary = service.GetCore()
-
-            if not intermediary:
-
-                raise Exception("Heccer Intermediary is not defined")
-
-            else:
-
-
-                self._heccer = Heccer(name=self._model_name, pinter=intermediary)
-                
-
-        elif service_type == "model_container":
+        if service_type == "model_container":
 
             model_container = service.GetCore()
 
@@ -195,21 +153,22 @@ class EventDistributor:
 
             else:
 
-                self._heccer = Heccer(name=self._model_name, model=model_container)
+                if self.verbose:
 
+                    print "Connecting service '%s' to event distributor '%s'" % (model_source.GetName(), self._name)
+
+                try:
+                    
+                    self._des.Connect(model_source=model_container)
+
+                except Exception, e:
+
+                    raise Exception("Event distributor connection error: %s" % e)                    
 
         else:
 
-            raise Exception("Incompatible Service '%s' of type '%s'" % (service.GetName(), service.GetType()))
+            raise Exception("Incompatible Service '%s' of type '%s', can't connect event distributor to this" % (service.GetName(), service.GetType()))
 
-        # Set any simulator specific variables here
-        if not self.time_step is None:
-
-            self._heccer.SetTimeStep(float(self.time_step))
-
-        if self.options != 0:
-
-            self._heccer.SetOptions(self.options)
 
 
 #---------------------------------------------------------------------------
@@ -224,39 +183,12 @@ class EventDistributor:
         """
         self._model_name = model_name
 
-#---------------------------------------------------------------------------
-
-    def SetParameter(self, path, field, value):
-        """
-        @brief Sets a parameter value in the solver.
-        """
-        self._heccer.SetParameter(path, field, value)
-
-#---------------------------------------------------------------------------
-
-    def SetGranularity(self, granularity):
-        """!
-        @brief sets the granularity of the solver output
-        """
-        self.granularity = granularity
-
-#---------------------------------------------------------------------------
-
-    def Deserialize(self, filename):
-
-        pass
-
-#---------------------------------------------------------------------------
-
-    def DeserializeState(self, filename):
-
-        pass
 
 #---------------------------------------------------------------------------
 
     def Finish(self):
 
-        self._heccer.Finish()
+        self._des.Finish()
 
 #---------------------------------------------------------------------------
 
@@ -264,30 +196,6 @@ class EventDistributor:
 
         return self._name
 
-#---------------------------------------------------------------------------
-
-    def SetSolverField(self, field, value):
-
-        pass
-
-#---------------------------------------------------------------------------
-
-    def GetSolverField(self, field):
-
-        pass
-
-#---------------------------------------------------------------------------
-
-
-    def Serialize(self, filename):
-
-        pass
-
-#---------------------------------------------------------------------------
-
-    def SerializeState(self, filename):
-
-        pass
 
 #---------------------------------------------------------------------------
         
@@ -307,9 +215,9 @@ class EventDistributor:
         """
 
         """
-        if self._heccer is not None:
+        if self._des is not None:
 
-            self._heccer.Step(time)
+            self._des.Step(time)
 
             self.current_step += 1
         else:
@@ -327,84 +235,11 @@ class EventDistributor:
 
 #---------------------------------------------------------------------------
 
-    def Report(self):
-
-        granularity_result = self.current_step % self.granularity
-        
-        if granularity_result == 0:
-            
-            self._heccer.Dump(0, self.dump_options)
-
-#---------------------------------------------------------------------------
-
-    def Steps(self, steps):
+    def _ParseArguments(self, arguments=None):
 
         pass
 
 #---------------------------------------------------------------------------
-  
-    def _ParseConstructorSettings(self, constructor_settings=None):
-        """
-        @brief An internal helper method for parsing and setting constructor values
-        
-        """
-        if constructor_settings is None:
-
-            return 
-
-        if constructor_settings.has_key('service_name'):
-
-            self._service_name = constructor_settings['service_name']
-
-        # This will probably be unneeded in python
-        if constructor_settings.has_key('module_name'):
-
-            self._module_name = constructor_settings['module_name']
-
-
-        if constructor_settings.has_key('constructor_settings'):
-
-            self._constructor_settings = constructor_settings['constructor_settings']
-                
-            if constructor_settings['constructor_settings'].has_key('configuration'):
-
-                self._configuration = constructor_settings['constructor_settings']['configuration']
-
-
-        if self._constructor_settings.has_key('dStep'):
-
-            self.time_step = self._constructor_settings['dStep']
-
-        elif self._constructor_settings.has_key('step'):
-
-            self.time_step = self._constructor_settings['step']
-
-        
-        if self._constructor_settings.has_key('options'):
-
-            options = self._constructor_settings['options']
-
-            if options.has_key('iOptions'):
-
-                self.options = options['iOptions']
-
-            elif options.has_key('options'):
-
-                self.options = options['options']
-                
-        
-        # Now check for reporting options
-        if self._configuration.has_key('reporting'):
-
-            reporting = self._configuration['reporting']
-
-            if reporting.has_key('tested_things'):
-
-                self.dump_options = reporting['tested_things']
-
-            if reporting.has_key('granularity'):
-
-                self.granularity = reporting['granularity']
 
 
 

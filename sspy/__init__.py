@@ -1120,7 +1120,13 @@ class SSPy:
 
 
     def ConnectEventDistributors(self):
+        """
 
+        Connects the solvers and contructs the projection matrix.
+
+        Connection order goes:
+            service -> event_distributor -> solvers -> inputs and outputs
+        """
         if self._event_distributor_connected:
 
             raise errors.EventDistributorError("Can't connect event distributor '%s', already connected", self._event_distributor.GetName())
@@ -1128,8 +1134,17 @@ class SSPy:
 
         elif not self._event_distributor is None:
 
+            # then we connect here
+            # only going to connect the first service since there's only really
+            # support for one.
+            _service = self._loaded_services[0]
 
-            pass
+
+            self.event_distributor.Connect(service=_service)
+
+            # if there's an exception it shouldn't get here.
+            # we set it to 
+            self._event_distributor_connected = True
 
 #---------------------------------------------------------------------------
 
@@ -2326,7 +2341,28 @@ class SSPy:
 
                 raise errors.SolverRegistryModelError("Can't set solvers to models: %s" % e)
 
-            
+            if self.verbose:
+
+                print "\n"
+
+
+        if not self._event_distributor_connected:
+
+            try:
+
+                self.ConnectEventDistributors()
+
+            except Exception, e:
+
+                raise errors.EventDistributorError("Can't connect service to event distributor: %s" % e)
+
+
+            if self.verbose:
+
+                print "\n"
+
+
+
         if not self._compiled:
 
 
