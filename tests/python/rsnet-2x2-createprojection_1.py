@@ -29,7 +29,7 @@ my_model_container = scheduler.CreateService(name="My Model Container",
 # can do work on the model container core.
 my_mc_core = my_model_container.GetCore()
 
-pdb.set_trace()
+#pdb.set_trace()
 my_mc_core.NDFLoadLibrary('cells/RScell-nolib2.ndf', 'rscell')
 
 nx= 2 # number of cells nx*ny
