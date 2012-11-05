@@ -103,7 +103,7 @@ class Output:
 
             if solver_type == "heccer":
 
-                my_heccer = self._solver.GetCore()
+                my_heccer = self._solver.GetObject()
 
                 address = my_heccer.GetAddress(name, field)
 
@@ -192,7 +192,7 @@ class Output:
 
         if solver_type == 'heccer':
 
-            my_heccer = solver.GetCore()
+            my_heccer = solver.GetObject()
 
             # Here we need to get the timestep and set it
             # for our object

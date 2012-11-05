@@ -1140,7 +1140,7 @@ class SSPy:
             _service = self._loaded_services[0]
 
 
-            self.event_distributor.Connect(service=_service)
+            self._event_distributor.Connect(service=_service)
 
             # if there's an exception it shouldn't get here.
             # we set it to 
@@ -1663,7 +1663,7 @@ class SSPy:
 
         if len(self._loaded_services) == 1:
 
-            _model_container = self._loaded_services[0].GetCore()
+            _model_container = self._loaded_services[0].GetObject()
 
 
         elif len(self._loaded_services) == 0:
@@ -1693,12 +1693,11 @@ class SSPy:
 
         if self._services_connected:
 
-            # We use GetCore to get the actual solver object that the plugin is wrapped around.
-            # Not to be confused with the low level object that the solver object wraps and
-            # is also retrieved by using a GetCore method. Thankfully the plugin provides a
-            # GetType method for us to use.
+            # We use GetObject to get the actual solver object that the plugin is wrapped around.
+            # The RegisterSolver method will extract the Core on it's own if it needs to.
+            # Thankfully the plugin provides a GetType method for us to use.
             #
-            _model_container.RegisterSolver(model_name, _solver.GetCore(), _solver_type)
+            _model_container.RegisterSolver(model_name, _solver.GetObject(), _solver_type)
 
             if self.verbose:
 
@@ -1837,7 +1836,7 @@ class SSPy:
         
         elif len(self._loaded_services) == 1:
 
-            _model_container = self._loaded_services[0].GetCore()
+            _model_container = self._loaded_services[0].GetObject()
 
             param_dict = _model_container.GetAllParameters(path)
 

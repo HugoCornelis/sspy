@@ -72,7 +72,7 @@ class Solver:
 
 #---------------------------------------------------------------------------
 
-    def GetCore(self):
+    def GetObject(self):
 
         return self._chemesis3
 
@@ -178,7 +178,7 @@ class Solver:
 
         if service_type == "model_container":
 
-            model_container = service.GetCore()
+            model_container = service.GetObject()
 
             if not model_container:
 

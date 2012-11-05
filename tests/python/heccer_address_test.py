@@ -45,15 +45,15 @@ my_heccer.SetTimeStep(2e-05)
 
 scheduler.RunPrepare()
 
-core_heccer = my_heccer.GetCore()
+object_heccer = my_heccer.GetObject()
 
-print "INJECT value is %.10f" % core_heccer.GetParameter('/purk_test/segments/soma', 'INJECT')
+print "INJECT value is %.10f" % object_heccer.GetParameter('/purk_test/segments/soma', 'INJECT')
 
 print "Setting '/purk_test/segments/soma'->'INJECT' to 3e-09"
 
-core_heccer.SetParameter('/purk_test/segments/soma', 'INJECT', 3e-09)
+object_heccer.SetParameter('/purk_test/segments/soma', 'INJECT', 3e-09)
 
-print "INJECT value is %.10f" % core_heccer.GetParameter('/purk_test/segments/soma', 'INJECT')
+print "INJECT value is %.10f" % object_heccer.GetParameter('/purk_test/segments/soma', 'INJECT')
 
 
 print "Done!"

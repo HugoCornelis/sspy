@@ -25,7 +25,7 @@ class Service:
 
 #---------------------------------------------------------------------------
 
-    def GetCore(self):
+    def GetObject(self):
 
         return None
     

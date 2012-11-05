@@ -125,7 +125,7 @@ class Input:
 
             if solver_type == "heccer":
 
-                my_heccer = solver.GetCore()
+                my_heccer = solver.GetObject()
                 
                 address = my_heccer.GetCompartmentAddress(component_name, field)
 
@@ -215,7 +215,7 @@ class Input:
 
             if solver_type == 'heccer':
 
-                my_heccer = solver.GetCore()
+                my_heccer = solver.GetObject()
                 
                 address = my_heccer.GetCompartmentAddress(component_name, field)
 

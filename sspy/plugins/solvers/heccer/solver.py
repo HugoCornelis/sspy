@@ -93,7 +93,7 @@ class Solver:
 
 #---------------------------------------------------------------------------
 
-    def GetCore(self):
+    def GetObject(self):
 
         return self._heccer
 
@@ -201,7 +201,7 @@ class Solver:
 
         if service_type == "heccer_intermediary":
 
-            intermediary = service.GetCore()
+            intermediary = service.GetObject()
 
             if not intermediary:
 
@@ -215,7 +215,7 @@ class Solver:
 
         elif service_type == "model_container":
 
-            model_container = service.GetCore()
+            model_container = service.GetObject()
 
             if not model_container:
 

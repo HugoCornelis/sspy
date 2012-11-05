@@ -27,10 +27,10 @@ my_model_container = scheduler.CreateService(name="My Model Container",
 
 # we go one layer lower below the plugin layer so that we
 # can do work on the model container core.
-my_mc_core = my_model_container.GetCore()
+my_mc_object = my_model_container.GetObject()
 
 #pdb.set_trace()
-my_mc_core.NDFLoadLibrary('cells/RScell-nolib2.ndf', 'rscell')
+my_mc_object.NDFLoadLibrary('cells/RScell-nolib2.ndf', 'rscell')
 
 nx= 2 # number of cells nx*ny
 ny=2
@@ -43,12 +43,12 @@ syn_weight=10
 cond_vel=0.5
 prop_delay=sep_x / cond_vel
 
-my_mc_core.CreateNetwork('/RSNet')
+my_mc_object.CreateNetwork('/RSNet')
 
-my_mc_core.CreateMap('::rscell::/cell', '/RSNet/population', nx, ny, sep_x, sep_y)
+my_mc_object.CreateMap('::rscell::/cell', '/RSNet/population', nx, ny, sep_x, sep_y)
 
 
-my_mc_core.CreateProjection(network='/RSNet',
+my_mc_object.CreateProjection(network='/RSNet',
                             projection='/RSNet/projection',
                             probability=1.0,
                             random_seed=1212.0,

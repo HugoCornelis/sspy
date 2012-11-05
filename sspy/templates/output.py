@@ -143,7 +143,7 @@ class Output:
         
         try:
             
-            my_solver = self._solver.GetCore()
+            my_solver = self._solver.GetObject()
 
             address = my_solver.GetAddress(name, field)
             
@@ -305,7 +305,7 @@ class Output:
         # Shouldn't be needed anymore, it should work for both heccer and chemesis3
         #if solver_type == 'heccer':
 
-        my_solver = solver.GetCore()
+        my_solver = solver.GetObject()
 
         # Here we need to get the timestep and set it
         # for our object

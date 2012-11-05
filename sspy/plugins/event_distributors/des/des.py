@@ -59,7 +59,7 @@ class EventDistributor:
 
 #---------------------------------------------------------------------------
 
-    def GetCore(self):
+    def GetObject(self):
 
         return self._des
 
@@ -145,7 +145,7 @@ class EventDistributor:
 
         if service_type == "model_container":
 
-            model_container = service.GetCore()
+            model_container = service.GetObject()
 
             if not model_container:
 
@@ -155,10 +155,10 @@ class EventDistributor:
 
                 if self.verbose:
 
-                    print "Connecting service '%s' to event distributor '%s'" % (model_source.GetName(), self._name)
+                    print "Connecting service '%s' to event distributor '%s'" % (service.GetName(), self._name)
 
                 try:
-                    
+
                     self._des.Connect(model_source=model_container)
 
                 except Exception, e:

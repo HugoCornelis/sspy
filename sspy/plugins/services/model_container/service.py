@@ -76,7 +76,7 @@ class Service:
 #---------------------------------------------------------------------------
 
 
-    def GetCore(self):
+    def GetObject(self):
         """
         @brief Returns the constructed model container
         """

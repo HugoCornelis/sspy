@@ -36,7 +36,7 @@ my_model_container.NDFLoadLibrary('cells/RScell-nolib2.ndf', 'rscell')
 
 # Here we work one level lower with the model container
 # instead of the model container plugin wrapper.
-my_mc_core = my_model_container.GetCore()
+my_mc_object = my_model_container.GetObject()
 
 nx= 2 # number of cells nx*ny
 ny=2
@@ -49,9 +49,9 @@ syn_weight=10
 cond_vel=0.5
 prop_delay=sep_x / cond_vel
 
-my_mc_core.CreateNetwork('/RSNet')
+my_mc_object.CreateNetwork('/RSNet')
 
-my_mc_core.CreateMap('::rscell::/cell', '/RSNet/population', nx, ny, sep_x, sep_y)
+my_mc_object.CreateMap('::rscell::/cell', '/RSNet/population', nx, ny, sep_x, sep_y)
 
 
 # create projection configuration
@@ -98,7 +98,7 @@ config = {'root' : '/RSNet',
           }
 
 
-my_mc_core.CreateProjection(configuration=config)
+my_mc_object.CreateProjection(configuration=config)
 
 
 #
