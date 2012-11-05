@@ -88,6 +88,11 @@ class SolverRegistryError(Exception):
 
 #---------------------------------------------------------------------------
 
+class SolverSetError(Exception):
+    pass
+
+#---------------------------------------------------------------------------
+
 class SolverRegistryModelError(Exception):
     pass
 

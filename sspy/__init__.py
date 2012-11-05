@@ -1630,7 +1630,7 @@ class SSPy:
 
         _model_container = None
         _solver = None
-        _solver_type = None
+        _solver_type = solver_type
 
 
         # first check if we checked in this model
@@ -1639,9 +1639,7 @@ class SSPy:
             
             try:
                 
-                if model_name == m['modelname']:
-
-                    if solver_name == m['solver']:
+                if model_name == m['modelname'] and solver_name == m['solver']:
 
                         if m['model_set'] == True:
                             
@@ -1656,6 +1654,10 @@ class SSPy:
 
                 raise
 
+
+        # After checking if the model has already been set, we proceed to either register it,
+        # or set it at the low level so it can be compiled.
+
         if solver_name is None and solver_type is None:
 
             raise Exception("Can't set solver for path '%s', need a solver name" % path)
@@ -1668,7 +1670,7 @@ class SSPy:
 
         elif len(self._loaded_services) == 0:
 
-            raise Exception("Can't set solver to element, no services")
+            raise errors.SolverSetError("Can't set solver to element, no services")
 
         else:
             
@@ -1681,7 +1683,17 @@ class SSPy:
 
             if _solver is None:
 
-                raise Exception("Can't set solver for '%s', no solver by that name" % solver_name)
+
+                if self.verbose:
+
+                    print "Solver '%s' doesn't yet exist, we'll create it at runtime"
+
+                # if the solver doesn't yet exist, we hold onto it and store it for later so we can set it later.
+                self.StoreRegisteredSolver(solver=solver_name, solver_type=_solver_type, model=model_name, set=_model_set)
+
+                return
+            
+                #raise errors.SolverSetError("Can't set solver for '%s', no solver by that name" % solver_name)
 
         else:
 
@@ -2263,24 +2275,26 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def store_registered_solver(self, solver=None, solver_type=None, model=None, set=False):
+    def store_registered_solver(self, solver=None, solver_type=None, model=None, is_set=False):
         """!
         
         """
 
         for rs in self.registered_solvers:
 
-            if rs['solver'] == solver:
+            if rs['solver'] == solver and rs['type'] == solver_type and rs['model'] == model:
 
-                if rs['type'] == solver_type:
+                if rs['set']:
+                    # Here we know it's already been registered and needs to be
+                    # set at runtime, so we ignore it.
+                    return
 
-                    if rs['model'] == model and rs['set']:
+                else:
+                            
+                    rs['set'] = is_set
+                        
 
-                        # Here we know it's already been registered and needs to be
-                        # set at runtime, so we ignore it.
-                        return
-
-                        #raise errors.SolverRegistryError("Model '%s' has already been registered to solver '%s' of type '%s'" % (model,solver,solver_type))
+                #raise errors.SolverRegistryError("Model '%s' has already been registered to solver '%s' of type '%s'" % (model,solver,solver_type))
                         
 
         

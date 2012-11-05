@@ -72,13 +72,13 @@ my_input.SetCommandVoltage(1e-9)
 #
 # Must create solver.
 #
-my_heccer = scheduler.CreateSolver('My heccer', 'heccer', verbose=True)
+# my_heccer = scheduler.CreateSolver('My heccer', 'heccer', verbose=True)
 
-# Sets the segment of the model to run from
-my_heccer.SetModelName('/RSNet')
+# # Sets the segment of the model to run from
+# my_heccer.SetModelName('/RSNet')
 
-# set the timestep for the entire scheduler (solvers, inputs and outputs)
-my_heccer.SetTimeStep(2e-05)
+# # set the timestep for the entire scheduler (solvers, inputs and outputs)
+# my_heccer.SetTimeStep(2e-05)
 
 
 #
