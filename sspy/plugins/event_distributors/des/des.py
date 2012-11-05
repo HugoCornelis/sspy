@@ -33,14 +33,16 @@ class EventDistributor:
         self._plugin_data = plugin
 
         self.verbose = verbose
-        
-        self._des = None
 
         self._module_name = None
 
         self.time_step = None
 
         self._arguments = {}
+
+        # currently all examples point to the name and
+        # model_name being identical. 
+        self._des = DES(name=name, model_name=name)
                     
         self._compiled = False
 
