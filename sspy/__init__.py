@@ -1686,14 +1686,20 @@ class SSPy:
 
                 if self.verbose:
 
-                    print "Solver '%s' doesn't yet exist, we'll create it at runtime"
+                    print "Solver '%s' doesn't yet exist, we'll create it at runtime" % solver_name
 
+                # if users hasn't created any solvers then we can't set them to anything yet.
+                raise errors.SolverSetError("Can't set solver for '%s', no solver by that name" % solver_name)
+
+
+                # Comment and code below is not uses since we'll bail out instead. Might come back to this approach
+                # later if we need to go out of order. We may end up creating the solvers here in the solverset
+                # if they don't exist via a flag.
                 # if the solver doesn't yet exist, we hold onto it and store it for later so we can set it later.
-                self.StoreRegisteredSolver(solver=solver_name, solver_type=_solver_type, model=model_name, set=_model_set)
+                # self.StoreRegisteredSolver(solver=solver_name, solver_type=_solver_type, model=model_name, is_set=False)
 
-                return
+                #return
             
-                #raise errors.SolverSetError("Can't set solver for '%s', no solver by that name" % solver_name)
 
         else:
 
@@ -1720,7 +1726,7 @@ class SSPy:
 
 
         # If solvers haven't been compiled then we need to store the value first.
-        self.StoreRegisteredSolver(solver=solver_name, solver_type=_solver_type, model=model_name, set=_model_set)
+        self.StoreRegisteredSolver(solver=solver_name, solver_type=_solver_type, model=model_name, is_set=_model_set)
         
             
 #---------------------------------------------------------------------------

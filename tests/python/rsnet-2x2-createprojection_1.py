@@ -84,7 +84,7 @@ my_input.SetCommandVoltage(1e-9)
 #
 # Must a des.
 #
-my_des = scheduler.CreateEventDistributor('My DES', 'des', verbose=True)
+my_des = scheduler.CreateEventDistributor('My DES', 'des')
 
 my_des.SetModelName('/RSNet')
 
@@ -93,10 +93,18 @@ for i in range(0, nx*ny):
 
     path = "/RSNet/population/%s" % i
 
+    solver_name = "heccer_%s" % i
+
+    # Here we create a solver with the solver name being heccer_<id number>
+
+    this_heccer = scheduler.CreateSolver(solver_name, 'heccer')
+
+    this_heccer.SetModelName(path)
+
     # This performs a lookup and set on the solver by the solver name
     # given when you create it via CreateSolver.
 
-    scheduler.SolverSet(path, 'My heccer')
+    scheduler.SolverSet(path, solver_name)
 
 
 
