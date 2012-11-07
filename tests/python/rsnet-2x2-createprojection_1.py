@@ -130,11 +130,6 @@ my_output.SetMode('steps')
 my_output.SetResolution(10)
 
 
-
-
-
-scheduler.SetModelName('/RSNet')
-
 scheduler.Run(time=0.2)
 
 print "Done!"

@@ -1631,28 +1631,18 @@ class SSPy:
         _model_container = None
         _solver = None
         _solver_type = solver_type
-
+        _solver_entry = None
 
         # first check if we checked in this model
+        _solver_entry = self.SolverRegistryEntry(solver_name, solver_type, model_name)
 
-        for m in self.models:
-            
-            try:
-                
-                if model_name == m['modelname'] and solver_name == m['solver']:
+        if not _solver_entry is None:
 
-                        if m['model_set'] == True:
-                            
-                            # we return because it's already set here
-                            if self.verbose:
-                        
-                                print "\tModel '%s' with solver '%s' has already been set" % (model_name, solver_name)
-                        
-                            return
-                    
-            except KeyError:
+            # if we checked it in we check the status. If it's flagged as set then we
+            # return since there's no reason to mess with it.
+            if _solver_entry['set']:
 
-                raise
+                return
 
 
         # After checking if the model has already been set, we proceed to either register it,
@@ -1699,11 +1689,10 @@ class SSPy:
                 # self.StoreRegisteredSolver(solver=solver_name, solver_type=_solver_type, model=model_name, is_set=False)
 
                 #return
-            
 
         else:
 
-            raise Exception("Can't retrieve solver for solverset, no solvername given")
+            raise errors.SolverSetError("Can't retrieve solver for solverset, no solvername given")
 
         _solver_type = _solver.GetType()
 
@@ -1727,8 +1716,41 @@ class SSPy:
 
         # If solvers haven't been compiled then we need to store the value first.
         self.StoreRegisteredSolver(solver=solver_name, solver_type=_solver_type, model=model_name, is_set=_model_set)
+
+#---------------------------------------------------------------------------
+
+    def SolverRegistryEntry(self, solver, solver_type, model):
+        """!
+
+        Returns a particular solver registry entry that's stored
+        internally.
+        """
+
+        for rs in self.registered_solvers:
+
+            if rs['solver'] == solver and rs['type'] == solver_type and rs['model'] == model:
+
+                return rs
+
+        return None
+
+#---------------------------------------------------------------------------
+
+    def SolverRegisterStatus(self, solver, solver_type, model):
+        """!
+
+        Just returns the 'set' status of the model.
+        Might not be useful.
+        """
         
-            
+        for rs in self.registered_solvers:
+
+            if rs['solver'] == solver and rs['type'] == solver_type:
+
+                return rs['set']
+
+        return False
+
 #---------------------------------------------------------------------------
 
     def SetServiceParameter(self, path=None, parameter=None, value=None, service=None):
@@ -2285,28 +2307,21 @@ class SSPy:
         """!
         
         """
+        sre = self.SolverRegistryEntry(solver, solver_type, model)
 
-        for rs in self.registered_solvers:
+        if not sre is None:
 
-            if rs['solver'] == solver and rs['type'] == solver_type and rs['model'] == model:
+            # if the entry is present we update the status of setting. Might not
+            # be needed at all but just making sure.
+            sre['set'] = is_set
 
-                if rs['set']:
-                    # Here we know it's already been registered and needs to be
-                    # set at runtime, so we ignore it.
-                    return
+            return
 
-                else:
-                            
-                    rs['set'] = is_set
-                        
+        else:
+            
+            _solver_reg = dict(solver=solver, type=solver_type, model=model, set=False)
 
-                #raise errors.SolverRegistryError("Model '%s' has already been registered to solver '%s' of type '%s'" % (model,solver,solver_type))
-                        
-
-        
-        _solver_reg = dict(solver=solver, type=solver_type, model=model, set=False)
-
-        self.registered_solvers.append(_solver_reg)
+            self.registered_solvers.append(_solver_reg)
 
     # alias
     StoreRegisteredSolver = store_registered_solver
