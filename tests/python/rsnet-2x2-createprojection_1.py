@@ -101,6 +101,8 @@ for i in range(0, nx*ny):
 
     this_heccer.SetModelName(path)
 
+    this_heccer.SetTimeStep(2e-05)
+
     # This performs a lookup and set on the solver by the solver name
     # given when you create it via CreateSolver.
 

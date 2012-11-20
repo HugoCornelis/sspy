@@ -1633,7 +1633,8 @@ class SSPy:
         _solver_type = solver_type
         _solver_entry = None
 
-        # first check if we checked in this model
+        # first check if we checked in this model. If this returns None then there
+        # is no entry present.
         _solver_entry = self.SolverRegistryEntry(solver_name, solver_type, model_name)
 
         if not _solver_entry is None:

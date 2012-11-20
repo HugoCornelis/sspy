@@ -73,7 +73,6 @@ class EventDistributor:
 
 #---------------------------------------------------------------------------
 
-
     def SetTimeStep(self, time_step):
         """
         @brief Sets the des plugin time step
