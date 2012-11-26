@@ -3,7 +3,9 @@
 
 This module contains the SolverCollection class. This class
 contains an object that keeps track of all solvers in the schedule
-and all solver registries.
+and all solver registries. It takes the place of a basic solver list
+that was used previously, so now we can pass this solver collection to
+all outputs and allow them to address all solvers for output variables.
 
 
 """
@@ -17,13 +19,16 @@ class SolverCollection:
 
     def __init__(self):
 
+
+        self.time_step = None
+
         self.solvers = []
 
 #---------------------------------------------------------------------------
 
     def AddSolver(self, solver):
 
-        for s in self._solvers:
+        for s in self.solvers:
 
             if solver.GetName() == s.GetName():
 
@@ -51,15 +56,32 @@ class SolverCollection:
     def GetSolvers(self):
 
         return self.solvers
+
+#---------------------------------------------------------------------------
+
+    def SetTimeStep(self, time_step):
+
+        self.time_step = time_step
+
+#---------------------------------------------------------------------------
+
+    def GetTimeStep(self):
+
+        return self.time_step
     
 #---------------------------------------------------------------------------
 
     def GetAddress(self, path, field, solver_name=None):
-
+        """
+        
+        """
+        
         address = None
         solver = None
         
         if len(self.solvers) == 1:
+            
+            # If there's only one solver then we just address the one
 
             solver = self.solvers[0]
 

@@ -35,6 +35,8 @@ from registry import EventDistributorRegistry
 
 from schedulee import Schedulee
 
+from _solver_collection import SolverCollection
+
 _module_directory =  os.path.dirname(os.path.abspath(__file__))
 
 
@@ -78,7 +80,12 @@ class SSPy:
         # of variables parsed from a declaration.
         #----------------------------------------------
         self._loaded_services = []
-        self._solvers = []
+
+        # The object with the collection of solvers in it.
+        # it will be passed and referenced as self._solver_collection.solvers
+        # in order to get the raw list to pass and examine for members.
+        # Solver additions will be done via the AddSolver method.
+        self._solver_collection = SolverCollection()
         self._inputs = []
         self._input_parameters = []
         self._outputs = []
@@ -424,7 +431,7 @@ class SSPy:
 
     def GetSolver(self, name):
 
-        for s in self._solvers:
+        for s in self._solver_collection.solvers:
 
             if name == s.GetName():
 
@@ -783,13 +790,13 @@ class SSPy:
                 self.AddSchedulee(i, 'input')
 
 
-        if len(self._solvers) > 0:
+        if len(self._solver_collection.solvers) > 0:
             
             if self.verbose:
 
                 print "\tScheduling solvers:"
 
-            for s in self._solvers:
+            for s in self._solver_collection.solvers:
 
                 if self.verbose:
 
@@ -816,9 +823,7 @@ class SSPy:
         # it here.
         if not self.time_step is None:
 
-            for s in self._schedulees:
-
-                s.SetTimeStep(self.time_step)
+            self.SetTimeStep(self.time_step)
                 
         self._scheduled = True
 
@@ -852,7 +857,7 @@ class SSPy:
 
     def GetLoadedSolvers(self):
 
-        return self._solvers
+        return self._solver_collection.solvers
 
 #---------------------------------------------------------------------------
 
@@ -967,7 +972,7 @@ class SSPy:
             
             print "Compiling all solvers"
 
-        for solver in self._solvers:
+        for solver in self._solver_collection.solvers:
 
             try:
 
@@ -1155,7 +1160,7 @@ class SSPy:
         """
         num_services = len(self._loaded_services)
         
-        num_solvers = len(self._solvers)
+        num_solvers = len(self._solver_collection.solvers)
 
         if num_services == 0:
 
@@ -1175,7 +1180,7 @@ class SSPy:
         
         for service in self._loaded_services:
 
-            for solver in self._solvers:
+            for solver in self._solver_collection.solvers:
 
                 if self.verbose:
 
@@ -1201,7 +1206,7 @@ class SSPy:
                    
         num_outputs = len(self._outputs)
 
-        num_solvers = len(self._solvers)
+        num_solvers = len(self._solver_collection.solvers)
 
         if num_solvers == 0:
 
@@ -1218,7 +1223,7 @@ class SSPy:
             # Connect solvers to outputs
             for o in self._outputs:
 
-                for solver in self._solvers:
+                for solver in self._solver_collection.solvers:
 
                     if self.verbose:
 
@@ -1254,7 +1259,7 @@ class SSPy:
         
         num_inputs = len(self._inputs)
 
-        num_solvers = len(self._solvers)
+        num_solvers = len(self._solver_collection.solvers)
 
         if num_solvers == 0:
 
@@ -1271,7 +1276,7 @@ class SSPy:
             # Now we connect solvers to inputs
             for i in self._inputs:
 
-                for solver in self._solvers:
+                for solver in self._solver_collection.solvers:
 
                     if self.verbose:
 
@@ -1332,7 +1337,7 @@ class SSPy:
 
         solver = self._solver_registry.CreateSolver(name, type, data)
 
-        self._solvers.append(solver)
+        self._solver_collection.AddSolver(solver)
 
         return solver
 
@@ -1430,6 +1435,9 @@ class SSPy:
         @brief Sets the timestep across all schedulees
 
         """
+
+        self._solver_collection.SetTimeStep(time_step)
+        
         if self._scheduled:
 
             for s in self._schedulees:
@@ -1449,14 +1457,13 @@ class SSPy:
         we get from a solver.
         """
         time_step = None
+
+        time_step = self._solver_collection.GetTimeStep()
         
-        if len(self._solvers) > 0:
+        if not time_step is None:
 
-            time_step = self._solvers[0].GetTimeStep()
+            self.time_step = time_step
 
-            if not time_step is None:
-
-                self.time_step = time_step
 
         return self.time_step
 
@@ -1797,7 +1804,7 @@ class SSPy:
 
                 if not solver_type is None:
                     
-                    for s in self._solvers:
+                    for s in self._solver_collection.solvers:
 
                         if s.GetType() == solver_type:
                             
@@ -1805,13 +1812,13 @@ class SSPy:
 
                 else:
 
-                    for s in self._solvers:
+                    for s in self._solver_collection.solvers:
 
                         s.SetParameter(path, parameter, value)
 
             else:
 
-                for s in self._solvers:
+                for s in self._solver_collection.solvers:
 
                     if s.GetName() == solver:
 
@@ -1910,19 +1917,19 @@ class SSPy:
         values for that particular solver type. If no options are given then it just returns
         all parameter values at the given path in all solvers is available.
         """
-        if len(self._solvers) == 0 or not self._compiled:
+        if len(self._solver_collection.solvers) == 0 or not self._compiled:
 
             return None
             
-        elif len(self._solvers) == 1:
+        elif len(self._solver_collection.solvers) == 1:
 
-            solver = self._solvers[0]
+            solver = self._solver_collection.solvers[0]
 
             return solver.GetParameter(path, parameter)
 
         elif not solver is None:
 
-            for s in self._solvers:
+            for s in self._solver_collection.solvers:
 
                 if s.GetName() == solver:
 
@@ -1934,7 +1941,7 @@ class SSPy:
 
             solver_dict = {}
             
-            for s in self._solvers:
+            for s in self._solver_collection.solvers:
 
                 if s.GetType() == solver_type:
                     
@@ -1948,7 +1955,7 @@ class SSPy:
 
             solver_dict = {}
             
-            for s in self._solvers:
+            for s in self._solver_collection.solvers:
                 
                 key = s.GetName()
                 
@@ -2237,7 +2244,7 @@ class SSPy:
 
         else:
         
-            for s in self._solvers:
+            for s in self._solver_collection.solvers:
 
                 if self.verbose:
 
@@ -3047,7 +3054,7 @@ class SSPy:
 
 #                 raise errors.SolverError("Solver wasn't created")
 
-            self._solvers.append(solver)
+            self._solver_collection.AddSolver(solver)
 
 #---------------------------------------------------------------------------
 
