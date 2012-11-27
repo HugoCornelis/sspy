@@ -73,7 +73,9 @@ class SolverCollection:
 
     def GetAddress(self, path, field, solver_name=None):
         """
-        
+
+        Retrieves the address for a particular solver in the
+        solver collection.
         """
         
         address = None
@@ -85,7 +87,7 @@ class SolverCollection:
 
             solver = self.solvers[0]
 
-            address = solver.GetAddress(path, field)
+            address = solver.GetObject().GetAddress(path, field)
 
 
         if not solver_name is None:
@@ -94,7 +96,7 @@ class SolverCollection:
 
             solver = self.GetSolver(name)
 
-            address = solver.GetAddress(path, field)
+            address = solver.GetObject().GetAddress(path, field)
 
         else:
 
@@ -104,7 +106,7 @@ class SolverCollection:
 
             for s in self.solvers:
 
-                address = s.GetAddress(path, field)
+                address = s.GetObject().GetAddress(path, field)
 
                 if not address is None:
                     
