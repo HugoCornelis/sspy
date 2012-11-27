@@ -63,9 +63,32 @@ class SolverCollection:
 
         self.time_step = time_step
 
+        for s in self.solvers:
+
+            s.SetTimeStep(time_step)
+            
 #---------------------------------------------------------------------------
 
     def GetTimeStep(self):
+        """
+
+        Returns the given timestep. If there are several solvers present
+        then the time step will be set to the first value given.
+        """
+        
+        ts = None
+        
+        if self.time_step is None:
+
+            for s in self.solvers:
+
+                ts = s.GetTimeStep()
+
+                if not ts is None:
+
+                    self.time_step = ts
+
+                    break
 
         return self.time_step
 
