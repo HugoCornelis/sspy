@@ -56,7 +56,7 @@ class Output:
 
         self.header = None
 
-        self._solver = None
+        self._solver_collection = None
 
         if not arguments is None:
             
@@ -108,7 +108,7 @@ class Output:
 
 #---------------------------------------------------------------------------
 
-    def AddOutput(self, name, field):
+    def AddOutput(self, name, field, solver=None):
         """!
 
         @brief Adds an output to the solver
@@ -118,34 +118,41 @@ class Output:
         should throw an exception. 
         """
 
-        if self._solver is None:
+        # The output entry gives all details for setting the output as well as a
+        # status so we don't set the same one twice.
+        output_entry = None
+
+        if self._solver_collection is None:
             # if it's none then we store it for later use
 
-            self.outputs.append(dict(field=field,component_name=name))
+            output_entry = dict(field=field,component_name=name,solver=solver,set=False)
             
 
         else:
 
-            self.AddAddressFromSolver(name, field)
+            self.AddAddressFromSolver(name, field, solver)
 
-            self.outputs.append(dict(field=field,component_name=name))
-            
+            output_entry = dict(field=field,component_name=name,solver=solver,set=True)
+
+
+        self.outputs.append(output_entry)
+        
 #---------------------------------------------------------------------------
 
-    def AddAddressFromSolver(self, name, field):
+    def AddAddressFromSolver(self, name, field, solver=None):
         """
 
         """
             
-        if self._solver is None:
+        if self._solver_collection is None:
 
-            raise Exception("Output error: can't add output for %s, %s: No Solver" % (name, field))
+            raise Exception("Output error: can't add output for %s, %s: No Solvers connected" % (name, field))
         
         try:
-            
-            my_solver = self._solver.GetObject()
 
-            address = my_solver.GetAddress(name, field)
+            address = self._solver_collection.GetAddress(name, field, solver)
+
+            # here the name and address gets passed to the lower level object
             
             self._output_gen.AddOutput(name, address)
     
@@ -275,7 +282,7 @@ class Output:
                 
 #---------------------------------------------------------------------------
 
-    def Connect(self, solver):
+    def Connect(self, solvers):
         """!
         @brief Connects the output to a solver
 
@@ -295,21 +302,16 @@ class Output:
         # Here we save a copy of the solver
         # in case we don't set any outputs during connection
         # but with to set them later (via shell)
-        self._solver = solver
+        self._solver_collection = solvers
         
-        solver_type = solver.GetType()
 
         # initialize the object at this point
         self.Initialize()
 
-        # Shouldn't be needed anymore, it should work for both heccer and chemesis3
-        #if solver_type == 'heccer':
-
-        my_solver = solver.GetObject()
 
         # Here we need to get the timestep and set it
         # for our object
-        time_step = my_solver.GetTimeStep()
+        time_step = self._solver_collection.GetTimeStep()
             
         self.SetTimeStep(time_step)
 
@@ -484,11 +486,20 @@ class Output:
             #
             component_name = ""
             field = ""
+            solver = None
 
             for i, o in enumerate(self.outputs):
 
+                if o['set']:
+
+                    # here if the output has been flagged as 'set' we skip it to prevent
+                    # setting it again.
+                    
+                    continue
+                    
                 if o.has_key('outputclass'):
 
+                    #! section is probably not needed anymore
                     if o['outputclass'] != 'double_2_ascii':
                         # if this output is not meant
                         # for this object type then we
@@ -515,13 +526,18 @@ class Output:
 
                     continue
 
+                # This one is optional so we don't need to bail out or report if there's no entry
+                if o.has_key('solver'):
+
+                    solver = o['solver']
+
 
                 if self.verbose:
 
                     print "\tAdding output %d, '%s' with field '%s'" % (i+1, component_name, field)
 
                     
-                self.AddAddressFromSolver(component_name, field)
+                self.AddAddressFromSolver(component_name, field, solver)
 
 
             self.outputs_parsed = True

@@ -68,7 +68,7 @@ class SolverCollection:
     def GetTimeStep(self):
 
         return self.time_step
-    
+
 #---------------------------------------------------------------------------
 
     def GetAddress(self, path, field, solver_name=None):
@@ -78,7 +78,7 @@ class SolverCollection:
         
         address = None
         solver = None
-        
+            
         if len(self.solvers) == 1:
             
             # If there's only one solver then we just address the one

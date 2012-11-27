@@ -50,7 +50,7 @@ class Output:
 
         self.order = "row"
 
-        self._solver = None
+        self._solver_collection = None
 
         if not arguments is None:
             
@@ -112,7 +112,7 @@ class Output:
         should throw an exception. 
         """
 
-        if self._solver is None:
+        if self._solver_collection is None:
             # if it's none then we store it for later use
 
             self.outputs.append(dict(field=field,component_name=name))
@@ -131,13 +131,13 @@ class Output:
 
         """
             
-        if self._solver is None:
+        if self._solver_collection is None:
 
             raise Exception("Output error: can't add output for %s, %s: No Solver" % (name, field))
         
         try:
             
-            my_solver = self._solver.GetObject()
+            my_solver = self._solver_collection.GetObject()
 
             address = my_solver.GetAddress(name, field)
             
@@ -230,7 +230,7 @@ class Output:
             
 #---------------------------------------------------------------------------
 
-    def Connect(self, solver):
+    def Connect(self, solvers):
         """!
         @brief Connects the output to a solver
 
@@ -250,30 +250,24 @@ class Output:
         # Here we save a copy of the solver
         # in case we don't set any outputs during connection
         # but with to set them later (via shell)
-        self._solver = solver
+        self._solver_collection = solvers
         
-        solver_type = solver.GetType()
 
         # initialize the object at this point
         self.Initialize()
 
-        if solver_type == 'heccer':
 
-            my_heccer = solver.GetObject()
-
-            # Here we need to get the timestep and set it
-            # for our object
-            time_step = my_heccer.GetTimeStep()
+        # Here we need to get the timestep and set it
+        # for our object
+        time_step = self._solver_collection.GetTimeStep()
             
-            self.SetTimeStep(time_step)
+        self.SetTimeStep(time_step)
 
-            # Now after connection we can add any stored
-            # outputs from a configuration. Otherwise
-            # they can only be added after this connection step
-            # has proceeded. 
-            self._ParseOutputs()
-
-
+        # Now after connection we can add any stored
+        # outputs from a configuration. Otherwise
+        # they can only be added after this connection step
+        # has proceeded. 
+        self._ParseOutputs()
 
 
 #---------------------------------------------------------------------------

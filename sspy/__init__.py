@@ -1198,8 +1198,58 @@ class SSPy:
  
 #---------------------------------------------------------------------------
 
-
     def ConnectOutputs(self):
+        """!
+        @brief 
+        """
+                   
+        num_outputs = len(self._outputs)
+
+        num_solvers = len(self._solver_collection.solvers)
+
+        if num_solvers == 0:
+
+            print "No solvers to connect to outputs"
+
+            return False
+
+        if num_outputs > 0:
+
+            if self.verbose:
+                
+                print "Connecting %d outputs to %d solvers" % (num_outputs, num_solvers)
+
+            # Connect solvers to outputs
+            for o in self._outputs:
+
+
+                if self.verbose:
+
+                    print "\tConnecting solvers to output '%s'" % (o.GetName())
+   
+                try:
+
+                    o.Connect(self._solver_collection)
+                    
+                except Exception, e:
+
+                    print "\tCan't connect solvers to output '%s': %s" % (o.GetName(), e)
+
+
+        # Here we connect all of the output parameters we stored
+        for o in self._output_parameters:
+
+            self.ConnectOutputParameter(o['path'],
+                                        o['parameter'],
+                                        o['output_name'],
+                                        o['output_type'],
+                                        o['solver'])
+
+        self._outputs_connected = True
+
+
+    # old version just in case.
+    def _ConnectOutputs(self):
         """!
         @brief 
         """
@@ -2020,7 +2070,7 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def ConnectOutputParameter(self, path, parameter, output_name=None, output_type=None):
+    def ConnectOutputParameter(self, path, parameter, output_name=None, output_type=None, solver=None):
         """!
         @brief Sets a parameter on all loaded output
 
@@ -2038,16 +2088,16 @@ class SSPy:
 
                     if o.GetName() == output_name:
                         
-                        o.AddOutput(path, parameter)
+                        o.AddOutput(path, parameter, solver)
                         
                 elif not output_type is None:
 
                     if o.GetType() == output_type:
 
-                        o.AddOutput(path, parameter)
+                        o.AddOutput(path, parameter, solver)
                 else:
 
-                    o.AddOutput(path, parameter)
+                    o.AddOutput(path, parameter, solver)
         else:
 
             raise errors.OutputError("Can't connect output parameter (%s, %s), no outputs have been loaded" % (path,parameter))
@@ -2055,25 +2105,30 @@ class SSPy:
 #---------------------------------------------------------------------------
 
 
-    def AddOutput(self, path, parameter, output_name=None, output_type=None):
+    def AddOutput(self, path, parameter, output_name=None, output_type=None, solver=None):
         """
         
         """
 
         output_data = dict(path=path, parameter=parameter,
-                           output_name=output_name, output_type=output_type)
+                           output_name=output_name, output_type=output_type,
+                           solver=solver, set=False)
 
 
         if output_data in self._output_parameters:
 
             raise errors.OutputError("Output has already been added")
         
-        self._output_parameters.append(output_data)
-
+    
         if self._outputs_connected:
 
-            self.ConnectOutputParameter(path, parameter, output_name, output_type)
+            self.ConnectOutputParameter(path, parameter, output_name, output_type, solver)
 
+            output_data['set'] = True
+
+
+        self._output_parameters.append(output_data)
+        
 #---------------------------------------------------------------------------
 
     def SetOutputFormat(self, format, output_name=None, output_type=None):
