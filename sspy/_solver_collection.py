@@ -38,7 +38,13 @@ class SolverCollection:
 
             
         self.solvers.append(solver)
-            
+
+#---------------------------------------------------------------------------
+
+    def GetNames(self):
+
+        pass
+
 #---------------------------------------------------------------------------
 
     def GetSolver(self, name):
@@ -117,7 +123,7 @@ class SolverCollection:
 
             # is we get a solver name then we just grab it
 
-            solver = self.GetSolver(name)
+            solver = self.GetSolver(solver_name)
 
             address = solver.GetObject().GetAddress(path, field)
 

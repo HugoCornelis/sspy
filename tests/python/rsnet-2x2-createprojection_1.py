@@ -120,9 +120,11 @@ my_output.SetFilename('/tmp/output')
 
 for i in range(0, nx * ny):
 
-    my_output.AddOutput("/RSNet/population/%s/soma" % i, 'Vm')
+    solver = "heccer_%s" % i
 
-    my_output.AddOutput("/RSNet/population/%s/soma/Ex_channel" % i, 'Gsyn')
+    my_output.AddOutput("/RSNet/population/%s/soma" % i, 'Vm', solver)
+
+    my_output.AddOutput("/RSNet/population/%s/soma/Ex_channel" % i, 'Gsyn', solver)
 
 
 # This should probably just be arg flags or something, passing 'steps'
