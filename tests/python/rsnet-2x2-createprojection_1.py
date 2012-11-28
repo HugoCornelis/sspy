@@ -63,22 +63,17 @@ my_mc_object.CreateProjection(network='/RSNet',
 # Create a perfectclamp object for current holding.
 my_input = scheduler.CreateInput('My perfectclamp','perfectclamp')
 
+
+# Here we give it a solver argument to tell the input that the path '/RSNet/population/3/soma'
+# is located on the solver 'heccer_3'. if we leave this off then it will search
+# through all given solvers and add it to the first that returns an address
+# (Note that will work with this example).
+# this can cause problems if several solvers possible map to the same pathname.
 my_input.AddInput('/RSNet/population/3/soma', 'INJECT', solver='heccer_3')
 
 my_input.SetCommandVoltage(1e-9)
 
 
-
-#
-# Must create solver.
-#
-# my_heccer = scheduler.CreateSolver('My heccer', 'heccer', verbose=True)
-
-# # Sets the segment of the model to run from
-# my_heccer.SetModelName('/RSNet')
-
-# # set the timestep for the entire scheduler (solvers, inputs and outputs)
-# my_heccer.SetTimeStep(2e-05)
 
 
 #
