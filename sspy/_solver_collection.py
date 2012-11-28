@@ -146,3 +146,54 @@ class SolverCollection:
 
 
         return address
+
+
+
+#---------------------------------------------------------------------------
+
+    def GetCompartmentAddress(self, path, field, solver_name=None):
+        """
+
+        Retrieves the address for a particular solver in the
+        solver collection.
+        """
+        
+        address = None
+        solver = None
+            
+        if len(self.solvers) == 1:
+            
+            # If there's only one solver then we just address the one
+
+            solver = self.solvers[0]
+
+            address = solver.GetObject().GetCompartmentAddress(path, field)
+
+
+        if not solver_name is None:
+
+            # is we get a solver name then we just grab it
+
+            solver = self.GetSolver(solver_name)
+
+            address = solver.GetObject().GetCompartmentAddress(path, field)
+
+        else:
+
+            # here we check each solver for the address
+            # this is probably stupid. But we only do it when
+            # we have multiple solvers so we'll deal with it.
+
+            for s in self.solvers:
+
+                address = s.GetObject().GetCompartmentAddress(path, field)
+
+                if not address is None:
+                    
+                    # if we've found the address
+                    # we break if not, it will end
+                    # up as none anyway.
+                    break
+
+
+        return address

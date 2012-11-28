@@ -1326,6 +1326,48 @@ class SSPy:
             # Now we connect solvers to inputs
             for i in self._inputs:
 
+                if self.verbose:
+
+                    print "\tConnecting solvers to input '%s'" % (i.GetName())
+                        
+                try:
+
+                    i.Connect(self._solver_collection)
+                        
+                except Exception, e:
+
+                    print "\tCan't connect solvers to input '%s': %s" % (i.GetName(), e)
+
+
+        self._inputs_connected = True
+
+
+    # old version just in case
+    def _ConnectInputs(self):
+        """!
+        @brief  
+
+        """
+        
+        num_inputs = len(self._inputs)
+
+        num_solvers = len(self._solver_collection.solvers)
+
+        if num_solvers == 0:
+
+            print "No solvers to connect to inputs"
+
+            return False
+        
+        if num_inputs > 0:
+
+            if self.verbose:
+                
+                print "Connecting %d inputs to %d solvers" % (num_inputs, num_solvers)
+        
+            # Now we connect solvers to inputs
+            for i in self._inputs:
+
                 for solver in self._solver_collection.solvers:
 
                     if self.verbose:
@@ -1341,7 +1383,7 @@ class SSPy:
                         print "\tCan't connect solver '%s' to input '%s': %s" % (solver.GetName(), i.GetName(), e)
 
         self._inputs_connected = True
-    
+        
 #---------------------------------------------------------------------------
 
     def Daemonize(self):
