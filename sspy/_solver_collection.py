@@ -109,6 +109,8 @@ class SolverCollection:
         
         address = None
         solver = None
+
+        error = None
             
         if len(self.solvers) == 1:
             
@@ -135,7 +137,14 @@ class SolverCollection:
 
             for s in self.solvers:
 
-                address = s.GetObject().GetAddress(path, field)
+
+                try:
+
+                    address = s.GetObject().GetAddress(path, field)
+
+                except Exception, e:
+
+                    error = e
 
                 if not address is None:
                     
@@ -144,10 +153,19 @@ class SolverCollection:
                     # up as none anyway.
                     break
 
+        if not address is None:
+            
+            return address
 
-        return address
+        else:
 
+            if error is None:
 
+                error = "Cannot find the address of %s -> %s" % (path, field)
+
+            raise Exception(error)
+
+           
 
 #---------------------------------------------------------------------------
 

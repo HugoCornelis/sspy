@@ -63,7 +63,7 @@ my_mc_object.CreateProjection(network='/RSNet',
 # Create a perfectclamp object for current holding.
 my_input = scheduler.CreateInput('My perfectclamp','perfectclamp')
 
-my_input.AddInput('/RSNet/population/3/soma', 'INJECT')
+my_input.AddInput('/RSNet/population/3/soma', 'INJECT', solver='heccer_3')
 
 my_input.SetCommandVoltage(1e-9)
 

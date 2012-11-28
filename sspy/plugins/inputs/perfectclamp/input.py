@@ -251,8 +251,8 @@ class Input:
 
 
             solver = inp['solver']
-    
-            address = self._solver_collection.GetCompartmentAddress(component_name, field, solver)
+
+            address = self._solver_collection.GetAddress(component_name, field, solver)
 
             #exception?
 
