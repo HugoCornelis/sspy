@@ -2485,23 +2485,6 @@ class SSPy:
                 print "\n"
 
 
-        if not self._event_distributor_connected:
-
-            try:
-
-                self.ConnectEventDistributors()
-
-            except Exception, e:
-
-                raise errors.EventDistributorError("Can't connect service to event distributor: %s" % e)
-
-
-            if self.verbose:
-
-                print "\n"
-
-
-
         if not self._compiled:
 
 
@@ -2512,6 +2495,22 @@ class SSPy:
             except Exception, e:
 
                 raise errors.CompileError("Can't compile schedule: %s" % e)
+
+            if self.verbose:
+
+                print "\n"
+                
+
+        if not self._event_distributor_connected:
+
+            try:
+
+                self.ConnectEventDistributors()
+
+            except Exception, e:
+
+                raise errors.EventDistributorError("Can't connect service to event distributor: %s" % e)
+
 
             if self.verbose:
 
