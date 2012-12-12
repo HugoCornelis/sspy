@@ -47,15 +47,14 @@ my_mc_object.CreateNetwork('/RSNet')
 
 my_mc_object.CreateMap('::rscell::/cell', '/RSNet/population', nx, ny, sep_x, sep_y)
 
-
 my_mc_object.CreateProjection(network='/RSNet',
                             projection='/RSNet/projection',
                             probability=1.0,
                             random_seed=1212.0,
                             source=('/RSNet/population', 'box', -1e10, -1e10, -1e10, 1e10, 1e10, 1e10),
-                            target=('/RSNet/population', 'Ex_channel', 0, 0, 0, sep_x * 1.2, sep_y * 1.2, sep_z * 0.5),
-                            target_hole=('box', sep_x *0.5, sep_y * 0.5, sep_z * 0.5, sep_x * 05, sep_y * 0.5, sep_z * 0.5),
-                            synapse=('fixed', prop_delay, syn_weight, 0.5, 'spike', 'Ex_channel')
+                            target=('/RSNet/population', 'ellipse', 0, 0, 0, sep_x * 1.2, sep_y * 1.2, sep_z * 0.5),
+                            target_hole=('box', -sep_x *0.5, -sep_y * 0.5, -sep_z * 0.5, sep_x * 0.5, sep_y * 0.5, sep_z * 0.5),
+                            synapse=('spike', 'Ex_channel', syn_weight, prop_delay)
                             )
 
 

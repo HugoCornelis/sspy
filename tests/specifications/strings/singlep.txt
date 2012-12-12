@@ -1,3 +1,4 @@
+Loading schedule 'yaml/heccer/singlep.yml'
 Parsing schedule data
 Schedule name is 'singlep'
 
@@ -21,15 +22,19 @@ Found application classes:
 
 Applying model runtime parameters to 1 models
 	Setting runtime parameters for '/singlep'
-	  Setting model name for solver 'singlep (heccer)' to '/singlep'
+	Setting model name for solver 'singlep (heccer)' to '/singlep'
 
 
 Connecting 1 solvers to 1 services
 	Connecting solver 'singlep (heccer)' to service 'singlep (heccer_intermediary)'
 
 
+
+
 Compiling all solvers
 	Compiling Solver: singlep (heccer)
+
+
 
 
 

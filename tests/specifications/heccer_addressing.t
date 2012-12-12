@@ -26,8 +26,12 @@ Connecting 1 solvers to 1 services
 	Connecting solver 'My solver' to service 'My Model Container'
 
 
+
+
 Compiling all solvers
 	Compiling Solver: My solver
+
+
 
 
 
@@ -74,8 +78,12 @@ Connecting 1 solvers to 1 services
 	Connecting solver 'My solver' to service 'My Model Container'
 
 
+
+
 Compiling all solvers
 	Compiling Solver: My solver
+
+
 
 
 
