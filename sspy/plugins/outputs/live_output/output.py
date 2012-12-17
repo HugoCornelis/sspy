@@ -126,20 +126,20 @@ class Output:
             
 #---------------------------------------------------------------------------
 
-    def AddAddressFromSolver(self, name, field):
+    def AddAddressFromSolver(self, name, field, solver=None):
         """
 
         """
             
         if self._solver_collection is None:
 
-            raise Exception("Output error: can't add output for %s, %s: No Solver" % (name, field))
+            raise Exception("Output error: can't add output for %s, %s: No Solvers connected" % (name, field))
         
         try:
-            
-            my_solver = self._solver_collection.GetObject()
 
-            address = my_solver.GetAddress(name, field)
+            address = self._solver_collection.GetAddress(name, field, solver)
+
+            # here the name and address gets passed to the lower level object
             
             self._live_output.AddOutput(name, address)
     
