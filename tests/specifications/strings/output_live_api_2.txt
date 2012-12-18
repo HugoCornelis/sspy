@@ -7,12 +7,16 @@ Connecting 1 solvers to 1 services
 	Connecting solver 'My solver' to service 'My Model Container'
 
 
+
+
 Compiling all solvers
 	Compiling Solver: My solver
 
 
+
+
 Connecting 1 outputs to 1 solvers
-	Connecting solver 'My solver' to output 'output_object'
+	Connecting solvers to output 'output_object'
 	Adding output 1, '/singlep/segments/soma' with field 'Vm'
 
 
@@ -44,6 +48,10 @@ Resetting all schedulees:
 
 
 No model runtime parameters defined
+
+
+
+
 
 
 Running simulation in steps mode
