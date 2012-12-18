@@ -22,46 +22,51 @@ my $test
 
 						  {
 						   description => "Check for script completion",
-						   read => 'Parsing schedule data
-Schedule name is \'purk_test_soma\'
+						   read => 'Loading schedule 'yaml/purk_test_soma_aggregators.yml'
+Parsing schedule data
+Schedule name is 'purk_test_soma'
 
-Loading model from file \'tests/cells/purk_test_soma.ndf\'
-Loading Service \'purk_test_soma (model_container)\' of type \'model_container\'
-Loading Solver \'purk_test_soma (heccer)\' of type \'heccer\'
+Loading model from file 'tests/cells/purk_test_soma.ndf'
+Loading Service 'purk_test_soma (model_container)' of type 'model_container'
+Loading Solver 'purk_test_soma (heccer)' of type 'heccer'
 
 Found applied simulation parameters:
 Simulation Parameters: 
 	Simulation will run for 5000 steps
 	Verbosity level is 1
 
-Loading Output \'purk_test_soma (double_2_ascii)\' of type \'double_2_ascii\'
+Loading Output 'purk_test_soma (double_2_ascii)' of type 'double_2_ascii'
 
 
 Applying model runtime parameters to 1 models
-	Setting runtime parameters for \'/purk_test_soma\'
-	  Setting model name for solver \'purk_test_soma (heccer)\' to \'/purk_test_soma\'
-	Model Container: setting parameter /purk_test_soma/segments/soma INJECT 2e-09
+	Setting runtime parameters for '/purk_test_soma'
+	Setting model name for solver 'purk_test_soma (heccer)' to '/purk_test_soma'
+Model Container: setting parameter /purk_test_soma/segments/soma INJECT 2e-09
 
 
 Connecting 1 solvers to 1 services
-	Connecting solver \'purk_test_soma (heccer)\' to service \'purk_test_soma (model_container)\'
+	Connecting solver 'purk_test_soma (heccer)' to service 'purk_test_soma (model_container)'
+
+
 
 
 Compiling all solvers
 	Compiling Solver: purk_test_soma (heccer)
 
 
+
+
 Connecting 1 outputs to 1 solvers
-	Connecting solver \'purk_test_soma (heccer)\' to output \'purk_test_soma (double_2_ascii)\'
+	Connecting solvers to output 'purk_test_soma (double_2_ascii)'
 
 
 
 
 Scheduling all simulation objects
 	Scheduling solvers:
-		Scheduling solver \'purk_test_soma (heccer)\'
+		Scheduling solver 'purk_test_soma (heccer)'
 	Scheduling outputs:
-		Scheduling output \'purk_test_soma (double_2_ascii)\'
+		Scheduling output 'purk_test_soma (double_2_ascii)'
 
 
 Initializing all schedulees
