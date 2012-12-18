@@ -242,6 +242,7 @@ my $test
 				command_tests => [
 						  {
 						   description => "Check for script completion",
+						   wait => 2,
 						   read => 'Done!',
 						  },
 						  {
@@ -253,8 +254,6 @@ my $test
 						  },
 						 ],
 				description => "simple output with a header",
-				wait => 5,
-				timeout => 15,
 				preparation => {
 						description => "Clean out any previous files",
 						preparer =>
