@@ -253,7 +253,8 @@ my $test
 						  },
 						 ],
 				description => "simple output with a header",
-				timeout => 10,
+				wait => 5,
+				timeout => 15,
 				preparation => {
 						description => "Clean out any previous files",
 						preparer =>
