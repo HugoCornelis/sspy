@@ -18,7 +18,7 @@ from errors import ScheduleeError
 # depending on the types of plugins present but not going to think
 # of that yet
 #
-schedulee_types = ['solver', 'input', 'output']
+schedulee_types = ['solver', 'input', 'output', 'event_distributor']
 
 class Schedulee:
     """!
@@ -51,7 +51,7 @@ class Schedulee:
             raise ScheduleeError("Can't obtain time step: %s\n" % e)
 
         if self.time_step < 0.0 or self.time_step is None:
-            pdb.set_trace()
+
             raise ScheduleeError("Invalid step value: '%s'\n" % self.time_step)
 
         self.current_time = 0.0

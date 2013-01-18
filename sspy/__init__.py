@@ -758,7 +758,18 @@ class SSPy:
 #---------------------------------------------------------------------------
 
     def ScheduleAll(self):
+        """
 
+        Here we schedule all of the simulation objects.
+        I currently have inputs scheduled first, not sure
+        if this is wrong or produces anything errant but so
+        far everything seems ok. order is:
+
+            inputs -> solvers -> event_dists -> outputs
+
+        May need to make the order configurable but doubt it.
+        """
+        
         if self._scheduled:
 
             if self.verbose:
@@ -803,6 +814,21 @@ class SSPy:
                     print "\t\tScheduling solver '%s'" % s.GetName()
 
                 self.AddSchedulee(s, 'solver')
+
+
+        # If we have an event distributor set we
+        # schedule it here. The rsnet example in perl
+        # has it sheduled after the heccer solvers
+        # so i'll do the same.
+        if not self._event_distributor is None:
+
+            if self.verbose:
+
+                print "\tScheduling event distributor '%s'" % self._event_distributor.GetName()
+
+            self.AddSchedulee(self._event_distributor, 'event_distributor')
+            
+
 
         if len(self._outputs) > 0:
 
