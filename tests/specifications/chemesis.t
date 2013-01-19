@@ -47,8 +47,6 @@ my $test
 					      },
 
 			       },
-
-
 			       {
 				arguments => [
 					     ],
@@ -83,9 +81,8 @@ my $test
 					      },
 
 			       },
-
 			      ],
-       description => "",
+       description => "chemesis tests",
        name => 'chemesis.t',
       };
 
