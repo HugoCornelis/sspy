@@ -95,7 +95,8 @@ for i in range(0, nx*ny):
 
     this_heccer.SetModelName(path)
 
-    this_heccer.SetTimeStep(2e-05)
+    # This works but I'm doing it closer to the Run() call down below.
+    # this_heccer.SetTimeStep(2e-05)
 
     # This performs a lookup and set on the solver by the solver name
     # given when you create it via CreateSolver.
@@ -114,8 +115,8 @@ my_output.SetFilename('/tmp/output')
 
 for i in range(0, nx * ny):
 
-    solver = "heccer_%s" % i
-
+    #solver = "heccer_%s" % i
+    solver = None
     my_output.AddOutput("/RSNet/population/%s/soma" % i, 'Vm', solver)
 
     my_output.AddOutput("/RSNet/population/%s/soma/Ex_channel" % i, 'Gsyn', solver)
@@ -127,6 +128,9 @@ my_output.SetMode('steps')
 
 my_output.SetResolution(10)
 
+
+
+scheduler.SetTimeStep(2e-05)
 
 scheduler.Run(time=0.2)
 
