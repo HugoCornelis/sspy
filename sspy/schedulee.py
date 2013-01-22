@@ -42,20 +42,26 @@ class Schedulee:
 
             raise ScheduleeError("Invalid type '%s'" % schedulee_type)
 
-        try:
+#         try:
             
-            self.time_step = schedulee.GetTimeStep()
+#             self.time_step = schedulee.GetTimeStep()
 
-        except Exception, e:
+#         except Exception, e:
 
-            raise ScheduleeError("Can't obtain time step: %s\n" % e)
+#             raise ScheduleeError("Can't obtain time step: %s\n" % e)
 
-        if self.time_step < 0.0 or self.time_step is None:
+#         if self.time_step < 0.0 or self.time_step is None:
 
-            raise ScheduleeError("Invalid step value: '%s'\n" % self.time_step)
+#             raise ScheduleeError("Invalid step value: '%s'\n" % self.time_step)
 
-        self.current_time = 0.0
 
+# This error check isn't needed since we always grab it from the top level.
+#         if current_time is None:
+
+#             raise ScheduleeError("Current time not passed")
+
+
+        
         self.current_step = 0
 
         self._schedulees_type = schedulee_type
@@ -120,19 +126,18 @@ class Schedulee:
 
 #---------------------------------------------------------------------------
 
-    def Step(self):
-
+    def Step(self, current_time):
+        """
+        
+        """
+        
         try:
 
-            self._schedulee.Step(self.current_time)
+            self._schedulee.Step(current_time)
 
         except Exception, e:
-
+            pdb.set_trace()
             raise ScheduleeError("%s" % e)
-
-        self.current_time += self.time_step
-
-        self.current_step += 1
         
 #---------------------------------------------------------------------------        
 
@@ -141,7 +146,7 @@ class Schedulee:
 
         """
         try:
-            pdb.set_trace()
+
             self._schedulee.SetTimeStep(time_step)
 
         except TypeError, e:
@@ -164,19 +169,19 @@ class Schedulee:
 
 #---------------------------------------------------------------------------
 
-    def GetCurrentStep(self):
-        """
-        @brief Returns the current step
-        """
-        return self.current_step
+#     def GetCurrentStep(self):
+#         """
+#         @brief Returns the current step
+#         """
+#         return self.current_step
 
 #---------------------------------------------------------------------------
     
-    def GetCurrentTime(self):
-        """
-        @brief Returns the current simulation time
-        """
-        return self.current_time
+#     def GetCurrentTime(self):
+#         """
+#         @brief Returns the current simulation time
+#         """
+#         return self.current_time
 
 #---------------------------------------------------------------------------
 
@@ -201,8 +206,6 @@ class Schedulee:
         except Exception, e:
 
             raise ScheduleeError("%s" % e)
-
-        self.current_time = 0.0
 
 #---------------------------------------------------------------------------
 
@@ -231,10 +234,6 @@ class Schedulee:
 
 
     def Reset(self):
-
-        self.current_time = 0.0
-
-        self.current_step = 0
 
         try:
             

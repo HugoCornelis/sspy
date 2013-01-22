@@ -980,13 +980,9 @@ class SSPy:
 
             s.Step()
 
-#---------------------------------------------------------------------------
-
-    def Advance(self):
-        """
-
-        """
-        self.Step()
+    # Just an alias to Step so we can call Advance() if we want.
+    # no real reason to do this since sspy does most of its work internally.
+    Advance = Step
 
 #---------------------------------------------------------------------------
 
@@ -1632,7 +1628,7 @@ class SSPy:
             
         else:
             
-            self.current_simulation_time = 0
+            self.current_simulation_time = 0.0
         
         self._initialized = True
 
@@ -2618,58 +2614,62 @@ class SSPy:
 
         if not steps is None:
 
-            run_steps = self.steps = steps
+            self.steps = steps
 
             self._steps_mode = True
 
         elif not time is None:
 
-            run_time = self.simulation_time = time
+            self.simulation_time = time
 
             self._steps_mode = False
 
         elif not self.steps is None:
 
-            run_steps = self.steps
-
             self._steps_mode = True
 
         elif not self.simulation_time is None:
 
-            run_time = self.simulation_time
-
             self._steps_mode = False
 
-        # We have steps so we run for this number of steps
-        if run_steps is not None:
 
-            if self.verbose:
 
-                print "Running simulation in steps mode"
+        # set the timestep globally if not done already
+        if self.time_step is None:
             
-            for self.current_step in range(run_steps + 1):
-
-                if self.run_halt:
-                    # exit if we set the halt boolean
-                    break
-                
-                self.Step()
-
-        elif run_time is not None:
-
             run_time_step = self.GetTimeStep()
 
             if run_time_step is None:
 
                 raise Exception("Can't run, no time step is set.")
-                
-            run_current_steps = 0
+
+            else:
+
+                self.time_step = run_time_step
+
+            # Making sure the timestep is spread across
+            # all schedulees.
+            self.SetTimeStep(self.time_step)
+
+        else:
+
+            self.SetTimeStep(self.time_step)
+
+
+
+        # We have steps so we run for this number of steps
+        # else if we have a given simulation time we run for
+        # the given time. 
+        if self.steps is not None:
 
             if self.verbose:
 
-                print "Running simulation in time mode"
-                
-            while self.current_simulation_time < run_time:
+                print "Running simulation in steps mode"
+
+            self.current_step = 0
+            self.current_simulation_time = 0.0
+            
+            for self.current_step in range(self.steps + 1):
 
                 if self.run_halt:
                     # exit if we set the halt boolean
@@ -2677,9 +2677,23 @@ class SSPy:
                 
                 self.Step()
 
-                self.current_simulation_time += run_time_step
+        elif self.simulation_time is not None:
 
-                run_current_steps += 1
+                
+            self.current_step = 0
+            self.current_simulation_time = 0.0
+
+            if self.verbose:
+
+                print "Running simulation in time mode"
+                
+            while self.current_simulation_time < self.simulation_time:
+
+                if self.run_halt:
+                    # exit if we set the halt boolean
+                    break
+                
+                self.Step()
                 
 
         if finish:
@@ -2743,7 +2757,8 @@ class SSPy:
         @brief Executes a single step on all schedulees and updates the simulation time
 
         This is made to be thread safe so that steps can complete and not lead to uneven
-        output.
+        output. The class scoped variables for the current simulation time and time step
+        are tracked and updated here.
         """
         lock = threading.Lock()
 
@@ -2751,13 +2766,18 @@ class SSPy:
         
         for schedulee in self._schedulees:
 
-                
-            schedulee.Step()
+            schedulee.Step(self.current_simulation_time)
 
             if self.simulation_verbose:
 
                 schedulee.Report()
+                
+        # Update the current global simulation time and current time step
+        # at the end of a step.
+        self.current_simulation_time += self.time_step
 
+        self.current_step += 1
+            
         lock.release()
         
 #---------------------------------------------------------------------------
