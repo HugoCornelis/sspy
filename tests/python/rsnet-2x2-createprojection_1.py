@@ -115,8 +115,8 @@ my_output.SetFilename('/tmp/output')
 
 for i in range(0, nx * ny):
 
-    #solver = "heccer_%s" % i
-    solver = None
+    solver = "heccer_%s" % i
+
     my_output.AddOutput("/RSNet/population/%s/soma" % i, 'Vm', solver)
 
     my_output.AddOutput("/RSNet/population/%s/soma/Ex_channel" % i, 'Gsyn', solver)
@@ -126,8 +126,8 @@ for i in range(0, nx * ny):
 # seems a bit tacky.
 my_output.SetMode('steps')
 
-my_output.SetResolution(10)
-
+# turn off the resolution setting for now
+#my_output.SetResolution(10)
 
 
 scheduler.SetTimeStep(2e-05)
