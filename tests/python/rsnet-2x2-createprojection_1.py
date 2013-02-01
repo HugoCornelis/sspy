@@ -113,11 +113,18 @@ my_output = scheduler.CreateOutput('My output object', 'double_2_ascii')
 
 my_output.SetFilename('/tmp/output')
 
+
+# First we add the solver Vm to the first four columns
 for i in range(0, nx * ny):
 
     solver = "heccer_%s" % i
 
     my_output.AddOutput("/RSNet/population/%s/soma" % i, 'Vm', solver)
+
+# Then we add the Gsyn to the next four
+for i in range(0, nx * ny):
+
+    solver = "heccer_%s" % i
 
     my_output.AddOutput("/RSNet/population/%s/soma/Ex_channel" % i, 'Gsyn', solver)
 
