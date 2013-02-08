@@ -104,6 +104,7 @@ for i in range(0, nx*ny):
     scheduler.SolverSet(path, solver_name)
 
 
+scheduler.SolverSet("/RSNet/Projection", "My DES")
 
 
 #

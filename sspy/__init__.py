@@ -430,7 +430,24 @@ class SSPy:
 #---------------------------------------------------------------------------
 
     def GetSolver(self, name):
+        """
 
+        this method will search through all solvers for a match
+        on the name as well as check the current event distributor
+        to see if it has the name we're looking for. 
+        """
+
+        # We check here first since at this point, we are treating
+        # the event distributor as a solver.
+        if not self._event_distributor is None:
+
+            if name == self._event_distributor.GetName():
+
+                return self._event_distributor
+
+
+        # If it doesn't match the event distributor, then
+        # we proceed to check the solvers.
         for s in self._solver_collection.solvers:
 
             if name == s.GetName():
@@ -2521,7 +2538,7 @@ class SSPy:
             if self.verbose:
 
                 print "\n"
-                
+
 
         if not self._event_distributor_connected:
 
@@ -2537,9 +2554,7 @@ class SSPy:
             if self.verbose:
 
                 print "\n"
-
-
-
+                
         if not self._outputs_connected:
 
             try:
@@ -2567,6 +2582,8 @@ class SSPy:
             if self.verbose:
 
                 print "\n"
+
+
 
         if not self._scheduled:
 
