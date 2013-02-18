@@ -103,7 +103,7 @@ test:
 
 
 html-upload-prepare:
-	( cd tests && ./tests_2_html --introduction introduction.html )
+	( cd tests && neurospaces_harness_2_html --introduction introduction.html )
 	rm -fr html/htdocs/neurospaces_project/ssp/
 	mkdir -p html/htdocs/neurospaces_project/ssp
 	mkdir -p html/htdocs/neurospaces_project/ssp/html_source
