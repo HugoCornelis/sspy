@@ -2540,20 +2540,20 @@ class SSPy:
                 print "\n"
 
 
-        if not self._event_distributor_connected:
+        if not self._inputs_connected:
 
             try:
-
-                self.ConnectEventDistributors()
+                
+                self.ConnectInputs()
 
             except Exception, e:
 
-                raise errors.EventDistributorError("Can't connect service to event distributor: %s" % e)
-
+                raise errors.ConnectError("Can't connect inputs: %s" % e)
 
             if self.verbose:
 
                 print "\n"
+
                 
         if not self._outputs_connected:
 
@@ -2569,15 +2569,17 @@ class SSPy:
 
                 print "\n"
 
-        if not self._inputs_connected:
+
+        if not self._event_distributor_connected:
 
             try:
-                
-                self.ConnectInputs()
+
+                self.ConnectEventDistributors()
 
             except Exception, e:
 
-                raise errors.ConnectError("Can't connect inputs: %s" % e)
+                raise errors.EventDistributorError("Can't connect service to event distributor: %s" % e)
+
 
             if self.verbose:
 
