@@ -54,7 +54,7 @@ my_input = scheduler.CreateInput('purkinje cell perfect clamp','perfectclamp',ve
 
 my_input.AddInput('/singlep/segments/soma', 'Vm')
 
-my_input.SetCommandVoltage(-0.06)
+my_input.SetCommand(-0.06)
 
 
 #

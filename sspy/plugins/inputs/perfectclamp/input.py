@@ -51,7 +51,7 @@ class Input:
 
         self.inputs_parsed = False
 
-        self.command_voltage = None
+        self.command_level = None
 
         self.command_file = None
 
@@ -169,11 +169,11 @@ class Input:
 
 #---------------------------------------------------------------------------
 
-    def SetCommandVoltage(self, voltage):
+    def SetCommand(self, level):
 
-        self._perfectclamp.SetCommandVoltage(voltage)
+        self._perfectclamp.SetCommand(level)
 
-        self.command_voltage = voltage
+        self.command_level = level
         
 #---------------------------------------------------------------------------
 
@@ -361,15 +361,15 @@ class Input:
 
         # Apply the parameters loaded or set via api
 
-        if not self.command_voltage is None:
+        if not self.command_level is None:
 
             if not self.command_file is None:
 
-                self._perfectclamp.SetFields(self.command_voltage, self.command_file)
+                self._perfectclamp.SetFields(self.command_level, self.command_file)
                 
             else:
                 
-                self._perfectclamp.SetCommandVoltage(self.command_voltage)
+                self._perfectclamp.SetCommand(self.command_level)
 
 #---------------------------------------------------------------------------
 
@@ -451,7 +451,7 @@ class Input:
 
             if options.has_key('command'):
 
-                self.command_voltage = options['command']
+                self.command_level = options['command']
 
             if options.has_key('name'):
 

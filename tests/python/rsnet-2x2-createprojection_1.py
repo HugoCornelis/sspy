@@ -70,7 +70,7 @@ my_input = scheduler.CreateInput('My perfectclamp','perfectclamp')
 # this can cause problems if several solvers possible map to the same pathname.
 my_input.AddInput('/RSNet/population/3/soma', 'INJECT', solver='heccer_3')
 
-my_input.SetCommandVoltage(1e-9)
+my_input.SetCommand(1e-9)
 
 
 

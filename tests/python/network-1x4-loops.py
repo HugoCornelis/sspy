@@ -84,7 +84,7 @@ my_heccer.SetTimeStep(2e-05)
 # Create a perfectclamp object for current holding. Here we only create 1.
 my_input = scheduler.CreateInput('My perfectclamp','perfectclamp',verbose=True)
 
-my_input.SetCommandVoltage(1e-9)
+my_input.SetCommand(1e-9)
 
 my_input.AddInput('/n_cells/s1/soma', 'INJECT')
 

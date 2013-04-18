@@ -43,7 +43,7 @@ def usage():
     print " --model-filename\tfilename of the model description file (when using a builtin configuration)."
     
     print "\nProtocol Options:"
-    print " --perfectclamp\t\tset the command voltage for the perfect clamp protocol."
+    print " --perfectclamp\t\tset the command level for the perfect clamp protocol."
     print " --pulsegen-width1\tset the pulse width for the pulsegen protocol."
     sys.exit(2)
 

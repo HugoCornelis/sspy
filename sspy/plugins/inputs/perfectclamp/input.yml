@@ -2,7 +2,7 @@
 name: perfectclamp
 label: Perfect Clamp
 version: 0.1
-description: This is the SSPy object for the perfectclamp protocol
+description: The SSPy object for the perfectclamp protocol
 file: input.py
 source: input.py
 module: input
@@ -12,5 +12,5 @@ solvers:
 format: |
   perfectclamp:
     options:
-      command: command voltage value
+      command: command level
       name: purkinje cell perfect clamp

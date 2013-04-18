@@ -65,7 +65,7 @@ my_input = scheduler.CreateInput('My perfectclamp','perfectclamp',verbose=True)
 
 my_input.AddInput('/RSNet/population/3/soma', 'INJECT')
 
-my_input.SetCommandVoltage(1e-9)
+my_input.SetCommand(1e-9)
 
 
 

@@ -192,24 +192,24 @@ class Save:
 
                 options = {}
 
-                if not i.command_voltage is None:
+                if not i.command_level is None:
                     
-                    options['command']=i.command_voltage
+                    options['command'] = i.command_level
 
                 if not i.command_file is None:
 
-                    options['filename']=i.command_file
+                    options['filename'] = i.command_file
 
                 if i.GetName() != "Untitled PerfectClamp":
 
-                    options['name']=i.GetName()
+                    options['name'] = i.GetName()
 
                 perfectclamp_block = {}
-                perfectclamp_block['module_name']='Experiment'
-                perfectclamp_block['options']=options
-                perfectclamp_block['package']='Experiment::PerfectClamp'
+                perfectclamp_block['module_name'] = 'Experiment'
+                perfectclamp_block['options'] = options
+                perfectclamp_block['package'] = 'Experiment::PerfectClamp'
 
-                return {'perfectclamp': perfectclamp_block}
+                return { 'perfectclamp': perfectclamp_block }
                 
             else:
 
