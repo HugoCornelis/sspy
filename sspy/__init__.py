@@ -861,13 +861,6 @@ class SSPy:
                     
                 self.AddSchedulee(o, 'output')
 
-
-        # If we have a stored timestep then we apply
-        # it here.
-        if not self.time_step is None:
-
-            self.SetTimeStep(self.time_step)
-                
         self._scheduled = True
 
 #---------------------------------------------------------------------------
@@ -1560,23 +1553,6 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-
-    def SetTimeStep(self, time_step):
-        """!
-        @brief Sets the timestep across all schedulees
-
-        """
-
-        if self._scheduled:
-
-            for s in self._schedulees:
-
-                s.SetTimeStep(time_step)
-
-        self.time_step = time_step
-
-#---------------------------------------------------------------------------
-
     def GetTimeStep(self):
         """
 
@@ -1592,7 +1568,6 @@ class SSPy:
         if not time_step is None:
 
             self.time_step = time_step
-
 
         return self.time_step
 
@@ -2649,9 +2624,8 @@ class SSPy:
 
             self._steps_mode = False
 
+        # determine the timestep
 
-
-        # set the timestep globally if not done already
         if self.time_step is None:
             
             run_time_step = self.GetTimeStep()
@@ -2664,19 +2638,10 @@ class SSPy:
 
                 self.time_step = run_time_step
 
-            # Making sure the timestep is spread across
-            # all schedulees.
-            self.SetTimeStep(self.time_step)
-
-        else:
-
-            self.SetTimeStep(self.time_step)
-
-
-
         # We have steps so we run for this number of steps
         # else if we have a given simulation time we run for
         # the given time. 
+
         if self.steps is not None:
 
             if self.verbose:
