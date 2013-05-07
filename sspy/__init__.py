@@ -981,21 +981,6 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-
-    def Step(self):
-        """
-        @brief Perform one step over all schedulees
-        """
-        for s in self._schedulees:
-
-            s.Step()
-
-    # Just an alias to Step so we can call Advance() if we want.
-    # no real reason to do this since sspy does most of its work internally.
-    Advance = Step
-
-#---------------------------------------------------------------------------
-
     def Compile(self):
         """
         @brief Compiles all solvers 
@@ -2762,6 +2747,10 @@ class SSPy:
             
         lock.release()
         
+    # alias def Advance() to def Step()
+
+    Advance = Step
+
 #---------------------------------------------------------------------------
 
     def Steps(self):
