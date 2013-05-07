@@ -65,16 +65,6 @@ class SolverCollection:
 
 #---------------------------------------------------------------------------
 
-    def SetTimeStep(self, time_step):
-
-        self.time_step = time_step
-
-        for s in self.solvers:
-
-            s.SetTimeStep(time_step)
-            
-#---------------------------------------------------------------------------
-
     def GetTimeStep(self):
         """
 

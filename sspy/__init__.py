@@ -1567,8 +1567,6 @@ class SSPy:
 
         """
 
-        self._solver_collection.SetTimeStep(time_step)
-        
         if self._scheduled:
 
             for s in self._schedulees:
