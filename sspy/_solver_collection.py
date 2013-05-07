@@ -78,11 +78,11 @@ class SolverCollection:
     def GetTimeStep(self):
         """
 
-        Returns the given timestep. If there are several solvers present
-        then the time step will be set to the first value given.
+        Returns the used timestep.  If there are several solvers
+        present then the smallest time step will be used.
         """
         
-        ts = None
+        result = self.time_step
         
         if self.time_step is None:
 
@@ -90,13 +90,19 @@ class SolverCollection:
 
                 ts = s.GetTimeStep()
 
-                if not ts is None:
+                if result is None:
 
-                    self.time_step = ts
+                    result = ts
 
-                    break
+                if not ts is None and ts < result:
 
-        return self.time_step
+                    result = ts
+
+#                 print "*** time step %s: %s -> %s " % (result, s.GetName(), ts)
+
+            self.time_step = result
+
+        return result
 
 #---------------------------------------------------------------------------
 
