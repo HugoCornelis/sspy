@@ -1470,7 +1470,7 @@ class SSPy:
         """
 
 
-        out = self._output_registry.CreateOutput(name, type, data)
+        out = self._output_registry.Create(name, type, data)
 
         self._outputs.append(out)
 
@@ -1505,7 +1505,7 @@ class SSPy:
 
 #             if not 
             
-        outp = self._output_registry.CreateOutput(name, 'double_2_ascii', arguments)
+        outp = self._output_registry.Create(name, 'double_2_ascii', arguments)
 
         self._inputs.append(inp)
 
@@ -3267,7 +3267,7 @@ class SSPy:
 
                 print "Loading Output '%s' of type '%s'" % (output_name, output_type)
 
-            output = self._output_registry.CreateOutput(output_name, output_type, output_data)
+            output = self._output_registry.Create(output_name, output_type, output_data)
 
 
         # After giving initializing data, we give the output parameters
