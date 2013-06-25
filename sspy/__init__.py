@@ -1429,9 +1429,7 @@ class SSPy:
         @brief Creates a new service with the given name, type and arguments.
         """
 
-        service = self._service_registry.CreateService(name,
-                                                       type,
-                                                       arguments)
+        service = self._service_registry.Create(name, type, arguments)
 
         self._loaded_services.append(service)
 
@@ -3214,9 +3212,7 @@ class SSPy:
 
                         try:
                         
-                            service = self._service_registry.CreateService(service_name,
-                                                                           service_type,
-                                                                           arg)
+                            service = self._service_registry.Create(service_name, service_type, arg)
                         
                         except Exception, e:
 

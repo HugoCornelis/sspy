@@ -333,7 +333,7 @@ class ServiceRegistry(Registry):
 
 #---------------------------------------------------------------------------
 
-    def CreateService(self, name, type=None, arguments=None, index=-1):
+    def Create(self, name, type=None, arguments=None, index=-1):
 
         plugin = None
 
