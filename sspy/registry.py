@@ -527,7 +527,7 @@ class InputRegistry(Registry):
 
 #---------------------------------------------------------------------------
 
-    def CreateInput(self, name, type=None, arguments=None, index=-1):
+    def Create(self, name, type=None, arguments=None, index=-1):
 
 
         plugin = None

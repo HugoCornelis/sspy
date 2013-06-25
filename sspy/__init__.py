@@ -1456,7 +1456,7 @@ class SSPy:
         """
 
 
-        inp = self._input_registry.CreateInput(name, type, data)
+        inp = self._input_registry.Create(name, type, data)
 
         self._inputs.append(inp)
 
@@ -1484,7 +1484,7 @@ class SSPy:
         """
 
 
-        inp = self._input_registry.CreateInput(name, 'perfectclamp', data)
+        inp = self._input_registry.Create(name, 'perfectclamp', data)
 
         self._inputs.append(inp)
 
@@ -3315,7 +3315,7 @@ class SSPy:
 
                 print "Loading Input '%s' of type '%s'" % (inp_name, inp_type)
 
-            inp = self._input_registry.CreateInput(inp_name, inp_type, inp_data)
+            inp = self._input_registry.Create(inp_name, inp_type, inp_data)
 
         # After giving initializing data, we give the inp parameters
         #
