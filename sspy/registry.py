@@ -79,6 +79,24 @@ class Registry:
 
 #---------------------------------------------------------------------------
 
+    def Create(self, name, type=None, arguments=None, index=-1):
+
+        plugin = None
+
+        if type is not None:
+
+            plugin = self.GetPluginData(type)
+
+        elif index != -1:
+
+            plugin = self._loaded_plugins[index]
+
+        registered = self._InstantiateFromFile(plugin, name, arguments)
+
+        return registered
+    
+#---------------------------------------------------------------------------
+
     def LoadPlugin(self, plugin_file):
 
         if not os.path.exists(plugin_file):
@@ -243,24 +261,6 @@ class SolverRegistry(Registry):
         
 #---------------------------------------------------------------------------
 
-    def Create(self, name, type=None, arguments=None, index=-1):
-
-        plugin = None
-
-        if type is not None:
-
-            plugin = self.GetPluginData(type)
-
-        elif index != -1:
-
-            plugin = self._loaded_plugins[index]
-
-        registered = self._InstantiateFromFile(plugin, name, arguments)
-
-        return registered
-    
-#---------------------------------------------------------------------------
-
     def _InstantiateFromFile(self, plugin, name="Untitled", constructor_settings=None):
         """
         @brief Creates a solver object from a plugin
@@ -326,27 +326,6 @@ class ServiceRegistry(Registry):
                           plugin_directory=service_directory,
                           plugin_file="service.yml",
                           verbose=verbose)
-
-
-
-
-#---------------------------------------------------------------------------
-
-    def Create(self, name, type=None, arguments=None, index=-1):
-
-        plugin = None
-
-        if type is not None:
-
-            plugin = self.GetPluginData(type)
-
-        elif index != -1:
-
-            plugin = self._loaded_plugins[index]
-            
-        registered = self._InstantiateFromFile(plugin, name, arguments)
-
-        return registered    
 
 
 #---------------------------------------------------------------------------
@@ -419,27 +398,6 @@ class OutputRegistry(Registry):
                           plugin_directory=output_directory,
                           plugin_file="output.yml",
                           verbose=verbose)
-
-
-
-
-#---------------------------------------------------------------------------
-
-    def Create(self, name, type=None, arguments=None, index=-1):
-
-        plugin = None
-
-        if type is not None:
-
-            plugin = self.GetPluginData(type)
-
-        elif index != -1:
-
-            plugin = self._loaded_plugins[index]
-            
-        registered = self._InstantiateFromFile(plugin, name, arguments)
-
-        return registered    
 
 
 #---------------------------------------------------------------------------
@@ -520,25 +478,6 @@ class InputRegistry(Registry):
 
 #---------------------------------------------------------------------------
 
-    def Create(self, name, type=None, arguments=None, index=-1):
-
-        plugin = None
-
-        if type is not None:
-
-            plugin = self.GetPluginData(type)
-
-        elif index != -1:
-
-            plugin = self._loaded_plugins[index]
-            
-        registered = self._InstantiateFromFile(plugin, name, arguments)
-
-        return registered
-
-
-#---------------------------------------------------------------------------
-
 
     def _InstantiateFromFile(self, plugin, name="Untitled", arguments=None):
         """
@@ -612,24 +551,6 @@ class EventDistributorRegistry(Registry):
                           plugin_directory=event_distributor_directory,
                           plugin_file="event_distributor.yml",
                           verbose=verbose)
-
-#---------------------------------------------------------------------------
-
-    def Create(self, name, type=None, arguments=None, index=-1):
-
-        plugin = None
-
-        if type is not None:
-
-            plugin = self.GetPluginData(type)
-
-        elif index != -1:
-
-            plugin = self._loaded_plugins[index]
-            
-        registered = self._InstantiateFromFile(plugin, name, arguments)
-
-        return registered   
 
 
 #---------------------------------------------------------------------------
