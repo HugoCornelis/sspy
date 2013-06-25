@@ -25,7 +25,7 @@ class InputError(Exception):
 class Input:
 
     """!
-    @brief class object for a perfectclamp input
+    @brief class object for a pulsegen input
     """
     
 #---------------------------------------------------------------------------
