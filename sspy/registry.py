@@ -243,7 +243,7 @@ class SolverRegistry(Registry):
         
 #---------------------------------------------------------------------------
 
-    def Create(self, name, type=None, constructor_settings=None, index=-1):
+    def Create(self, name, type=None, arguments=None, index=-1):
 
         plugin = None
 
@@ -253,12 +253,11 @@ class SolverRegistry(Registry):
 
         elif index != -1:
 
-            # bounds check?
             plugin = self._loaded_plugins[index]
 
-        solver = self._InstantiateFromFile(plugin, name, constructor_settings)
+        registered = self._InstantiateFromFile(plugin, name, arguments)
 
-        return solver
+        return registered
     
 #---------------------------------------------------------------------------
 
@@ -345,12 +344,9 @@ class ServiceRegistry(Registry):
 
             plugin = self._loaded_plugins[index]
             
-            
-        service = self._InstantiateFromFile(plugin, name, arguments)
+        registered = self._InstantiateFromFile(plugin, name, arguments)
 
-        # verify sim legit?
-        
-        return service    
+        return registered    
 
 
 #---------------------------------------------------------------------------
@@ -431,7 +427,6 @@ class OutputRegistry(Registry):
 
     def Create(self, name, type=None, arguments=None, index=-1):
 
-
         plugin = None
 
         if type is not None:
@@ -440,13 +435,11 @@ class OutputRegistry(Registry):
 
         elif index != -1:
 
-            # bounds check?
-            plugin = self._service_plugins[index]
+            plugin = self._loaded_plugins[index]
             
-            
-        my_output = self._InstantiateFromFile(plugin, name, arguments)
+        registered = self._InstantiateFromFile(plugin, name, arguments)
 
-        return my_output    
+        return registered    
 
 
 #---------------------------------------------------------------------------
@@ -529,7 +522,6 @@ class InputRegistry(Registry):
 
     def Create(self, name, type=None, arguments=None, index=-1):
 
-
         plugin = None
 
         if type is not None:
@@ -538,13 +530,11 @@ class InputRegistry(Registry):
 
         elif index != -1:
 
-            # bounds check?
-            plugin = self._service_plugins[index]
+            plugin = self._loaded_plugins[index]
             
-            
-        my_input = self._InstantiateFromFile(plugin, name, arguments)
+        registered = self._InstantiateFromFile(plugin, name, arguments)
 
-        return my_input   
+        return registered
 
 
 #---------------------------------------------------------------------------
@@ -635,13 +625,11 @@ class EventDistributorRegistry(Registry):
 
         elif index != -1:
 
-            # bounds check?
-            plugin = self._service_plugins[index]
+            plugin = self._loaded_plugins[index]
             
-            
-        my_input = self._InstantiateFromFile(plugin, name, arguments)
+        registered = self._InstantiateFromFile(plugin, name, arguments)
 
-        return my_input   
+        return registered   
 
 
 #---------------------------------------------------------------------------
