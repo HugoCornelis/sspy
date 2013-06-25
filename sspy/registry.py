@@ -243,7 +243,7 @@ class SolverRegistry(Registry):
         
 #---------------------------------------------------------------------------
 
-    def CreateSolver(self, name, type=None, constructor_settings=None, index=-1):
+    def Create(self, name, type=None, constructor_settings=None, index=-1):
 
         plugin = None
 

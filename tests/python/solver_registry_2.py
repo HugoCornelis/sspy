@@ -39,8 +39,8 @@ sps = sr.GetPlugins()
 
 #     print "  Plugin name: %s" % s
 
-my_solver_1 = sr.CreateSolver("my solver 1", "test")
-my_solver_2 = sr.CreateSolver("my solver 2", "test 2")
+my_solver_1 = sr.Create("my solver 1", "test")
+my_solver_2 = sr.Create("my solver 2", "test 2")
 
 
 print "Printing output of solver 1"

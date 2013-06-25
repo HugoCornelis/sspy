@@ -1444,7 +1444,7 @@ class SSPy:
         @brief Creates a new service with the given name, type and arguments.
         """
 
-        solver = self._solver_registry.CreateSolver(name, type, data)
+        solver = self._solver_registry.Create(name, type, data)
 
         self._solver_collection.AddSolver(solver)
 
@@ -3151,7 +3151,7 @@ class SSPy:
 
             try:
                 
-                solver = self._solver_registry.CreateSolver(solver_name, solver_type, data, self.simulation_verbose)
+                solver = self._solver_registry.Create(solver_name, solver_type, data, self.simulation_verbose)
 
             except Exception, e:
 
