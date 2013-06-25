@@ -1522,7 +1522,7 @@ class SSPy:
 
             raise errors.EventDistributorError("An event distributor with the name '%s' already exists" % self._event_distributor.GetName())
 
-        evt_dist = self._event_distributor_registry.CreateEventDistributor(name, type, data)
+        evt_dist = self._event_distributor_registry.Create(name, type, data)
 
         self._event_distributor = evt_dist
 
