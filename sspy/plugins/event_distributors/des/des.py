@@ -15,7 +15,7 @@ except ImportError, e:
     sys.exit("Error importing the Heccer Python module: %s\n" % e)
 
 
-class EventDistributor:
+class Instance:
 
 #---------------------------------------------------------------------------
 

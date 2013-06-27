@@ -555,7 +555,7 @@ class EventDistributorRegistry(Registry):
         @brief Creates an output object from a plugin
         """
         class_inst = None
-        expected_class = 'EventDistributor'
+        expected_class = 'Instance'
 
         
         # First we check to see if we have the proper data to
@@ -585,10 +585,10 @@ class EventDistributorRegistry(Registry):
             
             try:
                 
-                class_inst = py_mod.EventDistributor(name=name,
-                                                     plugin=plugin,
-                                                     arguments=arguments,
-                                                     verbose=self.verbose) 
+                class_inst = py_mod.Instance(name=name,
+                                             plugin=plugin,
+                                             arguments=arguments,
+                                             verbose=self.verbose) 
 
             except Exception, e:
 
