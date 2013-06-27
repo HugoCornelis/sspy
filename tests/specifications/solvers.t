@@ -41,7 +41,7 @@ solverclasses:
 
 			      ],
        description => "Tests generated solver objects.",
-       name => 'solver.t',
+       name => 'solvers.t',
       };
 
 
