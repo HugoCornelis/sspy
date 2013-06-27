@@ -79,18 +79,12 @@ class Registry:
 
 #---------------------------------------------------------------------------
 
-    def Create(self, name, type=None, arguments=None):
+    def Create(self, name, type, arguments=None):
 
-        plugin = None
+        plugin = self.GetPluginData(type)
 
-        if type is not None:
+        return self._InstantiateFromFile(plugin, name, arguments)
 
-            plugin = self.GetPluginData(type)
-
-        registered = self._InstantiateFromFile(plugin, name, arguments)
-
-        return registered
-    
 #---------------------------------------------------------------------------
 
     def LoadPlugin(self, plugin_file):
