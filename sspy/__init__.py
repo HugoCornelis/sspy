@@ -1507,7 +1507,7 @@ class SSPy:
             
         outp = self._output_registry.Create(name, 'double_2_ascii', arguments)
 
-        self._inputs.append(inp)
+        self._outputs.append(inp)
 
         return inp
 
