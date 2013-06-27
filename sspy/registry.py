@@ -68,7 +68,7 @@ class Registry:
             self._plugin_file = plugin_file
 
         
-        self._loaded_plugins = []
+        self._loaded_plugins = {}
 
         plugins = self.GetPluginFiles()
 
@@ -87,25 +87,25 @@ class Registry:
 
 #---------------------------------------------------------------------------
 
-    def LoadPlugin(self, plugin_file):
+    def LoadPlugin(self, plugin_filename):
 
-        if not os.path.exists(plugin_file):
+        if not os.path.exists(plugin_filename):
 
-            print "Error loading plugin, %s doesn't exist" % plugin_file
+            print "Error loading plugin, %s doesn't exist" % plugin_filename
             
             return False
 
         try:
 
-            plugin_entry = Plugin(plugin_file)
+            plugin_entry = Plugin(plugin_filename)
 
         except errors.PluginFileError, e:
 
-            print "Error Loading Plugin %s, %s" % (plugin_file, e)
+            print "Error Loading Plugin %s, %s" % (plugin_filename, e)
 
             return False
 
-        if self.Exists(plugin_entry):
+        if self._loaded_plugins.has_key(plugin_entry.GetName()):
 
             raise errors.PluginError("Already a plugin with the name '%s'" % plugin_entry.GetName())
 
@@ -113,54 +113,21 @@ class Registry:
 
         else:
             
-            self._loaded_plugins.append(plugin_entry)
+            self._loaded_plugins[plugin_entry.GetName()] = plugin_entry
 
             return True
 
-
-#---------------------------------------------------------------------------
-
-    def Exists(self, plugin):
-        """
-        @brief Determines if a plugin is present.
-        """
-
-        pi = self.GetPluginData(plugin.GetName())
-
-        if pi is None:
-
-            return False
-        
-        else:
-
-            return True
-        
 
 #---------------------------------------------------------------------------
 
     def GetPluginData(self,name):
 
-        for pi in self._loaded_plugins:
+        if self._loaded_plugins.has_key(name):
 
-            if pi.GetName() == name:
-
-                return pi
+            return self._loaded_plugins[name]
 
         return None
     
-#---------------------------------------------------------------------------
-
-    def GetPluginIndex(self,name):
-
-        for index,pi in enumerate(self._loaded_plugins):
-
-            if pi.GetName() == name:
-
-                return index
-
-        return -1
-    
-
 #---------------------------------------------------------------------------
 
     def GetPlugins(self):
@@ -169,7 +136,7 @@ class Registry:
         @brief Returns the list of solvers
         """
     
-        return self._loaded_plugins
+        return self._loaded_plugins.values()
 
 #---------------------------------------------------------------------------
 
@@ -184,36 +151,15 @@ class Registry:
     def GetPluginFiles(self):
 
         """!
-        @brief Returns the list of detected solver.
-        """
-        pis = self._FindPlugins()
-
-        # exception?
-    
-        return pis
-
-#---------------------------------------------------------------------------
-
-    def _IsPlugin(self, path):
-        """
-
-        """
-        return os.path.isfile( os.path.join( path, self._plugin_file ))
-
-#---------------------------------------------------------------------------
-
-
-    def _FindPlugins(self):
-        """!
-        @brief Finds all solvers plugin files in the solvers_dir
-
-        Returns a list of the plugin files. 
+        @brief Returns the list of detected plugins.
         """
 
         plugins = []
 
         for path, directories, files in os.walk( self._plugin_directory ):
-            if self._IsPlugin( path ):
+
+            if os.path.isfile( os.path.join( path, self._plugin_file )):
+
                 path.replace( '/','.' )
 
                 pi = os.path.join(path, self._plugin_file)
@@ -221,7 +167,7 @@ class Registry:
                 plugins.append(pi)
 
         return plugins
-        
+
 
 #---------------------------------------------------------------------------
 
