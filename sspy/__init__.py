@@ -1505,7 +1505,7 @@ class SSPy:
 
 #             if not 
             
-        outp = self._output_registry.Create(name, 'double_2_ascii', arguments)
+        outp = self._output_registry.Create(name, 'double_2_ascii')
 
         self._outputs.append(inp)
 
@@ -3149,7 +3149,7 @@ class SSPy:
 
             try:
                 
-                solver = self._solver_registry.Create(solver_name, solver_type, data, self.simulation_verbose)
+                solver = self._solver_registry.Create(solver_name, solver_type, data)
 
             except Exception, e:
 
