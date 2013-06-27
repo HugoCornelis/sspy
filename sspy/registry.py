@@ -266,7 +266,7 @@ class SolverRegistry(Registry):
         @brief Creates a solver object from a plugin
         """
         class_inst = None
-        expected_class = 'Solver'
+        expected_class = 'Instance'
 
         
         # First we check to see if we have the proper data to
@@ -295,10 +295,10 @@ class SolverRegistry(Registry):
 
             try:
 
-                class_inst = py_mod.Solver(name=name,
-                                           plugin=plugin,
-                                           constructor_settings=arguments,
-                                           verbose=self.verbose) 
+                class_inst = py_mod.Instance(name=name,
+                                             plugin=plugin,
+                                             constructor_settings=arguments,
+                                             verbose=self.verbose) 
 
             except Exception, e:
 

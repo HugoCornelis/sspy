@@ -14,7 +14,7 @@ except ImportError, e:
     sys.exit("Error importing the chemesis3 module: %s\n" % e)
 
 
-class Solver:
+class Instance:
 
 #---------------------------------------------------------------------------
 
