@@ -17,12 +17,12 @@ except ImportError, e:
     sys.exit("Error importing the Heccer Python module: %s\n" % e)
 
 
-class Solver:
+class Instance:
 
 #---------------------------------------------------------------------------
 
     def __init__(self,  name="Untitled solver", plugin=None, 
-                 constructor_settings=None, verbose=False):
+                 arguments=None, verbose=False):
         """
 
         Should be able to pass the scheudler and use it as
@@ -79,7 +79,7 @@ class Solver:
         # this is just to keep track of granularity printing
         self.current_step = 0
 
-        self._ParseConstructorSettings(constructor_settings)
+        self._ParseConstructorSettings(arguments)
 
         #self._heccer.SetTimeStep(time_step)
 

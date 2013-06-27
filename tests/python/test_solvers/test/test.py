@@ -6,7 +6,7 @@ class Instance:
 
 #---------------------------------------------------------------------------
 
-    def __init__(self, name=None, plugin=None, constructor_settings=None, verbose=False):
+    def __init__(self, name=None, plugin=None, arguments=None, verbose=False):
         """
 
         Should be able to pass the scheudler and use it as

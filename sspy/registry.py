@@ -233,6 +233,59 @@ class Registry:
         return plugins
         
 
+#---------------------------------------------------------------------------
+
+
+    def _InstantiateFromFile(self, plugin, name="Untitled", arguments=None):
+        """
+        @brief Creates an instance from a plugin
+        """
+        class_inst = None
+        expected_class = 'Instance'
+
+        
+        # First we check to see if we have the proper data to
+        # allocate from a file.
+        try:
+            
+            filepath = plugin.GetFile()
+
+        except AttributeError, e:
+
+            raise errors.ScheduleError("Cannot create %s, invalid plugin '%s', %s" % (plugin.GetName(), name, e))
+
+
+        if not os.path.exists(filepath):
+
+            raise errors.ScheduleError("Error: no such plugin to load class from: %s" % filepath)
+
+        mod_name,file_ext = os.path.splitext(os.path.split(filepath)[-1])
+        if file_ext.lower() == '.py':
+            py_mod = imp.load_source(mod_name, filepath)
+
+        elif file_ext.lower() == '.pyc':
+            py_mod = imp.load_compiled(mod_name, filepath)
+
+        if expected_class in dir(py_mod):
+
+            
+            try:
+                
+                class_inst = py_mod.Instance(name=name,
+                                             plugin=plugin,
+                                             arguments=arguments,
+                                             verbose=self.verbose) 
+
+            except Exception, e:
+
+                raise errors.ScheduleError("'%s' class '%s' cannot be created: %s" % (plugin.GetName(), name, e))
+
+        return class_inst
+
+
+#---------------------------------------------------------------------------
+
+
 #*************************** End Registry ****************************
 
 
@@ -259,56 +312,6 @@ class SolverRegistry(Registry):
 
         self.verbose = verbose
         
-#---------------------------------------------------------------------------
-
-    def _InstantiateFromFile(self, plugin, name="Untitled", arguments=None):
-        """
-        @brief Creates a solver object from a plugin
-        """
-        class_inst = None
-        expected_class = 'Instance'
-
-        
-        # First we check to see if we have the proper data to
-        # allocate from a file.
-        try:
-            
-            filepath = plugin.GetFile()
-
-        except AttributeError, e:
-
-            raise errors.ScheduleError("Cannot create %s, invalid plugin '%s', %s" % (plugin.GetName(), name, e))
-
-
-        if not os.path.exists(filepath):
-
-            raise errors.ScheduleError("Error: no such plugin to load class from: %s" % filepath)
-
-        mod_name,file_ext = os.path.splitext(os.path.split(filepath)[-1])
-        if file_ext.lower() == '.py':
-            py_mod = imp.load_source(mod_name, filepath)
-
-        elif file_ext.lower() == '.pyc':
-            py_mod = imp.load_compiled(mod_name, filepath)
-
-        if expected_class in dir(py_mod):
-
-            try:
-
-                class_inst = py_mod.Instance(name=name,
-                                             plugin=plugin,
-                                             constructor_settings=arguments,
-                                             verbose=self.verbose) 
-
-            except Exception, e:
-
-                raise errors.ScheduleError("'%s' class '%s' cannot be created: %s" % (plugin.GetName(), name, e))
-
-        return class_inst
-
-#---------------------------------------------------------------------------
-
-
 #************************ End SolverRegistry **************************
 
 
@@ -326,57 +329,6 @@ class ServiceRegistry(Registry):
                           verbose=verbose)
 
 
-#---------------------------------------------------------------------------
-
-
-    def _InstantiateFromFile(self, plugin, name="Untitled", arguments=None):
-        """
-        @brief Creates a service object from a plugin
-        """
-        class_inst = None
-        expected_class = 'Instance'
-
-        
-        # First we check to see if we have the proper data to
-        # allocate from a file.
-        try:
-            
-            filepath = plugin.GetFile()
-
-        except AttributeError, e:
-
-            raise errors.ScheduleError("Cannot create %s, invalid plugin '%s', %s" % (plugin.GetName(), name, e))
-
-
-        if not os.path.exists(filepath):
-
-            raise errors.ServiceError("no plugin module to load class from: %s" % filepath)
-        
-            return None
-
-        mod_name,file_ext = os.path.splitext(os.path.split(filepath)[-1])
-        if file_ext.lower() == '.py':
-            py_mod = imp.load_source(mod_name, filepath)
-
-        elif file_ext.lower() == '.pyc':
-            py_mod = imp.load_compiled(mod_name, filepath)
-#        pdb.set_trace()
-        if expected_class in dir(py_mod):
-
-            try:
-
-                class_inst = py_mod.Instance(name=name,
-                                             plugin=plugin,
-                                             arguments=arguments,
-                                             verbose=self.verbose) 
-
-            except Exception, e:
-
-                raise errors.ScheduleError("'%s' class '%s' cannot be created: %s" % (plugin.GetName(), name, e))
-
-        return class_inst
-
-#---------------------------------------------------------------------------
 #************************* End ServiceRegistry ****************************
 
 
@@ -396,58 +348,6 @@ class OutputRegistry(Registry):
                           plugin_directory=output_directory,
                           plugin_file="output.yml",
                           verbose=verbose)
-
-
-#---------------------------------------------------------------------------
-
-    def _InstantiateFromFile(self, plugin, name="Untitled", arguments=None):
-        """
-        @brief Creates an output object from a plugin
-        """
-        class_inst = None
-        expected_class = 'Instance'
-
-        
-        # First we check to see if we have the proper data to
-        # allocate from a file.
-        try:
-            
-            filepath = plugin.GetFile()
-
-        except AttributeError, e:
-
-            raise errors.ScheduleError("Cannot create %s, invalid plugin '%s', %s" % (plugin.GetName(), name, e))
-
-
-        if not os.path.exists(filepath):
-
-            raise errors.ScheduleError("Error: no such plugin to load class from: %s" % filepath)
-
-        mod_name,file_ext = os.path.splitext(os.path.split(filepath)[-1])
-        if file_ext.lower() == '.py':
-            py_mod = imp.load_source(mod_name, filepath)
-
-        elif file_ext.lower() == '.pyc':
-            py_mod = imp.load_compiled(mod_name, filepath)
-
-        if expected_class in dir(py_mod):
-
-            
-            try:
-                
-                class_inst = py_mod.Instance(name=name,
-                                             plugin=plugin,
-                                             arguments=arguments,
-                                             verbose=self.verbose) 
-                
-            except Exception, e:
-
-                raise errors.ScheduleError("'%s' class '%s' cannot be created: %s" % (plugin.GetName(), name, e))
-
-        return class_inst
-
-
-#---------------------------------------------------------------------------
 
 
 #************************* End OutputRegistry ****************************
@@ -472,59 +372,6 @@ class InputRegistry(Registry):
                           verbose=verbose)
 
 
-#---------------------------------------------------------------------------
-
-
-    def _InstantiateFromFile(self, plugin, name="Untitled", arguments=None):
-        """
-        @brief Creates an output object from a plugin
-        """
-        class_inst = None
-        expected_class = 'Instance'
-
-        
-        # First we check to see if we have the proper data to
-        # allocate from a file.
-        try:
-            
-            filepath = plugin.GetFile()
-
-        except AttributeError, e:
-
-            raise errors.ScheduleError("Cannot create %s, invalid plugin '%s', %s" % (plugin.GetName(), name, e))
-
-
-        if not os.path.exists(filepath):
-
-            raise errors.ScheduleError("Error: no such plugin to load class from: %s" % filepath)
-
-        mod_name,file_ext = os.path.splitext(os.path.split(filepath)[-1])
-        if file_ext.lower() == '.py':
-            py_mod = imp.load_source(mod_name, filepath)
-
-        elif file_ext.lower() == '.pyc':
-            py_mod = imp.load_compiled(mod_name, filepath)
-
-        if expected_class in dir(py_mod):
-
-            
-            try:
-                
-                class_inst = py_mod.Instance(name=name,
-                                             plugin=plugin,
-                                             arguments=arguments,
-                                             verbose=self.verbose) 
-
-            except Exception, e:
-
-                raise errors.ScheduleError("'%s' class '%s' cannot be created: %s" % (plugin.GetName(), name, e))
-
-        return class_inst
-
-
-#---------------------------------------------------------------------------
-
-
 #************************* End InputRegistry ****************************
 
 
@@ -545,56 +392,6 @@ class EventDistributorRegistry(Registry):
                           plugin_directory=event_distributor_directory,
                           plugin_file="event_distributor.yml",
                           verbose=verbose)
-
-
-#---------------------------------------------------------------------------
-
-
-    def _InstantiateFromFile(self, plugin, name="Untitled", arguments=None):
-        """
-        @brief Creates an output object from a plugin
-        """
-        class_inst = None
-        expected_class = 'Instance'
-
-        
-        # First we check to see if we have the proper data to
-        # allocate from a file.
-        try:
-            
-            filepath = plugin.GetFile()
-
-        except AttributeError, e:
-
-            raise errors.ScheduleError("Cannot create %s, invalid plugin '%s', %s" % (plugin.GetName(), name, e))
-
-
-        if not os.path.exists(filepath):
-
-            raise errors.ScheduleError("Error: no such plugin to load class from: %s" % filepath)
-
-        mod_name,file_ext = os.path.splitext(os.path.split(filepath)[-1])
-        if file_ext.lower() == '.py':
-            py_mod = imp.load_source(mod_name, filepath)
-
-        elif file_ext.lower() == '.pyc':
-            py_mod = imp.load_compiled(mod_name, filepath)
-
-        if expected_class in dir(py_mod):
-
-            
-            try:
-                
-                class_inst = py_mod.Instance(name=name,
-                                             plugin=plugin,
-                                             arguments=arguments,
-                                             verbose=self.verbose) 
-
-            except Exception, e:
-
-                raise errors.ScheduleError("'%s' class '%s' cannot be created: %s" % (plugin.GetName(), name, e))
-
-        return class_inst
 
 
 #---------------------------------------------------------------------------
