@@ -17,7 +17,7 @@ except ImportError, e:
 
 _default_filename = "/tmp/OutputGenerator"
 
-class Output:
+class Instance:
 
 #---------------------------------------------------------------------------
 

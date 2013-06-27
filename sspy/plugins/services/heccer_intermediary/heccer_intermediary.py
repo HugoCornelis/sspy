@@ -18,7 +18,7 @@ except ImportError, e:
 
 
 
-class Service:
+class Instance:
 
 #---------------------------------------------------------------------------
     def __init__(self, name="Untitled Heccer Intermediary", plugin=None,

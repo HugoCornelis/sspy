@@ -6,7 +6,7 @@ import os
 import pdb
 import sys
 
-class Output:
+class Instance:
 
 #---------------------------------------------------------------------------
 

@@ -334,7 +334,7 @@ class ServiceRegistry(Registry):
         @brief Creates a service object from a plugin
         """
         class_inst = None
-        expected_class = 'Service'
+        expected_class = 'Instance'
 
         
         # First we check to see if we have the proper data to
@@ -365,10 +365,10 @@ class ServiceRegistry(Registry):
 
             try:
 
-                class_inst = py_mod.Service(name=name,
-                                            plugin=plugin,
-                                            arguments=arguments,
-                                            verbose=self.verbose) 
+                class_inst = py_mod.Instance(name=name,
+                                             plugin=plugin,
+                                             arguments=arguments,
+                                             verbose=self.verbose) 
 
             except Exception, e:
 
@@ -405,7 +405,7 @@ class OutputRegistry(Registry):
         @brief Creates an output object from a plugin
         """
         class_inst = None
-        expected_class = 'Output'
+        expected_class = 'Instance'
 
         
         # First we check to see if we have the proper data to
@@ -435,11 +435,11 @@ class OutputRegistry(Registry):
             
             try:
                 
-                class_inst = py_mod.Output(name=name,
-                                           plugin=plugin,
-                                           arguments=arguments,
-                                           verbose=self.verbose) 
-
+                class_inst = py_mod.Instance(name=name,
+                                             plugin=plugin,
+                                             arguments=arguments,
+                                             verbose=self.verbose) 
+                
             except Exception, e:
 
                 raise errors.OutputError("'Output' object '%s' cannot be created: %s" % (name, e))
@@ -480,7 +480,7 @@ class InputRegistry(Registry):
         @brief Creates an output object from a plugin
         """
         class_inst = None
-        expected_class = 'Input'
+        expected_class = 'Instance'
 
         
         # First we check to see if we have the proper data to
@@ -510,10 +510,10 @@ class InputRegistry(Registry):
             
             try:
                 
-                class_inst = py_mod.Input(name=name,
-                                           plugin=plugin,
-                                           arguments=arguments,
-                                           verbose=self.verbose) 
+                class_inst = py_mod.Instance(name=name,
+                                             plugin=plugin,
+                                             arguments=arguments,
+                                             verbose=self.verbose) 
 
             except Exception, e:
 

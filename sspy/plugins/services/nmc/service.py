@@ -17,7 +17,7 @@ except ImportError, e:
 
 
 
-class Service:
+class Instance:
 
 #---------------------------------------------------------------------------
     def __init__(self, name="Untitled Model Container", plugin=None,

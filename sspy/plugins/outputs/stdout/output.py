@@ -16,7 +16,7 @@ except ImportError, e:
 
 
 
-class Output:
+class Instance:
 
 #---------------------------------------------------------------------------
 

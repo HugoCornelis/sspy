@@ -22,7 +22,7 @@ class InputError(Exception):
 
 #---------------------------------------------------------------------------
 
-class Input:
+class Instance:
 
     """!
     @brief class object for a perfectclamp input
