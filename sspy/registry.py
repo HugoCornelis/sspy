@@ -275,8 +275,6 @@ class SolverRegistry(Registry):
             
             filepath = plugin.GetFile()
 
-            solver_type = plugin.GetName()
-            
         except AttributeError, e:
 
             raise errors.ScheduleError("Cannot create Solver, invalid plugin for solver '%s', %s" % (name,e))
@@ -416,8 +414,6 @@ class OutputRegistry(Registry):
             
             filepath = plugin.GetFile()
 
-            output_type = plugin.GetName()
-            
         except AttributeError, e:
 
             raise errors.ScheduleError("Cannot create Output, invalid plugin for solver '%s', %s" % (name,e))
@@ -493,8 +489,6 @@ class InputRegistry(Registry):
             
             filepath = plugin.GetFile()
 
-            input_type = plugin.GetName()
-            
         except AttributeError, e:
 
             raise errors.ScheduleError("Cannot create Input, invalid plugin for solver '%s', %s" % (name,e))
@@ -570,8 +564,6 @@ class EventDistributorRegistry(Registry):
             
             filepath = plugin.GetFile()
 
-            input_type = plugin.GetName()
-            
         except AttributeError, e:
 
             raise errors.ScheduleError("Cannot create Event Distributor, invalid plugin '%s': %s" % (name,e))
