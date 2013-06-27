@@ -277,7 +277,7 @@ class SolverRegistry(Registry):
 
         except AttributeError, e:
 
-            raise errors.ScheduleError("Cannot create Solver, invalid plugin for solver '%s', %s" % (name,e))
+            raise errors.ScheduleError("Cannot create Solver, invalid plugin '%s', %s" % (name,e))
 
 
         if not os.path.exists(filepath):
@@ -343,10 +343,10 @@ class ServiceRegistry(Registry):
             
             filepath = plugin.GetFile()
 
-        except AttributeError:
+        except AttributeError, e:
 
-            raise errors.ScheduleError("Cannot create Service, invalid plugin for service '%s'" % (name))
-        
+            raise errors.ScheduleError("Cannot create Service, invalid plugin '%s', %s" % (name,e))
+
 
         if not os.path.exists(filepath):
 
@@ -416,7 +416,7 @@ class OutputRegistry(Registry):
 
         except AttributeError, e:
 
-            raise errors.ScheduleError("Cannot create Output, invalid plugin for solver '%s', %s" % (name,e))
+            raise errors.ScheduleError("Cannot create Output, invalid plugin '%s', %s" % (name,e))
 
 
         if not os.path.exists(filepath):
@@ -491,7 +491,7 @@ class InputRegistry(Registry):
 
         except AttributeError, e:
 
-            raise errors.ScheduleError("Cannot create Input, invalid plugin for solver '%s', %s" % (name,e))
+            raise errors.ScheduleError("Cannot create Input, invalid plugin '%s', %s" % (name,e))
 
 
         if not os.path.exists(filepath):
