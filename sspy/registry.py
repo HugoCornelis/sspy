@@ -261,7 +261,7 @@ class SolverRegistry(Registry):
         
 #---------------------------------------------------------------------------
 
-    def _InstantiateFromFile(self, plugin, name="Untitled", constructor_settings=None):
+    def _InstantiateFromFile(self, plugin, name="Untitled", arguments=None):
         """
         @brief Creates a solver object from a plugin
         """
@@ -297,7 +297,7 @@ class SolverRegistry(Registry):
 
                 class_inst = py_mod.Solver(name=name,
                                            plugin=plugin,
-                                           constructor_settings=constructor_settings,
+                                           constructor_settings=arguments,
                                            verbose=self.verbose) 
 
             except Exception, e:
