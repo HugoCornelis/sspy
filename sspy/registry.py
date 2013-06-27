@@ -277,7 +277,7 @@ class SolverRegistry(Registry):
 
         except AttributeError, e:
 
-            raise errors.ScheduleError("Cannot create Solver, invalid plugin '%s', %s" % (name,e))
+            raise errors.ScheduleError("Cannot create %s, invalid plugin '%s', %s" % (plugin.GetName(), name, e))
 
 
         if not os.path.exists(filepath):
@@ -302,7 +302,7 @@ class SolverRegistry(Registry):
 
             except Exception, e:
 
-                raise errors.SolverError("'Solver' class '%s' cannot be created: %s" % (name, e))
+                raise errors.ScheduleError("'%s' class '%s' cannot be created: %s" % (plugin.GetName(), name, e))
 
         return class_inst
 
@@ -345,7 +345,7 @@ class ServiceRegistry(Registry):
 
         except AttributeError, e:
 
-            raise errors.ScheduleError("Cannot create Service, invalid plugin '%s', %s" % (name,e))
+            raise errors.ScheduleError("Cannot create %s, invalid plugin '%s', %s" % (plugin.GetName(), name, e))
 
 
         if not os.path.exists(filepath):
@@ -372,7 +372,7 @@ class ServiceRegistry(Registry):
 
             except Exception, e:
 
-                raise errors.ServiceError("'Service' class '%s' cannot be created: %s" % (name, e))
+                raise errors.ScheduleError("'%s' class '%s' cannot be created: %s" % (plugin.GetName(), name, e))
 
         return class_inst
 
@@ -416,7 +416,7 @@ class OutputRegistry(Registry):
 
         except AttributeError, e:
 
-            raise errors.ScheduleError("Cannot create Output, invalid plugin '%s', %s" % (name,e))
+            raise errors.ScheduleError("Cannot create %s, invalid plugin '%s', %s" % (plugin.GetName(), name, e))
 
 
         if not os.path.exists(filepath):
@@ -442,7 +442,7 @@ class OutputRegistry(Registry):
                 
             except Exception, e:
 
-                raise errors.OutputError("'Output' object '%s' cannot be created: %s" % (name, e))
+                raise errors.ScheduleError("'%s' class '%s' cannot be created: %s" % (plugin.GetName(), name, e))
 
         return class_inst
 
@@ -491,7 +491,7 @@ class InputRegistry(Registry):
 
         except AttributeError, e:
 
-            raise errors.ScheduleError("Cannot create Input, invalid plugin '%s', %s" % (name,e))
+            raise errors.ScheduleError("Cannot create %s, invalid plugin '%s', %s" % (plugin.GetName(), name, e))
 
 
         if not os.path.exists(filepath):
@@ -517,7 +517,7 @@ class InputRegistry(Registry):
 
             except Exception, e:
 
-                raise errors.OutputError("'Input' object '%s' cannot be created: %s" % (name, e))
+                raise errors.ScheduleError("'%s' class '%s' cannot be created: %s" % (plugin.GetName(), name, e))
 
         return class_inst
 
@@ -566,7 +566,7 @@ class EventDistributorRegistry(Registry):
 
         except AttributeError, e:
 
-            raise errors.ScheduleError("Cannot create Event Distributor, invalid plugin '%s': %s" % (name,e))
+            raise errors.ScheduleError("Cannot create %s, invalid plugin '%s', %s" % (plugin.GetName(), name, e))
 
 
         if not os.path.exists(filepath):
@@ -592,7 +592,7 @@ class EventDistributorRegistry(Registry):
 
             except Exception, e:
 
-                raise errors.SolverRegistryError("'Event Distributor' object '%s' cannot be created: %s" % (name, e))
+                raise errors.ScheduleError("'%s' class '%s' cannot be created: %s" % (plugin.GetName(), name, e))
 
         return class_inst
 
