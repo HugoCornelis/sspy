@@ -23,8 +23,7 @@ my_model_container = None
 #
     
 my_model_container = scheduler.CreateService(name="My Model Container",
-                                             type="model_container",
-                                             verbose=True)
+                                             type="model_container")
 
 my_model_container.Load('cells/purkinje/edsjb1994.ndf')
 
@@ -32,7 +31,7 @@ my_model_container.Load('cells/purkinje/edsjb1994.ndf')
 #
 # Must create solver.
 #
-my_heccer = scheduler.CreateSolver('My solver', 'heccer', verbose=True)
+my_heccer = scheduler.CreateSolver('My solver', 'heccer')
 
 # Not sure wether to give this a get/set method 
 my_heccer.options = 4
@@ -49,7 +48,7 @@ my_heccer.SetTimeStep(2e-05)
 #
 # Create a perfectclamp object for current holding.
 #
-my_input = scheduler.CreateInput('purkinje cell perfect clamp','perfectclamp',verbose=True)
+my_input = scheduler.CreateInput('purkinje cell perfect clamp','perfectclamp')
 
 my_input.AddInput('/Purkinje/segments/soma', 'Vm')
 

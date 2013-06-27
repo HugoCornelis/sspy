@@ -23,15 +23,14 @@ my_model_container = None
 # Create a model container service and load an ndf file
 #    
 my_model_container = scheduler.CreateService(name="My Model Container",
-                                             type="model_container",
-                                             verbose=True)
+                                             type="model_container")
 
 my_model_container.Load('chemesis/cal1.ndf')
 
 #
 # Must create solver.
 #
-my_chemesis3 = scheduler.CreateSolver('My Chemesis3', 'chemesis3', verbose=True)
+my_chemesis3 = scheduler.CreateSolver('My Chemesis3', 'chemesis3')
 
 # Sets the segment of the model to run from
 my_chemesis3.SetModelName('/cal1')

@@ -23,8 +23,7 @@ my_model_container = None
 #
     
 my_model_container = scheduler.CreateService(name="My Model Container",
-                                             type="model_container",
-                                             verbose=True)
+                                             type="model_container")
 
 my_model_container.Load('cells/RScell-nolib.ndf')
 
@@ -35,7 +34,7 @@ my_model_container.SetParameter('/cell/soma',
 #
 # Must create solver.
 #
-my_heccer = scheduler.CreateSolver('My solver', 'heccer', verbose=True)
+my_heccer = scheduler.CreateSolver('My solver', 'heccer')
 
 # Sets the segment of the model to run from
 my_heccer.SetModelName('/cell')
@@ -45,7 +44,7 @@ my_heccer.SetTimeStep(2e-05)
 
 
 # Create a perfectclamp object for current holding.
-my_input = scheduler.CreateInput('My perfectclamp','perfectclamp',verbose=True)
+my_input = scheduler.CreateInput('My perfectclamp','perfectclamp')
 
 
 

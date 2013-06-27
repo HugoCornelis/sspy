@@ -1424,7 +1424,7 @@ class SSPy:
         
 #---------------------------------------------------------------------------
 
-    def CreateService(self, name="default_model_container", type=None, arguments=None, verbose=False):
+    def CreateService(self, name="default_model_container", type=None, arguments=None):
         """
         @brief Creates a new service with the given name, type and arguments.
         """
@@ -1437,7 +1437,7 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def CreateSolver(self, name=None, type=None, data=None, verbose=False):
+    def CreateSolver(self, name=None, type=None, data=None):
         """
         @brief Creates a new service with the given name, type and arguments.
         """
@@ -1450,7 +1450,7 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def CreateInput(self, name=None, type=None, data=None, verbose=False):
+    def CreateInput(self, name=None, type=None, data=None):
         """
         @brief Creates a new service with the given name, type and arguments.
         """
@@ -1464,7 +1464,7 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def CreateOutput(self, name=None, type=None, data=None, verbose=False):
+    def CreateOutput(self, name=None, type=None, data=None):
         """
         @brief Creates a new output with the given name, type and arguments.
         """
@@ -1478,7 +1478,7 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def CreatePerfectClamp(self, name=None, data=None, verbose=False):
+    def CreatePerfectClamp(self, name=None, data=None):
         """
         @brief Creates a new service with the given name, type and arguments.
         """
@@ -1492,7 +1492,7 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def CreateOutputfile(self, name=None, mode=None, resolution=None, format=None, verbose=False):
+    def CreateOutputfile(self, name=None, mode=None, resolution=None, format=None):
         """
         @brief Creates a double_2_ascii output file.
         """
@@ -1513,7 +1513,7 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def CreateEventDistributor(self, name=None, type=None, data=None, verbose=False):
+    def CreateEventDistributor(self, name=None, type=None, data=None):
         """
         Creates an event distributor
         """

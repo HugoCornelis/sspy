@@ -34,7 +34,7 @@ class Model():
       # needed to initialize the model container ???
       self.my_model_container = None    
       self.my_model_container = self.scheduler.CreateService(name="My Model Container",
-        type="model_container", verbose=True)
+                                                             type="model_container")
 
       # The commands above are common to most G-3 Python simulation scripts
 
@@ -45,7 +45,7 @@ class Model():
       self.my_model_container.SetParameter('/cell/soma', 'INJECT', 0.5e-09)
 
       # Create a solver, in this case heccer
-      my_heccer = self.scheduler.CreateSolver('My solver', 'heccer', verbose=True)
+      my_heccer = self.scheduler.CreateSolver('My solver', 'heccer')
 
       # Sets the segment (???) of the model to run from
       my_heccer.SetModelName('/cell')

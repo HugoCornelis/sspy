@@ -23,8 +23,7 @@ my_model_container = None
 #
     
 my_model_container = scheduler.CreateService(name="My Model Container",
-                                             type="model_container",
-                                             verbose=True)
+                                             type="model_container")
 
 pdb.set_trace()
 
@@ -72,7 +71,7 @@ for i in range(1, 5):
 #
 # Must create solver.
 #
-my_heccer = scheduler.CreateSolver('My solver', 'heccer', verbose=True)
+my_heccer = scheduler.CreateSolver('My solver', 'heccer')
 
 # Sets the segment of the model to run from
 my_heccer.SetModelName('/cell')
@@ -82,7 +81,7 @@ my_heccer.SetTimeStep(2e-05)
 
 
 # Create a perfectclamp object for current holding. Here we only create 1.
-my_input = scheduler.CreateInput('My perfectclamp','perfectclamp',verbose=True)
+my_input = scheduler.CreateInput('My perfectclamp','perfectclamp')
 
 my_input.SetCommand(1e-9)
 

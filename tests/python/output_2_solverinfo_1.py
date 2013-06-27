@@ -61,7 +61,7 @@ my_mc_object.CreateProjection(network='/RSNet',
 
 
 # Create a perfectclamp object for current holding.
-my_input = scheduler.CreateInput('My perfectclamp','perfectclamp',verbose=True)
+my_input = scheduler.CreateInput('My perfectclamp','perfectclamp')
 
 my_input.AddInput('/RSNet/population/3/soma', 'INJECT')
 
@@ -72,7 +72,7 @@ my_input.SetCommand(1e-9)
 #
 # Must create solver.
 #
-# my_heccer = scheduler.CreateSolver('My heccer', 'heccer', verbose=True)
+# my_heccer = scheduler.CreateSolver('My heccer', 'heccer')
 
 # # Sets the segment of the model to run from
 # my_heccer.SetModelName('/RSNet')

@@ -23,8 +23,7 @@ my_model_container = None
 #
     
 my_model_container = scheduler.CreateService(name="My Model Container",
-                                             type="model_container",
-                                             verbose=True)
+                                             type="model_container")
 
 my_model_container.Load('tests/cells/purk_test_segment.ndf')
 
@@ -35,7 +34,7 @@ my_model_container.SetParameter('/purk_test_segment/segments/test_segment',
 #
 # Must create solver.
 #
-my_heccer = scheduler.CreateSolver('My solver', 'heccer', verbose=True)
+my_heccer = scheduler.CreateSolver('My solver', 'heccer')
 
 # Sets the segment of the model to run from
 my_heccer.SetModelName('/purk_test_segment')
