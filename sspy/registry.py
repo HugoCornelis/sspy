@@ -87,10 +87,6 @@ class Registry:
 
             plugin = self.GetPluginData(type)
 
-        elif index != -1:
-
-            plugin = self._loaded_plugins[index]
-
         registered = self._InstantiateFromFile(plugin, name, arguments)
 
         return registered
