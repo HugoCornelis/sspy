@@ -899,7 +899,7 @@ class SSPy:
 
     def ListLoadedSolvers(self, verbose=False):
 
-        loaded_solvers = self.GetLoadedSolvers()
+        loaded_solvers = self._solver_collection.solvers
 
         if len(loaded_solvers) == 0:
 

@@ -1162,11 +1162,9 @@ Creates a heccer solver with the given name with default arguments.
 
         if len(heccers) == 0:
 
-            default = 'default_heccer'
+            print "No heccer present"
 
-            print "No heccer present, creating a default heccer solver: %s" % default
-
-            self._scheduler.CreateSolver(default, 'heccer', verbose=True)
+#             self._scheduler.CreateSolver(default, 'heccer', verbose=True)
 
 
         self._scheduler.SetTimeStep(time_step)
