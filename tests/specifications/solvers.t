@@ -20,7 +20,6 @@ my $test
 Schedule name is 'solver test'
 
 Loading Solver 'solver test (test)' of type 'test'
-Dumping schedule data for tests/yaml/solver_1.yml
 
 name: solver test
 solverclasses:

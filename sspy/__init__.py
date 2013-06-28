@@ -129,7 +129,6 @@ class SSPy:
 
         # Internal schedule data to manage.
         self._schedule_data = {}
-        self._schedule_file = ""
 
         # arrays of schedulees to process when run.
         self._schedulees = []
@@ -703,8 +702,6 @@ class SSPy:
             
             raise errors.ScheduleError("Schedule file '%s' doesn't exist" % filename)
 
-        self._schedule_file = norm_file_path
-
         try:
 
             self.ParseSchedule(self._schedule_data)
@@ -740,11 +737,6 @@ class SSPy:
 
             print "Error dumping schedule data: %s" % e
 
-
-        if self.verbose:
-
-            print "Dumping schedule data for %s\n" % self._schedule_file
-            
         print data
 
 #---------------------------------------------------------------------------
