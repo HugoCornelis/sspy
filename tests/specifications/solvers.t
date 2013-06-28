@@ -20,7 +20,6 @@ my $test
 Schedule name is 'solver test'
 
 Loading Solver 'solver test (test)' of type 'test'
-
 name: solver test
 solverclasses:
   test:
