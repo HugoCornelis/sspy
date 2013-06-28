@@ -1251,57 +1251,6 @@ class SSPy:
         self._outputs_connected = True
 
 
-    # old version just in case.
-    def _ConnectOutputs(self):
-        """!
-        @brief 
-        """
-                   
-        num_outputs = len(self._outputs)
-
-        num_solvers = len(self._solver_collection.solvers)
-
-        if num_solvers == 0:
-
-            print "No solvers to connect to outputs"
-
-            return False
-
-        if num_outputs > 0:
-
-            if self.verbose:
-                
-                print "Connecting %d outputs to %d solvers" % (num_outputs, num_solvers)
-
-            # Connect solvers to outputs
-            for o in self._outputs:
-
-                for solver in self._solver_collection.solvers:
-
-                    if self.verbose:
-
-                        print "\tConnecting solver '%s' to output '%s'" % (solver.GetName(),o.GetName())
-   
-                    try:
-
-                        o.Connect(solver)
-                    
-                    except Exception, e:
-
-                        print "\tCan't connect solver '%s' to output '%s': %s" % (solver.GetName(), o.GetName(), e)
-
-
-        # Here we connect all of the output parameters we stored
-        for o in self._output_parameters:
-
-            self.ConnectOutputParameter(o['path'],
-                                        o['parameter'],
-                                        o['output_name'],
-                                        o['output_type'])
-
-        self._outputs_connected = True
-        
-
 #---------------------------------------------------------------------------
 
     def ConnectInputs(self):
@@ -1345,48 +1294,6 @@ class SSPy:
         self._inputs_connected = True
 
 
-    # old version just in case
-    def _ConnectInputs(self):
-        """!
-        @brief  
-
-        """
-        
-        num_inputs = len(self._inputs)
-
-        num_solvers = len(self._solver_collection.solvers)
-
-        if num_solvers == 0:
-
-            print "No solvers to connect to inputs"
-
-            return False
-        
-        if num_inputs > 0:
-
-            if self.verbose:
-                
-                print "Connecting %d inputs to %d solvers" % (num_inputs, num_solvers)
-        
-            # Now we connect solvers to inputs
-            for i in self._inputs:
-
-                for solver in self._solver_collection.solvers:
-
-                    if self.verbose:
-
-                        print "\tConnecting solver '%s' to input '%s'" % (solver.GetName(),i.GetName())
-                        
-                    try:
-
-                        i.Connect(solver)
-                        
-                    except Exception, e:
-
-                        print "\tCan't connect solver '%s' to input '%s': %s" % (solver.GetName(), i.GetName(), e)
-
-        self._inputs_connected = True
-        
 #---------------------------------------------------------------------------
 
     def Daemonize(self):
