@@ -64,12 +64,15 @@ class Registry:
             self.LoadPlugin(p)
 
 
-    def Create(self, name, type, arguments=None):
+    def Create(self, name, typename, arguments=None):
 
-        plugin = self.GetPluginData(type)
+        if self._loaded_plugins.has_key(typename):
 
-        return self._InstantiateFromFile(plugin, name, arguments)
+            plugin = self._loaded_plugins[typename]
 
+            return self._InstantiateFromFile(plugin, name, arguments)
+
+        return None
 
     def LoadPlugin(self, plugin_filename):
 
@@ -100,15 +103,6 @@ class Registry:
             self._loaded_plugins[plugin_entry.GetName()] = plugin_entry
 
             return True
-
-
-    def GetPluginData(self,name):
-
-        if self._loaded_plugins.has_key(name):
-
-            return self._loaded_plugins[name]
-
-        return None
     
 
     def GetPlugins(self):
@@ -126,7 +120,7 @@ class Registry:
         @brief Returns the list of detected plugins.
         """
 
-        plugins = []
+        pluginfilenames = []
 
         for path, directories, files in os.walk( self._plugin_directory ):
 
@@ -136,9 +130,9 @@ class Registry:
 
                 pi = os.path.join(path, self._plugin_file)
             
-                plugins.append(pi)
+                pluginfilenames.append(pi)
 
-        return plugins
+        return pluginfilenames
 
 
     def _InstantiateFromFile(self, plugin, name="Untitled", arguments=None):
