@@ -139,8 +139,8 @@ class SSPy:
         self._initialized = False
         self._schedule_loaded = False
         self._services_connected = False
-        self._inputs_connected = False
-        self._outputs_connected = False
+        self._inputs_instantiated = False
+        self._outputs_instantiated = False
         self._scheduled = False
         self._event_distributor_connected = False
         self._registered_solvers_applied = False
@@ -1201,7 +1201,7 @@ class SSPy:
  
 #---------------------------------------------------------------------------
 
-    def ConnectOutputs(self):
+    def InstantiateOutputs(self):
         """!
         @brief 
         """
@@ -1248,12 +1248,12 @@ class SSPy:
                                         o['output_type'],
                                         o['solver'])
 
-        self._outputs_connected = True
+        self._outputs_instantiated = True
 
 
 #---------------------------------------------------------------------------
 
-    def ConnectInputs(self):
+    def InstantiateInputs(self):
         """!
         @brief  
 
@@ -1291,7 +1291,7 @@ class SSPy:
                     print "\tCan't connect solvers to input '%s': %s" % (i.GetName(), e)
 
 
-        self._inputs_connected = True
+        self._inputs_instantiated = True
 
 
 #---------------------------------------------------------------------------
@@ -1552,17 +1552,6 @@ class SSPy:
     def InstantiateCommunicators(self):
 
         pass
-#---------------------------------------------------------------------------
-
-    def InstantiateInputs(self):
-
-        pass
-#---------------------------------------------------------------------------
-
-    def InstantiateOutputs(self):
-
-        pass
-#---------------------------------------------------------------------------
 
     def InstantiateServices(self):
 
@@ -2050,7 +2039,7 @@ class SSPy:
             raise errors.OutputError("Output has already been added")
         
     
-        if self._outputs_connected:
+        if self._outputs_instantiated:
 
             self.ConnectOutputParameter(path, parameter, output_name, output_type, solver)
 
@@ -2389,11 +2378,11 @@ class SSPy:
                 print "\n"
 
 
-        if not self._inputs_connected:
+        if not self._inputs_instantiated:
 
             try:
                 
-                self.ConnectInputs()
+                self.InstantiateInputs()
 
             except Exception, e:
 
@@ -2404,11 +2393,11 @@ class SSPy:
                 print "\n"
 
                 
-        if not self._outputs_connected:
+        if not self._outputs_instantiated:
 
             try:
                 
-                self.ConnectOutputs()
+                self.InstantiateOutputs()
 
             except Exception, e:
 
