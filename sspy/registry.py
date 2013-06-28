@@ -1,19 +1,17 @@
 """!
 @file registry.py
 
-
 This module contains classes used to dynamically create
 solvers and objects from plugin specifications. Specific classes
 present are:
-
 
     SolverRegistry: A registry used to create solver objects.
     ServiceRegistry: Registry used to create modeling service objects.
     OutputRegistry: Registry used to create output objects.
     InputRegistry: Registry used to create an input object.
     EventDistributorRegistry: Registry used to create an event distributor object.
-    
 """
+
 import errors
 import imp
 import os
@@ -24,14 +22,10 @@ import yaml
 from plugin import Plugin
 
 
-#************************* Begin Registry ****************************
 class Registry:
     """
     @class Registry A base class for creating a plugin registry
-
-    
     """
-#---------------------------------------------------------------------------
 
     def __init__(self, plugin_directory=None, plugin_file=None, verbose=False):
 
@@ -42,11 +36,6 @@ class Registry:
         self.verbose = verbose
         
         if plugin_directory is None:
-#             curr_dir = os.path.dirname(os.path.abspath(__file__))
-
-#             self._plugin_directory = os.path.join(curr_dir, "solvers")
-
-#             if not os.path.isdir(self._plugin_directory):
 
             raise errors.PluginDirectoryError("No plugin directory specified")
 
@@ -64,10 +53,8 @@ class Registry:
 
                 raise errors.PluginDirectoryError("'%s' directory not found" % plugin_directory)
 
-
             self._plugin_file = plugin_file
 
-        
         self._loaded_plugins = {}
 
         plugins = self.GetPluginFiles()
@@ -77,15 +64,12 @@ class Registry:
             self.LoadPlugin(p)
 
 
-#---------------------------------------------------------------------------
-
     def Create(self, name, type, arguments=None):
 
         plugin = self.GetPluginData(type)
 
         return self._InstantiateFromFile(plugin, name, arguments)
 
-#---------------------------------------------------------------------------
 
     def LoadPlugin(self, plugin_filename):
 
@@ -118,8 +102,6 @@ class Registry:
             return True
 
 
-#---------------------------------------------------------------------------
-
     def GetPluginData(self,name):
 
         if self._loaded_plugins.has_key(name):
@@ -128,7 +110,6 @@ class Registry:
 
         return None
     
-#---------------------------------------------------------------------------
 
     def GetPlugins(self):
 
@@ -138,7 +119,6 @@ class Registry:
     
         return self._loaded_plugins.values()
 
-#---------------------------------------------------------------------------
 
     def GetPluginFiles(self):
 
@@ -161,9 +141,6 @@ class Registry:
         return plugins
 
 
-#---------------------------------------------------------------------------
-
-
     def _InstantiateFromFile(self, plugin, name="Untitled", arguments=None):
         """
         @brief Creates an instance from a plugin
@@ -171,9 +148,9 @@ class Registry:
         class_inst = None
         expected_class = 'Instance'
 
-        
         # First we check to see if we have the proper data to
         # allocate from a file.
+
         try:
             
             filepath = plugin.GetFile()
@@ -181,7 +158,6 @@ class Registry:
         except AttributeError, e:
 
             raise errors.ScheduleError("Cannot create %s, invalid plugin '%s', %s" % (plugin.GetName(), name, e))
-
 
         if not os.path.exists(filepath):
 
@@ -195,7 +171,6 @@ class Registry:
             py_mod = imp.load_compiled(mod_name, filepath)
 
         if expected_class in dir(py_mod):
-
             
             try:
                 
@@ -211,21 +186,6 @@ class Registry:
         return class_inst
 
 
-#---------------------------------------------------------------------------
-
-
-#*************************** End Registry ****************************
-
-
-
-
-
-
-
-
-
-#************************* Begin SolverRegistry ****************************
-
 class SolverRegistry(Registry):
     """
     @class SolverRegistry A registry for the solver objects
@@ -240,13 +200,7 @@ class SolverRegistry(Registry):
 
         self.verbose = verbose
         
-#************************ End SolverRegistry **************************
 
-
-
-
-
-#************************* Begin ServiceRegistry ****************************
 class ServiceRegistry(Registry):
 
     def __init__(self, service_directory, verbose=False):
@@ -257,14 +211,6 @@ class ServiceRegistry(Registry):
                           verbose=verbose)
 
 
-#************************* End ServiceRegistry ****************************
-
-
-
-
-
-
-#************************* Begin OutputRegistry ****************************
 class OutputRegistry(Registry):
     """
 
@@ -278,15 +224,6 @@ class OutputRegistry(Registry):
                           verbose=verbose)
 
 
-#************************* End OutputRegistry ****************************
-
-
-
-
-
-
-
-#************************* Begin InputRegistry ****************************
 class InputRegistry(Registry):
     """
 
@@ -300,15 +237,6 @@ class InputRegistry(Registry):
                           verbose=verbose)
 
 
-#************************* End InputRegistry ****************************
-
-
-
-
-
-
-
-#************************* Begin EventDistributorRegistry ***************
 class EventDistributorRegistry(Registry):
     """
 
@@ -321,8 +249,3 @@ class EventDistributorRegistry(Registry):
                           plugin_file="event_distributor.yml",
                           verbose=verbose)
 
-
-#---------------------------------------------------------------------------
-
-
-#************************* End EventDistributorRegistry ****************************
