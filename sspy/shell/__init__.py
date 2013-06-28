@@ -1158,11 +1158,11 @@ Creates a heccer solver with the given name with default arguments.
 
             return
 
-        heccers = self._scheduler.GetLoadedSolvers()
+#         heccers = self._scheduler.GetLoadedSolvers()
 
-        if len(heccers) == 0:
+#         if len(heccers) == 0:
 
-            print "No heccer present"
+#             print "No heccer present"
 
 #             self._scheduler.CreateSolver(default, 'heccer', verbose=True)
 

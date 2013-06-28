@@ -891,12 +891,6 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def GetLoadedSolvers(self):
-
-        return self._solver_collection.solvers
-
-#---------------------------------------------------------------------------
-
     def ListLoadedSolvers(self, verbose=False):
 
         loaded_solvers = self._solver_collection.solvers
