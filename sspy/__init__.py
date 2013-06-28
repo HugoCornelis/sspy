@@ -1549,59 +1549,6 @@ class SSPy:
 
 #---------------------------------------------------------------------------
 
-    def InstantiateCommunicators(self):
-
-        pass
-
-    def InstantiateServices(self):
-
-        pass
-
-#---------------------------------------------------------------------------
-
-    def LookupModel(self):
-
-        pass
-
-#---------------------------------------------------------------------------
-
-    def LookupObject(self):
-
-        pass
-
-#---------------------------------------------------------------------------
-    def LookupSolverEngine(self):
-
-        pass
-
-#---------------------------------------------------------------------------
-    def New(self):
-
-        pass
-
-#---------------------------------------------------------------------------
-    def Optimize(self):
-        """!
-        @brief optimize schedulees
-        @depricated
-        
-        Probably not needed since this won't use any C code.
-
-        """
-        pass
-
-#---------------------------------------------------------------------------
-    def Pause(self):
-
-        pass
-
-#---------------------------------------------------------------------------
-    def Reconstruct(self):
-
-        pass
-
-#---------------------------------------------------------------------------
-
     def SolverSet(self, model_name, solver_name=None, solver_type=None):
 
         _model_container = None
