@@ -19,8 +19,6 @@ EXTRA_DIST = \
 	sspy/plugins/outputs/live_output/output.yml \
 	sspy/plugins/outputs/output/output.py \
 	sspy/plugins/outputs/output/output.yml \
-	sspy/plugins/outputs/script_out/output.yml \
-	sspy/plugins/outputs/script_out/script_output.py \
 	sspy/plugins/services/heccer_intermediary/heccer_intermediary.py \
 	sspy/plugins/services/heccer_intermediary/service.yml \
 	sspy/plugins/services/nmc/service.py \

@@ -1,8 +1,0 @@
----
-name: stdout
-label: Std Output
-version: 1
-description: This output prints a line of output for every step to stdout
-file: output.py
-source: output.py
-module: output
